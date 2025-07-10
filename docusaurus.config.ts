@@ -84,28 +84,32 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/',
+              label: 'Installtion',
+              to: '/docs/installation',
+            },
+            {
+              label: 'Modules',
+              to: '/docs/category/modules',
             },
           ],
         },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
+        // {
+        //   title: 'Community',
+        //   items: [
+        //     {
+        //       label: 'Stack Overflow',
+        //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+        //     },
+        //     {
+        //       label: 'Discord',
+        //       href: 'https://discordapp.com/invite/docusaurus',
+        //     },
+        //     {
+        //       label: 'X',
+        //       href: 'https://x.com/docusaurus',
+        //     },
+        //   ],
+        // },
         {
           title: 'More',
           items: [
@@ -113,6 +117,10 @@ const config: Config = {
               label: 'GitHub',
               href: 'https://github.com/shriyanss/js-recon',
             },
+            {
+              label: 'Black Hills Information Security',
+              href: 'https://www.blackhillsinfosec.com'
+            }
           ],
         },
       ],
