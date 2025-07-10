@@ -95,7 +95,7 @@ const config: Config = {
             },
             {
               label: 'Modules',
-              to: '/docs/docs/category/modules',
+              to: '/docs/category/modules',
             },
           ],
         },
