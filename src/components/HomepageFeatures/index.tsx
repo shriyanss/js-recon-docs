@@ -5,14 +5,14 @@ import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<"svg">>;
+  // Svg: React.ComponentType<React.ComponentProps<"svg">>;
   description: ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: "Specialized for popular JS Frameworks",
-    Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
+    // Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
     description: (
       <>
         JS Recon goes beyond one-size-fits-all techniques — it delivers
@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Get the security perspective",
-    Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
+    // Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
     description: (
       <>
         JS Recon isn't your typical development tool — it's purpose-built for
@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Written in JavaScript",
-    Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
+    // Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
     description: (
       <>
         JS Recon is written in the same language it analyzes — JavaScript. This
@@ -45,12 +45,13 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({ title, Svg, description }: FeatureItem) {
+// function Feature({ title, Svg, description }: FeatureItem) {
+function Feature({ title, description }: FeatureItem) {
   return (
     <div className={clsx("col col--4")}>
-      <div className="text--center">
+      {/* <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
-      </div>
+      </div> */}
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
