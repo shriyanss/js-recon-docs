@@ -118,6 +118,10 @@ const config: Config = {
               href: 'https://github.com/shriyanss/js-recon',
             },
             {
+              label: 'npm',
+              href: 'https://www.npmjs.com/package/@shriyanss/js-recon',
+            },
+            {
               label: 'Black Hills Information Security',
               href: 'https://www.blackhillsinfosec.com'
             }
