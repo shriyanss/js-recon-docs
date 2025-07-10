@@ -9,7 +9,7 @@ const config: Config = {
   tagline: 'Reconnaissance tool for JavaScript Apps',
   favicon: 'img/favicon.ico',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
+  // Future flags, see https://docusaurus.io/docs/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
@@ -71,6 +71,12 @@ const config: Config = {
           label: 'Docs',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'guidesSidebar',
+          position: 'left',
+          label: 'Guides',
+        },
+        {
           href: 'https://github.com/shriyanss/js-recon',
           label: 'GitHub',
           position: 'right',
@@ -85,11 +91,11 @@ const config: Config = {
           items: [
             {
               label: 'Installtion',
-              to: '/docs/installation',
+              to: '/docs/docs/installation',
             },
             {
               label: 'Modules',
-              to: '/docs/category/modules',
+              to: '/docs/docs/category/modules',
             },
           ],
         },
