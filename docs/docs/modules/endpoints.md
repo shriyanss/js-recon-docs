@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 ---
+
 # Endpoints Command
 
 The `endpoints` command is used to extract client-side endpoints from a directory of JavaScript files. It identifies potential client-side paths and organizes them for further analysis.

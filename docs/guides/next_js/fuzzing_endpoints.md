@@ -12,13 +12,13 @@ This is an offline process, however it requires the JS files to be downloaded.
 
 - [JS Recon](../../docs/installation.md)
 - Any web fuzzer
-  - GUI
-    - Web proxied like [Burp Suite](https://portswigger.net/burp/releases/professional-community-2025-5-6) or [Caido](https://caido.io/download)
-  - CLI
-    - [ffuf](https://github.com/ffuf/ffuf)
+    - GUI
+        - Web proxied like [Burp Suite](https://portswigger.net/burp/releases/professional-community-2025-5-6) or [Caido](https://caido.io/download)
+    - CLI
+        - [ffuf](https://github.com/ffuf/ffuf)
 - An API Client
-  - [Postman](https://www.postman.com)
-  - [Bruno](https://www.usebruno.com)
+    - [Postman](https://www.postman.com)
+    - [Bruno](https://www.usebruno.com)
 
 ## Downloading the JS files
 
@@ -83,21 +83,21 @@ The following is the structure of the `extracted_urls.json`:
 
 ```json
 {
-  "urls": [
-    "https://api.example.com",
-    "https://rum.example.com",
-    "https://www.example.com",
-    "https://app.example.com",
-    "https://internal.app.com"
-  ],
-  "paths": [
-    "/v1/admin",
-    "/v1/dashboard",
-    "/v1/members",
-    "/v1/report",
-    "/v1/settings",
-    "/v1/edit"
-  ]
+    "urls": [
+        "https://api.example.com",
+        "https://rum.example.com",
+        "https://www.example.com",
+        "https://app.example.com",
+        "https://internal.app.com"
+    ],
+    "paths": [
+        "/v1/admin",
+        "/v1/dashboard",
+        "/v1/members",
+        "/v1/report",
+        "/v1/settings",
+        "/v1/edit"
+    ]
 }
 ```
 
@@ -171,6 +171,7 @@ Even though the above image is heavily redacted, it gives an overview of the fil
 You can also create an API collection for the `paths` found, and then use the 'Run API Collection' feature of the API client to fuzz the endpoint. This could be a more convinient method of fuzzing if your primary target are APIs
 
 To do so, you can run the following command:
+
 ```bash
 js-recon strings -d <output_dir> -e --openapi
 ```
@@ -182,4 +183,3 @@ This will generate a new file `extracted_urls-openapi.json`, which is the standa
 In the above example, you can observe that the collection contains several endpoints, some of which appears to be API paths, and other seems to be a client-side path.
 
 This route could be noisy, but could land you at quick bugs without having to deep-dive into all the JS files.
-

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 ---
+
 # Introduction
 
 Welcome to the official documentation for `js-recon`, a powerful tool for JavaScript reconnaissance. This documentation provides a comprehensive overview of all available commands and their functionalities.

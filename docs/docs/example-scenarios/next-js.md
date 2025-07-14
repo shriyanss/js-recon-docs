@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 ---
+
 # Example Scenario of using JS-Recon
 
 This document highlights using the modules of JS-Recon individually. All of this can be automated, which can be found at the end of the file in the [Run Module](#run-module).
@@ -186,7 +187,7 @@ Now that the pentester has got the mappings of all the functions, they can now u
 js-recon map -d output/app.example.com -t next --ai description -i
 ```
 
-_This feature might look complex, so it is recommended to get an overview through the [Interactive Mode Docs](../modules/interactive_mode/next-js.md) before reading further.
+\_This feature might look complex, so it is recommended to get an overview through the [Interactive Mode Docs](../modules/interactive_mode/next-js.md) before reading further.
 
 The pentester would first like to get the instances of `fetch()`, so that they can know the sites where an API call could be made. So, they will run the following command in interactive mode:
 

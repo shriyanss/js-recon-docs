@@ -54,7 +54,7 @@ js-recon strings -d /path/to/js-files -s
 
 This will print all the potential finds on the terminal window.
 
-*Please note that this process could be memory and compute intensive, and can take longer to run.*
+_Please note that this process could be memory and compute intensive, and can take longer to run._
 
 ### Generate OpenAPI Specification
 

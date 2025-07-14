@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 ---
+
 # Lazyload Command
 
 The `lazyload` command is used to download JavaScript files from a given URL or a list of URLs. It simulates various techniques to discover and fetch JS files that are loaded dynamically.

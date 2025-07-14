@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 ---
+
 # API Gateway Command
 
 The `api-gateway` command is used to configure and manage AWS API Gateway for the purpose of IP address rotation. This configuration is written to `.api_gateway_config.json` by default. This allows you to make requests from a pool of different IP addresses, which can be useful for avoiding rate limiting.
@@ -22,7 +23,7 @@ js-recon api-gateway [options]
 | `--destroy-all`             |       | Destroy all APIs created by this tool in all regions.                 | `false`                    | No       |
 | `--region <region>`         | `-r`  | AWS region to create the API in.                                      | random region              | No       |
 | `--access-key <access-key>` | `-a`  | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided.     |                            | No       |
-| ` ` | `-s`  | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. |                            | No       |
+| ` `                         | `-s`  | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. |                            | No       |
 | `--config <config>`         | `-c`  | Name of the config file (if different from the default)               | `.api_gateway_config.json` | No       |
 | `--list`                    | `-l`  | List all APIs created by this tool.                                   | `false`                    | No       |
 | `--feasibility`             |       | Check the feasibility of using API Gateway for a target.              | `false`                    | No       |

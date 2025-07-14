@@ -27,11 +27,12 @@ js-recon api-gateway -i -r <region> -a <access-key> -s <secret-key>
 This will create a config file called `.api_gateway_config.json` in the current working directory. Now, this configuration can be used to rotate IP addresses.
 
 You can list the API gateways created by running the following command:
+
 ```bash
 js-recon api-gateway -l
 ```
 
-You can run this command as many times as you like. It is recommended to have just one API gateway in a particular region, and to use as many regions as possible. 
+You can run this command as many times as you like. It is recommended to have just one API gateway in a particular region, and to use as many regions as possible.
 
 :::info
 Creating multiple API gateways in the same region will not be beneficial, becuase when making a request through an API gateway, it uses a random IP address from the AWS IP pool in the specified region.
@@ -54,9 +55,11 @@ Deleting the config file doesn't mean deleting the API gateways. If it is delete
 :::
 
 ## Running the `lazyload` and `run` module
+
 The configuration file generated in the previous step can be only used by the [`lazyload`](../modules/lazyload.md) module, as this is the only module in the tool, which directly interacts with the target by making HTTP requests to download the JS files (yes, all the other processes are done locally, except those requiring external API like the AI features)
 
 To use the configuration generated, you can pass the `--api-gateway` flag. For example:
+
 ```bash
 js-recon lazyload -u <url/file> --api-gateway-config
 ```
@@ -64,6 +67,7 @@ js-recon lazyload -u <url/file> --api-gateway-config
 When doing so, the tool will make all the HTTP requests to the target through API gateway.
 
 This can be also done with the [`run`](../modules/run.md) module, which automated the execution of all the other modules. However, you have to make sure you have generated a config file by following the steps above:
+
 ```bash
 js-recon run -u <url> --api-gateway
 ```
@@ -71,5 +75,6 @@ js-recon run -u <url> --api-gateway
 ## Cleaning up
 
 To destroy the API gateways, you can refer to the following pages:
+
 - [Destroy a specific API gateway](../modules/api-gateway.md#destroy-an-api)
 - [Destroy all API gateways](../modules/api-gateway.md#destroy-all-apis)

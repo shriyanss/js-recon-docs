@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 ---
+
 # Map Command
 
 The `map` command is used to map and analyze the functions within a directory of JavaScript files. It can help you understand the codebase by identifying function definitions and, optionally, using AI to generate descriptions.

@@ -1,8 +1,8 @@
 {
-  "label": "Next.JS",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "description": "Guides for Next.JS targets"
-  }
+    "label": "Next.JS",
+    "position": 2,
+    "link": {
+        "type": "generated-index",
+        "description": "Guides for Next.JS targets"
+    }
 }
