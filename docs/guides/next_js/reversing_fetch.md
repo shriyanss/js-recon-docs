@@ -14,9 +14,9 @@ To start reverse engineering the JS files, you should first list out all the fun
 
 Before that, you should understand how the functions are distributed in the Next.JS apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
 
--   When the Next.JS apps are compiled, the functions gets distributed into webpack having a specific numerical ID
--   These files often contain the path `/_next/static/chunks`
--   If you see the directory structure of the `output` directory, you would find the following structure
+- When the Next.JS apps are compiled, the functions gets distributed into webpack having a specific numerical ID
+- These files often contain the path `/_next/static/chunks`
+- If you see the directory structure of the `output` directory, you would find the following structure
 
 ```
 ❯ tree
@@ -66,9 +66,9 @@ Upon reviewing the structure of each file, you'll find patterns like the followi
 
 Here, you will notice that three argumenta - namely `a`, `t`, and `h` - are being passed. These variables have the following meaning:
 
--   `a` => module: Represents the current module object. Contains metadata like exports, id, etc
--   `t` => exports: The object that the module uses to export its public API
--   `h` => require: The require function used to import other modules
+- `a` => module: Represents the current module object. Contains metadata like exports, id, etc
+- `t` => exports: The object that the module uses to export its public API
+- `h` => require: The require function used to import other modules
 
 Now, suppose a function exports a particular action. This could be represented in multiple ways. One can identify these with practice, however, here are the most common ones:
 
