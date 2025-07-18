@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Fuzzing API endpoints
 
-With the help of JS Recon Tool, you can generate a list of endpoints to fuzz. Along with that, it also generates a list of optential hosts that can be used to fuzz the API endpoints.
+With the help of JS Recon Tool, you can generate a list of endpoints to fuzz. Along with that, it also generates a list of potential hosts that can be used to fuzz the API endpoints.
 
 This is an offline process, however it requires the JS files to be downloaded.
 
@@ -22,7 +22,7 @@ This is an offline process, however it requires the JS files to be downloaded.
 
 ## Downloading the JS files
 
-The lazyload module can be used to download all the lazy loaded, i.e. dynamically loaded, JavaScript files.
+The lazyload module can be used to download all the lazy loaded, that is dynamically loaded, JavaScript files.
 
 To do so, you can run the following command. The docs for lazyload module can be referred [here](../../docs/modules/lazyload.md) to understand the command:
 
@@ -138,7 +138,7 @@ Server-Side Endpoints: These are the endpoint for which the server is expected t
 
 ### Using `ffuf`
 
-The API endpoints are the most intersting when analyzing the requests of an app. These perform some action, and often, when the server doesn't uses server-side rendering, all the possible endpoints for the app could be potentially found in the files the [`lazyload`](../../docs/modules/lazyload.md) downloaded.
+The API endpoints are the most interesting when analyzing the requests of an app. These perform some action, and often, when the server doesn't uses server-side rendering, all the possible endpoints for the app could be potentially found in the files the [`lazyload`](../../docs/modules/lazyload.md) downloaded.
 
 You can weaponize this feature of the application. To do so, you can use tools like [`ffuf`](https://github.com/ffuf/ffuf) or any other fuzzer that you use.
 
@@ -168,7 +168,7 @@ Even though the above image is heavily redacted, it gives an overview of the fil
 
 ## Using an API client
 
-You can also create an API collection for the `paths` found, and then use the 'Run API Collection' feature of the API client to fuzz the endpoint. This could be a more convinient method of fuzzing if your primary target are APIs
+You can also create an API collection for the `paths` found, and then use the 'Run API Collection' feature of the API client to fuzz the endpoint. This could be a more convenient method of fuzzing if your primary target are APIs
 
 To do so, you can run the following command:
 

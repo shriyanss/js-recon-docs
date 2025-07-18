@@ -1,6 +1,6 @@
-# Interactive mode for Next.js maps
+# Interactive mode for Next.JS maps
 
-The interactive mode for Next.js maps provides a terminal-based interface to explore and analyze the functions within your Next.js application. This guide will walk you through the features and commands available in this mode.
+The interactive mode for Next.JS maps provides a terminal-based interface to explore and analyze the functions within your Next.JS application. This guide will walk you through the features and commands available in this mode.
 
 ## Getting started
 
@@ -14,7 +14,7 @@ js-recon map <other options> -i
 
 The interactive mode interface is composed of three main components:
 
-- **Title Box**: Displays the title "JS Recon Interactive Mode".
+- **Title Box**: Displays the title "JS Recon Interactive Mode."
 - **Output Box**: Shows the output of commands and function information. You can scroll through this box using the arrow keys when it's in focus.
 - **Input Box**: This is where you type your commands.
 

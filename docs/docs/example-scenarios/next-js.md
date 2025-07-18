@@ -72,7 +72,7 @@ The `extracted_urls.json` has the following structure:
 }
 ```
 
-## Subseqent requests
+## Subsequent requests
 
 JS-Recon has found that the app is using Next.JS. This framework has a feature that upon sending requests to a valid client-side endpoints along with the `RSC: 1` header, the application returns a response with content type `text/x-component`, which contains more client-side paths and JS files. To get this, the tool requires the `extracted_urls.json` from the strings module, which has been generated in the previous step.
 
@@ -94,8 +94,8 @@ js-recon strings -d output/app.example.com -e -p --openapi -s
 
 Breakdown of additional flags:
 
-- `-p`: Shorthand flag for `--permutate`. This will permutate the `urls` and `paths` in the `extracted_urls.json` file. The output will be a plaintext (`.txt`) file called `extracted_urls.txt`
-- `--openapi`: This flag will genetate an output file called `extracted_urls-openapi.json`. This file is based on the `paths` in the `extracted_urls.json`, and can be directly loaded into an API client like [Postman](https://www.postman.com) or [Bruno](https://usebruno.com)
+- `-p`: Shorthand flag for `--permutate`. This will permutate the `urls` and `paths` in the `extracted_urls.json` file. The output will be a plain-text (`.txt`) file called `extracted_urls.txt`
+- `--openapi`: This flag will generate an output file called `extracted_urls-openapi.json`. This file is based on the `paths` in the `extracted_urls.json`, and can be directly loaded into an API client like [Postman](https://www.postman.com) or [Bruno](https://usebruno.com)
 - `-s`: Shorthand flag for `--scan-secrets`. This will iterate over all the strings found, and match it against regex for popular secrets
 
 ## Getting client-side endpoints
@@ -115,7 +115,7 @@ Breakdown of the command:
 - `-u`: Shorthand flag for `--urls`. The URL of the target (the paths found are prepended to it)
 - `-t`: Shorthand flag for `--tech`. Defines the framework (aka tech) that the target is using. It is required to find the suitable methods
     - Run with `-l`/`--list` to see list of supported tech: `js-recon endpoints -l`
-- `--subsequent-requests-dir`: Flag specific to Next.js (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
+- `--subsequent-requests-dir`: Flag specific to Next.JS (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
 
 This command will write a file called `endpoints.json`. Following is an example of this file:
 
@@ -176,7 +176,7 @@ The pentester can also adjust some AI settings:
     - For Ollama, adjust the value as per capacity of machine running Ollama
 - `--ai-endpoint`: Endpoint to use with AI models
     - Defaults to `https://api.openai.com/v1` for OpenAI
-        - Some providers like xAI supported supported using OpenAI SDK to use their models. Refer to their docs to know latest updates
+        - Some providers like xAI supported using OpenAI SDK to use their models. Refer to their docs to know latest updates
     - Defaults to `http://127.0.0.1:11434` for Ollama
 
 ## Launching interactive console
@@ -187,7 +187,7 @@ Now that the pentester has got the mappings of all the functions, they can now u
 js-recon map -d output/app.example.com -t next --ai description -i
 ```
 
-\_This feature might look complex, so it is recommended to get an overview through the [Interactive Mode Docs](../modules/interactive_mode/next-js.md) before reading further.
+_This feature might look complex, so it is recommended to get an overview through the [Interactive Mode Docs](../modules/interactive_mode/next-js.md) before reading further._
 
 The pentester would first like to get the instances of `fetch()`, so that they can know the sites where an API call could be made. So, they will run the following command in interactive mode:
 
@@ -223,7 +223,7 @@ To assist in doing the same, they used the following commands:
 
 ## Run Module
 
-If this process seems tidious (which it is), the pentester can use the `run` module of the tool. It will:
+If this process seems tedious (which it is), the pentester can use the `run` module of the tool. It will:
 
 - [Download all the JS files](#downloading-js-files)
 - [Find all the strings](#finding-strings)

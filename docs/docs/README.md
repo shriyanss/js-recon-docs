@@ -17,7 +17,7 @@ Welcome to the official documentation for `js-recon`, a powerful tool for JavaSc
 -   **[Map](./modules/map.md):** Map and analyze functions within JavaScript files. For Next.JS, an [interactive mode](./modules/interactive_mode/next-js.md) is also available.
 -   **[Run](./modules/run.md):** Run essential modules automatically.
 
-Select a command from the list preceeding to view its detailed documentation, including all available options and practical examples.
+Select a command from the list preceding to view its detailed documentation, including all available options and practical examples.
 
 ## Example scenario
 

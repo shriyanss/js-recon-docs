@@ -35,7 +35,7 @@ js-recon api-gateway -l
 You can run this command as many times as you like. It is recommended to have just one API gateway in a particular region, and to use as many regions as possible.
 
 :::info
-Creating multiple API gateways in the same region will not be beneficial, becuase when making a request through an API gateway, it uses a random IP address from the AWS IP pool in the specified region.
+Creating multiple API gateways in the same region will not be beneficial, because when making a request through an API gateway, it uses a random IP address from the AWS IP pool in the specified region.
 :::
 
 :::tip
@@ -47,7 +47,7 @@ If you get an error stating `The security token included in the request is inval
 :::
 
 :::warning
-The config file, i.e. `.api_gateway_config.json`, has the access and secret key hardcoded in it. Make sure to keep it safe - just like your passwords
+The config file, that is `.api_gateway_config.json`, has the access and secret key hardcoded in it. Make sure to keep it safe - just like your passwords
 :::
 
 :::danger

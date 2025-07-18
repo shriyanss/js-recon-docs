@@ -1,0 +1,15 @@
+APIs
+pentester
+webpack
+ffuf
+Caido
+Next.JS
+Nuxt.JS
+Svelte
+fuzzer
+[Oo]llama
+[Ll]azyload
+config
+env
+hardcoded
+(openai|OpenAI)
