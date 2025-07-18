@@ -77,6 +77,10 @@ const config: Config = {
                     label: "Guides",
                 },
                 {
+                    type: "docsVersionDropdown",
+                    position: "right",
+                },
+                {
                     href: "https://github.com/shriyanss/js-recon",
                     label: "GitHub",
                     position: "right",
