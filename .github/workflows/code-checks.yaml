@@ -1,4 +1,4 @@
-name: Build & Prettify Code
+name: Code Checks
 
 on:
   push:
@@ -6,7 +6,15 @@ on:
       - stage
 
 jobs:
+  vale:
+    name: runner / vale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: errata-ai/vale-action@v2.1.1
+
   build:
+    needs: vale
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
