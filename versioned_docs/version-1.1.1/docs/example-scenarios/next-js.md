@@ -227,7 +227,7 @@ If this process seems tedious (which it is), the pentester can use the `run` mod
 
 - [Download all the JS files](#downloading-js-files)
 - [Find all the strings](#finding-strings)
-- [Check for subsequent requests if required](#subseqent-requests)
+- [Check for subsequent requests if required](#subsequent-requests)
 - [Run string analysis again](#getting-more-with-strings-analysis)
 - [Get all client-side endpoints](#getting-client-side-endpoints)
 - [Map all the functions](#mapping-all-the-functions)
