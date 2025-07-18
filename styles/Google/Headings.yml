@@ -5,25 +5,25 @@ level: warning
 scope: heading
 match: $sentence
 indicators:
-  - ":"
+    - ":"
 exceptions:
-  - Azure
-  - CLI
-  - Cosmos
-  - Docker
-  - Emmet
-  - gRPC
-  - I
-  - Kubernetes
-  - Linux
-  - macOS
-  - Marketplace
-  - MongoDB
-  - REPL
-  - Studio
-  - TypeScript
-  - URLs
-  - Visual
-  - VS
-  - Windows
-  - JSON
+    - Azure
+    - CLI
+    - Cosmos
+    - Docker
+    - Emmet
+    - gRPC
+    - I
+    - Kubernetes
+    - Linux
+    - macOS
+    - Marketplace
+    - MongoDB
+    - REPL
+    - Studio
+    - TypeScript
+    - URLs
+    - Visual
+    - VS
+    - Windows
+    - JSON
