@@ -5,10 +5,10 @@ level: error
 ignorecase: false
 nonword: true
 action:
-  name: edit
-  params:
-    - regex
-    - "-"
-    - " "
+    name: edit
+    params:
+        - regex
+        - "-"
+        - " "
 tokens:
-  - '\b[^\s-]+ly-\w+\b'
+    - '\b[^\s-]+ly-\w+\b'

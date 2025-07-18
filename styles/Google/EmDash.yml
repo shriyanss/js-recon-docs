@@ -4,10 +4,9 @@ link: "https://developers.google.com/style/dashes"
 nonword: true
 level: error
 action:
-  name: edit
-  params:
-    - trim
-    - " "
+    name: edit
+    params:
+        - trim
+        - " "
 tokens:
-  - '\s[—–]\s'
-
+    - '\s[—–]\s'
