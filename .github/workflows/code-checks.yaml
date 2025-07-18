@@ -6,8 +6,37 @@ on:
       - stage
 
 jobs:
+  version_check:
+    name: Check if version exists on main repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check version
+        run: |
+          echo "[i] Getting versions from the main repo"
+          GH_VERSIONS=$(curl -s https://api.github.com/repos/shriyanss/js-recon/releases | jq '.[].name' -r)
+
+          echo "[i] Checking versions"
+          ALL_VERSIONS_FOUND=true
+
+          while read -r line; do 
+            if [[ "$GH_VERSIONS" = *"$line"* ]]; then
+              echo "[✓] Version $line found on GH releases"
+            else 
+              echo "[!] Version $line NOT found on GH releases"
+              ALL_VERSIONS_FOUND=false
+            fi
+          done < <(jq -r '.[]' versions.json)
+
+          if [[ "$ALL_VERSIONS_FOUND" = "true" ]]; then 
+            echo "[✓] All versions in docs found on GH releases"
+          else 
+            echo "[!] Some versions were not found on GH releases"
+            exit 1
+          fi
+    
   vale:
-    name: vale
+    needs: version_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
