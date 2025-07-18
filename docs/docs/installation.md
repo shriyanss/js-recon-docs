@@ -53,8 +53,8 @@ at minimum, fine-grained permission accordingly.
 
 The AWS Console can be accessed at https://console.aws.amazon.com/iam/
 
-These keys are 
- to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
+These keys are
+to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
 
 Alternatively, these can be passed directly to the tool through the `--access-key <access-key>` and `--secret-key <secret-key>` flags to the `api-gateway` module. Read the full docs [here](./modules/api-gateway.md)
 
