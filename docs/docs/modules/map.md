@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# Map Command
+# Map command
 
 The `map` command is used to map and analyze the functions within a directory of JavaScript files. It can help you understand the codebase by identifying function definitions and, optionally, using AI to generate descriptions.
 
@@ -30,7 +30,7 @@ js-recon map -d <directory> -t <technology> [options]
 
 ## Examples
 
-### Basic Usage
+### Basic usage
 
 The `map` command requires you to specify the directory containing the JavaScript files and the technology used.
 
@@ -40,7 +40,7 @@ For example, to map a Next.JS application:
 js-recon map -d /path/to/js-files -t next
 ```
 
-### Interactive Mode
+### Interactive mode
 
 Map functions and explore them in an interactive session. For a detailed guide, see the [Interactive Mode documentation](../modules/interactive_mode/next-js.md).
 
@@ -48,7 +48,7 @@ Map functions and explore them in an interactive session. For a detailed guide, 
 js-recon map -d /path/to/js-files -t next -i
 ```
 
-### AI-Powered Analysis
+### AI-powered analysis
 
 Use an AI model to generate descriptions for the mapped functions by providing the `--ai` flag and an OpenAI API key.
 

@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Run Command
+# Run command
 
 The `run` command is a powerful feature that automates the most of the JavaScript reconnaissance workflow by executing a series of modules in a predefined order. This command is ideal for users who want to perform a basic analysis of a target without running each module individually.
 
@@ -23,7 +23,7 @@ The `run` command executes the following modules in sequence:
 js-recon run -u <url/file> [options]
 ```
 
-### Required Arguments
+### Required arguments
 
 - `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
 

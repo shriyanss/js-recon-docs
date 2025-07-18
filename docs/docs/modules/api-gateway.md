@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# API Gateway Command
+# API gateway command
 
 The `api-gateway` command is used to configure and manage AWS API Gateway for the purpose of IP address rotation. This configuration is written to `.api_gateway_config.json` by default. This allows you to make requests from a pool of different IP addresses, which can be useful for avoiding rate limiting.
 
@@ -31,7 +31,7 @@ js-recon api-gateway [options]
 
 ## Examples
 
-### Initialize API Gateway
+### Initialize API gateway
 
 Create a new API Gateway and save its configuration:
 
@@ -39,9 +39,9 @@ Create a new API Gateway and save its configuration:
 js-recon api-gateway --init
 ```
 
-### List Created APIs
+### List created APIs
 
-List all the API Gateways that have been created by this tool:
+List all the API gateways this tool creates:
 
 ```bash
 js-recon api-gateway --list
@@ -55,7 +55,7 @@ Destroy a specific API Gateway using its ID:
 js-recon api-gateway --destroy <api-id>
 ```
 
-### Destroy All APIs
+### Destroy all APIs
 
 Destroy all APIs created by this tool in all regions:
 
@@ -63,7 +63,7 @@ Destroy all APIs created by this tool in all regions:
 js-recon api-gateway --destroy-all
 ```
 
-### Check Feasibility
+### Check feasibility
 
 Check if a target URL returns a response that contains known traces of firewall. If the result says firewall detected, then it means that the target has blocked the IP addresses originating from the AWS infrastructure.
 

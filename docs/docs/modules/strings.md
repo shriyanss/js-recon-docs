@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Strings Command
+# Strings command
 
 The `strings` command is used to extract strings, URLs, and secrets from a directory of JavaScript files. This is useful for identifying sensitive information and potential API endpoints.
 
@@ -26,7 +26,7 @@ js-recon strings -d <directory> [options]
 
 ## Examples
 
-### Basic Usage
+### Basic usage
 
 Extract all strings from a directory of JS files and save them to `strings.json`:
 
@@ -44,7 +44,7 @@ js-recon strings -d /path/to/js-files -e
 
 This will write a new file called `extracted_urls.json` along with the default `strings.json`
 
-### Scan for Secrets
+### Scan for secrets
 
 Extract strings and scan for any potential secrets or sensitive information:
 
@@ -56,7 +56,7 @@ This will print all the potential finds on the terminal window.
 
 _Please note that this process could be memory and compute intensive, and can take longer to run._
 
-### Generate OpenAPI Specification
+### Generate OpenAPI specification
 
 Extract URLs and paths, and then generate an OpenAPI specification:
 

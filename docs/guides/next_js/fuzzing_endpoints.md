@@ -2,13 +2,13 @@
 sidebar_position: 1
 ---
 
-# Fuzzing API Endpoints
+# Fuzzing API endpoints
 
 With the help of JS Recon Tool, you can generate a list of endpoints to fuzz. Along with that, it also generates a list of optential hosts that can be used to fuzz the API endpoints.
 
 This is an offline process, however it requires the JS files to be downloaded.
 
-## Tools Required
+## Tools required
 
 - [JS Recon](../../docs/installation.md)
 - Any web fuzzer

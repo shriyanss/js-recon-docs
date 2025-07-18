@@ -4,13 +4,13 @@ sidebar_position: 2
 
 # Reversing `fetch()`
 
-The [previous guide](./fuzzing_endpoints.md) walks through using the [`strings`](../../docs/modules/strings.md) module to discover client-side and server-side endpoints. This document walks through how can you use the interactive mode to reverse engineer the requests. This would require you to have some basic knowlege of reviewing JavaScript, or just code review in general.
+The [previous guide](./fuzzing_endpoints.md) walks through using the [`strings`](../../docs/modules/strings.md) module to discover client-side and server-side endpoints. This document walks through how can you use the interactive mode to reverse engineer the requests. This would require you to have some basic knowledge of reviewing JavaScript, or just code review in general.
 
-The approach shown in this document is called the bottom-top approch, in which the user finds potential sinks, and goes up to the source. If this statement seems a bit confusuing don't worry. You'll understand this in this document down below.
+The approach shown in this document is called the bottom-top approach, in which the pentester finds potential sinks, and goes up to the source. If this statement seems a bit confusing don't worry. You'll understand this in this document down below.
 
 ## Fundamentals
 
-To start reverse engineering the JS files, you should first list out all the functions available in the application.
+To start reverse engineering the JS files, you should first list out all the functions available in the app.
 
 Before that, you should understand how the functions are distributed in the Next.JS apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
 
@@ -64,7 +64,7 @@ Upon reviewing the structure of each file, you'll find patterns like the followi
 ]);
 ```
 
-Here, you will notice that three argumenta - namely `a`, `t`, and `h` - are being passed. These variables have the following meaning:
+Here, you will notice that three arguments - namely `a`, `t`, and `h` - are being passed. These variables have the following meaning:
 
 - `a` => module: Represents the current module object. Contains metadata like exports, id, etc
 - `t` => exports: The object that the module uses to export its public API
@@ -145,7 +145,7 @@ set funcwritefile <filename>
 go to <function_id>
 ```
 
-For example, from the above screenshot, if I would have to write the function ID `328` to a file `328.js`, then the commands would be:
+For example, from the above screenshot, if the pentester would have to write the function ID `328` to a file `328.js`, then the commands would be:
 
 ```
 set funcwritefile 328.js
@@ -164,7 +164,7 @@ If you are just analyzing the files, you can go with a file name `test.js` - `se
 If you think the function does something important, then you can set the output filename to the specified function name - `set funcwritefile 328.js`
 :::
 
-If I also wish to write all the functions that `328` imports, then I could set the value of `writeimports` to true
+If the pentester also wish to write all the functions that `328` imports, then they could set the value of `writeimports` to true
 
 ```
 set writeimports true
@@ -180,7 +180,7 @@ Imports not just means the external libraries the developers used in that partic
 
 Suppose you got an interesting function and you want to now trace the execution path for it. You can definitely do it in the browser, but JS Recon also provides a way to do so.
 
-For the example, you can assume that the function is `328`. Now, I can run the following command to get a list of imports and exports for that function:
+For the example, you can assume that the function is `328`. Now, the pentester can run the following command to get a list of imports and exports for that function:
 
 ```
 trace 328

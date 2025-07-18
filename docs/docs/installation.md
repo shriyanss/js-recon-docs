@@ -24,7 +24,7 @@ JS Recon is a Node.js-based, security-focused JavaScript analysis tool built for
 
 ## Installation
 
-Install the CLI globally using npm:
+Install the command-line tool globally using NPM:
 
 ```bash
 npm i -g @shriyanss/js-recon
@@ -36,7 +36,7 @@ Test the installation:
 js-recon -V
 ```
 
-## API Keys Setup
+## API keys setup
 
 JS Recon requires API access to several services for enhanced analysis.
 
@@ -53,7 +53,8 @@ at minimum, fine-grained permission accordingly.
 
 The AWS Console can be accessed at https://console.aws.amazon.com/iam/
 
-These keys are recommeded to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
+These keys are 
+ to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
 
 Alternatively, these can be passed directly to the tool through the `--access-key <access-key>` and `--secret-key <secret-key>` flags to the `api-gateway` module. Read the full docs [here](./modules/api-gateway.md)
 

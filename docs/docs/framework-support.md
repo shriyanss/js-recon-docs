@@ -2,41 +2,41 @@
 sidebar_position: 3
 ---
 
-# Framework Support
+# Framework support
 
-The features available of the tool are developed after researching on specific JavaScript Frameworks, which implies that it would only work on those which are research. This document highllights the same thoroughly
+The features available in the tool are developed after researching on specific JavaScript Frameworks, which implies that it would only work on those which are research. This document highlights the same thoroughly
 
 ## Lazyload
 
-The feature the download all the lazy loaded, i.e. dynamically loaded, JavaScript files are available for the following frameworks:
+The feature the download all the lazy loaded, that's dynamically loaded, JavaScript files are available for the following frameworks:
 
-- [Next.JS](https://nextjs.org)
-- [Nuxt.JS](https://nuxt.com)
-- [Svelte](https://svelte.dev)
+-   [Next.JS](https://nextjs.org)
+-   [Nuxt.JS](https://nuxt.com)
+-   [Svelte](https://svelte.dev)
 
-For all the other apps, the tool will download the JavaScript files that are loaded on the webpage
+For all the other apps, the tool downloads the JavaScript files that will be loaded on the webpage
 
-## API Gateway
+## API gateway
 
-This feature is meant to make HTTP requests through AWS IP pool. This means that it could potentially bypass misconfigured/poorly configured firewalls.
+This feature will make HTTP requests to the target through Amazon Web Services IP pool. This means that it could potentially bypass misconfigured/poorly configured firewall rules.
 
-However, if the site blocks IP addresses originating from AWS, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/api-gateway.md#check-feasibility) flag.
+However, if the site blocks IP addresses originating from Amazon Web Services, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/api-gateway.md#check-feasibility) flag.
 
 ## Endpoints
 
 The feature to extract the client-side endpoints are available for the following frameworks:
 
-- [Next.JS](https://nextjs.org)
+-   [Next.JS](https://nextjs.org)
 
 ## Strings
 
-The basic feature to extract string can be used against all targets, regardless of the frameworks they use.
+This feature can be used against all target, regardless of the frameworks they use.
 
 ## Map
 
 The feature to map all the functions are available only for the following JavaScript frameworks:
 
-- [Next.JS](https://nextjs.org)
+-   [Next.JS](https://nextjs.org)
 
 ## Run
 

@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Example Scenario of using JS-Recon
+# Example scenario of using JS Recon
 
 This document highlights using the modules of JS-Recon individually. All of this can be automated, which can be found at the end of the file in the [Run Module](#run-module).
 
@@ -14,7 +14,7 @@ The `lazyload` module will work on Next.JS, Nuxt.JS, and Svelte apps. All other 
 
 The client provides the pentester a wildcard target `*.example.com`
 
-## Initial Recon
+## Initial recon
 
 The pentester starts by gathering subdomains for the target, and then uses HTTP probe to filter out all the available HTTP servers.
 
@@ -72,7 +72,7 @@ The `extracted_urls.json` has the following structure:
 }
 ```
 
-## Subseqent Requests
+## Subseqent requests
 
 JS-Recon has found that the app is using Next.JS. This framework has a feature that upon sending requests to a valid client-side endpoints along with the `RSC: 1` header, the application returns a response with content type `text/x-component`, which contains more client-side paths and JS files. To get this, the tool requires the `extracted_urls.json` from the strings module, which has been generated in the previous step.
 

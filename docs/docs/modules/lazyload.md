@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Lazyload Command
+# Lazyload command
 
 The `lazyload` command is used to download JavaScript files from a given URL or a list of URLs. It simulates various techniques to discover and fetch JS files that are loaded dynamically.
 
@@ -31,7 +31,7 @@ js-recon lazyload -u <url/file> [options]
 
 ## Examples
 
-### Basic Usage
+### Basic usage
 
 Download all JavaScript files from a single URL:
 
@@ -39,7 +39,7 @@ Download all JavaScript files from a single URL:
 js-recon lazyload -u https://example.com
 ```
 
-### Setting Scope
+### Setting scope
 
 Download JavaScript files only from `example.com` and `cdn.example.com`:
 
@@ -49,7 +49,7 @@ js-recon lazyload -u https://example.com -s "example.com,cdn.example.com"
 
 Using the `--strict-scope` will only download JS files from the URL provided. This will skip any files from external CDN.
 
-### Using API Gateway
+### Using API gateway
 
 Use AWS API Gateway to rotate IP addresses while downloading:
 
