@@ -7,7 +7,7 @@ on:
 
 jobs:
   vale:
-    name: runner / vale
+    name: vale
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
