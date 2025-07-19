@@ -67,7 +67,7 @@ The output directory contains all the JS files that are extracted from the site.
 
 ## Using string module to extract all the endpoints
 
-The next step is to extract all the strings, along with endpoints. The target can be fuzzed right away, however, it is recommended to use the lazyload module to also fetch the subsequent requests. The demonstration and the reason for the same can be found [here](../../docs/example-scenarios/next-js.md#subseqent-requests)
+The next step is to extract all the strings, along with endpoints. The target can be fuzzed right away, however, it is recommended to use the lazyload module to also fetch the subsequent requests. The demonstration and the reason for the same can be found [here](../../docs/example-scenarios/next-js.md#subsequent-requests)
 
 Once you've downloaded all the JS files, you can run the strings command to extract all the API endpoints
 

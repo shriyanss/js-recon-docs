@@ -44,7 +44,7 @@ js-recon endpoints -d /path/to/js-files -t <technology> -u https://example.com -
 
 ### Next.JS usage
 
-When analyzing a Next.JS apps, you must specify the technology as `next` and provide the directory containing subsequent requests. These requests are typically captured during the `lazyload` process. Refer to the [example scenario](../example-scenarios/next-js.md#subseqent-requests) to know detailed guide on this.
+When analyzing a Next.JS apps, you must specify the technology as `next` and provide the directory containing subsequent requests. These requests are typically captured during the `lazyload` process. Refer to the [example scenario](../example-scenarios/next-js.md#subsequent-requests) to know detailed guide on this.
 
 ```bash
 js-recon endpoints -d /path/to/js-files -t next -u https://example.com --subsequent-requests-dir /path/to/js-files/___subsequent_requests

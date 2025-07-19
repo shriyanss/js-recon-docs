@@ -38,7 +38,7 @@ const config: Config = {
 
     presets: [
         [
-            "classic",
+            "@docusaurus/preset-classic",
             {
                 docs: {
                     sidebarPath: "./sidebars.ts",
@@ -46,6 +46,8 @@ const config: Config = {
                     // Remove this to remove the "edit this page" links.
                     // editUrl:
                     // 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+
+                    lastVersion: "1.1.1",
                 },
                 theme: {
                     customCss: "./src/css/custom.css",
