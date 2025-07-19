@@ -54,6 +54,7 @@ Clears the content of the output box.
 Lists different types of information. Usage: `list <option>`
 
 - `list fetch`: Lists all functions that contain `fetch` instances.
+- `list axios`: Lists all functions that contain `axios` instances.
 - `list all`: Lists all functions found in the application.
 - `list nav`: Lists your function navigation history.
 
