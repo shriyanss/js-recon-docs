@@ -137,6 +137,10 @@ const config: Config = {
                             label: "Black Hills Information Security",
                             href: "https://www.blackhillsinfosec.com",
                         },
+                        {
+                            label: "This site is open source",
+                            href: "https://github.com/shriyanss/js-recon-docs",
+                        }
                     ],
                 },
             ],
