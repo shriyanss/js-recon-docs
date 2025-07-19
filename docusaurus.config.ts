@@ -44,8 +44,8 @@ const config: Config = {
                     sidebarPath: "./sidebars.ts",
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
-                    // editUrl:
-                    // 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+                    editUrl:
+                        "https://github.com/shriyanss/js-recon-docs/edit/main/",
 
                     lastVersion: "1.1.1",
                 },
@@ -140,7 +140,7 @@ const config: Config = {
                         {
                             label: "This site is open source",
                             href: "https://github.com/shriyanss/js-recon-docs",
-                        }
+                        },
                     ],
                 },
             ],
