@@ -34,6 +34,24 @@ jobs:
             echo "[!] Some versions were not found on GH releases"
             exit 1
           fi
+
+      - name: Check latest stable version
+        run: |
+          echo "[i] Getting latest stable version from the main repo"
+          LATEST_VERSION_GH=$(curl -s https://api.github.com/repos/shriyanss/js-recon/releases/latest | jq '.name' -r)
+          
+          # get the latest version from the docusaurus.config.ts
+          # the var name is `lastVersion: "1.1.1",`
+
+          echo "[i] Getting latest stable version from the docs"
+          LATEST_VERSION_DOCS=$(cat docusaurus.config.ts | grep "lastVersion" | cut -d '"' -f 2)
+          
+          if [[ "$LATEST_VERSION_GH" = "v$LATEST_VERSION_DOCS" ]]; then 
+            echo "[✓] Latest stable version in docs matches the latest stable version in the main repo"
+          else 
+            echo "[!] Latest stable version in docs does not match the latest stable version in the main repo"
+            exit 1
+          fi
     
   vale:
     needs: version_check
