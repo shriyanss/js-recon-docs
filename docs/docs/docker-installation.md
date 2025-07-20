@@ -64,10 +64,10 @@ Do not use `--rm` flag with the `docker run` command. It will delete the contain
 You can copy the results using the following command:
 
 ```bash
-docker cp <container_id>:/home/pptruser/output <output_directory>
+docker cp <container_id>:/home/pptruser/<file_or_dir_name> <output_directory>
 ```
 
-The `output` folder contains the downloaded JS files. There could be multiple other files created based on the module used. You can refer to the docs of [individual modules](../category/modules) to know how to change the output files. Default files/directories are in the `/home/pptruser` directory with the following names:
+There could be multiple other files created based on the module used. You can refer to the docs of [individual modules](../category/modules) to know how to change the output files. Default files/directories are in the `/home/pptruser` directory with the following names:
 - [Lazyload](./modules/lazyload.md):
     - `output/` (directory)
 - [Strings](./modules/strings.md):
