@@ -17,10 +17,26 @@ The image is only available for `amd64` architecture. For users running `arm64` 
 You can get started with just pulling the image:
 
 ```bash
-docker pull shriyanss/js-recon
+docker pull docker.io/shriyanss/js-recon:latest
 ```
 
 This will pull the image on your local machine.
+
+:::tip
+You can try the `alpha` and `beta` builds as well. They are updated more often than the stable version, often daily, but are not as stable.
+
+To download the `alpha` build, use the following command:
+
+```bash
+docker pull docker.io/shriyanss/js-recon:alpha
+```
+
+To download the `beta` build, use the following command:
+
+```bash
+docker pull docker.io/shriyanss/js-recon:beta
+```
+:::
 
 ## Running JS Recon
 
@@ -61,7 +77,7 @@ The `output` folder contains the downloaded JS files. There could be multiple ot
     - `extracted_urls-openapi.json`
 - [Endpoints](./modules/endpoints.md):
     - `endpoints.json`
-- [API Gateway](./modules/api_gateway.md):
+- [API Gateway](./modules/api-gateway.md):
     - `.api_gateway_config.json` (this is a configuration file, but is worth keeping it if generated)
 - [Map](./modules/map.md):
     - `mapped.json`

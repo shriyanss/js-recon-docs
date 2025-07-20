@@ -27,8 +27,24 @@ JS Recon is a Node.js-based, security-focused JavaScript analysis tool built for
 Install the command-line tool globally using NPM:
 
 ```bash
-npm i -g @shriyanss/js-recon
+npm i -g @shriyanss/js-recon@latest
 ```
+
+:::tip
+You can try the `alpha` and `beta` builds as well. They are updated more often than the stable version, often daily, but are not as stable.
+
+To download the `alpha` build, use the following command:
+
+```bash
+npm i -g @shriyanss/js-recon@alpha
+```
+
+To download the `beta` build, use the following command:
+
+```bash
+npm i -g @shriyanss/js-recon@beta
+```
+:::
 
 Test the installation:
 
