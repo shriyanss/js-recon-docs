@@ -82,11 +82,6 @@ const config: Config = {
                     type: "docsVersionDropdown",
                     position: "right",
                 },
-                {
-                    href: "https://github.com/shriyanss/js-recon",
-                    label: "GitHub",
-                    position: "right",
-                },
             ],
         },
         footer: {
@@ -102,6 +97,23 @@ const config: Config = {
                         {
                             label: "Modules",
                             to: "/docs/category/modules",
+                        },
+                    ],
+                },
+                {
+                    title: "Tool",
+                    items: [
+                        {
+                            label: "GitHub",
+                            href: "https://github.com/shriyanss/js-recon",
+                        },
+                        {
+                            label: "npm",
+                            href: "https://www.npmjs.com/package/@shriyanss/js-recon",
+                        },
+                        {
+                            label: "Docker Hub",
+                            href: "https://hub.docker.com/r/shriyanss/js-recon",
                         },
                     ],
                 },
@@ -125,14 +137,6 @@ const config: Config = {
                 {
                     title: "More",
                     items: [
-                        {
-                            label: "GitHub",
-                            href: "https://github.com/shriyanss/js-recon",
-                        },
-                        {
-                            label: "npm",
-                            href: "https://www.npmjs.com/package/@shriyanss/js-recon",
-                        },
                         {
                             label: "Black Hills Information Security",
                             href: "https://www.blackhillsinfosec.com",
