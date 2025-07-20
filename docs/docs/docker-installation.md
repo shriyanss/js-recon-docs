@@ -36,6 +36,7 @@ To download the `beta` build, use the following command:
 ```bash
 docker pull docker.io/shriyanss/js-recon:beta
 ```
+
 :::
 
 ## Running JS Recon
@@ -58,7 +59,6 @@ The results will be stored in the `/home/pptruser` directory inside the containe
 Do not use `--rm` flag with the `docker run` command. It will delete the container after the run, which will delete the results as well.
 :::
 
-
 ## Copying Results
 
 You can copy the results using the following command:
@@ -68,6 +68,7 @@ docker cp <container_id>:/home/pptruser/<file_or_dir_name> <output_directory>
 ```
 
 There could be multiple other files created based on the module used. You can refer to the docs of [individual modules](../category/modules) to know how to change the output files. Default files/directories are in the `/home/pptruser` directory with the following names:
+
 - [Lazyload](./modules/lazyload.md):
     - `output/` (directory)
 - [Strings](./modules/strings.md):

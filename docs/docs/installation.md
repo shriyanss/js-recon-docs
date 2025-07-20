@@ -44,6 +44,7 @@ To download the `beta` build, use the following command:
 ```bash
 npm i -g @shriyanss/js-recon@beta
 ```
+
 :::
 
 Test the installation:
