@@ -115,6 +115,10 @@ const config: Config = {
                             label: "Docker Hub",
                             href: "https://hub.docker.com/r/shriyanss/js-recon",
                         },
+                        {
+                            label: "GitHub Container Registry",
+                            href: "https://github.com/shriyanss/js-recon/pkgs/container/js-recon",
+                        },
                     ],
                 },
                 // {
