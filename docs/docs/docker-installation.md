@@ -20,6 +20,12 @@ You can get started with just pulling the image:
 docker pull docker.io/shriyanss/js-recon:latest
 ```
 
+Or, if you prefer Github Container Registry, you can use the following command:
+
+```bash
+docker pull ghcr.io/shriyanss/js-recon:latest
+```
+
 This will pull the image on your local machine.
 
 :::tip
@@ -31,10 +37,18 @@ To download the `alpha` build, use the following command:
 docker pull docker.io/shriyanss/js-recon:alpha
 ```
 
+```bash
+docker pull ghcr.io/shriyanss/js-recon:alpha
+```
+
 To download the `beta` build, use the following command:
 
 ```bash
 docker pull docker.io/shriyanss/js-recon:beta
+```
+
+```bash
+docker pull ghcr.io/shriyanss/js-recon:beta
 ```
 
 :::
