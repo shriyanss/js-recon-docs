@@ -29,7 +29,7 @@ js-recon map -d <directory> -t <technology> [options]
 | `--model <model>`           |       | AI model to use for analysis.                                                      | `gpt-4o-mini` for OpenAI, and `llama3.1` for Ollama                             | No       |
 | `--openapi`                 |       | Generate OpenAPI spec from the code                                                | `false`                                                                         | No       |
 | `--openapi-output <file>`   |       | Output file for OpenAPI spec                                                       | `mapped-openapi.json`                                                           | No       |
-| `--openapi-chunk-tag <tag>` |       | Add chunk ID tag to OpenAPI spec for each request found                            | `false`                                                                         | No       |
+| `--openapi-chunk-tag` |       | Add chunk ID tag to OpenAPI spec for each request found                            | `false`                                                                         | No       |
 
 ## Examples
 
