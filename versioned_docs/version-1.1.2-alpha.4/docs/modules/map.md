@@ -34,7 +34,7 @@ js-recon map -d <directory> -t <technology> [options]
 
 The `map` command requires you to specify the directory containing the JavaScript files and the technology used.
 
-For example, to map a Next.JS application:
+For example, to map a Next.js application:
 
 ```bash
 js-recon map -d /path/to/js-files -t next

@@ -37,7 +37,7 @@ js-recon map -d <directory> -t <technology> [options]
 
 The `map` command requires you to specify the directory containing the JavaScript files and the technology used.
 
-For example, to map a Next.JS application:
+For example, to map a Next.js application:
 
 ```bash
 js-recon map -d /path/to/js-files -t next
@@ -73,7 +73,7 @@ The output file name can be specified by using the `--openapi-output` flag.
 js-recon map -d /path/to/js-files -t next --openapi --openapi-output <file>
 ```
 
-To add chunk ID tag to OpenAPI spec for each request found, use the `--openapi-chunk-tag` flag. This should categorize the requests based on the chunk ID.
+To add a chunk ID tag to the OpenAPI spec for each request found, use the `--openapi-chunk-tag` flag. This should categorize the requests based on the chunk ID.
 
 ```bash
 js-recon map -d /path/to/js-files -t next --openapi --openapi-chunk-tag

@@ -3,8 +3,8 @@ pentester
 webpack
 ffuf
 Caido
-Next.JS
-Nuxt.JS
+Next.js
+Nuxt.js
 Svelte
 fuzzer
 [Oo]llama

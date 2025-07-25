@@ -12,7 +12,7 @@ The `run` command executes the following modules in sequence:
 
 1.  **Lazy Load (Initial)**: Downloads the initial set of JavaScript files from the target URL.
 2.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
-3.  **Lazy Load (Subsequent Requests - for Next.JS)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
+3.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
 4.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
 5.  **Endpoints**: Analyzes the collected data to identify and list all potential API endpoints.
 6.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.

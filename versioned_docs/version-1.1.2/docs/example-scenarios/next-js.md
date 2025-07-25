@@ -6,9 +6,9 @@ sidebar_position: 1
 
 This document highlights using the modules of JS-Recon individually. All of this can be automated, which can be found at the end of the file in the [Run Module](#run-module).
 
-This example assumes that the app is a Next.JS targets. The tool is currently optimized for Next.JS.
+This example assumes that the app is a Next.js targets. The tool is currently optimized for Next.js.
 
-The `lazyload` module will work on Next.JS, Nuxt.JS, and Svelte apps. All other modules are only expected to work on Next.JS apps.
+The `lazyload` module will work on Next.js, Nuxt.js, and Svelte apps. All other modules are only expected to work on Next.js apps.
 
 ## Target
 
@@ -32,7 +32,7 @@ The tool will then analyze the responses from the server, and then download all 
 
 The pentester could get the URL from the top of each file, as the tool writes all the JS files with their source commented on the top
 
-_At the time of writing this, the tool is capable of downloading JS files for **Next.JS, Nuxt.JS, and Svelte**. For all other apps, it will download the JS files that are loaded on the webpage_
+_At the time of writing this, the tool is capable of downloading JS files for **Next.js, Nuxt.js, and Svelte**. For all other apps, it will download the JS files that are loaded on the webpage_
 
 ## Finding strings
 
@@ -74,7 +74,7 @@ The `extracted_urls.json` has the following structure:
 
 ## Subsequent requests
 
-JS-Recon has found that the app is using Next.JS. This framework has a feature that upon sending requests to a valid client-side endpoints along with the `RSC: 1` header, the application returns a response with content type `text/x-component`, which contains more client-side paths and JS files. To get this, the tool requires the `extracted_urls.json` from the strings module, which has been generated in the previous step.
+JS-Recon has found that the app is using Next.js. This framework has a feature that upon sending requests to a valid client-side endpoints along with the `RSC: 1` header, the application returns a response with content type `text/x-component`, which contains more client-side paths and JS files. To get this, the tool requires the `extracted_urls.json` from the strings module, which has been generated in the previous step.
 
 To use this method, the pentester can pass the `--subsequent-requests` flag to the lazyload command:
 
@@ -115,7 +115,7 @@ Breakdown of the command:
 - `-u`: Shorthand flag for `--urls`. The URL of the target (the paths found are prepended to it)
 - `-t`: Shorthand flag for `--tech`. Defines the framework (aka tech) that the target is using. It is required to find the suitable methods
     - Run with `-l`/`--list` to see list of supported tech: `js-recon endpoints -l`
-- `--subsequent-requests-dir`: Flag specific to Next.JS (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
+- `--subsequent-requests-dir`: Flag specific to Next.js (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
 
 This command will write a file called `endpoints.json`. Following is an example of this file:
 

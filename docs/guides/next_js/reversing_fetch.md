@@ -4,19 +4,19 @@ sidebar_position: 2
 
 # Reversing `fetch()`
 
-The [previous guide](./fuzzing_endpoints.md) walks through using the [`strings`](../../docs/modules/strings.md) module to discover client-side and server-side endpoints. This document walks through how can you use the interactive mode to reverse engineer the requests. This would require you to have some basic knowledge of reviewing JavaScript, or just code review in general.
+The [previous guide](./fuzzing_endpoints.md) walks through using the [`strings`](../../docs/modules/strings.md) module to discover client-side and server-side endpoints. This document walks through how you can use the interactive mode to reverse engineer the requests. This would require you to have some basic knowledge of reviewing JavaScript, or just code review in general.
 
-The approach shown in this document is called the bottom-top approach, in which the pentester finds potential sinks, and goes up to the source. If this statement seems a bit confusing don't worry. You'll understand this in this document down below.
+The approach shown in this document is called the bottom-top approach, in which the pentester finds potential sinks and goes up to the source. If this statement seems a bit confusing, don't worry. You'll understand this in the document below.
 
 ## Fundamentals
 
 To start reverse engineering the JS files, you should first list out all the functions available in the app.
 
-Before that, you should understand how the functions are distributed in the Next.JS apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
+Before that, you should understand how the functions are distributed in the Next.js apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
 
-- When the Next.JS apps are compiled, the functions gets distributed into webpack having a specific numerical ID
+- When the Next.js apps are compiled, the functions get distributed into webpack having a specific numerical ID
 - These files often contain the path `/_next/static/chunks`
-- If you see the directory structure of the `output` directory, you would find the following structure
+- If you see the directory structure of the `output` directory, you will find the following structure
 
 ```
 ❯ tree
@@ -68,9 +68,9 @@ Here, you will notice that three arguments - namely `a`, `t`, and `h` - are bein
 
 - `a` => module: Represents the current module object. Contains metadata like exports, id, etc
 - `t` => exports: The object that the module uses to export its public API
-- `h` => require: The require function used to import other modules
+- `h` => require: The require function is used to import other modules
 
-Now, suppose a function exports a particular action. This could be represented in multiple ways. One can identify these with practice, however, here are the most common ones:
+Now, suppose a function exports a particular action. This could be represented in multiple ways. One can identify these with practice; however, here are the most common ones:
 
 ```js
 Object.defineProperty(t, "appBootstrap", {
@@ -100,18 +100,18 @@ By understanding these, you should be good to go for reversing the apps.
 
 ## Getting connections with the `map` module
 
-The map module helps to simplify the process of finding connections. To get started with finding connection, you have to download all the JS files. You can refer to the docs for the [`lazyload` module](../../docs/modules/lazyload.md#basic-usage) for instructions on downloading JS files. Once you have all the JS files downloaded you can proceed further with the `map` module.
+The map module helps to simplify the process of finding connections. To get started with finding a connection, you have to download all the JS files. You can refer to the docs for the [`lazyload` module](../../docs/modules/lazyload.md#basic-usage) for instructions on downloading JS files. Once you have all the JS files downloaded, you can proceed further with the `map` module.
 
 You can get started with the following command:
 
 ```bash
 js-recon map -d output/<domain> -t <tech> -i
 
-# since the tool supports next js at the time of writing this, so the command would be
+# since the tool supports Next.js at the time of writing this, the command would be
 js-recon map -d output/<domain> -t next -i
 ```
 
-This will analyze all the files, and open up an interactive shell like this:
+This will analyze all the files and open up an interactive shell like this:
 ![Interactive mode UI](/img/guides/next_js/reversing_fetch/interactive_mode_ui.png)
 
 :::info
@@ -123,7 +123,7 @@ Before getting started, you should run `help` in the interactive mode to see a l
 
 ### Listing all `fetch()` instances
 
-When reversing for APIs, the first thing that you would like to do is to list all the instances of `fetch()`. To do so, you can run the command `list fetch` to get a list of functions that contains `fetch()`.
+When reversing for APIs, the first thing that you would like to do is to list all the instances of `fetch()`. To do so, you can run the command `list fetch` to get a list of functions that contain `fetch()`.
 ![`list fetch` command interactive mode](/img/guides/next_js/reversing_fetch/list_fetch_interactive_mode.png)
 
 Here, the output format is the following:
@@ -145,7 +145,7 @@ set funcwritefile <filename>
 go to <function_id>
 ```
 
-For example, from the above screenshot, if the pentester would have to write the function ID `328` to a file `328.js`, then the commands would be:
+For example, from the above screenshot, if the pentester had to write the function ID `328` to a file `328.js`, then the commands would be:
 
 ```
 set funcwritefile 328.js
@@ -153,7 +153,7 @@ go to 328
 ```
 
 :::info
-After running the `set funcwritefile` command, if you run the `go` command, then the code for the speified/resultant function will be written to this file.
+After running the `set funcwritefile` command, if you run the `go` command, then the code for the specified/resultant function will be written to this file.
 :::
 
 :::tip
@@ -164,23 +164,23 @@ If you are just analyzing the files, you can go with a file name `test.js` - `se
 If you think the function does something important, then you can set the output filename to the specified function name - `set funcwritefile 328.js`
 :::
 
-If the pentester also wish to write all the functions that `328` imports, then they could set the value of `writeimports` to true
+If the pentester also wishes to write all the functions that `328` imports, then they could set the value of `writeimports` to true
 
 ```
 set writeimports true
 ```
 
-Now, this will also write the code for the imports for the specified functions
+Now, this will also write the code for the imports for the specified functions.
 
 :::info
-Imports not just means the external libraries the developers used in that particular function, but it could also mean UI components, other functions which also has a `fetch()`, etc.
+Imports do not just mean the external libraries the developers used in that particular function, but they could also mean UI components, other functions that also have a `fetch()`, etc.
 :::
 
 #### Following the execution flow
 
-Suppose you got an interesting function and you want to now trace the execution path for it. You can definitely do it in the browser, but JS Recon also provides a way to do so.
+Suppose you got an interesting function and you want to know the execution path for it. You can do it in the browser, but JS Recon also provides a way to do so.
 
-For the example, you can assume that the function is `328`. Now, the pentester can run the following command to get a list of imports and exports for that function:
+For example, you can assume that the function is `328`. Now, the pentester can run the following command to get a list of imports and exports for that function:
 
 ```
 trace 328
@@ -188,7 +188,7 @@ trace 328
 
 ![Trace command interactive mode](/img/guides/next_js/reversing_fetch/trace_command_output.png)
 
-Once you got the imports and exports, and then you inspected the code for several functions using the `go to` command, and now would like to see the history, you can run the following command:
+Once you have the imports and exports, and then you have inspected the code for several functions using the `go to` command, and now you would like to see the history, you can run the following command:
 
 ```
 list nav

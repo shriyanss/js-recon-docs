@@ -10,8 +10,8 @@ The features available in the tool are developed after researching on specific J
 
 The feature the download all the lazy loaded, that's dynamically loaded, JavaScript files are available for the following frameworks:
 
-- [Next.JS](https://nextjs.org)
-- [Nuxt.JS](https://nuxt.com)
+- [Next.js](https://nextjs.org)
+- [Nuxt.js](https://nuxt.com)
 - [Svelte](https://svelte.dev)
 
 For all the other apps, the tool downloads the JavaScript files that will be loaded on the webpage
@@ -26,7 +26,7 @@ However, if the site blocks IP addresses originating from Amazon Web Services, i
 
 The feature to extract the client-side endpoints are available for the following frameworks:
 
-- [Next.JS](https://nextjs.org)
+- [Next.js](https://nextjs.org)
 
 ## Strings
 
@@ -36,7 +36,7 @@ This feature can be used against all target, regardless of the frameworks they u
 
 The feature to map all the functions are available only for the following JavaScript frameworks:
 
-- [Next.JS](https://nextjs.org)
+- [Next.js](https://nextjs.org)
 
 ## Run
 

@@ -21,7 +21,7 @@ js-recon lazyload -u <url/file> [options]
 | `--strict-scope`              |       | Download JS files from only the input URL domain.                                   | `false`                    | No       |
 | `--scope <scope>`             | `-s`  | Download JS files from specific domains (comma-separated). Use `*` for all domains. | `*`                        | No       |
 | `--threads <threads>`         | `-t`  | Number of threads to use for downloading.                                           | `1`                        | No       |
-| `--subsequent-requests`       |       | Download JS files from subsequent requests (Next.JS only).                          | `false`                    | No       |
+| `--subsequent-requests`       |       | Download JS files from subsequent requests (Next.js only).                          | `false`                    | No       |
 | `--urls-file <file>`          |       | Input JSON file containing URLs (for `--subsequent-requests`)                       | `extracted_urls.json`      | No       |
 | `--api-gateway`               |       | Generate requests using API Gateway for IP rotation.                                | `false`                    | No       |
 | `--api-gateway-config <file>` |       | API Gateway config file.                                                            | `.api_gateway_config.json` | No       |
