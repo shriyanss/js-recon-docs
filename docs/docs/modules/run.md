@@ -49,12 +49,13 @@ js-recon run -u <url/file> [options]
 | `--openai-api-key <key>`      |       | OpenAI API Key                                                       |                                                                                 | No       |
 | `--model <model>`             |       | AI model to use                                                      | `gpt-4o-mini` for OpenAI, and `llama3.1` for Ollama                             | No       |
 | `--map-openapi`               |       | Generate OpenAPI spec from the code (map module)                     | `false`                                                                         | No       |
-| `--map-openapi-output <file>` |       | Output file for OpenAPI spec (map module)                             | `mapped-openapi.json`                                                           | No       |
+| `--map-openapi-output <file>` |       | Output file for OpenAPI spec (map module)                            | `mapped-openapi.json`                                                           | No       |
 | `--map-openapi-chunk-tag`     |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                                                                         | No       |
 
 ## Example
 
 ### Run all modules on target and also generate AI descriptions
+
 ```bash
 js-recon run -u https://example.com --secrets --ai description
 ```
@@ -62,6 +63,7 @@ js-recon run -u https://example.com --secrets --ai description
 This command will perform a full analysis on `https://example.com`, save the JavaScript files to the `output` directory, scan for secrets, and use AI to generate descriptions for the mapped functions.
 
 ### Run all modules on target and also generate OpenAPI spec
+
 ```bash
 js-recon run -u https://example.com --map-openapi
 ```
