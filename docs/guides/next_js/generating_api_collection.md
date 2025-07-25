@@ -54,6 +54,10 @@ The above screenshot shows the output for the above command run on a Next.js app
 
 This will generate a file called `mapped-openapi.json` in the current working directory. This can be imported into an API client or can be previewed on the [swagger viewer](https://editor.swagger.io).
 
+:::info
+The errors displayed in the Swagger viewer are not a cause for concern. They are caused because the tool is not able to resolve the variables, or the app is using the body with unexpected methods. They can be ignored.
+:::
+
 This file is more accurate than the `strings` module, but it is not as flexible as the `strings` module. Most of the time, the variables will not be resolved and instead will be left as a placeholder. These can be either guessed or manually resolved.
 
 :::tip
