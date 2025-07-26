@@ -27,16 +27,25 @@ interface ModalProps {
     onClose: () => void;
 }
 
-
 function VideoGrid(): ReactNode {
     return (
         <div
             className={clsx("container", styles.videoGrid)}
-            style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
+            style={{
+                display: "grid",
+                gap: "2rem",
+                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            }}
         >
             {videos.map(({ title, youtubeId }) => (
                 <div key={youtubeId} style={{ textAlign: "center" }}>
-                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <div
+                        style={{
+                            position: "relative",
+                            paddingBottom: "56.25%",
+                            height: 0,
+                        }}
+                    >
                         <iframe
                             src={`https://www.youtube.com/embed/${youtubeId}`}
                             title={title}
@@ -52,7 +61,9 @@ function VideoGrid(): ReactNode {
                             allowFullScreen
                         />
                     </div>
-                    <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>{title}</p>
+                    <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>
+                        {title}
+                    </p>
                 </div>
             ))}
         </div>
@@ -61,13 +72,18 @@ function VideoGrid(): ReactNode {
 
 export default function Labs(): ReactNode {
     return (
-        <Layout title="Labs" description="Hands-on labs with video walkthroughs">
+        <Layout
+            title="Labs"
+            description="Hands-on labs with video walkthroughs"
+        >
             <header className={clsx("hero hero--primary", styles.heroBanner)}>
                 <div className="container">
                     <Heading as="h1" className="hero__title">
                         Labs
                     </Heading>
-                    <p className="hero__subtitle">Watch video walkthroughs and follow along!</p>
+                    <p className="hero__subtitle">
+                        Watch video walkthroughs and follow along!
+                    </p>
                 </div>
             </header>
             <main style={{ padding: "2rem 0" }}>
