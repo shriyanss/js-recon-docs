@@ -115,12 +115,6 @@ export default function Labs(): ReactNode {
         >
             <header className={clsx("hero hero--primary", styles.heroBanner)}>
                 <div className="container">
-                    <Heading as="h1" className="hero__title">
-                        Labs
-                    </Heading>
-                    <p className="hero__subtitle">
-                        Watch video walkthroughs and follow along!
-                    </p>
                     <img
                         src={useBaseUrl("img/labs-banner.png")}
                         alt="Labs Banner"
@@ -131,6 +125,9 @@ export default function Labs(): ReactNode {
                             borderRadius: "8px",
                         }}
                     />
+                    <p className="hero__subtitle">
+                        Watch video walkthroughs and follow along!
+                    </p>
                 </div>
             </header>
             <main style={{ padding: "2rem 0" }}>
