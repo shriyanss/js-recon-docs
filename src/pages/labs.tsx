@@ -9,19 +9,16 @@ import styles from "./index.module.css";
 interface VideoMeta {
     title: string;
     youtubeId: string;
-    markdown: string; // relative path under static/labs_md/
 }
 
 const videos: VideoMeta[] = [
     {
         title: "ReconJS Lab 1: Introduction",
         youtubeId: "dQw4w9WgXcQ",
-        markdown: "lab1.md",
     },
     {
         title: "ReconJS Lab 2: Advanced Topics",
         youtubeId: "3GwjfUFyY6M",
-        markdown: "lab2.md",
     },
 ];
 
@@ -31,55 +28,6 @@ interface ModalProps {
     onClose: () => void;
 }
 
-function Modal({ open, markdownFile, onClose }: ModalProps): ReactNode {
-    const [content, setContent] = useState<string>("");
-
-    useEffect(() => {
-        if (!open || !markdownFile) return;
-        fetch(`/labs_md/${markdownFile}`)
-            .then((res) => res.text())
-            .then(setContent)
-            .catch(() => setContent("Failed to load steps."));
-    }, [open, markdownFile]);
-
-    if (!open) return null;
-    return (
-        <div
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100vw",
-                height: "100vh",
-                background: "rgba(0,0,0,0.6)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 1000,
-            }}
-            onClick={onClose}
-        >
-            <div
-                style={{
-                    background: "#fff",
-                    maxWidth: "90%",
-                    maxHeight: "90%",
-                    overflowY: "auto",
-                    padding: "2rem",
-                }}
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button
-                    style={{ float: "right", fontSize: "1.25rem", border: "none", background: "none" }}
-                    onClick={onClose}
-                >
-                    ✖
-                </button>
-                <ReactMarkdown>{content}</ReactMarkdown>
-            </div>
-        </div>
-    );
-}
 
 function VideoGrid(): ReactNode {
     return (
@@ -87,7 +35,7 @@ function VideoGrid(): ReactNode {
             className={clsx("container", styles.videoGrid)}
             style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
         >
-            {videos.map(({ title, youtubeId, markdown }) => (
+            {videos.map(({ title, youtubeId }) => (
                 <div key={youtubeId} style={{ textAlign: "center" }}>
                     <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
                         <iframe
