@@ -8,62 +8,70 @@ import styles from "./index.module.css";
 interface VideoMeta {
     title: string;
     youtubeId: string;
+    section: number;
 }
+
+const videoSectionIndex: { [key: number]: string } = {
+    1: "Lab Setup",
+};
 
 const videos: VideoMeta[] = [
     {
         title: "ReconJS Lab 1: Introduction",
         youtubeId: "dQw4w9WgXcQ",
+        section: 1,
     },
     {
         title: "ReconJS Lab 2: Advanced Topics",
         youtubeId: "3GwjfUFyY6M",
+        section: 1,
     },
 ];
 
-interface ModalProps {
-    open: boolean;
-    markdownFile?: string;
-    onClose: () => void;
-}
 
 function VideoGrid(): ReactNode {
+    const videosBySection: { [key: string]: VideoMeta[] } = videos.reduce((acc, video) => {
+        const sectionTitle = videoSectionIndex[video.section];
+        if (!acc[sectionTitle]) {
+            acc[sectionTitle] = [];
+        }
+        acc[sectionTitle].push(video);
+        return acc;
+    }, {});
+
     return (
-        <div
-            className={clsx("container", styles.videoGrid)}
-            style={{
-                display: "grid",
-                gap: "2rem",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            }}
-        >
-            {videos.map(({ title, youtubeId }) => (
-                <div key={youtubeId} style={{ textAlign: "center" }}>
+        <div className={clsx("container")}>
+            {Object.entries(videosBySection).map(([sectionTitle, videosInSection]) => (
+                <div key={sectionTitle}>
+                    <Heading as="h2" style={{ marginTop: "2rem", marginBottom: "1rem" }}>
+                        {sectionTitle}
+                    </Heading>
                     <div
-                        style={{
-                            position: "relative",
-                            paddingBottom: "56.25%",
-                            height: 0,
-                        }}
+                        className={styles.videoGrid}
+                        style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
                     >
-                        <iframe
-                            src={`https://www.youtube.com/embed/${youtubeId}`}
-                            title={title}
-                            style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
-                                height: "100%",
-                                border: 0,
-                            }}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        />
+                        {videosInSection.map(({ title, youtubeId }) => (
+                            <div key={youtubeId} style={{ textAlign: "center" }}>
+                                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${youtubeId}`}
+                                        title={title}
+                                        style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: "100%",
+                                            border: 0,
+                                        }}
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                                <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>{title}</p>
+                            </div>
+                        ))}
                     </div>
-                    <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>
-                        {title}
-                    </p>
                 </div>
             ))}
         </div>
