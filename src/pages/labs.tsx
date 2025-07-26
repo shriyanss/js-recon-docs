@@ -1,8 +1,7 @@
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode } from "react";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import clsx from "clsx";
-import ReactMarkdown from "react-markdown";
 import styles from "./index.module.css";
 
 // Define your YouTube videos here. Add more objects to the array to display more videos.
