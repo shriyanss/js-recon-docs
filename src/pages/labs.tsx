@@ -82,56 +82,33 @@ function Modal({ open, markdownFile, onClose }: ModalProps): ReactNode {
 }
 
 function VideoGrid(): ReactNode {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [activeMarkdown, setActiveMarkdown] = useState<string | undefined>();
-
-    const openModal = (md: string) => {
-        setActiveMarkdown(md);
-        setModalOpen(true);
-    };
-
     return (
-        <>
-            <div
-                className={clsx("container", styles.videoGrid)}
-                style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
-            >
-                {videos.map(({ title, youtubeId, markdown }) => (
-                    <div key={youtubeId} style={{ textAlign: "center" }}>
-                        <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                            <iframe
-                                src={`https://www.youtube.com/embed/${youtubeId}`}
-                                title={title}
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    border: 0,
-                                }}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            />
-                        </div>
-                        <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>{title}</p>
-                        <button
-                            onClick={() => openModal(markdown)}
+        <div
+            className={clsx("container", styles.videoGrid)}
+            style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
+        >
+            {videos.map(({ title, youtubeId, markdown }) => (
+                <div key={youtubeId} style={{ textAlign: "center" }}>
+                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                        <iframe
+                            src={`https://www.youtube.com/embed/${youtubeId}`}
+                            title={title}
                             style={{
-                                marginTop: "0.25rem",
-                                background: "#eee",
-                                border: "none",
-                                padding: "0.5rem 1rem",
-                                cursor: "pointer",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                border: 0,
                             }}
-                        >
-                            Read Steps
-                        </button>
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
                     </div>
-                ))}
-            </div>
-            <Modal open={modalOpen} markdownFile={activeMarkdown} onClose={() => setModalOpen(false)} />
-        </>
+                    <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>{title}</p>
+                </div>
+            ))}
+        </div>
     );
 }
 
