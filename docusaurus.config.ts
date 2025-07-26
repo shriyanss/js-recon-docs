@@ -79,6 +79,10 @@ const config: Config = {
                     label: "Guides",
                 },
                 {
+                    href: "/labs",
+                    label: "Labs",
+                },
+                {
                     type: "docsVersionDropdown",
                     position: "right",
                 },

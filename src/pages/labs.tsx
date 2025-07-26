@@ -3,6 +3,7 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import clsx from "clsx";
 import styles from "./index.module.css";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 // Define your YouTube videos here. Add more objects to the array to display more videos.
 interface VideoMeta {
@@ -114,12 +115,22 @@ export default function Labs(): ReactNode {
         >
             <header className={clsx("hero hero--primary", styles.heroBanner)}>
                 <div className="container">
-                    <Heading as="h1" className="hero__title">
+                <Heading as="h1" className="hero__title">
                         Labs
                     </Heading>
                     <p className="hero__subtitle">
                         Watch video walkthroughs and follow along!
                     </p>
+                                        <img
+                        src={useBaseUrl("img/labs-banner.png")}
+                        alt="Labs Banner"
+                        style={{
+                            display: "block",
+                            margin: "0 auto 2rem auto",
+                            maxHeight: "250px",
+                            borderRadius: "8px",
+                        }}
+                    />
                 </div>
             </header>
             <main style={{ padding: "2rem 0" }}>
