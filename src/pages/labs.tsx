@@ -28,6 +28,11 @@ const videos: VideoMeta[] = [
         youtubeId: "WjgjZp5BSWQ",
         section: 2,
     },
+    {
+        title: "103 - Solving next js axios app",
+        youtubeId: "IhnQNRQ7gQE",
+        section: 2,
+    },
 ];
 
 function VideoGrid(): ReactNode {
