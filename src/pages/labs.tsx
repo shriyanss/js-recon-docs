@@ -21,7 +21,7 @@ const videos: VideoMeta[] = [
         title: "101 - Setting up containers",
         youtubeId: "8glW26_cQZk",
         section: 1,
-    }
+    },
 ];
 
 function VideoGrid(): ReactNode {
