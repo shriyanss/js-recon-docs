@@ -18,15 +18,10 @@ const videoSectionIndex: { [key: number]: string } = {
 
 const videos: VideoMeta[] = [
     {
-        title: "ReconJS Lab 1: Introduction",
-        youtubeId: "dQw4w9WgXcQ",
+        title: "101 - Setting up containers",
+        youtubeId: "8glW26_cQZk",
         section: 1,
-    },
-    {
-        title: "ReconJS Lab 2: Advanced Topics",
-        youtubeId: "3GwjfUFyY6M",
-        section: 1,
-    },
+    }
 ];
 
 function VideoGrid(): ReactNode {
