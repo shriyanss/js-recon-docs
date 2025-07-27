@@ -14,6 +14,7 @@ interface VideoMeta {
 
 const videoSectionIndex: { [key: number]: string } = {
     1: "Lab Setup",
+    2: "Solving Labs [SPOILER]",
 };
 
 const videos: VideoMeta[] = [
@@ -25,7 +26,7 @@ const videos: VideoMeta[] = [
     {
         title: "102 - Solving next js fetch app",
         youtubeId: "WjgjZp5BSWQ",
-        section: 1,
+        section: 2,
     },
 ];
 
