@@ -22,6 +22,11 @@ const videos: VideoMeta[] = [
         youtubeId: "8glW26_cQZk",
         section: 1,
     },
+    {
+        title: "102 - Solving next js fetch app",
+        youtubeId: "WjgjZp5BSWQ",
+        section: 1,
+    },
 ];
 
 function VideoGrid(): ReactNode {
