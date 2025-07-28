@@ -140,7 +140,8 @@ export default function Labs(): ReactNode {
                 <div
                     className={clsx("container")}
                     style={{
-                        backgroundColor: "var(--ifm-background-surface-color-light)",
+                        backgroundColor:
+                            "var(--ifm-background-surface-color-light)",
                         padding: "1.5rem",
                         borderRadius: "8px",
                         boxShadow: "var(--ifm-global-shadow-lw)",
@@ -151,8 +152,8 @@ export default function Labs(): ReactNode {
                         Lab Repository
                     </Heading>
                     <p style={{ margin: 0 }}>
-                        The repository for the labs mentioned in the video walkthroughs can be
-                        found at{" "}
+                        The repository for the labs mentioned in the video
+                        walkthroughs can be found at{" "}
                         <a
                             href="https://github.com/shriyanss/js-recon-labs"
                             target="_blank"
