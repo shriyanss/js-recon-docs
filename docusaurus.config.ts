@@ -47,7 +47,7 @@ const config: Config = {
                     editUrl:
                         "https://github.com/shriyanss/js-recon-docs/edit/main/",
 
-                    lastVersion: "1.1.2",
+                    lastVersion: "1.1.3",
                 },
                 theme: {
                     customCss: "./src/css/custom.css",
