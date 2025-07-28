@@ -137,6 +137,32 @@ export default function Labs(): ReactNode {
                 </div>
             </header>
             <main style={{ padding: "2rem 0" }}>
+                <div
+                    className={clsx("container")}
+                    style={{
+                        backgroundColor: "var(--ifm-background-surface-color-light)",
+                        padding: "1.5rem",
+                        borderRadius: "8px",
+                        boxShadow: "var(--ifm-global-shadow-lw)",
+                        marginBottom: "2rem",
+                    }}
+                >
+                    <Heading as="h2" style={{ marginBottom: "0.5rem" }}>
+                        Lab Repository
+                    </Heading>
+                    <p style={{ margin: 0 }}>
+                        The repository for the labs mentioned in the video walkthroughs can be
+                        found at{" "}
+                        <a
+                            href="https://github.com/shriyanss/js-recon-labs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            github.com/shriyanss/js-recon-labs
+                        </a>
+                        .
+                    </p>
+                </div>
                 <VideoGrid />
             </main>
         </Layout>
