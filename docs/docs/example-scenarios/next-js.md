@@ -98,53 +98,6 @@ Breakdown of additional flags:
 - `--openapi`: This flag will generate an output file called `extracted_urls-openapi.json`. This file is based on the `paths` in the `extracted_urls.json`, and can be directly loaded into an API client like [Postman](https://www.postman.com) or [Bruno](https://usebruno.com)
 - `-s`: Shorthand flag for `--scan-secrets`. This will iterate over all the strings found and match them against a regex for popular secrets
 
-## Getting client-side endpoints
-
-Now that the pentester has got all the JS files and a rough ideation of what the app can do (through string analysis), they can now get the exact client-side endpoints. Apart from unique implementations, there are some common ways a web-app stores client-side endpoints. The tool utilizes the common methods to find the client-side endpoints in the web app.
-
-To do so, they can use the [`endpoints`](../modules/endpoints.md) module of the tool
-
-```bash
-js-recon endpoints -d output/app.example.com -u https://app.example.com -t next --subsequent-requests-dir output/app.example.com/___subsequent_requests
-```
-
-Breakdown of the command:
-
-- `endpoints`: This module extracts client-side endpoints from the app
-- `-d`: Shorthand flag for `--directory`. Defines the directory in which the JS files are stored for the given target
-- `-u`: Shorthand flag for `--urls`. The URL of the target (the paths found are prepended to it)
-- `-t`: Shorthand flag for `--tech`. Defines the framework (aka tech) that the target is using. It is required to find suitable methods
-    - Run with `-l`/`--list` to see list of supported tech: `js-recon endpoints -l`
-- `--subsequent-requests-dir`: Flag specific to Next.js (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
-
-This command will write a file called `endpoints.json`. Following is an example of this file:
-
-```json
-{
-    "https://app.example.com": {
-        "/": {},
-        "/dash": {
-            "/dash/clients",
-            "/dash/automations",
-            "/dash/usage"
-        },
-        "/settings": {
-            "/settings/clients": {
-                "/settings/clients/edit",
-                "/settings/clients/add"
-            },
-            "/settings/automations",
-            "/settings/usage"
-        }
-    },
-    "https://internal.example.com": {
-        "/prod": {
-            "/prod/env"
-        }
-    }
-}
-```
-
 ## Mapping all the functions
 
 At this point, the pentester has an idea of what the app looks like. They have also used the app to see the functionality in action. Now, they suspect that the app contains a secret endpoint. They have seen `https://internal.app.com` in the strings output, but are unsure how it works. They decide to manually analyze the JS files. This is where the `map` modules could help them.
@@ -178,6 +131,53 @@ The pentester can also adjust some AI settings:
     - Defaults to `https://api.openai.com/v1` for OpenAI
         - Some providers like xAI support using the OpenAI SDK to use their models. Refer to their docs to know the latest updates
     - Defaults to `http://127.0.0.1:11434` for Ollama
+
+## Getting client-side endpoints
+
+Now that the pentester has got all the JS files and a rough ideation of what the app can do (through string analysis), they can now get the exact client-side endpoints. Apart from unique implementations, there are some common ways a web-app stores client-side endpoints. The tool utilizes the common methods to find the client-side endpoints in the web app.
+
+To do so, they can use the [`endpoints`](../modules/endpoints.md) module of the tool
+
+```bash
+js-recon endpoints -d output/app.example.com -u https://app.example.com -t next --mapped-json mapped.json
+```
+
+Breakdown of the command:
+
+- `endpoints`: This module extracts client-side endpoints from the app
+- `-d`: Shorthand flag for `--directory`. Defines the directory in which the JS files are stored for the given target
+- `-u`: Shorthand flag for `--urls`. The URL of the target (the paths found are prepended to it)
+- `-t`: Shorthand flag for `--tech`. Defines the framework (aka tech) that the target is using. It is required to find suitable methods
+    - Run with `-l`/`--list` to see list of supported tech: `js-recon endpoints -l`
+- `--mapped-json`: Flag specific to Next.js (`-t next`) targets. Defines the directory containing response texts for requests with `RSC: 1` header. By default, it is `output/<domain>/___subsequent_requests` (triple underscore `_` before `subsequent_requests`)
+
+This command will write a file called `endpoints.json`. Following is an example of this file:
+
+```json
+{
+    "https://app.example.com": {
+        "/": {},
+        "/dash": {
+            "/dash/clients",
+            "/dash/automations",
+            "/dash/usage"
+        },
+        "/settings": {
+            "/settings/clients": {
+                "/settings/clients/edit",
+                "/settings/clients/add"
+            },
+            "/settings/automations",
+            "/settings/usage"
+        }
+    },
+    "https://internal.example.com": {
+        "/prod": {
+            "/prod/env"
+        }
+    }
+}
+```
 
 ## Launching interactive console
 
