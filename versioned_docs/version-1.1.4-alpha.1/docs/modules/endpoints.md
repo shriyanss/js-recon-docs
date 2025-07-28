@@ -14,15 +14,15 @@ js-recon endpoints [options]
 
 ## Options
 
-| Option                                  | Alias | Description                                                                         | Default     | Required |
-| --------------------------------------- | ----- | ----------------------------------------------------------------------------------- | ----------- | -------- |
-| `--url <url>`                           | `-u`  | Target Base URL (will be used to resolve relative paths).                           |             | Yes      |
-| `--directory <directory>`               | `-d`  | Directory containing JS files.                                                      |             | Yes      |
-| `--output <filename>`                   | `-o`  | Output filename (without file extension).                                           | `endpoints` | No       |
-| `--output-format <format>`              |       | Output format for the results (available: `json`).                                  | `json`      | No       |
-| `--tech <tech>`                         | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options).  |             | Yes      |
-| `--list`                                | `-l`  | List available technologies.                                                        | `false`     | No       |
-| `--mapped-json <file>`                  |       | Mapped JSON file (for Next.JS).                                                    |             | No       |
+| Option                     | Alias | Description                                                                        | Default     | Required |
+| -------------------------- | ----- | ---------------------------------------------------------------------------------- | ----------- | -------- |
+| `--url <url>`              | `-u`  | Target Base URL (will be used to resolve relative paths).                          |             | Yes      |
+| `--directory <directory>`  | `-d`  | Directory containing JS files.                                                     |             | Yes      |
+| `--output <filename>`      | `-o`  | Output filename (without file extension).                                          | `endpoints` | No       |
+| `--output-format <format>` |       | Output format for the results (available: `json`).                                 | `json`      | No       |
+| `--tech <tech>`            | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options). |             | Yes      |
+| `--list`                   | `-l`  | List available technologies.                                                       | `false`     | No       |
+| `--mapped-json <file>`     |       | Mapped JSON file (for Next.JS).                                                    |             | No       |
 
 ## Examples
 
