@@ -26,7 +26,6 @@ The following keybindings are available for navigation and control:
 | --------------- | ----------------------------------------------------------------------------------------------------- |
 | `Ctrl+C` or `q` | Exit the interactive mode (when not in the input box). To exit from the input box, press `Esc` first. |
 | `i`             | Focus the input box.                                                                                  |
-| `o`             | Focus the output box.                                                                                 |
 | `Esc`           | When in the input box, focuses the output box.                                                        |
 | `Up Arrow`      | In the input box, navigate to the previous command.                                                   |
 | `Down Arrow`    | In the input box, navigate to the next command.                                                       |
@@ -56,6 +55,7 @@ Lists different types of information. Usage: `list <option>`
 - `list fetch`: Lists all functions that contain `fetch` instances.
 - `list axios`: Lists all functions that contain `axios` instances.
 - `list all`: Lists all functions found in the application.
+- `list desc`: List all functions with non-empty descriptions.
 - `list nav`: Lists your function navigation history.
 - `list exportnames <option>`: Lists export names for a chunk.
     - `list exportnames <chunkId>`: Lists export names for a specific chunk.
