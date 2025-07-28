@@ -57,6 +57,10 @@ Lists different types of information. Usage: `list <option>`
 - `list axios`: Lists all functions that contain `axios` instances.
 - `list all`: Lists all functions found in the application.
 - `list nav`: Lists your function navigation history.
+- `list exportnames <option>`: Lists export names for a chunk.
+    - `list exportnames <chunkId>`: Lists export names for a specific chunk.
+    - `list exportnames all`: Lists export names for all chunks.
+    - `list exportnames nonempty`: Lists export names for all chunks that have non-empty export names.
 
 ### `go`
 
