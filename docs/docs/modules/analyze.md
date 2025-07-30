@@ -37,7 +37,7 @@ js-recon analyze --validate -r ./rules
 
 ### Analyzing OpenAPI spec file
 
-To run analysis on an OpenAPI spec file, make sure that your've generated it using the `map` command:
+To run analysis on an OpenAPI spec file, make sure that you've generated it using the `map` command:
 
 ```bash
 js-recon map -d output/<domain> -t <tech> --openapi
