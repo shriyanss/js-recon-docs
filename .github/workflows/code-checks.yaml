@@ -62,7 +62,7 @@ jobs:
         env:
           VALE_CONFIG_PATH: ./.vale.ini
         with:
-          files: ./docs ./versioned_docs
+          files: ./docs
 
   build:
     needs: vale
