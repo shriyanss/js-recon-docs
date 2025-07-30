@@ -13,4 +13,3 @@ A rule could perform multiple steps to analyze a file and determine if it matche
 There are some pre-defined rules available on [github/shriyanss/js-recon-rules](https://github.com/shriyanss/js-recon-rules). They are automatically downloaded by JS Recon when the [`analyze`](../modules/analyze.md) module is run into the `$HOME/.js-recon/rules` directory.
 
 In case you wish to download them manually, it is recommended that you download them from the [releases page](https://github.com/shriyanss/js-recon-rules/releases).
-

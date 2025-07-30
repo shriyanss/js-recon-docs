@@ -99,7 +99,6 @@ steps:
           type: url
           condition: contains
           name: "admin"
-
 ```
 
 </details>
