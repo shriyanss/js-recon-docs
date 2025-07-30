@@ -102,3 +102,38 @@ steps:
 ```
 
 </details>
+
+### Method
+
+This step is used to match the HTTP method of the request. Following is the structure of the method step:
+
+```yaml
+- name: method
+  condition: <is | is_not>
+  name: <method_name>
+```
+
+For example, a rule to detect `DELETE` requests would look like this:
+
+<details>
+<summary>Example: Full rule file for checking for DELETE requests</summary>
+
+```yaml
+id: delete_request_detected
+name: Detect DELETE requests
+author: shriyanss
+description: Detects if a request uses the DELETE method.
+severity: info
+type: request
+tech: all
+
+steps:
+    - name: check_delete_method
+      message: DELETE method detected
+      request:
+          type: method
+          condition: is
+          name: delete
+```
+
+</details>
