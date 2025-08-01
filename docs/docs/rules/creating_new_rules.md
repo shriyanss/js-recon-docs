@@ -16,8 +16,9 @@ name: <human-readable-name>
 author: <author>
 description: <description>
 severity: <info | low | medium | high>
-type: request
-tech: <tech>
+type: <request | ast>
+tech: 
+    - <tech>
 
 steps:
     - <step>
@@ -30,8 +31,9 @@ id: rule-1
 name: Rule 1
 author: shriyanss
 severity: info
-type: request
-tech: next
+type: ast
+tech: 
+    - next
 
 steps:
     - <step>
@@ -41,6 +43,7 @@ steps:
 
 Each step follows a unified structure, which must be followed. There are different types of steps, such as matching the header and the URL.
 
-The steps are parsed by an engine, which are named as per the type of step. The following are the engined that are available (you can navigate to a particular engine to know about their rule format):
+The steps are parsed by an engine, which is named as per the type of step. The following are the engines that are available (you can navigate to a particular engine to know about their rule format):
 
--
+- [Request Engine](./engines/request-engine.md)
+- [AST Engine](./engines/ast-engine.md)

@@ -13,7 +13,8 @@ author: <author>
 description: <description>
 severity: <info | low | medium | high>
 type: request
-tech: <tech>
+tech: 
+    - <tech>
 
 steps:
     - name: <name_of_the_step>
@@ -25,7 +26,7 @@ steps:
 
 ## Request Step
 
-A request step is used to match the different parts of the step.
+A request step is used to match the specific parts of a request in the OpenAPI spec file.
 
 ### Headers
 
