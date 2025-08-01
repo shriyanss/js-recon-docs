@@ -17,7 +17,7 @@ author: <author>
 description: <description>
 severity: <info | low | medium | high>
 type: <request | ast>
-tech: 
+tech:
     - <tech>
 
 steps:
@@ -32,7 +32,7 @@ name: Rule 1
 author: shriyanss
 severity: info
 type: ast
-tech: 
+tech:
     - next
 
 steps:

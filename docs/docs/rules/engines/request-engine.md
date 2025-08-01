@@ -13,7 +13,7 @@ author: <author>
 description: <description>
 severity: <info | low | medium | high>
 type: request
-tech: 
+tech:
     - <tech>
 
 steps:

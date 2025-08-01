@@ -104,49 +104,49 @@ Unfortunately, there is no official documentation for ESQuery. However, you can 
 <details>
 <summary>Some of the common ESQuery examples are:</summary>
 
--   `Identifier[name="fetch"]`
+- `Identifier[name="fetch"]`
 
 ```js
 fetch;
 ```
 
--   `CallExpression[callee.name="fetch"]`
+- `CallExpression[callee.name="fetch"]`
 
 ```js
 fetch();
 ```
 
--   `MemberExpression[property.name="innerHTML"]`
+- `MemberExpression[property.name="innerHTML"]`
 
 ```js
 something.innerHTML;
 ```
 
--   `VariableDeclarator[id.name="token"]`
+- `VariableDeclarator[id.name="token"]`
 
 ```js
 let token = "value";
 ```
 
--   `AssignmentExpression[left.property.name="innerHTML"]`
+- `AssignmentExpression[left.property.name="innerHTML"]`
 
 ```js
 something.innerHTML = "value";
 ```
 
--   `ImportDeclaration[source.value="axios"]`
+- `ImportDeclaration[source.value="axios"]`
 
 ```js
 import axios from "axios";
 ```
 
--   `CallExpression[callee.name="setTimeout"][arguments.length=2]`
+- `CallExpression[callee.name="setTimeout"][arguments.length=2]`
 
 ```js
 setTimeout(() => {}, 1000);
 ```
 
--   `NewExpression[callee.name="XMLHttpRequest"]`
+- `NewExpression[callee.name="XMLHttpRequest"]`
 
 ```js
 new XMLHttpRequest();
