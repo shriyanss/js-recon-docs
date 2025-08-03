@@ -33,6 +33,11 @@ const videos: VideoMeta[] = [
         youtubeId: "IhnQNRQ7gQE",
         section: 2,
     },
+    {
+        title: "104 - Solving Next.js DOM XSS PostMessage App",
+        youtubeId: "k6O1qn_9MQ0",
+        section: 2,
+    },
 ];
 
 function VideoGrid(): ReactNode {
