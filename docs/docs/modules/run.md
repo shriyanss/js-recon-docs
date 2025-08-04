@@ -8,14 +8,16 @@ The `run` command is a powerful feature that automates most of the JavaScript re
 
 ## Workflow
 
-The `run` command executes the following modules in sequence:
+The `run` command executes the following modules in sequence (for Next.js targets; the tool will exit after lazyload if the target is not a Next.js app):
 
 1.  **Lazy Load (Initial)**: Downloads the initial set of JavaScript files from the target URL.
-2.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
-3.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
-4.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
-5.  **Endpoints**: Analyzes the collected data to identify and list all potential API endpoints.
-6.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.
+1.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
+1.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
+1.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
+1.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.
+1.  **Endpoints**: Analyzes the JS files and `mapped.json` to identify and list all client-side endpoints.
+1.  **Analyze**: Runs the analyze module to check the code against the rules.
+1.  **Report**: Generates a report based on the results of the analyze module.
 
 ## Usage
 
@@ -25,7 +27,7 @@ js-recon run -u <url/file> [options]
 
 ### Required arguments
 
-- `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
+-   `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
 
 ### Options
 
@@ -48,26 +50,16 @@ js-recon run -u <url/file> [options]
 | `--ai-endpoint <endpoint>`    |       | Endpoint to use for AI service (for Ollama, etc)                     |                            | No       |
 | `--openai-api-key <key>`      |       | OpenAI API key                                                       |                            | No       |
 | `--model <model>`             |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
-| `--map-openapi`               |       | Generate OpenAPI spec from the code (map module)                     | `false`                    | No       |
-| `--map-openapi-output <file>` |       | Output file for OpenAPI spec (map module)                            | `mapped-openapi.json`      | No       |
 | `--map-openapi-chunk-tag`     |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
+| `--insecure`                  |       | Disable SSL certificate verification                                 | `false`                    | No       |
+| `-h, --help`                  |       | display help for command                                             |                            | No       |
 
 ## Example
 
-### Run all modules on target and also generate AI descriptions
+### Run all modules on target, scan for secrets, and generate AI descriptions
 
 ```bash
 js-recon run -u https://example.com --secrets --ai description
 ```
 
 This command will perform a full analysis on `https://example.com`, save the JavaScript files to the `output` directory, scan for secrets, and use AI to generate descriptions for the mapped functions.
-
-### Run all modules on target and also generate OpenAPI spec
-
-```bash
-js-recon run -u https://example.com --map-openapi
-```
-
-This command will perform a full analysis on `https://example.com`, save the JavaScript files to the `output` directory, and generate an OpenAPI spec from the code.
-
-This OpenAPI spec file can then be imported into an API client to perform API testing.

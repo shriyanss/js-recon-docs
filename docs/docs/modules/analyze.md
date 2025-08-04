@@ -14,14 +14,15 @@ js-recon analyze [options]
 
 ## Options
 
-| Option                 | Alias | Description                                                                   | Default                 | Required |
-| ---------------------- | ----- | ----------------------------------------------------------------------------- | ----------------------- | -------- |
-| `--rules <file/dir>`   | `-r`  | Rules file or directory to use for analysis                                   | `$HOME/.js-recon/rules` | No       |
-| `--mapped-json <file>` | `-m`  | Mapped JSON file to store analysis results                                    | `"mapped.json"`         | No       |
-| `--tech <tech>`        | `-t`  | Technology used in the JS files (use with -l/--list to see available options) |                         | No       |
-| `--openapi <file>`     |       | Path to OpenAPI spec file                                                     |                         | No       |
-| `--list`               | `-l`  | List available technologies                                                   | `false`                 | No       |
-| `--validate`           |       | Validate the rules                                                            | `false`                 | No       |
+| Option                 | Alias | Description                                                                   | Default        | Required |
+| ---------------------- | ----- | ----------------------------------------------------------------------------- | -------------- | -------- |
+| `--rules <file/dir>`   | `-r`  | Rules file or directory                                                       |                | No       |
+| `--mapped-json <file>` | `-m`  | Mapped JSON file                                                              | `mapped.json`  | No       |
+| `--tech <tech>`        | `-t`  | Technology used in the JS files (run with -l/--list to see available options) |                | No       |
+| `--openapi <file>`     |       | Path to OpenAPI spec file                                                     |                | No       |
+| `--list`               | `-l`  | List available technologies                                                   | `false`        | No       |
+| `--validate`           |       | Validate the rules                                                            | `false`        | No       |
+| `--output <file>`      | `-o`  | Output JSON file name                                                         | `analyze.json` | No       |
 
 ## Examples
 

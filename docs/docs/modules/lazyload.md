@@ -28,6 +28,7 @@ js-recon lazyload -u <url/file> [options]
 | `--cache-file <file>`         |       | File to contain response cache.                                                     | `.resp_cache.json`         | No       |
 | `--disable-cache`             |       | Disable response caching.                                                           | `false`                    | No       |
 | `--yes`                       | `-y`  | Auto-approve executing JS code from the target.                                     | `false`                    | No       |
+| `--insecure`                  | `-k`  | Disable SSL certificate verification.                                               | `false`                    | No       |
 
 ## Examples
 
