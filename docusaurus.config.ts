@@ -57,12 +57,6 @@ const config: Config = {
     ],
 
     themeConfig: {
-      algolia: {
-        appId: 'YUDCGTLJUZ',
-        apiKey: 'ab5253a849b6bb13bbcdd1157eee1e8f',
-        indexName: 'algolia_movie_sample_dataset',
-        contextualSearch: true,
-      },
         // Replace with your project's social card
         image: "img/social-card.jpg",
         navbar: {

@@ -1,4 +1,0 @@
-# Algolia-Crawler-Verif: A49D0064B12DA0D2
-
-Allow: /
-Disallow: 
