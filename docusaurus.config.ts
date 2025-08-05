@@ -83,6 +83,10 @@ const config: Config = {
                     label: "Labs",
                 },
                 {
+                    href: "/contributing",
+                    label: "Contributing",
+                },
+                {
                     type: "docsVersionDropdown",
                     position: "right",
                 },
