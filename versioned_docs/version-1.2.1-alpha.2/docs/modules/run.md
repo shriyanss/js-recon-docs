@@ -42,7 +42,7 @@ js-recon run -u <url/file> [options]
 | `--api-gateway-config <file>` |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
 | `--cache-file <file>`         |       | File to store response cache                                         | `.resp_cache.json`         | No       |
 | `--disable-cache`             |       | Disable response caching                                             | `false`                    | No       |
-| `-y, --yes`                   |       | Auto-approve executing JS code from the target                       | `false`                    | No       |
+| `--yes`                       | `-y`  | Auto-approve executing JS code from the target                       | `false`                    | No       |
 | `--secrets`                   |       | Scan for secrets                                                     | `false`                    | No       |
 | `--ai <options>`              |       | Use AI to analyze the code (comma-separated; available: description) |                            | No       |
 | `--ai-threads <threads>`      |       | Number of threads to use for AI                                      | `5`                        | No       |
@@ -51,7 +51,7 @@ js-recon run -u <url/file> [options]
 | `--openai-api-key <key>`      |       | OpenAI API key                                                       |                            | No       |
 | `--model <model>`             |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
 | `--map-openapi-chunk-tag`     |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
-| `-k, --insecure`              |       | Disable SSL certificate verification                                 | `false`                    | No       |
+| `--insecure`                  |       | Disable SSL certificate verification                                 | `false`                    | No       |
 | `-h, --help`                  |       | display help for command                                             |                            | No       |
 
 ## Example
