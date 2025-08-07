@@ -28,3 +28,4 @@ This document lists the custom exit codes used in the application and their mean
 | 18        | `run`      | Firewall blocking API Gateway. The tool detected a firewall blocking the AWS API Gateway. Please try again without the API Gateway.                     |
 | 19        | `map`      | OpenAI API key not found. Please provide it via `--openai-api-key` or `OPENAI_API_KEY` environment variable.                                            |
 | 20        | `analyze`  | Invalid rules found. Some of the rules provided are invalid.                                                                                            |
+| 21        | `lazyload` | The tool detected a header overflow. Please increase the limit by setting environment variable `NODE_OPTIONS="--max-http-header-size=99999999"`. If the error still persists, please try again with a higher limit.       |
