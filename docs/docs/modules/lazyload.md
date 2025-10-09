@@ -28,6 +28,7 @@ js-recon lazyload -u <url/file> [options]
 | `--cache-file <file>`         |       | File to contain response cache.                                                     | `.resp_cache.json`         | No       |
 | `--disable-cache`             |       | Disable response caching.                                                           | `false`                    | No       |
 | `--yes`                       | `-y`  | Auto-approve executing JS code from the target.                                     | `false`                    | No       |
+| `--timeout`                   |       | Request timeout in ms                                                               | `30000`                    | No       |
 | `--insecure`                  | `-k`  | Disable SSL certificate verification.                                               | `false`                    | No       |
 | `--no-sandbox`                |       | Disable browser sandbox.                                                            | `false`                    | No       |
 | `--build-id`                  |       | Get the buildId from the Next.js app.                                               | `false`                    | No       |
