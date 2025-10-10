@@ -27,7 +27,7 @@ js-recon run -u <url/file> [options]
 
 ### Required arguments
 
--   `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
+- `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
 
 ### Options
 
