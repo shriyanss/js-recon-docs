@@ -1,8 +1,8 @@
 {
-    "label": "Next.JS",
+    "label": "Next.js",
     "position": 2,
     "link": {
         "type": "generated-index",
-        "description": "Guides for Next.JS targets"
+        "description": "Guides for Next.js targets"
     }
 }

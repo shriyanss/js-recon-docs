@@ -12,9 +12,9 @@ The approach shown in this document is called the bottom-top approach, in which 
 
 To start reverse engineering the JS files, you should first list out all the functions available in the app.
 
-Before that, you should understand how the functions are distributed in the Next.JS apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
+Before that, you should understand how the functions are distributed in the Next.js apps. Here's a brief overview of what you should know before you can start analyzing the code manually:
 
-- When the Next.JS apps are compiled, the functions gets distributed into webpack having a specific numerical ID
+- When the Next.js apps are compiled, the functions gets distributed into webpack having a specific numerical ID
 - These files often contain the path `/_next/static/chunks`
 - If you see the directory structure of the `output` directory, you would find the following structure
 

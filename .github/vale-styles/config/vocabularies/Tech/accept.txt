@@ -16,3 +16,10 @@ hardcoded
 [Aa]xios
 [Rr]econ
 [Vv]irtualized
+buildId
+ESQuery
+XPath
+ASTs
+postMessage
+uncompress
+pentesters

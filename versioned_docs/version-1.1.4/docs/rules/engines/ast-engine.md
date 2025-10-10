@@ -99,7 +99,7 @@ steps:
 
 </details>
 
-Unfortunately, there is no official documentation for ESQuery. However, you can use [ASTExplorer](https://astexplorer.net) to test build your ESQuery queries.
+Unfortunately, there is no official documentation for ESQuery. However, you can use [AST Explorer](https://astexplorer.net) to test build your ESQuery queries.
 
 <details>
 <summary>Some of the common ESQuery examples are:</summary>

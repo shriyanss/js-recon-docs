@@ -14,7 +14,7 @@ This means that by just sharing the `output` directory (directory created by [`l
 
 ## Share the compressed working directory
 
-In case that the files are different from what the tool has initally generate, just sharing the lazyload output folder is not enough.
+In case that the files are different from what the tool has initially generate, just sharing the lazyload output folder is not enough.
 
 To preserve those changes, the sender should compress the working directory (directory in which the `js-recon` command is run, and not the `output` directory) and share it with the recipient.
 
