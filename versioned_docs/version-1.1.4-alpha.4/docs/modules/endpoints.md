@@ -22,7 +22,7 @@ js-recon endpoints [options]
 | `--output-format <format>` |       | Output format for the results (available: `json`).                                 | `json`      | No       |
 | `--tech <tech>`            | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options). |             | Yes      |
 | `--list`                   | `-l`  | List available technologies.                                                       | `false`     | No       |
-| `--mapped-json <file>`     |       | Mapped JSON file (for Next.JS).                                                    |             | No       |
+| `--mapped-json <file>`     |       | Mapped JSON file (for Next.js).                                                    |             | No       |
 
 ## Examples
 

@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Reversing axios
 
-Axios is a popular HTTP client used in Next.JS apps. It is often used to make API calls to the backend. This guide walks you through how can you use the [`map` module](../../docs/modules/map.md) to reverse engineer the requests.
+Axios is a popular HTTP client used in Next.js apps. It is often used to make API calls to the backend. This guide walks you through how can you use the [`map` module](../../docs/modules/map.md) to reverse engineer the requests.
 
 ## Prerequisites
 

@@ -20,7 +20,7 @@ You can get started with just pulling the image:
 docker pull docker.io/shriyanss/js-recon:latest
 ```
 
-Or, if you prefer Github Container Registry, you can use the following command:
+Or, if you prefer GitHub Container Registry, you can use the following command:
 
 ```bash
 docker pull ghcr.io/shriyanss/js-recon:latest
