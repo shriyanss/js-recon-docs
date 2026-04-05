@@ -47,7 +47,7 @@ const config: Config = {
                     editUrl:
                         "https://github.com/shriyanss/js-recon-docs/edit/main/",
 
-                    lastVersion: "1.2.1",
+                    lastVersion: "1.2.2",
                 },
                 theme: {
                     customCss: "./src/css/custom.css",
@@ -152,6 +152,10 @@ const config: Config = {
                         {
                             label: "Black Hills Information Security",
                             href: "https://www.blackhillsinfosec.com",
+                        },
+                        {
+                            label: "Shriyans Sudhi (@shriyanss/@ss0x00)",
+                            href: "https://ss0x00.com",
                         },
                         {
                             label: "This site is open source",
