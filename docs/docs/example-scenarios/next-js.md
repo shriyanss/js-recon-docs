@@ -221,6 +221,16 @@ To assist in doing the same, they used the following commands:
 - `go back`: This will take the pentester to the previous function they viewed
 - `go ahead`: This will take the pentester to the next function they viewed (should work if they used `go back`)
 
+## Analyzing for vulnerabilities
+
+With all the JS files downloaded and `mapped.json` / `mapped-openapi.json` in hand, the pentester can run the [`analyze` module](../modules/analyze.md) to evaluate the code against the bundled rule set. This is what surfaces classes of bugs such as DOM XSS sinks (`innerHTML`, `dangerouslySetInnerHTML`), Client-Side Path Traversal (a URL parameter being interpolated into a `fetch()` URL), and request-level misconfigurations like missing `Authorization` headers.
+
+```bash
+js-recon analyze -m mapped.json --openapi mapped-openapi.json -t next
+```
+
+The findings are written to `analyze.json` and printed to stdout. See [Predefined rules](../rules/predefined-rules.md) for what the bundled rule set looks for and how false positives are suppressed; see [Creating new rules](../rules/creating_new_rules.md) to add custom detections.
+
 ## Run Module
 
 If this process seems tedious (which it is), the pentester can use the `run` module of the tool. It will:
@@ -231,6 +241,8 @@ If this process seems tedious (which it is), the pentester can use the `run` mod
 - [Run string analysis again](#getting-more-with-string-analysis)
 - [Get all client-side endpoints](#getting-client-side-endpoints)
 - [Map all the functions](#mapping-all-the-functions)
+- [Analyze the code against the bundled rules](#analyzing-for-vulnerabilities)
+- Generate an HTML report (`report.html`) summarising everything
 
 Here's what it will **NOT** do:
 

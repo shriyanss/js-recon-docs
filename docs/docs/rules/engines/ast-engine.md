@@ -70,9 +70,18 @@ Now that you are familiar with what an ESQuery is, let's see how to use it in a 
   esquery:
       type: esquery
       query: <query>
+      # optional: restrict the query to the subtree rooted at a previous match
+      # inScopeOf: <previous_step_name>
 ```
 
 The return type for this step is `Node`.
+
+ESQuery supports a rich selector grammar via the [esquery library](https://github.com/estools/esquery). In particular, the rules shipped with `js-recon-rules` use:
+
+-   `:matches(A, B, C)` — match if any of `A`, `B`, or `C` match. Use this to express alternative source or sink shapes in one selector.
+-   `:has(selector)` — match a node when one of its descendants matches `selector`. Use this to require that a function body contains both a source and a sink.
+-   `:not(selector)` — negation. Use this to exclude safe shapes such as `StringLiteral` from a sink's right-hand side.
+-   `[field=/regex/]` — regex match on a string attribute (useful when a URL path or property name follows a pattern).
 
 For example, a rule to detect post-message listeners would look like this:
 
@@ -153,6 +162,30 @@ new XMLHttpRequest();
 ```
 
 </details>
+
+#### `inScopeOf` — scoping an ESQuery to a previous match
+
+By default, every ESQuery step runs against the **whole chunk AST**, and the rule fires when every step matches at least once in the same chunk. That's good enough for source/sink co-occurrence at the module level — e.g. "this chunk reads a URL parameter _and_ writes to `.innerHTML`."
+
+When you need to be stricter — for example, "the URL parameter and the sink must live inside the **same function**" — set `inScopeOf` on the step to the name of an earlier step. The ESQuery selector then runs against the subtree rooted at the previous step's matched node instead of the whole AST.
+
+```yaml
+- name: find_outer_function
+  esquery:
+      type: esquery
+      query: ":matches(FunctionExpression, ArrowFunctionExpression, FunctionDeclaration):has(CallExpression[callee.property.name=\"get\"][callee.object.callee.name=\"URLSearchParams\"])"
+- name: find_sink_in_same_function
+  requires:
+      - find_outer_function
+  esquery:
+      type: esquery
+      query: "AssignmentExpression[left.property.name=\"innerHTML\"]"
+      inScopeOf: find_outer_function
+```
+
+In the example above, step 1 only matches functions whose body already contains a URL parameter read. Step 2 then looks for an `.innerHTML` assignment, but only within the descendant subtree of that function — not anywhere in the chunk.
+
+If the referenced step did not match, the dependent step is skipped (because `requires` is also unmet), and the rule does not fire.
 
 ### Post Message Function Resolve
 

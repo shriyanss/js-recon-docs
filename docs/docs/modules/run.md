@@ -14,6 +14,8 @@ The `run` command executes the following modules in sequence (for Next.js target
 1.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
 1.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
 1.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
+1.  **Lazy Load (Re-pass)**: Re-runs subsequent-request crawling with the freshly extracted paths. The first crawl can only use paths that were visible in the initial chunks; dynamic-route paths like `/post/1` are typically only discovered after the first crawl + strings extraction, so this re-pass picks up the chunks for those routes (e.g. dynamic React pages whose code only ships when the URL is visited).
+1.  **Strings (Re-pass)**: Final strings extraction across all chunks (initial + both crawl passes) so any new endpoints from the freshly fetched code are also indexed.
 1.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.
 1.  **Endpoints**: Analyzes the JS files and `mapped.json` to identify and list all client-side endpoints.
 1.  **Analyze**: Runs the analyze module to check the code against the rules.

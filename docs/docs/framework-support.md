@@ -38,7 +38,7 @@ This feature can be used against all target, regardless of the frameworks they u
 
 The feature to map all the functions are available only for the following JavaScript frameworks:
 
-- [Next.js](https://nextjs.org)
+- [Next.js](https://nextjs.org) — both [Webpack](https://webpack.js.org/) (`self.webpackChunk_N_E`) and [Turbopack](https://turbo.build/pack) (`globalThis.TURBOPACK`) chunk formats are recognised, so projects on Next.js 15 / Turbopack are mapped just like classic Webpack builds.
 
 ## Run
 

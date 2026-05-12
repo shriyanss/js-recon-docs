@@ -51,3 +51,7 @@ js-recon analyze --openapi mapped-openapi.json -t <tech>
 ```
 
 This will analyze the `mapped-openapi.json` file against the default rules that would be stored in `$HOME/.js-recon/rules`.
+
+## Built-in detection rules
+
+The bundled rules detect both request-level misconfigurations (e.g. missing `Authorization` header) and client-side code patterns such as DOM XSS sinks and Client-Side Path Traversal (CSPT). See [Predefined rules](../rules/predefined-rules.md) for the full catalogue and the constraints each rule applies to avoid false positives.
