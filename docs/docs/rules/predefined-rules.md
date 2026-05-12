@@ -114,6 +114,66 @@ Compiled to:
 { dangerouslySetInnerHTML: { __html: o.content } }
 ```
 
+### `detect_open_redirect_url_param` — DOM-based open redirect
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with a navigation sink in the same chunk. Sinks: `window.location.href = X`, `location.assign(X)`, `location.replace(X)`, `window.open(X)`. Classic OAuth/SSO `?next=`-style abuse; without an origin/path allowlist, the attacker picks where the victim lands after auth.
+
+### `detect_cookie_manipulation_url_param` — DOM-based cookie manipulation
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with `document.cookie =` in the same chunk. Beyond setting an unexpected cookie value, a `;`-injected attribute (Path, Domain, Expires) can pin a cookie the application then trusts; if the value is later read back into `.innerHTML`, the rule pair also chains into stored DOM XSS.
+
+### `detect_websocket_url_poisoning` — WebSocket URL poisoning
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same chunk. An attacker who controls the WebSocket endpoint URL can push arbitrary frames to the victim page — UI tampering, data injection, or chained XSS depending on how the messages are rendered.
+
+### `detect_dom_setattribute_url_param` — DOM-Data manipulation via `setAttribute`
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with `element.setAttribute(name, value)` where `name` is one of the script/CSS/HTML-execution attributes: `src`, `href`, `srcdoc`, `action`, `formaction`, `background`, `poster`, `style`, `data`, `xlink:href`. `src`/`href` accept `javascript:` URIs, `style` enables CSS injection, `srcdoc` permits direct HTML injection into iframes. The attribute-name allowlist suppresses the bulk of legitimate `setAttribute` traffic (`class`, `id`, `aria-*`, `data-*`).
+
+### `detect_storage_manipulation_url_param` — HTML5 storage poisoning
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `sessionStorage.setItem(...)` in the same chunk. Because storage persists across visits, a single poisoning URL plants a payload that fires on every subsequent page load — especially dangerous when the stored value is later read back into a DOM sink.
+
+### `detect_js_injection_eval` — JavaScript injection via `eval` / `Function` / `setTimeout`-string
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)`, `new Function(X)`, `setTimeout(<string>, ...)`, `setInterval(<string>, ...)` in the same chunk. These sinks execute their argument as JavaScript in the page origin — full DOM-XSS / arbitrary-code-execution primitives. The `setTimeout`/`setInterval` variants exclude the safe function-callback forms via `:not([arguments.0.type="ArrowFunctionExpression"])` etc.
+
+### `detect_json_injection_to_dangerouslysetinnerhtml` — Client-Side JSON Injection into React render
+
+`severity: high`
+
+Three-way co-occurrence rule: URL-derived value + `JSON.parse(...)` + dynamic `dangerouslySetInnerHTML` in the same chunk. The pattern `JSON.parse(searchParams.get("config"))` flowing into a React render gives an attacker a stored-style XSS via JSON field values. Tighter than the plain `dangerouslySetInnerHTML` rule because all three signals must be present.
+
+### `detect_ajax_header_manipulation` — Ajax request-header manipulation
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` object contains a computed-key property (`{ [k]: v }`). Lets an attacker spoof `Authorization`, `X-Forwarded-For`, `X-Admin-Override`, or any other header that backend middleware trusts for access control.
+
+### `detect_link_manipulation_href` — Link manipulation (`javascript:` URI sink)
+
+`severity: high`
+
+Fires when a URL-derived value co-occurs with an `element.href = X` assignment **other than** `window.location.href` (covered by the open-redirect rule), or with `.setAttribute("href", X)`. When the element is clickable, `X = "javascript:alert(1)"` executes in the page origin on click.
+
+### `detect_redos_url_param` — DOM-based ReDoS
+
+`severity: medium`
+
+Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pattern)` where `pattern` is not a string/regex literal. JavaScript is single-threaded — a catastrophic-backtracking pattern from the URL freezes the victim tab.
+
 ---
 
 ## Tuning false positives vs. false negatives
