@@ -31,34 +31,34 @@ js-recon run -u <url/file> [options]
 
 ### Options
 
-| Option                        | Alias | Description                                                          | Default                    | Required |
-| ----------------------------- | ----- | -------------------------------------------------------------------- | -------------------------- | -------- |
-| `--url <url>`                 | `-u`  | Target URL                                                           |                            | Yes      |
-| `--output <directory>`        | `-o`  | Output directory                                                     | `output`                   | No       |
-| `--strict-scope`              |       | Download JS files from only the input URL domain                     | `false`                    | No       |
-| `--scope <scope>`             | `-s`  | Download JS files from specific domains (comma-separated)            | `*`                        | No       |
-| `--threads <threads>`         | `-t`  | Number of threads to use                                             | `1`                        | No       |
-| `--api-gateway`               |       | Generate requests using API Gateway                                  | `false`                    | No       |
-| `--api-gateway-config <file>` |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
-| `--cache-file <file>`         |       | File to store response cache                                         | `.resp_cache.json`         | No       |
-| `--disable-cache`             |       | Disable response caching                                             | `false`                    | No       |
-| `--yes`                       | `-y`  | Auto-approve executing JS code from the target                       | `false`                    | No       |
-| `--secrets`                   |       | Scan for secrets                                                     | `false`                    | No       |
-| `--ai <options>`              |       | Use AI to analyze the code (comma-separated; available: description) |                            | No       |
-| `--ai-threads <threads>`      |       | Number of threads to use for AI                                      | `5`                        | No       |
-| `--ai-provider <provider>`    |       | Service provider to use for AI (available: openai, ollama)           | `openai`                   | No       |
-| `--ai-endpoint <endpoint>`    |       | Endpoint to use for AI service (for Ollama, etc)                     |                            | No       |
-| `--openai-api-key <key>`      |       | OpenAI API key                                                       |                            | No       |
-| `--model <model>`             |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
-| `--map-openapi-chunk-tag`     |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
-| `--timeout`                   |       | Request timeout in ms                                                | `30000`                    | No       |
-| `--insecure`                  | `-k`  | Disable SSL certificate verification                                 | `false`                    | No       |
-| `--no-sandbox`                |       | Disable browser sandbox                                              | `false`                    | No       |
-| `--sourcemap-dir <directory>` |       | Directory to write reconstructed source maps                         | `extracted`                | No       |
-| `--research`                  |       | Enable research mode                                                 | `false`                    | No       |
-| `--research-output <file>`    |       | Output file for research mode                                        | `research.json`            | No       |
-| `--max-iterations <iterations>` |     | Maximum number of recursive crawl iterations                         | `10`                       | No       |
-| `-h, --help`                  |       | display help for command                                             |                            | No       |
+| Option                          | Alias | Description                                                          | Default                    | Required |
+| ------------------------------- | ----- | -------------------------------------------------------------------- | -------------------------- | -------- |
+| `--url <url>`                   | `-u`  | Target URL                                                           |                            | Yes      |
+| `--output <directory>`          | `-o`  | Output directory                                                     | `output`                   | No       |
+| `--strict-scope`                |       | Download JS files from only the input URL domain                     | `false`                    | No       |
+| `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated)            | `*`                        | No       |
+| `--threads <threads>`           | `-t`  | Number of threads to use                                             | `1`                        | No       |
+| `--api-gateway`                 |       | Generate requests using API Gateway                                  | `false`                    | No       |
+| `--api-gateway-config <file>`   |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
+| `--cache-file <file>`           |       | File to store response cache                                         | `.resp_cache.json`         | No       |
+| `--disable-cache`               |       | Disable response caching                                             | `false`                    | No       |
+| `--yes`                         | `-y`  | Auto-approve executing JS code from the target                       | `false`                    | No       |
+| `--secrets`                     |       | Scan for secrets                                                     | `false`                    | No       |
+| `--ai <options>`                |       | Use AI to analyze the code (comma-separated; available: description) |                            | No       |
+| `--ai-threads <threads>`        |       | Number of threads to use for AI                                      | `5`                        | No       |
+| `--ai-provider <provider>`      |       | Service provider to use for AI (available: openai, ollama)           | `openai`                   | No       |
+| `--ai-endpoint <endpoint>`      |       | Endpoint to use for AI service (for Ollama, etc)                     |                            | No       |
+| `--openai-api-key <key>`        |       | OpenAI API key                                                       |                            | No       |
+| `--model <model>`               |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
+| `--map-openapi-chunk-tag`       |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
+| `--timeout`                     |       | Request timeout in ms                                                | `30000`                    | No       |
+| `--insecure`                    | `-k`  | Disable SSL certificate verification                                 | `false`                    | No       |
+| `--no-sandbox`                  |       | Disable browser sandbox                                              | `false`                    | No       |
+| `--sourcemap-dir <directory>`   |       | Directory to write reconstructed source maps                         | `extracted`                | No       |
+| `--research`                    |       | Enable research mode                                                 | `false`                    | No       |
+| `--research-output <file>`      |       | Output file for research mode                                        | `research.json`            | No       |
+| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations                         | `10`                       | No       |
+| `-h, --help`                    |       | display help for command                                             |                            | No       |
 
 ## Example
 

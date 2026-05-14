@@ -8,9 +8,9 @@ The [`js-recon-rules`](https://github.com/shriyanss/js-recon-rules) repository s
 
 Each rule documents:
 
--   **What it looks for** — the AST or request shape that flags a finding.
--   **Why it matters** — the class of vulnerability or misconfiguration.
--   **How it is kept precise** — the constraints that suppress obvious false positives.
+- **What it looks for** — the AST or request shape that flags a finding.
+- **Why it matters** — the class of vulnerability or misconfiguration.
+- **How it is kept precise** — the constraints that suppress obvious false positives.
 
 If you write your own rules and want them to follow the same pattern, see [Creating new rules](./creating_new_rules.md) and the [AST engine reference](./engines/ast-engine.md).
 
@@ -111,7 +111,11 @@ Typical compiled match (`app/post/[id]/page.tsx`):
 Compiled to:
 
 ```js
-{ dangerouslySetInnerHTML: { __html: o.content } }
+{
+    dangerouslySetInnerHTML: {
+        __html: o.content;
+    }
+}
 ```
 
 ### `detect_open_redirect_url_param` — DOM-based open redirect
@@ -180,7 +184,7 @@ Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pa
 
 These rules sit on a spectrum:
 
--   **Loose enough to generalise.** The URL-source clause is a union of every common Web-API and Next.js shape, not a single pattern. The sink clauses cover `TemplateLiteral`, `BinaryExpression`-concatenation, and bare identifiers — so the rules catch hand-rolled string-builders alongside the canonical template-literal form.
--   **Strict enough to suppress noise.** Every taint rule requires both a source pattern _and_ a sink pattern in the same module. Pure sink-presence (e.g. an `innerHTML` write inside a React vendor chunk) does not fire — those chunks never read from `location.search`.
+- **Loose enough to generalise.** The URL-source clause is a union of every common Web-API and Next.js shape, not a single pattern. The sink clauses cover `TemplateLiteral`, `BinaryExpression`-concatenation, and bare identifiers — so the rules catch hand-rolled string-builders alongside the canonical template-literal form.
+- **Strict enough to suppress noise.** Every taint rule requires both a source pattern _and_ a sink pattern in the same module. Pure sink-presence (e.g. an `innerHTML` write inside a React vendor chunk) does not fire — those chunks never read from `location.search`.
 
 If you do hit a false positive in a vendor chunk, the right fix is usually to extend the rule's `:not(...)` exclusions or to scope the sink step with `inScopeOf` so it must sit inside the same enclosing function as the source. See the [AST engine docs](./engines/ast-engine.md#inscopeof--scoping-an-esquery-to-a-previous-match) for the scoping primitive.

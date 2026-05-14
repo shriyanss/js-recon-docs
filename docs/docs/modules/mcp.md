@@ -14,13 +14,13 @@ js-recon mcp --cli [options]
 
 ## Options
 
-| Option               | Alias | Description                                                    | Default              | Required |
-| -------------------- | ----- | -------------------------------------------------------------- | -------------------- | -------- |
-| `--cli`              |       | Start the interactive CLI session.                             | `false`              | Yes      |
-| `--config <file>`    |       | Path to a custom MCP config file.                              | `~/.js-recon/mcp.yaml` | No     |
-| `--api-key <key>`    |       | API key for the LLM provider (overrides config and env vars).  |                      | No       |
-| `--model <model>`    |       | AI model to use (e.g. `gpt-4o-mini`, `claude-sonnet-4-20250514`). | from config       | No       |
-| `--provider <provider>` |    | LLM provider to use (`openai` or `anthropic`).                 | from config          | No       |
+| Option                  | Alias | Description                                                       | Default                | Required |
+| ----------------------- | ----- | ----------------------------------------------------------------- | ---------------------- | -------- |
+| `--cli`                 |       | Start the interactive CLI session.                                | `false`                | Yes      |
+| `--config <file>`       |       | Path to a custom MCP config file.                                 | `~/.js-recon/mcp.yaml` | No       |
+| `--api-key <key>`       |       | API key for the LLM provider (overrides config and env vars).     |                        | No       |
+| `--model <model>`       |       | AI model to use (e.g. `gpt-4o-mini`, `claude-sonnet-4-20250514`). | from config            | No       |
+| `--provider <provider>` |       | LLM provider to use (`openai` or `anthropic`).                    | from config            | No       |
 
 ## Configuration
 
@@ -29,7 +29,7 @@ MCP stores its configuration at `~/.js-recon/mcp.yaml`. A default file is create
 ### Config file format
 
 ```yaml
-provider: openai           # openai or anthropic
+provider: openai # openai or anthropic
 model: gpt-4o-mini
 openai_api_key: sk-...
 anthropic_api_key: ""
@@ -38,15 +38,15 @@ default_threads: 1
 history_limit: 50
 ```
 
-| Field               | Description                                             | Default       |
-| ------------------- | ------------------------------------------------------- | ------------- |
-| `provider`          | LLM provider (`openai` or `anthropic`)                  | `openai`      |
-| `model`             | Model to use                                            | `gpt-4o-mini` |
-| `openai_api_key`    | OpenAI API key (also reads `OPENAI_API_KEY` env var)    |               |
-| `anthropic_api_key` | Anthropic API key (also reads `ANTHROPIC_API_KEY` env var) |            |
-| `default_output_dir`| Output directory used when running tools                | `output`      |
-| `default_threads`   | Threads passed to lazyload/run                          | `1`           |
-| `history_limit`     | Maximum number of messages kept in conversation history | `50`          |
+| Field                | Description                                                | Default       |
+| -------------------- | ---------------------------------------------------------- | ------------- |
+| `provider`           | LLM provider (`openai` or `anthropic`)                     | `openai`      |
+| `model`              | Model to use                                               | `gpt-4o-mini` |
+| `openai_api_key`     | OpenAI API key (also reads `OPENAI_API_KEY` env var)       |               |
+| `anthropic_api_key`  | Anthropic API key (also reads `ANTHROPIC_API_KEY` env var) |               |
+| `default_output_dir` | Output directory used when running tools                   | `output`      |
+| `default_threads`    | Threads passed to lazyload/run                             | `1`           |
+| `history_limit`      | Maximum number of messages kept in conversation history    | `50`          |
 
 API keys are resolved in order: `--api-key` CLI flag → config file → environment variable.
 
@@ -79,30 +79,30 @@ The AI will ask for confirmation of the target URL before executing tools.
 
 Slash commands can be typed at any time in the session. Tab completion is supported.
 
-| Command              | Description                                                 |
-| -------------------- | ----------------------------------------------------------- |
-| `/help`              | Show all available slash commands.                          |
-| `/exit`              | Exit the MCP CLI.                                           |
-| `/status`            | Show current provider, model, conversation length, and cost. |
-| `/cost`              | Show token usage and estimated cost for this session.       |
-| `/clear`             | Clear conversation history (keeps the system prompt).       |
-| `/model`             | Show the current model.                                     |
-| `/model <name>`      | Switch to a different model (e.g. `/model gpt-4o`).         |
-| `/models`            | List all available models for the current provider.         |
-| `/provider`          | Show the current provider.                                  |
-| `/provider <name>`   | Switch provider (`openai` or `anthropic`).                  |
-| `/config`            | Show the current configuration.                             |
-| `/save`              | Save the current session config to `~/.js-recon/mcp.yaml`.  |
+| Command            | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `/help`            | Show all available slash commands.                           |
+| `/exit`            | Exit the MCP CLI.                                            |
+| `/status`          | Show current provider, model, conversation length, and cost. |
+| `/cost`            | Show token usage and estimated cost for this session.        |
+| `/clear`           | Clear conversation history (keeps the system prompt).        |
+| `/model`           | Show the current model.                                      |
+| `/model <name>`    | Switch to a different model (e.g. `/model gpt-4o`).          |
+| `/models`          | List all available models for the current provider.          |
+| `/provider`        | Show the current provider.                                   |
+| `/provider <name>` | Switch provider (`openai` or `anthropic`).                   |
+| `/config`          | Show the current configuration.                              |
+| `/save`            | Save the current session config to `~/.js-recon/mcp.yaml`.   |
 
 ## Keyboard shortcuts
 
-| Key          | Action                                              |
-| ------------ | --------------------------------------------------- |
-| `Ctrl-C`     | Stop the current in-progress tool call.             |
-| `Ctrl-C` ×2  | Exit the session (also accepts `/exit`).            |
-| `Tab`        | Autocomplete slash commands.                        |
-| `Up Arrow`   | Navigate to previous input in history.              |
-| `Down Arrow` | Navigate to next input in history.                  |
+| Key          | Action                                   |
+| ------------ | ---------------------------------------- |
+| `Ctrl-C`     | Stop the current in-progress tool call.  |
+| `Ctrl-C` ×2  | Exit the session (also accepts `/exit`). |
+| `Tab`        | Autocomplete slash commands.             |
+| `Up Arrow`   | Navigate to previous input in history.   |
+| `Down Arrow` | Navigate to next input in history.       |
 
 ## Example session
 

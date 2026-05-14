@@ -78,10 +78,10 @@ The return type for this step is `Node`.
 
 ESQuery supports a rich selector grammar via the [esquery library](https://github.com/estools/esquery). In particular, the rules shipped with `js-recon-rules` use:
 
--   `:matches(A, B, C)` — match if any of `A`, `B`, or `C` match. Use this to express alternative source or sink shapes in one selector.
--   `:has(selector)` — match a node when one of its descendants matches `selector`. Use this to require that a function body contains both a source and a sink.
--   `:not(selector)` — negation. Use this to exclude safe shapes such as `StringLiteral` from a sink's right-hand side.
--   `[field=/regex/]` — regex match on a string attribute (useful when a URL path or property name follows a pattern).
+- `:matches(A, B, C)` — match if any of `A`, `B`, or `C` match. Use this to express alternative source or sink shapes in one selector.
+- `:has(selector)` — match a node when one of its descendants matches `selector`. Use this to require that a function body contains both a source and a sink.
+- `:not(selector)` — negation. Use this to exclude safe shapes such as `StringLiteral` from a sink's right-hand side.
+- `[field=/regex/]` — regex match on a string attribute (useful when a URL path or property name follows a pattern).
 
 For example, a rule to detect post-message listeners would look like this:
 
@@ -173,13 +173,13 @@ When you need to be stricter — for example, "the URL parameter and the sink mu
 - name: find_outer_function
   esquery:
       type: esquery
-      query: ":matches(FunctionExpression, ArrowFunctionExpression, FunctionDeclaration):has(CallExpression[callee.property.name=\"get\"][callee.object.callee.name=\"URLSearchParams\"])"
+      query: ':matches(FunctionExpression, ArrowFunctionExpression, FunctionDeclaration):has(CallExpression[callee.property.name="get"][callee.object.callee.name="URLSearchParams"])'
 - name: find_sink_in_same_function
   requires:
       - find_outer_function
   esquery:
       type: esquery
-      query: "AssignmentExpression[left.property.name=\"innerHTML\"]"
+      query: 'AssignmentExpression[left.property.name="innerHTML"]'
       inScopeOf: find_outer_function
 ```
 

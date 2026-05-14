@@ -12,29 +12,29 @@ While JS Recon can detect and skip targets based on technology they use, it coul
 id: nextjs-detect
 
 info:
-  name: Next.js - Detect
-  author: shriyanss
-  severity: info
-  description: |
-    Detects the presence of a Next.js application by looking for the default
-    "_next/" static asset directory path in the HTTP response body.
-  tags: tech,nextjs
+    name: Next.js - Detect
+    author: shriyanss
+    severity: info
+    description: |
+        Detects the presence of a Next.js application by looking for the default
+        "_next/" static asset directory path in the HTTP response body.
+    tags: tech,nextjs
 
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
+    - method: GET
+      path:
+          - "{{BaseURL}}"
 
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "_next/"
-          - "/_next/static"
-        condition: or
+      matchers-condition: and
+      matchers:
+          - type: word
+            part: body
+            words:
+                - "_next/"
+                - "/_next/static"
+            condition: or
 
-      - type: status
-        status:
-          - 200
+          - type: status
+            status:
+                - 200
 ```
