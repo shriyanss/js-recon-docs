@@ -38,6 +38,19 @@ js-recon lazyload -u <url/file> [options]
 | `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                       | `10`                       | No       |
 | `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                     | `2`                        | No       |
 
+## Framework Support
+
+Each framework is added to the tool after thorough research on framework. New techniques are added to the tool when they are discovered. The following is an exhaustive list of frameworks that the `lazyload` module is compatible with:
+
+- Next.js
+- Vue
+- Nuxt
+- Angular
+- React
+- Svelte
+
+Please note that some framework are supported better than others. Currently, the frameworks with most supported techniques are Next.js and Vue.
+
 ## Examples
 
 ### Basic usage
