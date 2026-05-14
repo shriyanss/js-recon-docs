@@ -187,6 +187,66 @@ In the example above, step 1 only matches functions whose body already contains 
 
 If the referenced step did not match, the dependent step is skipped (because `requires` is also unmet), and the rule does not fire.
 
+#### `taintFrom` — data-flow filter for ESQuery matches
+
+`inScopeOf` answers "are source and sink in the same function?" `taintFrom` goes further and answers "does the sink actually receive a value that came from the source?"
+
+Without `taintFrom`, a rule fires whenever both a source pattern and a sink pattern co-exist in the same chunk — even if the two nodes are completely unrelated. A large minified bundle will often contain URL reads and `fetch` calls that belong to different features. `taintFrom` eliminates those false positives by tracing the data flowing out of the source step's match nodes and checking whether the sink's value-side subtree is reachable from that data.
+
+**How it works internally:**
+
+1. All nodes matched by the named source step are treated as taint seeds.
+2. The engine runs an iterative, scope-aware propagation pass (up to 8 rounds) over the chunk AST:
+   - A `VariableDeclarator` whose initializer references a tainted node/binding/member chain taints the declared variable.
+   - An `AssignmentExpression` whose right-hand side is tainted propagates taint to the left-hand side (identifier, member expression, or destructuring pattern).
+3. The resulting taint set (bindings + member-expression chains + original source nodes) is checked against each ESQuery candidate match. Only matches whose value-side subtree (RHS for assignments, arguments for calls/`new`, value for object/JSX properties) touches the taint set are kept.
+4. Taint info is cached per source-step name, so multiple sink steps sharing the same source pay the computation cost only once.
+
+**Usage:**
+
+```yaml
+- name: <sink_step>
+  message: <message>
+  requires:
+      - <source_step>
+  esquery:
+      type: esquery
+      query: <sink_selector>
+      taintFrom: <source_step>
+```
+
+`taintFrom` can be combined with `inScopeOf` — scope restricts which AST subtree is searched, while `taintFrom` filters the results of that search by data-flow.
+
+**Example — header name controlled by URL parameter:**
+
+The rule below detects a `fetch` call whose `headers` object has a computed-key property (variable header name) where that key is derived from a URL parameter. Without `taintFrom` the rule would fire on any chunk that happens to contain both a `URLSearchParams.get` call and a `fetch` with dynamic headers, regardless of whether they are connected.
+
+```yaml
+steps:
+    - name: find_url_param_source
+      message: URL-derived value read
+      esquery:
+          type: esquery
+          query: 'CallExpression[callee.type="MemberExpression"][callee.property.name="get"][callee.object.type="NewExpression"][callee.object.callee.name="URLSearchParams"]'
+
+    - name: find_computed_header_key
+      message: fetch headers object contains a computed-key property tainted by URL param
+      requires:
+          - find_url_param_source
+      esquery:
+          type: esquery
+          taintFrom: find_url_param_source
+          query: 'ObjectProperty[key.name="headers"][value.type="ObjectExpression"] > ObjectExpression > ObjectProperty[computed=true]'
+```
+
+**When to use `taintFrom` vs `inScopeOf`:**
+
+| Need | Use |
+|---|---|
+| Source and sink must be in the same function/block | `inScopeOf` |
+| Sink must receive a value that actually came from the source | `taintFrom` |
+| Both — same function **and** real data-flow | both fields on the same step |
+
 ### Post Message Function Resolve
 
 You can use this to resolve a function that is called when the postMessage event is triggered. For this, you would first need a valid ESQuery query to match the postMessage event listener.
