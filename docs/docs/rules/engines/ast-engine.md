@@ -197,8 +197,8 @@ Without `taintFrom`, a rule fires whenever both a source pattern and a sink patt
 
 1. All nodes matched by the named source step are treated as taint seeds.
 2. The engine runs an iterative, scope-aware propagation pass (up to 8 rounds) over the chunk AST:
-   - A `VariableDeclarator` whose initializer references a tainted node/binding/member chain taints the declared variable.
-   - An `AssignmentExpression` whose right-hand side is tainted propagates taint to the left-hand side (identifier, member expression, or destructuring pattern).
+    - A `VariableDeclarator` whose initializer references a tainted node/binding/member chain taints the declared variable.
+    - An `AssignmentExpression` whose right-hand side is tainted propagates taint to the left-hand side (identifier, member expression, or destructuring pattern).
 3. The resulting taint set (bindings + member-expression chains + original source nodes) is checked against each ESQuery candidate match. Only matches whose value-side subtree (RHS for assignments, arguments for calls/`new`, value for object/JSX properties) touches the taint set are kept.
 4. Taint info is cached per source-step name, so multiple sink steps sharing the same source pay the computation cost only once.
 
@@ -241,11 +241,11 @@ steps:
 
 **When to use `taintFrom` vs `inScopeOf`:**
 
-| Need | Use |
-|---|---|
-| Source and sink must be in the same function/block | `inScopeOf` |
-| Sink must receive a value that actually came from the source | `taintFrom` |
-| Both — same function **and** real data-flow | both fields on the same step |
+| Need                                                         | Use                          |
+| ------------------------------------------------------------ | ---------------------------- |
+| Source and sink must be in the same function/block           | `inScopeOf`                  |
+| Sink must receive a value that actually came from the source | `taintFrom`                  |
+| Both — same function **and** real data-flow                  | both fields on the same step |
 
 ### Post Message Function Resolve
 
