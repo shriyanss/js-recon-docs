@@ -38,3 +38,40 @@ http:
             status:
                 - 200
 ```
+
+## Vue
+
+While the following template detects Vue, it also detects Nuxt.js (Nuxt is based on Vue):
+
+```yaml
+id: vuejs-detect
+
+info:
+    name: Vue.js - Detect
+    author: shriyanss
+    severity: info
+    description: |
+        Detects the presence of a Vue.js application by looking for the default
+        "data-v-" HTML tag attribute in the HTTP response body.
+    tags: tech,vuejs
+
+http:
+    - method: GET
+      path:
+          - "{{BaseURL}}"
+
+      matchers-condition: and
+      matchers:
+          - type: word
+            part: body
+            words:
+                - "data-v-"
+                - "data-vue-"
+            condition: or
+
+          - type: status
+            status:
+                - 200
+```
+
+
