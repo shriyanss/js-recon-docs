@@ -84,3 +84,36 @@ Sets configuration options. Usage: `set <option> <value>`
 ### `trace`
 
 Traces the imports for a given function. Usage: `trace <functionName>`
+
+### `esquery`
+
+Generates [esquery](https://github.com/estools/esquery) selectors from a pasted code snippet — handy when authoring a new AST rule against a real chunk you've already located. Usage:
+
+```
+esquery <chunkId|*> <code-snippet>
+```
+
+How it works:
+
+1. The snippet is parsed with babel and re-emitted in compact mode (whitespace/comments stripped) — call this the **needle**.
+2. Each AST node in the target chunk is also re-emitted in compact mode. Any node whose compact source contains the needle is a candidate.
+3. Candidates that strictly contain another candidate are dropped, so the output is the **smallest** matching node — typically the actual call/assignment/expression you pasted.
+4. For each surviving candidate the tool prints two selectors:
+    - **loose** — type + the most distinguishing key (e.g. `CallExpression[callee.name="fetch"]`). Paste this into a rule and broaden/narrow it as needed.
+    - **strict** — same selector with the immediate children pinned by type (e.g. `[arguments.0.type="TemplateLiteral"]`). Useful for checking whether an existing rule already covers the exact shape.
+
+Pass `*` (or `all`) as the chunk id to scan every chunk in `mapped.json`. This is especially useful on minified production bundles where the chunk id changes between builds.
+
+Examples:
+
+```
+esquery 1234 fetch("/api/posts")
+esquery * fetch(`/api/docs/${file}`)
+esquery * headingRef.value.innerHTML = "..."
+```
+
+The same command is available non-interactively via `-c`/`--command` on both `map` and `run`, and can be chained with `&&`:
+
+```bash
+js-recon map -d output/<host> -t vue -c "esquery * fetch(\`/api/posts\`) && esquery * v-html"
+```

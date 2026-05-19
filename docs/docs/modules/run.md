@@ -40,6 +40,8 @@ js-recon run -u <url/file> [options]
 | `--strict-scope`                |       | Download JS files from only the input URL domain                     | `false`                    | No       |
 | `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated)            | `*`                        | No       |
 | `--threads <threads>`           | `-t`  | Number of threads to use                                             | `1`                        | No       |
+| `--rules <file/dir>`            | `-r`  | Rules file or directory (passed to analyze module)                   |                            | No       |
+| `--command <command>`           | `-c`  | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && esquery * fetch"`). |  | No |
 | `--api-gateway`                 |       | Generate requests using API Gateway                                  | `false`                    | No       |
 | `--api-gateway-config <file>`   |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
 | `--cache-file <file>`           |       | File to store response cache                                         | `.resp_cache.json`         | No       |

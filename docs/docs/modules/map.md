@@ -22,6 +22,7 @@ js-recon map -d <directory> -t <technology> [options]
 | `--output <file>`          | `-o`  | Output file name (without extension).                                               | `mapped`              | No       |
 | `--format <format>`        | `-f`  | Output format for the results (comma-separated; available:`json`).                  | `json`                | No       |
 | `--interactive`            | `-i`  | Interactive mode for exploring the mapped functions.                                | `false`               | No       |
+| `--command <command>`      | `-c`  | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && go to 1234"`). | | No |
 | `--ai <options>`           |       | Use AI to analyze the code (comma-separated; available:`description`).              |                       | No       |
 | `--ai-provider <provider>` |       | Service provider to use for AI (available: openai, ollama)                          | `openai`              | No       |
 | `--ai-endpoint <endpoint>` |       | Endpoint to use for AI service (for Ollama, etc). Uses provider default if not set. |                       | No       |
@@ -57,6 +58,23 @@ Map functions and explore them in an interactive session. For a detailed guide, 
 ```bash
 js-recon map -d /path/to/js-files -t next -i
 ```
+
+### Headless interactive commands (`-c` / `--command`)
+
+When you already know which interactive command(s) you want to run — for example, generating an esquery selector for a snippet you've copied out of a chunk — pass them with `-c` and the tool will execute them without launching the blessed UI:
+
+```bash
+js-recon map -d /path/to/js-files -t next -c "list fetch"
+```
+
+`-c` is repeatable, and a single argument can chain multiple commands with `&&` (split at parse time, so quoting matters):
+
+```bash
+js-recon map -d output/<host> -t vue \
+  -c "esquery * fetch(\`/api/posts\`) && esquery * v-html"
+```
+
+See the [Interactive Mode documentation](../modules/interactive_mode/next-js.md) for the full command surface, including the [`esquery`](../modules/interactive_mode/next-js.md#esquery) command for generating selectors from a pasted snippet.
 
 ### AI-powered analysis
 
