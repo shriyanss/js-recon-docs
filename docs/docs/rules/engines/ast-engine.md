@@ -86,7 +86,7 @@ ESQuery supports a rich selector grammar via the [esquery library](https://githu
 For example, a rule to detect post-message listeners would look like this:
 
 <details>
-<summary>Example: Full rule file for checking if the "Authorization" header is present in the request</summary>
+<summary>Example: Full rule file for finding any `postMessage` listeners</summary>
 
 ```yaml
 id: detect_postMessage
