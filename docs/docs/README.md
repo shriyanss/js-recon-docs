@@ -19,6 +19,7 @@ Welcome to the official documentation for `js-recon`, a powerful tool for JavaSc
 - **[Report](./modules/report.md):** Generate an HTML report of the reconnaissance results.
 - **[Analyze](./modules/analyze.md):** Analyze the JS files using the [js-recon-rules](https://github.com/shriyanss/js-recon-rules).
 - **[Refactor](./modules/refactor.md):** Refactor the JS Chunks into separate files.
+- **[Load](./modules/load.md):** Populate the response cache from a Caido export so later runs can be executed offline with `--cache-only`.
 
 Select a command from the list preceding to view its detailed documentation, including all available options and practical examples.
 

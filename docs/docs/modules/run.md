@@ -46,6 +46,7 @@ js-recon run -u <url/file> [options]
 | `--api-gateway-config <file>`   |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
 | `--cache-file <file>`           |       | File to store response cache                                         | `.resp_cache.json`         | No       |
 | `--disable-cache`               |       | Disable response caching                                             | `false`                    | No       |
+| `--cache-only`                  |       | Only use the response cache; never make network requests. See [Load command](./load.md). | `false`              | No       |
 | `--yes`                         | `-y`  | Auto-approve executing JS code from the target                       | `false`                    | No       |
 | `--secrets`                     |       | Scan for secrets                                                     | `false`                    | No       |
 | `--ai <options>`                |       | Use AI to analyze the code (comma-separated; available: description) |                            | No       |
