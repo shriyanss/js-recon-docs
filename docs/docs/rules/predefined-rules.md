@@ -42,7 +42,7 @@ Fires when an OpenAPI operation has no `Authorization` header. The rule is inten
 
 ## AST rules
 
-These rules are evaluated by the [AST engine](./engines/ast-engine.md) against every chunk recovered by `map` (currently Next.js with both Webpack and Turbopack bundlers).
+These rules are evaluated by the [AST engine](./engines/ast-engine.md) against every chunk recovered by `map` (Next.js with both Webpack and Turbopack bundlers, and Vue.js with Vite — production builds and dev-server output). Each rule declares the frameworks it applies to via its `tech:` list; the engine skips a rule on bundles whose framework isn't in that list.
 
 ### `detect_postMessage` — `postMessage` event listeners
 
@@ -59,13 +59,14 @@ Chains the postmessage listener detection with a check that the handler function
 ### `detect_dom_xss_innerHTML_url_source` — DOM XSS via URL parameter to `innerHTML`
 
 `severity: high`
+`tech: [next, vue]`
 
 Detects the `URL → innerHTML` taint pattern. Fires when the same chunk contains both:
 
 1.  A read from a URL-derived source — any of: `new URLSearchParams(...).get(...)`, `window.location.search`, `window.location.hash`, `document.referrer`, `document.URL`, or a call to `useSearchParams()` (Next.js / React Router).
 2.  A dynamic assignment to `.innerHTML` or `.outerHTML` — i.e. the right-hand side is **not** a `StringLiteral`, `NumericLiteral`, `BooleanLiteral`, or `NullLiteral`.
 
-Both halves must appear in the same module/chunk for the rule to fire. This excludes the React-internal `innerHTML` writes in vendor chunks (those chunks never read from a URL parameter).
+Both halves must appear in the same module/chunk for the rule to fire. This excludes the React-internal `innerHTML` writes in vendor chunks (those chunks never read from a URL parameter). For Vue.js single-file components the Vite-transformed `setup()` body (e.g. `headingRef.value.innerHTML = ...`) matches the same shape.
 
 Typical compiled match (`app/search/page.tsx`):
 
@@ -77,10 +78,11 @@ i.current.innerHTML = `Showing results for: <strong>${e}</strong>`;
 ### `detect_cspt_fetch_url_param` — Client-Side Path Traversal (CSPT)
 
 `severity: high`
+`tech: [next, vue]`
 
 Detects the `URL → fetch URL` traversal pattern. Fires when the same chunk contains both:
 
-1.  A read from a URL-derived source (same set as the rule above, plus `useParams()` for App Router dynamic segments).
+1.  A read from a URL-derived source (same set as the rule above, plus `useParams()` for App Router dynamic segments, and `useRoute()` for Vue Router). To survive minification of production Vite/webpack bundles — where the local `route` binding becomes a 2-character name but the Vue Router property names do not — the rule also matches any member expression of the shape `<obj>.query.<X>` or `<obj>.params.<X>`.
 2.  A `fetch(...)` (or `*.fetch(...)`) call whose first argument is a **dynamically-constructed URL** — either a `TemplateLiteral` containing at least one interpolation, or a `BinaryExpression` doing string concatenation (`'/api/foo/' + x`).
 
 The browser collapses `..` segments **before** the request hits the server, so an attacker who controls the interpolated value can pivot the fetch to a different API path. This is exactly the CSPT pattern (e.g. `?file=../users/1` causing `fetch('/api/docs/' + file)` to hit `/api/users/1`).
@@ -94,15 +96,21 @@ fetch(`/api/docs/${e}`);
 
 To suppress the warning legitimately, allowlist-validate the parameter or wrap it in `encodeURIComponent(...)` (which prevents `..` and `/` from surviving normalisation).
 
-### `detect_dom_xss_dangerouslySetInnerHTML` — XSS via React `dangerouslySetInnerHTML`
+### `detect_dom_xss_dangerouslySetInnerHTML` — XSS via raw-HTML sink (`dangerouslySetInnerHTML` / `v-html`)
 
 `severity: high`
+`tech: [next, vue]`
 
-Detects React's `dangerouslySetInnerHTML={{ __html: X }}` pattern when `X` is **not** a literal. Compiled JSX becomes an `ObjectProperty` with key `__html` and the rule fires when its value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — i.e. it's a member access, identifier, or call result.
+Detects raw-HTML rendering sinks where the value is **not** a literal. Covers two compiled shapes:
 
-To minimise false positives from Next.js's bundled error-page CSS-only uses of `dangerouslySetInnerHTML` (which never appear alongside `fetch`), the rule additionally requires a `fetch(...)` call **in the same chunk**. The combination is a strong indicator that the HTML being rendered comes from a server response — e.g. a comment body, post content, or any other user-controllable record.
+- React's `dangerouslySetInnerHTML={{ __html: X }}` — compiled to an `ObjectProperty` with key `__html`.
+- Vue's `v-html="X"` directive — compiled by Vite/Vue's template compiler to an `ObjectProperty` `{ innerHTML: X }` (paired with a `["innerHTML"]` patchFlag tuple).
 
-Typical compiled match (`app/post/[id]/page.tsx`):
+The rule fires when the property value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — i.e. it's a member access, identifier, or call result.
+
+To minimise false positives from vendor chunks that include CSS-only uses of these sinks (which never appear alongside `fetch`), the rule additionally requires a `fetch(...)` call **in the same chunk**. The combination is a strong indicator that the HTML being rendered comes from a server response — e.g. a comment body, post content, or any other user-controllable record.
+
+Typical compiled match (React, `app/post/[id]/page.tsx`):
 
 ```jsx
 <div dangerouslySetInnerHTML={{ __html: comment.content }} />
@@ -116,6 +124,18 @@ Compiled to:
         __html: o.content;
     }
 }
+```
+
+Typical compiled match (Vue, `src/views/PostDetail.vue`):
+
+```vue
+<div class="comment-content" v-html="comment.content" />
+```
+
+Compiled by Vite to:
+
+```js
+_createElementVNode("div", _mergeProps({ class: "comment-content" }, { innerHTML: comment.content }), null, 16, ["innerHTML"]);
 ```
 
 ### `detect_open_redirect_url_param` — DOM-based open redirect

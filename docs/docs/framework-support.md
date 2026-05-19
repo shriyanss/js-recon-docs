@@ -39,6 +39,14 @@ This feature can be used against all target, regardless of the frameworks they u
 The feature to map all the functions are available only for the following JavaScript frameworks:
 
 - [Next.js](https://nextjs.org) — both [Webpack](https://webpack.js.org/) (`self.webpackChunk_N_E`) and [Turbopack](https://turbo.build/pack) (`globalThis.TURBOPACK`) chunk formats are recognised, so projects on Next.js 15 / Turbopack are mapped just like classic Webpack builds.
+- [Vue.js](https://vuejs.org) — [Vite](https://vitejs.dev) production chunks (2-character function name convention) are decoded into per-function chunks; for non-bundled / dev-server output, each `.js` and `.vue` module is emitted as a single chunk so it remains analyzable.
+
+## Analyze
+
+The static-analysis [`analyze`](./modules/analyze.md) module evaluates AST rules against `mapped.json` and request rules against the generated OpenAPI spec for the following frameworks:
+
+- [Next.js](https://nextjs.org)
+- [Vue.js](https://vuejs.org)
 
 ## Run
 
