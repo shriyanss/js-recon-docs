@@ -32,6 +32,29 @@ The following keybindings are available for navigation and control:
 | `Up Arrow`      | In the output box, scroll up.                                                                         |
 | `Down Arrow`    | In the output box, scroll down.                                                                       |
 
+### Line editing in the input box
+
+The input box supports standard line-editor controls so you can correct typos or paste a long snippet without retyping:
+
+| Key                          | Action                                  |
+| ---------------------------- | --------------------------------------- |
+| `Left` / `Right`             | Move cursor one character               |
+| `Ctrl+Left` / `Ctrl+Right`   | Move cursor one word                    |
+| `Home` / `Ctrl+A`            | Jump to start of line                   |
+| `End` / `Ctrl+E`             | Jump to end of line                     |
+| `Backspace`                  | Delete the character before the cursor  |
+| `Delete`                     | Delete the character at the cursor      |
+| `Ctrl+W`                     | Delete the previous word                |
+| `Ctrl+U`                     | Delete from cursor to start of line     |
+| `Ctrl+K`                     | Delete from cursor to end of line       |
+| Paste (`Cmd+V` / `Ctrl+V`)   | Inserts pasted text at the cursor       |
+
+When the value is longer than the visible width, the input scrolls horizontally to keep the cursor in view.
+
+### Copying text from the output box
+
+The output pane no longer captures mouse events, so you can use your terminal's native text selection (click-drag to highlight, then `Cmd+C` / `Ctrl+Shift+C`) to copy chunk code, selectors, etc. Scrolling the output still uses the keyboard bindings above.
+
 ## Commands
 
 Here is a list of available commands and their usage:
