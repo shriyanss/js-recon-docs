@@ -14,6 +14,7 @@ A rule file has the following basic structure:
 id: <id>
 name: <human-readable-name>
 author: <author>
+js_recon_version: ">=<min-version>"
 description: <description>
 severity: <info | low | medium | high>
 type: <request | ast>
@@ -30,6 +31,7 @@ All the mentioned fields are required. For example, a rule file could look like 
 id: rule-1
 name: Rule 1
 author: shriyanss
+js_recon_version: ">=1.3.0"
 severity: info
 type: ast
 tech:
@@ -37,6 +39,34 @@ tech:
 
 steps:
     - <step>
+```
+
+## Version compatibility (`js_recon_version`)
+
+The `js_recon_version` field is **required** in every rule file. It declares the minimum (or exact) JS Recon version that a rule requires. Omitting it is a schema validation error that stops analysis.
+
+When the `analyze` module loads rules, any rule whose version requirement is not satisfied by the running JS Recon version is **skipped** with a warning — it is not treated as a hard error and does not stop the rest of analysis. This makes it safe to publish rules that rely on newer engine features: such rules will be silently ignored by users on older versions instead of failing with schema errors.
+
+### Format
+
+The value is a version constraint string: an operator followed by a [semver](https://semver.org/)-style `MAJOR.MINOR.PATCH` version.
+
+| Operator | Meaning |
+| -------- | ------- |
+| `>=` | current version must be at or above the specified version |
+| `>` | current version must be strictly above the specified version |
+| `<=` | current version must be at or below the specified version |
+| `<` | current version must be strictly below the specified version |
+| `=` or `==` | current version must match exactly (ignoring pre-release) |
+
+Pre-release suffixes (e.g. `-alpha.2`) are stripped before comparison, so `1.3.1-alpha.2` satisfies `>=1.3.0`.
+
+### Example
+
+```yaml
+# This rule requires JS Recon 1.3.0 or newer.
+# On older installs it is silently skipped.
+js_recon_version: ">=1.3.0"
 ```
 
 ## Steps
