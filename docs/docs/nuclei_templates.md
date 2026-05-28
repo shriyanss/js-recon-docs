@@ -39,6 +39,53 @@ http:
                 - 200
 ```
 
+## React
+
+The following template detects React by looking for React-specific internal identifiers — the same signatures that JS Recon checks in JavaScript bundle files. It excludes Next.js applications (which are React-based but detected separately) by negating any response containing `_next/`:
+
+```yaml
+id: react-detect
+
+info:
+    name: React.js - Detect
+    author: shriyanss
+    severity: info
+    description: |
+        Detects the presence of a React.js application by looking for React-specific
+        internal identifiers (__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+        __REACT_DEVTOOLS_GLOBAL_HOOK__, __reactRouterVersion) or SSR-rendered React
+        attributes (data-reactroot, data-react-checksum) in the HTTP response body.
+        Excludes Next.js applications.
+    tags: tech,react
+
+http:
+    - method: GET
+      path:
+          - "{{BaseURL}}"
+
+      matchers-condition: and
+      matchers:
+          - type: word
+            part: body
+            words:
+                - "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED"
+                - "__REACT_DEVTOOLS_GLOBAL_HOOK__"
+                - "__reactRouterVersion"
+                - "data-reactroot"
+                - "data-react-checksum"
+            condition: or
+
+          - type: word
+            part: body
+            words:
+                - "_next/"
+            negative: true
+
+          - type: status
+            status:
+                - 200
+```
+
 ## Vue
 
 While the following template detects Vue, it also detects Nuxt.js (Nuxt is based on Vue):
