@@ -32,9 +32,48 @@ js-recon map -d <directory> -t <technology> [options]
 | `--openapi-output <file>`  |       | Output file for OpenAPI spec                                                        | `mapped-openapi.json` | No       |
 | `--openapi-chunk-tag`      |       | Add chunk ID tag to OpenAPI spec for each request found                             | `false`               | No       |
 
+## How it works
+
+### Chunk extraction
+
+`map` first splits the downloaded JS files into individual function chunks using bundler-specific logic:
+
+- **Next.js (webpack)**: Parses `self.webpackChunk_N_E` push calls. Each entry in the module map becomes an individual chunk with its own numeric ID.
+- **Next.js (turbopack)**: Parses `globalThis.TURBOPACK` push calls. Turbopack uses a different module-map format but is normalised to the same chunk structure.
+- **Vue (Vite)**: Decodes Vite's production chunk format where modules are keyed under 2-character function names. Non-bundled / dev-server `.js` and `.vue` files are emitted as single-function chunks.
+
+Each chunk is stored in `mapped.json` with its ID, raw source code, and Babel AST.
+
+### API call resolution (fetch and Axios)
+
+After chunking, the tool resolves every `fetch()` and Axios call to a concrete URL + method + headers:
+
+1. **Instance discovery**: Finds all `axios.create(...)` calls (or `z.create(...)` for aliased Axios) and records the base URL and default headers for each instance.
+
+2. **Interceptor headers**: Scans all chunks for `axios.interceptors.request.use(...)` patterns and collects any headers set inside the interceptor callback. These are attached to every endpoint emitted from that Axios client, since interceptors fire on every request.
+
+3. **Call tracing**: For each `.get(...)`, `.post(...)`, `.put(...)`, etc. call (or `fetch(...)` call), the URL argument is resolved through variable assignments using taint-flow analysis. The resolver follows:
+   - Direct string literals and template literals
+   - Variable assignments (`const url = "/api/..."`)
+   - Member expressions (`config.baseURL + path`)
+   - `BinaryExpression` concatenation (`"/api/" + id`)
+   - Cross-chunk variable imports (when a URL is defined in one chunk and used in another)
+
+4. **Server Actions** (Next.js only): Detects `createServerReference(actionId, ...)` calls, which represent Next.js Server Actions callable from the client. The `actionId` is a hash that identifies the server-side function.
+
+5. **`new Request(...)` calls**: Also resolved using the same taint-flow mechanism, for code that constructs `Request` objects rather than calling `fetch` directly.
+
+The resolved endpoints are written into `mapped.json` and, when `--openapi` is set, into a `mapped-openapi.json` OpenAPI 3.0 spec.
+
+### Limitations
+
+- **Same-chunk resolution only**: URL variables that are defined in a different chunk and not re-exported are not resolved; the tool will emit the raw variable name as a placeholder.
+- **Dynamic paths**: URLs fully constructed at runtime (e.g. built from a loop variable or a computed key) cannot be statically resolved and will appear as template placeholders.
+- **Axios only covers webpack-bundled builds**: Vite/React builds that use Axios may not have complete interceptor coverage depending on how the bundle is split.
+
 ## Framework Support
 
-Each framework is added to the tool after thorough research on framework. New techniques are added to the tool when they are discovered. The following is an exhaustive list of frameworks that the `map` module is compatible with:
+Each framework is added to the tool after thorough research on the framework. New techniques are added to the tool when they are discovered. The following is an exhaustive list of frameworks that the `map` module is compatible with:
 
 - Next.js
 - Vue

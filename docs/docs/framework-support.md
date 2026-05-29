@@ -8,15 +8,16 @@ The features available in the tool are developed after researching on specific J
 
 ## Lazyload
 
-The feature the download all the lazy loaded, that's dynamically loaded, JavaScript files are available for the following frameworks:
+The feature to download all lazy-loaded (dynamically loaded) JavaScript files is available for the following frameworks:
 
 - [Next.js](https://nextjs.org)
 - [Nuxt.js](https://nuxt.com)
 - [Svelte](https://svelte.dev)
 - [Angular](https://angular.dev)
 - [Vue.js](https://vuejs.org)
+- [React](https://react.dev)
 
-For all the other apps, the tool downloads the JavaScript files that will be loaded on the webpage
+For all other apps, the tool downloads the JavaScript files that will be loaded on the initial webpage.
 
 ## API gateway
 
@@ -40,6 +41,7 @@ The feature to map all the functions are available only for the following JavaSc
 
 - [Next.js](https://nextjs.org) — both [Webpack](https://webpack.js.org/) (`self.webpackChunk_N_E`) and [Turbopack](https://turbo.build/pack) (`globalThis.TURBOPACK`) chunk formats are recognised, so projects on Next.js 15 / Turbopack are mapped just like classic Webpack builds.
 - [Vue.js](https://vuejs.org) — [Vite](https://vitejs.dev) production chunks (2-character function name convention) are decoded into per-function chunks; for non-bundled / dev-server output, each `.js` and `.vue` module is emitted as a single chunk so it remains analyzable.
+- [React](https://react.dev) — ES module and webpack chunk formats are supported; `fetch()` calls are resolved using the same taint-flow analysis as Next.js.
 
 ## Analyze
 

@@ -51,3 +51,17 @@ js-recon endpoints -d /path/to/js-files -t next -u https://example.com --mapped-
 ```
 
 This command will analyze the mapped JSON file along with the subsequent requests directory to extract a comprehensive list of client-side paths specific to the Next.js framework.
+
+## How it works (Next.js)
+
+The Next.js endpoint extractor runs up to four extraction techniques and merges their results:
+
+1. **Subsequent-requests directory** (`___subsequent_requests/`): Parses the RSC payloads and HTML pages saved by `lazyload --subsequent-requests`. Each file path under this directory maps to a client-side route. **This directory must exist** — run `js-recon lazyload --subsequent-requests` before calling `endpoints`, otherwise the command exits with an error.
+
+2. **`href` AST search** in JS chunks: Traverses every `.js` file in the provided directory looking for `ObjectProperty` nodes whose key is `href`. Handles string literals and `.concat()`-style minified string construction.
+
+3. **JSON parse search** in JS chunks: Scans JS files for `JSON.parse(...)` patterns that embed client-side route arrays.
+
+4. **`window.__NEXT_P` push calls** in `mapped.json`: Looks for the Next.js page-registry pattern `(window.__NEXT_P = window.__NEXT_P || []).push([path, ...])` in the mapped chunks to extract registered page paths.
+
+Techniques 2–4 do not require `--subsequent-requests` and run whenever `--directory` is provided. Technique 4 requires `--mapped-json`.

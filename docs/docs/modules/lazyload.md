@@ -39,9 +39,58 @@ js-recon lazyload -u <url/file> [options]
 | `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                       | `10`                       | No       |
 | `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                     | `2`                        | No       |
 
+## How it works
+
+### Framework detection
+
+Before downloading any files, the tool auto-detects which JavaScript framework the target uses. Detection runs in this priority order and stops on the first match:
+
+1. **Next.js** — any HTML element with a `src`, `srcset`, or `imageSrcSet` attribute containing `/_next/`
+2. **Vue.js** — any element with a `data-v-*` or `data-vue-*` attribute; or `__vue` found inside fetched script content
+3. **Nuxt.js** — sub-check after Vue detection: any `src`/`href` attribute containing `/_nuxt`
+4. **Svelte** — SvelteKit-specific attribute markers or `__svelte_*` in bundled code
+5. **Angular** — `ng-*` attributes or Angular-specific markers in bundled code
+6. **React** — markers such as `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`, `__REACT_DEVTOOLS_GLOBAL_HOOK__`, `react-jsx-runtime.production`, or `react-dom.production` in inline scripts or fetched assets
+7. **Fallback** — if nothing matches, only the JS files present in the initial page load are downloaded
+
+Detection uses two sources: the raw HTTP response (fast) and a Puppeteer-rendered page (catches client-side-only markers, after a 2-second settle delay). In `--cache-only` mode, the browser step is skipped.
+
+### Next.js discovery pipeline
+
+Next.js receives the most comprehensive discovery. The crawler runs in two phases.
+
+**Initial phase** (run once):
+- Parse `<script src>` tags and inline `static/chunks/...` references on the landing page
+- Extract `<a href>` links on the landing page for page-URL seeding
+- Execute the webpack runtime's chunk-loading function in a sandbox to enumerate all chunk IDs (requires `--yes` to auto-confirm, or manual confirmation per run)
+- Parse `_buildManifest.js` AST for `static/chunks/` string references
+- Optionally, if `--subsequent-requests` is set: make RSC (`RSC: 1` header) and plain HTML requests to all discovered paths to find dynamically loaded chunks
+
+**Recursive phase** (repeated until convergence or `--max-iterations`):
+- Detect `Promise.all([...].map(...))` patterns in newly downloaded chunks to extract additional chunk IDs
+- Parse `layout-*.js` files for `href` object properties; visit discovered routes and extract their script tags
+- Re-run `<script src>` and `<a href>` extraction on each newly discovered page URL
+- Stop when a full pass yields zero new URLs (convergence) or the iteration cap is reached
+
+After all passes, `.map` is appended to every discovered `.js` URL and checked for a 200 response to find source maps.
+
+### `--yes` flag and JS execution
+
+The webpack chunk-enumeration technique extracts a function from the webpack runtime and executes it locally in a Node.js sandbox with each discovered integer chunk ID as input. Before executing, the tool prompts you to inspect the extracted function and confirm. Pass `--yes` to skip the prompt — useful in automated pipelines, but verify you trust the target's JS first.
+
+### Scope
+
+| Flag | Behaviour |
+|------|-----------|
+| *(default)* `*` | Download JS from any domain |
+| `--scope a.com,b.com` | Only download from `a.com` and `b.com` |
+| `--strict-scope` | Only download from the exact host in the input URL |
+
+Scoping matters most when JS assets are served from a CDN subdomain. The `run` command auto-detects CDN hosts and adjusts the map directory accordingly, but `lazyload` alone requires explicit scope configuration.
+
 ## Framework Support
 
-Each framework is added to the tool after thorough research on framework. New techniques are added to the tool when they are discovered. The following is an exhaustive list of frameworks that the `lazyload` module is compatible with:
+Each framework is added to the tool after thorough research on the framework. New techniques are added when they are discovered. The following is an exhaustive list of frameworks that the `lazyload` module is compatible with:
 
 - Next.js
 - Vue
@@ -50,7 +99,7 @@ Each framework is added to the tool after thorough research on framework. New te
 - React
 - Svelte
 
-Please note that some framework are supported better than others. Currently, the frameworks with most supported techniques are Next.js and Vue.
+Please note that some frameworks are supported better than others. Currently, the frameworks with the most supported techniques are Next.js and Vue.
 
 ## Examples
 

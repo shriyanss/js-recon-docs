@@ -77,3 +77,51 @@ js-recon strings -d /path/to/js-files -e -p
 ```
 
 The permuted URLs will be saved to `extracted_urls.txt` along with `strings.json` and `extracted_urls.json`
+
+## Secret detection patterns
+
+When `--scan-secrets` is active, each extracted string is matched against the following regex patterns. Findings are printed to the terminal; no output file is written.
+
+| Pattern name | What it matches |
+|---|---|
+| Cloudinary | `cloudinary://` URL |
+| Firebase URL | `*.firebaseio.com` hostname |
+| Slack Token | `xox[p\|b\|o\|a]-...` bearer tokens |
+| RSA private key | PEM header `-----BEGIN RSA PRIVATE KEY-----` |
+| SSH (DSA) private key | PEM header `-----BEGIN DSA PRIVATE KEY-----` |
+| SSH (EC) private key | PEM header `-----BEGIN EC PRIVATE KEY-----` |
+| PGP private key block | PEM header `-----BEGIN PGP PRIVATE KEY BLOCK-----` |
+| Amazon AWS Access Key ID | `AKIA[0-9A-Z]{16}` |
+| AWS Client ID | `(A3T[A-Z0-9]\|AKIA\|AGPA\|AIDA\|AROA\|AIPA\|ANPA\|ANVA\|ASIA)[A-Z0-9]{16}` |
+| Amazon MWS Auth Token | `amzn.mws.<uuid>` |
+| Facebook Access Token | `EAACEdEose0cBA...` |
+| Facebook OAuth / Client ID / Secret Key | Facebook credential patterns |
+| GitHub | GitHub token near `github` keyword |
+| Generic API Key | `api_key` near a 32–45-char alphanumeric value |
+| Generic Secret | `secret` near a 32–45-char alphanumeric value |
+| Google API Key / GCP / Drive / Gmail / YouTube | `AIza[0-9A-Za-z-_]{35}` |
+| Google Cloud Platform OAuth | `*.apps.googleusercontent.com` |
+| Google OAuth Access Token | `ya29.*` |
+| Google (GCP) Service-account | JSON `"type": "service_account"` |
+| Heroku API Key | Heroku UUID pattern |
+| LinkedIn Client ID / Secret Key | LinkedIn credential patterns |
+| MailChimp API Key | `<32-hex>-us<N>` |
+| Mailgun API Key | `key-<32 alphanumeric>` |
+| Password in URL | Credentials embedded in a URL (`proto://user:pass@host`) |
+| PayPal Braintree Access Token | `access_token$production$...` |
+| Picatic / Stripe / Stripe Restricted API Key | `sk_live_...` / `rk_live_...` |
+| Slack Webhook | `hooks.slack.com/services/T.../B.../...` |
+| Square Access Token / OAuth Secret | `sq0atp-...` / `sq0csp-...` |
+| Twilio API Key | `SK[0-9a-fA-F]{32}` |
+| Twitter Access Token / OAuth | Twitter credential patterns |
+| OpenAI User API Key / Project Key / Service Key | `sk-...T3BlbkFJ...` variants |
+| Wakatime | `waka_<uuid>` |
+| Artifactory API Token / Password | `AKC...` / `AP...` prefixes |
+| Authorization Basic / Bearer | Raw `basic ...` / `bearer ...` header values |
+| AWS MWS Key | `amzn.mws.<uuid>` |
+| Base64 | Common base64 preambles (`eyJ`, `YTo`, `aHR0cHM6L`, etc.) |
+| Basic Auth Credentials | `://user:pass@host` pattern |
+| Cloudinary Basic Auth | `cloudinary://<id>:<secret>@<cloud>` |
+| MD5 Hash | 32-character hex string |
+
+**Note:** patterns like "Generic API Key", "Generic Secret", "Base64", and "MD5 Hash" have a high false-positive rate and should be treated as leads rather than confirmed findings.
