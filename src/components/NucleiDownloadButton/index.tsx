@@ -1,15 +1,8 @@
----
-sidebar_position: 9
----
+import React from "react";
+import JSZip from "jszip";
 
-# Nuclei Templates
-
-While JS Recon can detect and skip targets based on technology they use, it could be helpful to use a scanner like [Nuclei](https://github.com/projectdiscovery/nuclei) to detect if a target is running a particular framework or not. This page contains the nuclei templates for the same.
-
-## Next.js
-
-```yaml
-id: nextjs-detect
+const TEMPLATES: Record<string, string> = {
+    "nextjs-detect.yaml": `id: nextjs-detect
 
 info:
     name: Next.js - Detect
@@ -38,14 +31,9 @@ http:
           - type: status
             status:
                 - 200
-```
+`,
 
-## React
-
-JS Recon detects React by fetching each `<script src>` on the page and scanning the bundle content for React-specific internal identifiers. The following template checks for those same markers in the initial HTML response body (covering inline scripts and server-rendered output). It excludes Next.js applications (which are React-based but detected separately) by negating any response containing `_next/`:
-
-```yaml
-id: react-detect
+    "react-detect.yaml": `id: react-detect
 
 info:
     name: React.js - Detect
@@ -88,13 +76,9 @@ http:
           - type: status
             status:
                 - 200
-```
+`,
 
-:::note
-This template only checks the initial HTML response. React markers are more commonly found inside JavaScript bundle files loaded by `<script src>` tags. For higher-confidence detection, use the two-request template below, which fetches each linked script and scans its content:
-
-```yaml
-id: react-detect-scripts
+    "react-detect-scripts.yaml": `id: react-detect-scripts
 
 info:
     name: React.js - Detect (script scan)
@@ -113,7 +97,7 @@ flow: |
         if (src.startsWith("http://") || src.startsWith("https://")) {
             set("resolved-script", src)
         } else {
-            let base = template.BaseURL.replace(/\/$/, "")
+            let base = template.BaseURL.replace(/\\/$/, "")
             let path = src.startsWith("/") ? src : "/" + src
             set("resolved-script", base + path)
         }
@@ -130,7 +114,7 @@ http:
             name: script-src
             part: body
             regex:
-                - '<script[^>]+src="([^"]+\.js[^"]*)"'
+                - '<script[^>]+src="([^"]+\\.js[^"]*)"'
             group: 1
             internal: true
 
@@ -153,15 +137,9 @@ http:
           - type: status
             status:
                 - 200
-```
-:::
+`,
 
-## Vue.js
-
-JS Recon detects Vue by checking HTML attributes (`data-v-*`, `data-vue-*`) and by scanning bundle content for `Vue.component(` or `__vue`. The following template covers the HTML attribute approach:
-
-```yaml
-id: vuejs-detect
+    "vuejs-detect.yaml": `id: vuejs-detect
 
 info:
     name: Vue.js - Detect
@@ -190,14 +168,9 @@ http:
           - type: status
             status:
                 - 200
-```
+`,
 
-## Nuxt.js
-
-Nuxt.js (a Vue-based framework) is detected by JS Recon after Vue is confirmed, by looking for `/_nuxt` paths in `src` or `href` attributes:
-
-```yaml
-id: nuxtjs-detect
+    "nuxtjs-detect.yaml": `id: nuxtjs-detect
 
 info:
     name: Nuxt.js - Detect
@@ -223,14 +196,9 @@ http:
           - type: status
             status:
                 - 200
-```
+`,
 
-## Svelte / SvelteKit
-
-JS Recon detects Svelte by checking for `svelte-` prefixed class names or element IDs, and the `data-sveltekit-reload` attribute:
-
-```yaml
-id: svelte-detect
+    "svelte-detect.yaml": `id: svelte-detect
 
 info:
     name: Svelte / SvelteKit - Detect
@@ -260,14 +228,9 @@ http:
           - type: status
             status:
                 - 200
-```
+`,
 
-## Angular
-
-JS Recon detects Angular by locating a `main-*.js` script tag on the page, fetching its contents, and checking for Angular-specific markers (`isAngularZone()`, `"isAngularZone"`, `this.ngZone`, `"routerLink"`). The following two-request template replicates this using Nuclei's `flow` feature:
-
-```yaml
-id: angular-detect
+    "angular-detect.yaml": `id: angular-detect
 
 info:
     name: Angular - Detect
@@ -286,7 +249,7 @@ flow: |
         if (src.startsWith("http://") || src.startsWith("https://")) {
             set("resolved-main-js", src)
         } else {
-            let base = template.BaseURL.replace(/\/$/, "")
+            let base = template.BaseURL.replace(/\\/$/, "")
             let path = src.startsWith("/") ? src : "/" + src
             set("resolved-main-js", base + path)
         }
@@ -303,7 +266,7 @@ http:
             name: main-js-src
             part: body
             regex:
-                - '<script[^>]+src="([^"]*main-[^"]*\.js[^"]*)"'
+                - '<script[^>]+src="([^"]*main-[^"]*\\.js[^"]*)"'
             group: 1
             internal: true
 
@@ -316,17 +279,52 @@ http:
           - type: regex
             part: body
             regex:
-                - 'isAngularZone\(\)'
+                - 'isAngularZone\\(\\)'
                 - '"isAngularZone"'
-                - 'this\.ngZone'
+                - 'this\\.ngZone'
                 - '"routerLink"'
             condition: or
 
           - type: status
             status:
                 - 200
-```
+`,
+};
 
-:::note
-The second request uses the extracted `src` value verbatim. If the `main-*.js` path is relative (e.g. `/static/main-abc123.js`), Nuclei will resolve it against `BaseURL`. Absolute CDN URLs are also followed directly. If the script is hosted on a separate origin from `BaseURL`, ensure the Nuclei runner has network access to that host.
-:::
+export default function NucleiDownloadButton(): JSX.Element {
+    const handleDownload = async () => {
+        const zip = new JSZip();
+        for (const [filename, content] of Object.entries(TEMPLATES)) {
+            zip.file(filename, content);
+        }
+        const blob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "js-recon-nuclei-templates.zip";
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    return (
+        <button
+            onClick={handleDownload}
+            style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                padding: "0.5rem 1.1rem",
+                marginBottom: "1.5rem",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                color: "#fff",
+                background: "var(--ifm-color-primary)",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+            }}
+        >
+            ⬇ Download All Templates (.zip)
+        </button>
+    );
+}
