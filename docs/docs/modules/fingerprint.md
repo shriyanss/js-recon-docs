@@ -18,7 +18,7 @@ js-recon fingerprint -u <url/file> [options]
 | ------------------ | ----- | -------------------------------------------------------------------- | -------- | -------- |
 | `--url <url/file>` | `-u`  | Target URL or a file containing a list of URLs (one per line).       |          | Yes      |
 | `--output <file>`  | `-o`  | Output file to write results.                                        |          | No       |
-| `--format <formats>` | `-f` | Output format(s): `text`, `csv` (comma-separated for both).        | `text`   | No       |
+| `--format <formats>` | `-f` | Output format(s): `text`, `csv`, `json`, `jsonl` (comma-separated for multiple).        | `text`   | No       |
 | `--timeout <ms>`   |       | Request timeout in milliseconds.                                     | `30000`  | No       |
 | `--insecure`       | `-k`  | Disable SSL certificate verification.                                | `false`  | No       |
 | `--no-sandbox`     |       | Disable browser sandbox.                                             | `false`  | No       |
@@ -59,9 +59,29 @@ next.js,https://example.com
 unknown,https://other.com
 ```
 
-### Both formats
+### JSON
 
-Pass `--format text,csv` to write both files simultaneously. When multiple formats are requested, the output filename is used as a base and the appropriate extension (`.txt` / `.csv`) is appended automatically.
+A JSON array of objects, each with `url` and `framework` fields:
+
+```json
+[
+  { "url": "https://example.com", "framework": "next" },
+  { "url": "https://other.com", "framework": "unknown" }
+]
+```
+
+### JSONL
+
+One JSON object per line (newline-delimited JSON), useful for streaming or piping into other tools:
+
+```
+{"url":"https://example.com","framework":"next"}
+{"url":"https://other.com","framework":"unknown"}
+```
+
+### Multiple formats
+
+Pass a comma-separated list to write multiple files in one run. The output filename is used as a base and the appropriate extension (`.txt`, `.csv`, `.json`, `.jsonl`) is appended automatically.
 
 ## Examples
 
@@ -91,13 +111,25 @@ js-recon fingerprint -u targets.txt -o results.txt
 js-recon fingerprint -u targets.txt -o results -f csv
 ```
 
-### Save both text and CSV
+### Save as JSON
 
 ```bash
-js-recon fingerprint -u targets.txt -o results -f text,csv
+js-recon fingerprint -u targets.txt -o results -f json
 ```
 
-This produces `results.txt` and `results.csv`.
+### Save as JSONL
+
+```bash
+js-recon fingerprint -u targets.txt -o results -f jsonl
+```
+
+### Save all formats at once
+
+```bash
+js-recon fingerprint -u targets.txt -o results -f text,csv,json,jsonl
+```
+
+This produces `results.txt`, `results.csv`, `results.json`, and `results.jsonl`.
 
 ### Skip SSL verification
 
