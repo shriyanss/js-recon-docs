@@ -55,6 +55,6 @@ The three rules ship out of the box with Vue.js coverage:
 
 - **`detect_dom_xss_dangerouslySetInnerHTML`** — Catches `v-html="X"` once Vite compiles it to `{ innerHTML: X }` paired with a `fetch()` in the same module.
 - **`detect_dom_xss_innerHTML_url_source`** — Catches `headingRef.value.innerHTML = ...${q}...` inside an `onMounted` block where `q` came from `URLSearchParams(window.location.search).get(...)`.
-- **`detect_cspt_fetch_url_param`** — Catches `fetch(\`/api/docs/${file}\`)` where `file` is `route.query.file` (the `route` binding inherits taint from `useRoute()`).
+- **`detect_cspt_fetch_url_param`** — Catches ``fetch(`/api/docs/${file}`)`` where `file` is `route.query.file` (the `route` binding inherits taint from `useRoute()`).
 
 See [Predefined rules](../rules/predefined-rules.md) for the full taxonomy and the constraints each rule applies.
