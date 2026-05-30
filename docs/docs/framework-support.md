@@ -42,6 +42,7 @@ The feature to map all the functions are available only for the following JavaSc
 - [Next.js](https://nextjs.org) — both [Webpack](https://webpack.js.org/) (`self.webpackChunk_N_E`) and [Turbopack](https://turbo.build/pack) (`globalThis.TURBOPACK`) chunk formats are recognised, so projects on Next.js 15 / Turbopack are mapped just like classic Webpack builds.
 - [Vue.js](https://vuejs.org) — [Vite](https://vitejs.dev) production chunks (2-character function name convention) are decoded into per-function chunks; for non-bundled / dev-server output, each `.js` and `.vue` module is emitted as a single chunk so it remains analyzable.
 - [React](https://react.dev) — ES module and webpack chunk formats are supported; `fetch()` calls are resolved using the same taint-flow analysis as Next.js.
+- [Svelte/Astro](https://astro.build) — Vite production chunks are decoded using the same logic as Vue.js; `fetch()` and Axios calls are resolved with the same taint-flow analysis.
 
 ## Analyze
 
@@ -49,6 +50,8 @@ The static-analysis [`analyze`](./modules/analyze.md) module evaluates AST rules
 
 - [Next.js](https://nextjs.org)
 - [Vue.js](https://vuejs.org)
+- [React](https://react.dev)
+- [Svelte/Astro](https://astro.build)
 
 ## Run
 

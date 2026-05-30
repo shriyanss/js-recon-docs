@@ -77,6 +77,8 @@ Each framework is added to the tool after thorough research on the framework. Ne
 
 - Next.js
 - Vue
+- React
+- Svelte/Astro
 
 ## Examples
 

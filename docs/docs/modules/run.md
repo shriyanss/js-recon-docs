@@ -8,7 +8,7 @@ The `run` command is a powerful feature that automates most of the JavaScript re
 
 ## Workflow
 
-The `run` command executes the following modules in sequence (for Next.js targets; the tool will exit after lazyload if the target is not a Next.js app):
+The `run` command executes the following modules in sequence. The exact steps depend on the detected framework — Next.js runs the full pipeline described below, Vue.js and Svelte/Astro run a shorter `lazyload → map → analyze → report` pipeline, and the tool will exit after lazyload for any unsupported framework.
 
 1.  **Lazy Load (Initial)**: Downloads the initial set of JavaScript files from the target URL.
 1.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
