@@ -64,6 +64,7 @@ js-recon run -u <url/file> [options]
 | `--research-output <file>`      |       | Output file for research mode                                        | `research.json`            | No       |
 | `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations                         | `10`                       | No       |
 | `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only)                       | `2`                        | No       |
+| `--lazyload-timeout <minutes>`  |       | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable. | `30` | No |
 | `-h, --help`                    |       | display help for command                                             |                            | No       |
 
 ## Example
