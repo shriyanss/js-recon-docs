@@ -56,6 +56,7 @@ js-recon run -u <url/file> [options]
 | `--openai-api-key <key>`        |       | OpenAI API key                                                       |                            | No       |
 | `--model <model>`               |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
 | `--map-openapi-chunk-tag`       |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
+| `--no-graphql`                  | `--ngql` | Disable GraphQL operation extraction in the map step              | enabled                    | No       |
 | `--timeout`                     |       | Request timeout in ms                                                | `30000`                    | No       |
 | `--insecure`                    | `-k`  | Disable SSL certificate verification                                 | `false`                    | No       |
 | `--no-sandbox`                  |       | Disable browser sandbox                                              | `false`                    | No       |

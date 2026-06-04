@@ -31,6 +31,7 @@ js-recon map -d <directory> -t <technology> [options]
 | `--openapi`                |       | Generate OpenAPI spec from the code                                                 | `false`               | No       |
 | `--openapi-output <file>`  |       | Output file for OpenAPI spec                                                        | `mapped-openapi.json` | No       |
 | `--openapi-chunk-tag`      |       | Add chunk ID tag to OpenAPI spec for each request found                             | `false`               | No       |
+| `--no-graphql`             | `--ngql` | Disable GraphQL operation extraction during OpenAPI generation                   | enabled               | No       |
 
 ## How it works
 
@@ -64,6 +65,18 @@ After chunking, the tool resolves every `fetch()` and Axios call to a concrete U
 5. **`new Request(...)` calls**: Also resolved using the same taint-flow mechanism, for code that constructs `Request` objects rather than calling `fetch` directly.
 
 The resolved endpoints are written into `mapped.json` and, when `--openapi` is set, into a `mapped-openapi.json` OpenAPI 3.0 spec.
+
+### GraphQL operation extraction
+
+When `--openapi` is set and `--no-graphql`/`--ngql` is not, `map` additionally scans every downloaded JS file for embedded GraphQL operations (queries, mutations, subscriptions). Each `StringLiteral` and `TemplateLiteral` whose text resembles a GraphQL document is fed through the official `graphql` library's `parse()`; anything that parses cleanly is emitted as a POST request.
+
+Each emitted operation:
+
+- Has method `POST` and path `/{{graphqlEndpoint}}` (a Postman/OpenAPI variable so importers can substitute the real GraphQL transport URL).
+- Carries a JSON body of shape `{"operationName": "...", "query": "...", "variables": {...}}`. The `query` is the operation re-printed standalone, with any referenced fragment definitions (transitively) inlined into the same document so the request is self-contained. `variables` is a typed stub using the existing `<string>` / `<number>` / `<boolean>` placeholder convention.
+- Is grouped under a flat top-level `GraphQL` folder in the Postman collection and tagged `GraphQL` in the OpenAPI spec. Operations are deduplicated by operation name + printed query so the same call appearing in several chunks emits a single entry.
+
+This scan is independent of the URL/transport resolvers — it does not require the GraphQL client call site to be reachable by taint analysis, only that the operation text appears as a literal somewhere in the bundle.
 
 ### Limitations
 
