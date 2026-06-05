@@ -4,23 +4,57 @@ sidebar_position: 10
 
 # MCP command
 
-The `mcp` command launches an AI-powered interactive CLI that lets you run js-recon modules through natural language. You can ask it to download JavaScript files, run the full analysis pipeline, summarize results, and more — without remembering individual command flags.
+The `mcp` command has three modes:
+
+- `--cli` — AI-powered **interactive CLI** that lets you run js-recon modules through natural language.
+- `-c/--chat "<prompt>"` — **one-shot** non-interactive chat. Send a single prompt, print the reply, exit. Repeatable.
+- `--server` — start a **Model Context Protocol server** over stdio so js-recon can be wired into Claude Code, Cursor, or any other MCP-aware tool as a tool provider.
 
 ## Usage
 
 ```bash
-js-recon mcp --cli [options]
+js-recon mcp --cli [options]                # interactive REPL
+js-recon mcp -c "scan https://example.com"  # one-shot
+js-recon mcp --server                       # MCP stdio server
 ```
 
 ## Options
 
-| Option                  | Alias | Description                                                       | Default                | Required |
-| ----------------------- | ----- | ----------------------------------------------------------------- | ---------------------- | -------- |
-| `--cli`                 |       | Start the interactive CLI session.                                | `false`                | Yes      |
-| `--config <file>`       |       | Path to a custom MCP config file.                                 | `~/.js-recon/mcp.yaml` | No       |
-| `--api-key <key>`       |       | API key for the LLM provider (overrides config and env vars).     |                        | No       |
-| `--model <model>`       |       | AI model to use (e.g. `gpt-4o-mini`, `claude-sonnet-4-20250514`). | from config            | No       |
-| `--provider <provider>` |       | LLM provider to use (`openai` or `anthropic`).                    | from config            | No       |
+| Option                       | Alias | Description                                                                          | Default                | Required |
+| ---------------------------- | ----- | ------------------------------------------------------------------------------------ | ---------------------- | -------- |
+| `--cli`                      |       | Start the interactive CLI session.                                                   | `false`                | No       |
+| `--server`                   |       | Start a Model Context Protocol server over stdio.                                    | `false`                | No       |
+| `-c, --chat <prompt>`        | `-c`  | Send a one-shot prompt (repeatable; each `-c` adds another turn).                    |                        | No       |
+| `--config <file>`            |       | Path to a custom MCP config file.                                                    | `~/.js-recon/mcp.yaml` | No       |
+| `--api-key <key>`            |       | API key for the LLM provider (overrides config and env vars).                        |                        | No       |
+| `--model <model>`            |       | AI model to use (e.g. `gpt-4o-mini`, `claude-sonnet-4-20250514`).                    | from config            | No       |
+| `--provider <provider>`      |       | LLM provider to use (`openai` or `anthropic`).                                       | from config            | No       |
+| `--no-refresh-claude-creds`  |       | Do not auto-refresh reused Claude Code OAuth tokens; fail with a hint if expired.    |                        | No       |
+
+## Reusing your Claude Code login
+
+If you don't pass `--api-key` and don't have one configured, the `--cli` and `-c/--chat` modes automatically try to reuse the OAuth credentials from your local **Claude Code** install. On macOS those live in the keychain under the service name `Claude Code-credentials`; on Linux they're in `~/.claude/.credentials.json`. The token is refreshed when expired (with a warning) and **never written to `~/.js-recon/mcp.yaml`** — it stays in the OS credential store. Pass `--no-refresh-claude-creds` to opt out of automatic refresh.
+
+## MCP server mode
+
+`js-recon mcp --server` speaks the Model Context Protocol over stdio. Registered tools: `lazyload`, `strings`, `map`, `endpoints`, `analyze`, `report`, `run`. To wire into Claude Code, add to `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "js-recon": {
+      "command": "node",
+      "args": ["/abs/path/to/js-recon/build/index.js", "mcp", "--server"]
+    }
+  }
+}
+```
+
+Smoke-test the protocol without a host:
+
+```bash
+echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | node build/index.js mcp --server
+```
 
 ## Configuration
 
