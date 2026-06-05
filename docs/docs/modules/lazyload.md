@@ -75,6 +75,8 @@ Next.js receives the most comprehensive discovery. The crawler runs in two phase
 
 After all passes, `.map` is appended to every discovered `.js` URL and checked for a 200 response to find source maps.
 
+> **Content-entropy deduplication:** When the crawler encounters a page URL whose pathname has already been visited, it fetches the new URL and compares its `<script src>` tags against every script set already recorded for that pathname. If the scripts are identical, the variant is skipped — it loads the same JS and would contribute nothing new. If the scripts differ (e.g. a dynamically-routed page that loads a unique chunk), the variant is visited and its script fingerprint is added. This lets the crawler correctly skip variants that differ only in a filter or selector parameter (e.g. `/search?sort=asc` vs `/search?sort=desc`) while still visiting genuinely distinct parameterized routes (e.g. different product or user pages that load unique chunks). The same fingerprint logic is applied in the script-tag subsequent-requests pass.
+
 ### `--yes` flag and JS execution
 
 The webpack chunk-enumeration technique extracts a function from the webpack runtime and executes it locally in a Node.js sandbox with each discovered integer chunk ID as input. Before executing, the tool prompts you to inspect the extracted function and confirm. Pass `--yes` to skip the prompt — useful in automated pipelines, but verify you trust the target's JS first.

@@ -68,6 +68,25 @@ js-recon run -u <url/file> [options]
 | `--lazyload-timeout <minutes>`  |       | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable. | `30` | No |
 | `-h, --help`                    |       | display help for command                                             |                            | No       |
 
+## Ctrl-C / Interrupt handling
+
+Pressing Ctrl-C while `run` is active shows an interactive menu instead of immediately killing the process:
+
+```
+[!] Interrupted. What would you like to do?
+  1. Skip the current step
+  2. Skip the current target and move to the next   (batch mode only)
+  3. Exit                                            (or "2. Exit" in single-URL mode)
+```
+
+| Choice | Effect |
+|--------|--------|
+| **1 — Skip step** | The current pipeline step (lazyload, strings, map, etc.) is abandoned and the next step starts immediately. The skipped step may still finish in the background, but its result is not waited for. |
+| **2 — Skip target** *(batch only)* | Remaining steps for the current target are abandoned and `run` moves to the next URL in the list. |
+| **Last — Exit** | The process exits cleanly (`process.exit(0)`). |
+
+Pressing Ctrl-C a second time during the menu prompt falls through to the OS default (immediate termination).
+
 ## Example
 
 ### Run all modules on target, scan for secrets, and generate AI descriptions
