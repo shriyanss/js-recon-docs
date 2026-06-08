@@ -14,31 +14,31 @@ js-recon lazyload -u <url/file> [options]
 
 ## Options
 
-| Option                          | Alias | Description                                                                         | Default                    | Required |
-| ------------------------------- | ----- | ----------------------------------------------------------------------------------- | -------------------------- | -------- |
-| `--url <url/file>`              | `-u`  | Target URL or a file containing a list of URLs (one per line).                      |                            | Yes      |
-| `--output <directory>`          | `-o`  | Output directory to save the downloaded JS files.                                   | `output`                   | No       |
-| `--strict-scope`                |       | Download JS files from only the input URL domain.                                   | `false`                    | No       |
-| `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated). Use `*` for all domains. | `*`                        | No       |
-| `--threads <threads>`           | `-t`  | Number of threads to use for downloading.                                           | `1`                        | No       |
-| `--subsequent-requests`         |       | Download JS files from subsequent requests (Next.js only).                          | `false`                    | No       |
-| `--urls-file <file>`            |       | Input JSON file containing URLs (for `--subsequent-requests`)                       | `extracted_urls.json`      | No       |
-| `--api-gateway`                 |       | Generate requests using API Gateway for IP rotation.                                | `false`                    | No       |
-| `--api-gateway-config <file>`   |       | API Gateway config file.                                                            | `.api_gateway_config.json` | No       |
-| `--cache-file <file>`           |       | File to contain response cache.                                                     | `.resp_cache.json`         | No       |
-| `--disable-cache`               |       | Disable response caching.                                                           | `false`                    | No       |
-| `--cache-only`                  |       | Only use the response cache; never make network requests. See [Load command](./load.md). | `false`                | No       |
-| `--yes`                         | `-y`  | Auto-approve executing JS code from the target.                                     | `false`                    | No       |
-| `--timeout`                     |       | Request timeout in ms                                                               | `30000`                    | No       |
-| `--insecure`                    | `-k`  | Disable SSL certificate verification.                                               | `false`                    | No       |
-| `--no-sandbox`                  |       | Disable browser sandbox.                                                            | `false`                    | No       |
-| `--build-id`                    |       | Get the buildId from the Next.js app.                                               | `false`                    | No       |
-| `--sourcemap-dir <directory>`   |       | Directory to write reconstructed source maps.                                       | `extracted`                | No       |
-| `--research`                    |       | Enable research mode.                                                               | `false`                    | No       |
-| `--research-output <file>`      |       | Output file for research mode.                                                      | `research.json`            | No       |
-| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                       | `10`                       | No       |
-| `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                     | `2`                        | No       |
-| `--lazyload-timeout <minutes>`  |       | Hard timeout for the lazyload module. The module stops and the pipeline continues after this many minutes. Use `0` to disable. | `30` | No |
+| Option                          | Alias | Description                                                                                                                    | Default                    | Required |
+| ------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | -------- |
+| `--url <url/file>`              | `-u`  | Target URL or a file containing a list of URLs (one per line).                                                                 |                            | Yes      |
+| `--output <directory>`          | `-o`  | Output directory to save the downloaded JS files.                                                                              | `output`                   | No       |
+| `--strict-scope`                |       | Download JS files from only the input URL domain.                                                                              | `false`                    | No       |
+| `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated). Use `*` for all domains.                                            | `*`                        | No       |
+| `--threads <threads>`           | `-t`  | Number of threads to use for downloading.                                                                                      | `1`                        | No       |
+| `--subsequent-requests`         |       | Download JS files from subsequent requests (Next.js only).                                                                     | `false`                    | No       |
+| `--urls-file <file>`            |       | Input JSON file containing URLs (for `--subsequent-requests`)                                                                  | `extracted_urls.json`      | No       |
+| `--api-gateway`                 |       | Generate requests using API Gateway for IP rotation.                                                                           | `false`                    | No       |
+| `--api-gateway-config <file>`   |       | API Gateway config file.                                                                                                       | `.api_gateway_config.json` | No       |
+| `--cache-file <file>`           |       | File to contain response cache.                                                                                                | `.resp_cache.json`         | No       |
+| `--disable-cache`               |       | Disable response caching.                                                                                                      | `false`                    | No       |
+| `--cache-only`                  |       | Only use the response cache; never make network requests. See [Load command](./load.md).                                       | `false`                    | No       |
+| `--yes`                         | `-y`  | Auto-approve executing JS code from the target.                                                                                | `false`                    | No       |
+| `--timeout`                     |       | Request timeout in ms                                                                                                          | `30000`                    | No       |
+| `--insecure`                    | `-k`  | Disable SSL certificate verification.                                                                                          | `false`                    | No       |
+| `--no-sandbox`                  |       | Disable browser sandbox.                                                                                                       | `false`                    | No       |
+| `--build-id`                    |       | Get the buildId from the Next.js app.                                                                                          | `false`                    | No       |
+| `--sourcemap-dir <directory>`   |       | Directory to write reconstructed source maps.                                                                                  | `extracted`                | No       |
+| `--research`                    |       | Enable research mode.                                                                                                          | `false`                    | No       |
+| `--research-output <file>`      |       | Output file for research mode.                                                                                                 | `research.json`            | No       |
+| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                                                                  | `10`                       | No       |
+| `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                                                                | `2`                        | No       |
+| `--lazyload-timeout <minutes>`  |       | Hard timeout for the lazyload module. The module stops and the pipeline continues after this many minutes. Use `0` to disable. | `30`                       | No       |
 
 ## How it works
 
@@ -61,6 +61,7 @@ Detection uses two sources: the raw HTTP response (fast) and a Puppeteer-rendere
 Next.js receives the most comprehensive discovery. The crawler runs in two phases.
 
 **Initial phase** (run once):
+
 - Parse `<script src>` tags and inline `static/chunks/...` references on the landing page
 - Extract `<a href>` links on the landing page for page-URL seeding
 - Execute the webpack runtime's chunk-loading function in a sandbox to enumerate all chunk IDs (requires `--yes` to auto-confirm, or manual confirmation per run)
@@ -68,6 +69,7 @@ Next.js receives the most comprehensive discovery. The crawler runs in two phase
 - Optionally, if `--subsequent-requests` is set: make RSC (`RSC: 1` header) and plain HTML requests to all discovered paths to find dynamically loaded chunks
 
 **Recursive phase** (repeated until convergence or `--max-iterations`):
+
 - Detect `Promise.all([...].map(...))` patterns in newly downloaded chunks to extract additional chunk IDs
 - Parse `layout-*.js` files for `href` object properties; visit discovered routes and extract their script tags
 - Re-run `<script src>` and `<a href>` extraction on each newly discovered page URL
@@ -83,11 +85,11 @@ The webpack chunk-enumeration technique extracts a function from the webpack run
 
 ### Scope
 
-| Flag | Behaviour |
-|------|-----------|
-| *(default)* `*` | Download JS from any domain |
-| `--scope a.com,b.com` | Only download from `a.com` and `b.com` |
-| `--strict-scope` | Only download from the exact host in the input URL |
+| Flag                  | Behaviour                                          |
+| --------------------- | -------------------------------------------------- |
+| _(default)_ `*`       | Download JS from any domain                        |
+| `--scope a.com,b.com` | Only download from `a.com` and `b.com`             |
+| `--strict-scope`      | Only download from the exact host in the input URL |
 
 Scoping matters most when JS assets are served from a CDN subdomain. The `run` command auto-detects CDN hosts and adjusts the map directory accordingly, but `lazyload` alone requires explicit scope configuration.
 

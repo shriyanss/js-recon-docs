@@ -14,14 +14,14 @@ js-recon fingerprint -u <url/file> [options]
 
 ## Options
 
-| Option             | Alias | Description                                                          | Default  | Required |
-| ------------------ | ----- | -------------------------------------------------------------------- | -------- | -------- |
-| `--url <url/file>` | `-u`  | Target URL or a file containing a list of URLs (one per line).       |          | Yes      |
-| `--output <file>`  | `-o`  | Output file to write results.                                        |          | No       |
-| `--format <formats>` | `-f` | Output format(s): `text`, `csv`, `json`, `jsonl` (comma-separated for multiple).        | `text`   | No       |
-| `--timeout <ms>`   |       | Request timeout in milliseconds.                                     | `30000`  | No       |
-| `--insecure`       | `-k`  | Disable SSL certificate verification.                                | `false`  | No       |
-| `--no-sandbox`     |       | Disable browser sandbox.                                             | `false`  | No       |
+| Option               | Alias | Description                                                                      | Default | Required |
+| -------------------- | ----- | -------------------------------------------------------------------------------- | ------- | -------- |
+| `--url <url/file>`   | `-u`  | Target URL or a file containing a list of URLs (one per line).                   |         | Yes      |
+| `--output <file>`    | `-o`  | Output file to write results.                                                    |         | No       |
+| `--format <formats>` | `-f`  | Output format(s): `text`, `csv`, `json`, `jsonl` (comma-separated for multiple). | `text`  | No       |
+| `--timeout <ms>`     |       | Request timeout in milliseconds.                                                 | `30000` | No       |
+| `--insecure`         | `-k`  | Disable SSL certificate verification.                                            | `false` | No       |
+| `--no-sandbox`       |       | Disable browser sandbox.                                                         | `false` | No       |
 
 ## How it works
 
@@ -65,8 +65,8 @@ A JSON array of objects, each with `url` and `framework` fields:
 
 ```json
 [
-  { "url": "https://example.com", "framework": "next" },
-  { "url": "https://other.com", "framework": "unknown" }
+    { "url": "https://example.com", "framework": "next" },
+    { "url": "https://other.com", "framework": "unknown" }
 ]
 ```
 

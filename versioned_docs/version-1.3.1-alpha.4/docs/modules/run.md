@@ -33,40 +33,40 @@ js-recon run -u <url/file> [options]
 
 ### Options
 
-| Option                          | Alias | Description                                                          | Default                    | Required |
-| ------------------------------- | ----- | -------------------------------------------------------------------- | -------------------------- | -------- |
-| `--url <url>`                   | `-u`  | Target URL                                                           |                            | Yes      |
-| `--output <directory>`          | `-o`  | Output directory                                                     | `output`                   | No       |
-| `--strict-scope`                |       | Download JS files from only the input URL domain                     | `false`                    | No       |
-| `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated)            | `*`                        | No       |
-| `--threads <threads>`           | `-t`  | Number of threads to use                                             | `1`                        | No       |
-| `--rules <file/dir>`            | `-r`  | Rules file or directory (passed to analyze module)                   |                            | No       |
-| `--command <command>`           | `-c`  | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && esquery * fetch"`). |  | No |
-| `--api-gateway`                 |       | Generate requests using API Gateway                                  | `false`                    | No       |
-| `--api-gateway-config <file>`   |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
-| `--cache-file <file>`           |       | File to store response cache                                         | `.resp_cache.json`         | No       |
-| `--disable-cache`               |       | Disable response caching                                             | `false`                    | No       |
-| `--cache-only`                  |       | Only use the response cache; never make network requests. See [Load command](./load.md). | `false`              | No       |
-| `--yes`                         | `-y`  | Auto-approve executing JS code from the target                       | `false`                    | No       |
-| `--secrets`                     |       | Scan for secrets                                                     | `false`                    | No       |
-| `--ai <options>`                |       | Use AI to analyze the code (comma-separated; available: description) |                            | No       |
-| `--ai-threads <threads>`        |       | Number of threads to use for AI                                      | `5`                        | No       |
-| `--ai-provider <provider>`      |       | Service provider to use for AI (available: openai, ollama)           | `openai`                   | No       |
-| `--ai-endpoint <endpoint>`      |       | Endpoint to use for AI service (for Ollama, etc)                     |                            | No       |
-| `--openai-api-key <key>`        |       | OpenAI API key                                                       |                            | No       |
-| `--model <model>`               |       | AI model to use                                                      | `gpt-4o-mini`              | No       |
-| `--map-openapi-chunk-tag`       |       | Add chunk ID tag to OpenAPI spec for each request found (map module) | `false`                    | No       |
-| `--no-graphql`                  | `--ngql` | Disable GraphQL operation extraction in the map step              | enabled                    | No       |
-| `--timeout`                     |       | Request timeout in ms                                                | `30000`                    | No       |
-| `--insecure`                    | `-k`  | Disable SSL certificate verification                                 | `false`                    | No       |
-| `--no-sandbox`                  |       | Disable browser sandbox                                              | `false`                    | No       |
-| `--sourcemap-dir <directory>`   |       | Directory to write reconstructed source maps                         | `extracted`                | No       |
-| `--research`                    |       | Enable research mode                                                 | `false`                    | No       |
-| `--research-output <file>`      |       | Output file for research mode                                        | `research.json`            | No       |
-| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations                         | `10`                       | No       |
-| `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only)                       | `2`                        | No       |
-| `--lazyload-timeout <minutes>`  |       | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable. | `30` | No |
-| `-h, --help`                    |       | display help for command                                             |                            | No       |
+| Option                          | Alias    | Description                                                                                                                                                                            | Default                    | Required |
+| ------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------- |
+| `--url <url>`                   | `-u`     | Target URL                                                                                                                                                                             |                            | Yes      |
+| `--output <directory>`          | `-o`     | Output directory                                                                                                                                                                       | `output`                   | No       |
+| `--strict-scope`                |          | Download JS files from only the input URL domain                                                                                                                                       | `false`                    | No       |
+| `--scope <scope>`               | `-s`     | Download JS files from specific domains (comma-separated)                                                                                                                              | `*`                        | No       |
+| `--threads <threads>`           | `-t`     | Number of threads to use                                                                                                                                                               | `1`                        | No       |
+| `--rules <file/dir>`            | `-r`     | Rules file or directory (passed to analyze module)                                                                                                                                     |                            | No       |
+| `--command <command>`           | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && esquery * fetch"`). |                            | No       |
+| `--api-gateway`                 |          | Generate requests using API Gateway                                                                                                                                                    | `false`                    | No       |
+| `--api-gateway-config <file>`   |          | API Gateway config file                                                                                                                                                                | `.api_gateway_config.json` | No       |
+| `--cache-file <file>`           |          | File to store response cache                                                                                                                                                           | `.resp_cache.json`         | No       |
+| `--disable-cache`               |          | Disable response caching                                                                                                                                                               | `false`                    | No       |
+| `--cache-only`                  |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                               | `false`                    | No       |
+| `--yes`                         | `-y`     | Auto-approve executing JS code from the target                                                                                                                                         | `false`                    | No       |
+| `--secrets`                     |          | Scan for secrets                                                                                                                                                                       | `false`                    | No       |
+| `--ai <options>`                |          | Use AI to analyze the code (comma-separated; available: description)                                                                                                                   |                            | No       |
+| `--ai-threads <threads>`        |          | Number of threads to use for AI                                                                                                                                                        | `5`                        | No       |
+| `--ai-provider <provider>`      |          | Service provider to use for AI (available: openai, ollama)                                                                                                                             | `openai`                   | No       |
+| `--ai-endpoint <endpoint>`      |          | Endpoint to use for AI service (for Ollama, etc)                                                                                                                                       |                            | No       |
+| `--openai-api-key <key>`        |          | OpenAI API key                                                                                                                                                                         |                            | No       |
+| `--model <model>`               |          | AI model to use                                                                                                                                                                        | `gpt-4o-mini`              | No       |
+| `--map-openapi-chunk-tag`       |          | Add chunk ID tag to OpenAPI spec for each request found (map module)                                                                                                                   | `false`                    | No       |
+| `--no-graphql`                  | `--ngql` | Disable GraphQL operation extraction in the map step                                                                                                                                   | enabled                    | No       |
+| `--timeout`                     |          | Request timeout in ms                                                                                                                                                                  | `30000`                    | No       |
+| `--insecure`                    | `-k`     | Disable SSL certificate verification                                                                                                                                                   | `false`                    | No       |
+| `--no-sandbox`                  |          | Disable browser sandbox                                                                                                                                                                | `false`                    | No       |
+| `--sourcemap-dir <directory>`   |          | Directory to write reconstructed source maps                                                                                                                                           | `extracted`                | No       |
+| `--research`                    |          | Enable research mode                                                                                                                                                                   | `false`                    | No       |
+| `--research-output <file>`      |          | Output file for research mode                                                                                                                                                          | `research.json`            | No       |
+| `--max-iterations <iterations>` |          | Maximum number of recursive crawl iterations                                                                                                                                           | `10`                       | No       |
+| `--max-js-size <mb>`            |          | Maximum JS file size in MB to parse (Vue only)                                                                                                                                         | `2`                        | No       |
+| `--lazyload-timeout <minutes>`  |          | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable.                                                 | `30`                       | No       |
+| `-h, --help`                    |          | display help for command                                                                                                                                                               |                            | No       |
 
 ## Ctrl-C / Interrupt handling
 
@@ -79,11 +79,11 @@ Pressing Ctrl-C while `run` is active shows an interactive menu instead of immed
   3. Exit                                            (or "2. Exit" in single-URL mode)
 ```
 
-| Choice | Effect |
-|--------|--------|
-| **1 — Skip step** | The current pipeline step (lazyload, strings, map, etc.) is abandoned and the next step starts immediately. The skipped step may still finish in the background, but its result is not waited for. |
-| **2 — Skip target** *(batch only)* | Remaining steps for the current target are abandoned and `run` moves to the next URL in the list. |
-| **Last — Exit** | The process exits cleanly (`process.exit(0)`). |
+| Choice                             | Effect                                                                                                                                                                                             |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1 — Skip step**                  | The current pipeline step (lazyload, strings, map, etc.) is abandoned and the next step starts immediately. The skipped step may still finish in the background, but its result is not waited for. |
+| **2 — Skip target** _(batch only)_ | Remaining steps for the current target are abandoned and `run` moves to the next URL in the list.                                                                                                  |
+| **Last — Exit**                    | The process exits cleanly (`process.exit(0)`).                                                                                                                                                     |
 
 Pressing Ctrl-C a second time during the menu prompt falls through to the OS default (immediate termination).
 

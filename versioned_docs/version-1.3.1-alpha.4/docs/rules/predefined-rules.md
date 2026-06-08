@@ -135,7 +135,13 @@ Typical compiled match (Vue, `src/views/PostDetail.vue`):
 Compiled by Vite to:
 
 ```js
-_createElementVNode("div", _mergeProps({ class: "comment-content" }, { innerHTML: comment.content }), null, 16, ["innerHTML"]);
+_createElementVNode(
+    "div",
+    _mergeProps({ class: "comment-content" }, { innerHTML: comment.content }),
+    null,
+    16,
+    ["innerHTML"]
+);
 ```
 
 ### `detect_open_redirect_url_param` — DOM-based open redirect

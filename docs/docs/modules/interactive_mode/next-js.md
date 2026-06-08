@@ -36,18 +36,18 @@ The following keybindings are available for navigation and control:
 
 The input box supports standard line-editor controls so you can correct typos or paste a long snippet without retyping:
 
-| Key                          | Action                                  |
-| ---------------------------- | --------------------------------------- |
-| `Left` / `Right`             | Move cursor one character               |
-| `Ctrl+Left` / `Ctrl+Right`   | Move cursor one word                    |
-| `Home` / `Ctrl+A`            | Jump to start of line                   |
-| `End` / `Ctrl+E`             | Jump to end of line                     |
-| `Backspace`                  | Delete the character before the cursor  |
-| `Delete`                     | Delete the character at the cursor      |
-| `Ctrl+W`                     | Delete the previous word                |
-| `Ctrl+U`                     | Delete from cursor to start of line     |
-| `Ctrl+K`                     | Delete from cursor to end of line       |
-| Paste (`Cmd+V` / `Ctrl+V`)   | Inserts pasted text at the cursor       |
+| Key                        | Action                                 |
+| -------------------------- | -------------------------------------- |
+| `Left` / `Right`           | Move cursor one character              |
+| `Ctrl+Left` / `Ctrl+Right` | Move cursor one word                   |
+| `Home` / `Ctrl+A`          | Jump to start of line                  |
+| `End` / `Ctrl+E`           | Jump to end of line                    |
+| `Backspace`                | Delete the character before the cursor |
+| `Delete`                   | Delete the character at the cursor     |
+| `Ctrl+W`                   | Delete the previous word               |
+| `Ctrl+U`                   | Delete from cursor to start of line    |
+| `Ctrl+K`                   | Delete from cursor to end of line      |
+| Paste (`Cmd+V` / `Ctrl+V`) | Inserts pasted text at the cursor      |
 
 When the value is longer than the visible width, the input scrolls horizontally to keep the cursor in view.
 

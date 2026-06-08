@@ -8,12 +8,12 @@ This document walks through running JS Recon end-to-end against a Vue.js target.
 
 ## What the tool does for Vue.js
 
-| Module | Vue.js support |
-| ------ | -------------- |
-| `lazyload` | Downloads `.js`, `.json`, `.js.map`, and `.vue` modules. In Vite dev mode, `.vue` files are served as pre-transformed ES modules, so they are saved verbatim. Style-only sub-requests (`?vue&type=style&...&lang.css`) are skipped. |
-| `map` | For Vite production output (2-character function-name convention), each top-level function becomes a chunk. For dev-server output and any file without that convention, the **entire module becomes a single chunk** so the AST engine still has something to scan. |
-| `analyze` | Evaluates every AST rule whose `tech:` list includes `vue` against the chunks above. The bundled rules cover Vue's `v-html` directive (compiled to `{ innerHTML: X }`), `window.location.search` reads, and `useRoute()` taint flow. |
-| `report` | Generates the same SQLite + HTML report as for Next.js. Endpoints extraction is not yet implemented for Vue.js, so the endpoints section will be empty. |
+| Module     | Vue.js support                                                                                                                                                                                                                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lazyload` | Downloads `.js`, `.json`, `.js.map`, and `.vue` modules. In Vite dev mode, `.vue` files are served as pre-transformed ES modules, so they are saved verbatim. Style-only sub-requests (`?vue&type=style&...&lang.css`) are skipped.                                 |
+| `map`      | For Vite production output (2-character function-name convention), each top-level function becomes a chunk. For dev-server output and any file without that convention, the **entire module becomes a single chunk** so the AST engine still has something to scan. |
+| `analyze`  | Evaluates every AST rule whose `tech:` list includes `vue` against the chunks above. The bundled rules cover Vue's `v-html` directive (compiled to `{ innerHTML: X }`), `window.location.search` reads, and `useRoute()` taint flow.                                |
+| `report`   | Generates the same SQLite + HTML report as for Next.js. Endpoints extraction is not yet implemented for Vue.js, so the endpoints section will be empty.                                                                                                             |
 
 ## End-to-end with the `run` module
 

@@ -14,26 +14,26 @@ js-recon map -d <directory> -t <technology> [options]
 
 ## Options
 
-| Option                     | Alias | Description                                                                         | Default               | Required |
-| -------------------------- | ----- | ----------------------------------------------------------------------------------- | --------------------- | -------- |
-| `--directory <directory>`  | `-d`  | Directory containing JS files.                                                      |                       | Yes      |
-| `--tech <tech>`            | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options).  |                       | Yes      |
-| `--list`                   | `-l`  | List available technologies.                                                        | `false`               | No       |
-| `--output <file>`          | `-o`  | Output file name (without extension).                                               | `mapped`              | No       |
-| `--format <format>`        | `-f`  | Output format for the results (comma-separated; available:`json`).                  | `json`                | No       |
-| `--interactive`            | `-i`  | Interactive mode for exploring the mapped functions.                                | `false`               | No       |
-| `--command <command>`      | `-c`  | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && go to 1234"`). | | No |
-| `--ai <options>`           |       | Use AI to analyze the code (comma-separated; available:`description`).              |                       | No       |
-| `--ai-threads <threads>`   |       | Number of threads to use for AI.                                                    | `5`                   | No       |
-| `--ai-provider <provider>` |       | Service provider to use for AI (available: openai, ollama).                         | `openai`              | No       |
-| `--ai-endpoint <endpoint>` |       | Endpoint to use for AI service (for Ollama, etc). Uses provider default if not set. |                       | No       |
-| `--openai-api-key <key>`   |       | OpenAI API key for AI analysis.                                                     |                       | No       |
-| `--model <model>`          |       | AI model to use for analysis.                                                       | `gpt-4o-mini`         | No       |
-| `--openapi`                |       | Generate OpenAPI spec from the code                                                 | `false`               | No       |
-| `--openapi-output <file>`  |       | Output file for OpenAPI spec                                                        | `mapped-openapi.json` | No       |
-| `--openapi-chunk-tag`      |       | Add chunk ID tag to OpenAPI spec for each request found                             | `false`               | No       |
-| `--no-graphql`             | `--ngql` | Disable GraphQL operation extraction during OpenAPI generation                   | enabled               | No       |
-| `--max-recursion-depth <n>` |        | Max recursion depth for HTTP-client URL fan-out and cross-file resolution.         | `3`                   | No       |
+| Option                      | Alias    | Description                                                                                                                                                    | Default               | Required |
+| --------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------- |
+| `--directory <directory>`   | `-d`     | Directory containing JS files.                                                                                                                                 |                       | Yes      |
+| `--tech <tech>`             | `-t`     | Technology used in the JS files (run with `-l`/`--list` to see available options).                                                                             |                       | Yes      |
+| `--list`                    | `-l`     | List available technologies.                                                                                                                                   | `false`               | No       |
+| `--output <file>`           | `-o`     | Output file name (without extension).                                                                                                                          | `mapped`              | No       |
+| `--format <format>`         | `-f`     | Output format for the results (comma-separated; available:`json`).                                                                                             | `json`                | No       |
+| `--interactive`             | `-i`     | Interactive mode for exploring the mapped functions.                                                                                                           | `false`               | No       |
+| `--command <command>`       | `-c`     | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && go to 1234"`). |                       | No       |
+| `--ai <options>`            |          | Use AI to analyze the code (comma-separated; available:`description`).                                                                                         |                       | No       |
+| `--ai-threads <threads>`    |          | Number of threads to use for AI.                                                                                                                               | `5`                   | No       |
+| `--ai-provider <provider>`  |          | Service provider to use for AI (available: openai, ollama).                                                                                                    | `openai`              | No       |
+| `--ai-endpoint <endpoint>`  |          | Endpoint to use for AI service (for Ollama, etc). Uses provider default if not set.                                                                            |                       | No       |
+| `--openai-api-key <key>`    |          | OpenAI API key for AI analysis.                                                                                                                                |                       | No       |
+| `--model <model>`           |          | AI model to use for analysis.                                                                                                                                  | `gpt-4o-mini`         | No       |
+| `--openapi`                 |          | Generate OpenAPI spec from the code                                                                                                                            | `false`               | No       |
+| `--openapi-output <file>`   |          | Output file for OpenAPI spec                                                                                                                                   | `mapped-openapi.json` | No       |
+| `--openapi-chunk-tag`       |          | Add chunk ID tag to OpenAPI spec for each request found                                                                                                        | `false`               | No       |
+| `--no-graphql`              | `--ngql` | Disable GraphQL operation extraction during OpenAPI generation                                                                                                 | enabled               | No       |
+| `--max-recursion-depth <n>` |          | Max recursion depth for HTTP-client URL fan-out and cross-file resolution.                                                                                     | `3`                   | No       |
 
 ## How it works
 
@@ -56,11 +56,11 @@ After chunking, the tool resolves every `fetch()` and Axios call to a concrete U
 2. **Interceptor headers**: Scans all chunks for `axios.interceptors.request.use(...)` patterns and collects any headers set inside the interceptor callback. These are attached to every endpoint emitted from that Axios client, since interceptors fire on every request.
 
 3. **Call tracing**: For each `.get(...)`, `.post(...)`, `.put(...)`, etc. call (or `fetch(...)` call), the URL argument is resolved through variable assignments using taint-flow analysis. The resolver follows:
-   - Direct string literals and template literals
-   - Variable assignments (`const url = "/api/..."`)
-   - Member expressions (`config.baseURL + path`)
-   - `BinaryExpression` concatenation (`"/api/" + id`)
-   - Cross-chunk variable imports (when a URL is defined in one chunk and used in another)
+    - Direct string literals and template literals
+    - Variable assignments (`const url = "/api/..."`)
+    - Member expressions (`config.baseURL + path`)
+    - `BinaryExpression` concatenation (`"/api/" + id`)
+    - Cross-chunk variable imports (when a URL is defined in one chunk and used in another)
 
 4. **Server Actions** (Next.js only): Detects `createServerReference(actionId, ...)` calls, which represent Next.js Server Actions callable from the client. The `actionId` is a hash that identifies the server-side function.
 
