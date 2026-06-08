@@ -14,7 +14,10 @@ jobs:
       - name: Check version
         run: |
           echo "[i] Getting versions from the main repo"
-          GH_VERSIONS=$(curl -s https://api.github.com/repos/shriyanss/js-recon/releases | jq '.[].name' -r)
+          GH_VERSIONS=$(git ls-remote --tags https://github.com/shriyanss/js-recon.git \
+            | awk '{print $2}' \
+            | grep -v '\^{}' \
+            | sed 's|refs/tags/v||')
 
           echo "[i] Checking versions"
           ALL_VERSIONS_FOUND=true
