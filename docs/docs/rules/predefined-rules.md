@@ -8,9 +8,9 @@ The [`js-recon-rules`](https://github.com/shriyanss/js-recon-rules) repository s
 
 Each rule documents:
 
--   **What it looks for** — the AST or request shape that flags a finding.
--   **Why it matters** — the class of vulnerability or misconfiguration.
--   **How it is kept precise** — the constraints that suppress obvious false positives.
+- **What it looks for** — the AST or request shape that flags a finding.
+- **Why it matters** — the class of vulnerability or misconfiguration.
+- **How it is kept precise** — the constraints that suppress obvious false positives.
 
 If you write your own rules and want them to follow the same pattern, see [Creating new rules](./creating_new_rules.md) and the [AST engine reference](./engines/ast-engine.md).
 
@@ -42,30 +42,31 @@ Fires when an OpenAPI operation has no `Authorization` header. The rule is inten
 
 ## AST rules
 
-These rules are evaluated by the [AST engine](./engines/ast-engine.md) against every chunk recovered by `map` (currently Next.js with both Webpack and Turbopack bundlers).
+These rules are evaluated by the [AST engine](./engines/ast-engine.md) against every chunk recovered by `map` (Next.js with both webpack and Turbopack bundlers, and Vue.js with Vite — production builds and dev-server output). Each rule declares the frameworks it applies to via its `tech:` list; the engine skips a rule on bundles whose framework isn't in that list.
 
 ### `detect_postMessage` — `postMessage` event listeners
 
 `severity: info`
 
-Flags `window.addEventListener("message", handler)` calls. Postmessage handlers are a frequent source of cross-origin XSS / privilege-escalation bugs — this rule simply inventories every listener so a reviewer can audit them.
+Flags `window.addEventListener("message", handler)` calls. postMessage handlers are a frequent source of cross-origin XSS / privilege-escalation bugs — this rule simply inventories every listener so a reviewer can audit them.
 
 ### `detect_postMessage_innerHtml_sink` — `postMessage` handler that writes to `innerHTML`
 
 `severity: medium`
 
-Chains the postmessage listener detection with a check that the handler function assigns to `.innerHTML`. The combination is a classic stored-DOM-XSS pattern: if the listener doesn't validate `event.origin` and `event.data`, an attacker who controls a framed/embedded page can inject HTML into the parent.
+Chains the postMessage listener detection with a check that the handler function assigns to `.innerHTML`. The combination is a classic stored-DOM-XSS pattern: if the listener doesn't validate `event.origin` and `event.data`, an attacker who controls a framed/embedded page can inject HTML into the parent.
 
 ### `detect_dom_xss_innerHTML_url_source` — DOM XSS via URL parameter to `innerHTML`
 
 `severity: high`
+`tech: [next, vue]`
 
 Detects the `URL → innerHTML` taint pattern. Fires when the same chunk contains both:
 
 1.  A read from a URL-derived source — any of: `new URLSearchParams(...).get(...)`, `window.location.search`, `window.location.hash`, `document.referrer`, `document.URL`, or a call to `useSearchParams()` (Next.js / React Router).
-2.  A dynamic assignment to `.innerHTML` or `.outerHTML` — i.e. the right-hand side is **not** a `StringLiteral`, `NumericLiteral`, `BooleanLiteral`, or `NullLiteral`.
+2.  A dynamic assignment to `.innerHTML` or `.outerHTML` — that is, the right-hand side is **not** a `StringLiteral`, `NumericLiteral`, `BooleanLiteral`, or `NullLiteral`.
 
-Both halves must appear in the same module/chunk for the rule to fire. This excludes the React-internal `innerHTML` writes in vendor chunks (those chunks never read from a URL parameter).
+Both halves must appear in the same module/chunk for the rule to fire. This excludes the React-internal `innerHTML` writes in vendor chunks (those chunks never read from a URL parameter). For Vue.js single-file components the Vite-transformed `setup()` body (for example, `headingRef.value.innerHTML = ...`) matches the same shape.
 
 Typical compiled match (`app/search/page.tsx`):
 
@@ -77,13 +78,14 @@ i.current.innerHTML = `Showing results for: <strong>${e}</strong>`;
 ### `detect_cspt_fetch_url_param` — Client-Side Path Traversal (CSPT)
 
 `severity: high`
+`tech: [next, vue]`
 
 Detects the `URL → fetch URL` traversal pattern. Fires when the same chunk contains both:
 
-1.  A read from a URL-derived source (same set as the rule above, plus `useParams()` for App Router dynamic segments).
-2.  A `fetch(...)` (or `*.fetch(...)`) call whose first argument is a **dynamically-constructed URL** — either a `TemplateLiteral` containing at least one interpolation, or a `BinaryExpression` doing string concatenation (`'/api/foo/' + x`).
+1.  A read from a URL-derived source (same set as the rule above, plus `useParams()` for App Router dynamic segments, and `useRoute()` for Vue Router). To survive minification of production Vite/webpack bundles — where the local `route` binding becomes a 2-character name but the Vue Router property names do not — the rule also matches any member expression of the shape `<obj>.query.<X>` or `<obj>.params.<X>`.
+2.  A `fetch(...)` (or `*.fetch(...)`) call whose first argument is a **dynamically constructed URL** — either a `TemplateLiteral` containing at least one interpolation, or a `BinaryExpression` doing string concatenation (`'/api/foo/' + x`).
 
-The browser collapses `..` segments **before** the request hits the server, so an attacker who controls the interpolated value can pivot the fetch to a different API path. This is exactly the CSPT pattern (e.g. `?file=../users/1` causing `fetch('/api/docs/' + file)` to hit `/api/users/1`).
+The browser collapses `..` segments **before** the request hits the server, so an attacker who controls the interpolated value can pivot the fetch to a different API path. This is exactly the CSPT pattern (for example, `?file=../users/1` causing `fetch('/api/docs/' + file)` to hit `/api/users/1`).
 
 Typical compiled match (`app/docs/page.tsx`):
 
@@ -94,15 +96,21 @@ fetch(`/api/docs/${e}`);
 
 To suppress the warning legitimately, allowlist-validate the parameter or wrap it in `encodeURIComponent(...)` (which prevents `..` and `/` from surviving normalisation).
 
-### `detect_dom_xss_dangerouslySetInnerHTML` — XSS via React `dangerouslySetInnerHTML`
+### `detect_dom_xss_dangerouslySetInnerHTML` — XSS via raw-HTML sink (`dangerouslySetInnerHTML` / `v-html`)
 
 `severity: high`
+`tech: [next, vue]`
 
-Detects React's `dangerouslySetInnerHTML={{ __html: X }}` pattern when `X` is **not** a literal. Compiled JSX becomes an `ObjectProperty` with key `__html` and the rule fires when its value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — i.e. it's a member access, identifier, or call result.
+Detects raw-HTML rendering sinks where the value is **not** a literal. Covers two compiled shapes:
 
-To minimise false positives from Next.js's bundled error-page CSS-only uses of `dangerouslySetInnerHTML` (which never appear alongside `fetch`), the rule additionally requires a `fetch(...)` call **in the same chunk**. The combination is a strong indicator that the HTML being rendered comes from a server response — e.g. a comment body, post content, or any other user-controllable record.
+- React's `dangerouslySetInnerHTML={{ __html: X }}` — compiled to an `ObjectProperty` with key `__html`.
+- Vue's `v-html="X"` directive — compiled by Vite/Vue's template compiler to an `ObjectProperty` `{ innerHTML: X }` (paired with a `["innerHTML"]` patchFlag tuple).
 
-Typical compiled match (`app/post/[id]/page.tsx`):
+The rule fires when the property value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — that is, it's a member access, identifier, or call result.
+
+To minimise false positives from vendor chunks that include CSS-only uses of these sinks (which never appear alongside `fetch`), the rule additionally requires a `fetch(...)` call **in the same chunk**. The combination is a strong indicator that the HTML being rendered comes from a server response — for example, a comment body, post content, or any other user-controllable record.
+
+Typical compiled match (React, `app/post/[id]/page.tsx`):
 
 ```jsx
 <div dangerouslySetInnerHTML={{ __html: comment.content }} />
@@ -111,7 +119,29 @@ Typical compiled match (`app/post/[id]/page.tsx`):
 Compiled to:
 
 ```js
-{ dangerouslySetInnerHTML: { __html: o.content } }
+{
+    dangerouslySetInnerHTML: {
+        __html: o.content;
+    }
+}
+```
+
+Typical compiled match (Vue, `src/views/PostDetail.vue`):
+
+```vue
+<div class="comment-content" v-html="comment.content" />
+```
+
+Compiled by Vite to:
+
+```js
+_createElementVNode(
+    "div",
+    _mergeProps({ class: "comment-content" }, { innerHTML: comment.content }),
+    null,
+    16,
+    ["innerHTML"]
+);
 ```
 
 ### `detect_open_redirect_url_param` — DOM-based open redirect
@@ -180,7 +210,7 @@ Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pa
 
 These rules sit on a spectrum:
 
--   **Loose enough to generalise.** The URL-source clause is a union of every common Web-API and Next.js shape, not a single pattern. The sink clauses cover `TemplateLiteral`, `BinaryExpression`-concatenation, and bare identifiers — so the rules catch hand-rolled string-builders alongside the canonical template-literal form.
--   **Strict enough to suppress noise.** Every taint rule requires both a source pattern _and_ a sink pattern in the same module. Pure sink-presence (e.g. an `innerHTML` write inside a React vendor chunk) does not fire — those chunks never read from `location.search`.
+- **Loose enough to generalise.** The URL-source clause is a union of every common Web-API and Next.js shape, not a single pattern. The sink clauses cover `TemplateLiteral`, `BinaryExpression`-concatenation, and bare identifiers — so the rules catch hand-rolled string-builders alongside the canonical template-literal form.
+- **Strict enough to suppress noise.** Every taint rule requires both a source pattern _and_ a sink pattern in the same module. Pure sink-presence (for example, an `innerHTML` write inside a React vendor chunk) does not fire — those chunks never read from `location.search`.
 
 If you do hit a false positive in a vendor chunk, the right fix is usually to extend the rule's `:not(...)` exclusions or to scope the sink step with `inScopeOf` so it must sit inside the same enclosing function as the source. See the [AST engine docs](./engines/ast-engine.md#inscopeof--scoping-an-esquery-to-a-previous-match) for the scoping primitive.

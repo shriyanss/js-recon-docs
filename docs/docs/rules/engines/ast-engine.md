@@ -76,17 +76,17 @@ Now that you are familiar with what an ESQuery is, let's see how to use it in a 
 
 The return type for this step is `Node`.
 
-ESQuery supports a rich selector grammar via the [esquery library](https://github.com/estools/esquery). In particular, the rules shipped with `js-recon-rules` use:
+ESQuery supports a rich selector grammar via the [ESQuery library](https://github.com/estools/esquery). In particular, the rules shipped with `js-recon-rules` use:
 
--   `:matches(A, B, C)` — match if any of `A`, `B`, or `C` match. Use this to express alternative source or sink shapes in one selector.
--   `:has(selector)` — match a node when one of its descendants matches `selector`. Use this to require that a function body contains both a source and a sink.
--   `:not(selector)` — negation. Use this to exclude safe shapes such as `StringLiteral` from a sink's right-hand side.
--   `[field=/regex/]` — regex match on a string attribute (useful when a URL path or property name follows a pattern).
+- `:matches(A, B, C)` — match if any of `A`, `B`, or `C` match. Use this to express alternative source or sink shapes in one selector.
+- `:has(selector)` — match a node when one of its descendants matches `selector`. Use this to require that a function body contains both a source and a sink.
+- `:not(selector)` — negation. Use this to exclude safe shapes such as `StringLiteral` from a sink's right-hand side.
+- `[field=/regex/]` — regex match on a string attribute (useful when a URL path or property name follows a pattern).
 
 For example, a rule to detect post-message listeners would look like this:
 
 <details>
-<summary>Example: Full rule file for checking if the "Authorization" header is present in the request</summary>
+<summary>Example: Full rule file for finding any `postMessage` listeners</summary>
 
 ```yaml
 id: detect_postMessage
@@ -165,7 +165,7 @@ new XMLHttpRequest();
 
 #### `inScopeOf` — scoping an ESQuery to a previous match
 
-By default, every ESQuery step runs against the **whole chunk AST**, and the rule fires when every step matches at least once in the same chunk. That's good enough for source/sink co-occurrence at the module level — e.g. "this chunk reads a URL parameter _and_ writes to `.innerHTML`."
+By default, every ESQuery step runs against the **whole chunk AST**, and the rule fires when every step matches at least once in the same chunk. That's good enough for source/sink co-occurrence at the module level — for example, "this chunk reads a URL parameter _and_ writes to `.innerHTML`."
 
 When you need to be stricter — for example, "the URL parameter and the sink must live inside the **same function**" — set `inScopeOf` on the step to the name of an earlier step. The ESQuery selector then runs against the subtree rooted at the previous step's matched node instead of the whole AST.
 
@@ -173,19 +173,79 @@ When you need to be stricter — for example, "the URL parameter and the sink mu
 - name: find_outer_function
   esquery:
       type: esquery
-      query: ":matches(FunctionExpression, ArrowFunctionExpression, FunctionDeclaration):has(CallExpression[callee.property.name=\"get\"][callee.object.callee.name=\"URLSearchParams\"])"
+      query: ':matches(FunctionExpression, ArrowFunctionExpression, FunctionDeclaration):has(CallExpression[callee.property.name="get"][callee.object.callee.name="URLSearchParams"])'
 - name: find_sink_in_same_function
   requires:
       - find_outer_function
   esquery:
       type: esquery
-      query: "AssignmentExpression[left.property.name=\"innerHTML\"]"
+      query: 'AssignmentExpression[left.property.name="innerHTML"]'
       inScopeOf: find_outer_function
 ```
 
 In the example above, step 1 only matches functions whose body already contains a URL parameter read. Step 2 then looks for an `.innerHTML` assignment, but only within the descendant subtree of that function — not anywhere in the chunk.
 
 If the referenced step did not match, the dependent step is skipped (because `requires` is also unmet), and the rule does not fire.
+
+#### `taintFrom` — data-flow filter for ESQuery matches
+
+`inScopeOf` answers "are source and sink in the same function?" `taintFrom` goes further and answers "does the sink actually receive a value that came from the source?"
+
+Without `taintFrom`, a rule fires whenever both a source pattern and a sink pattern co-exist in the same chunk — even if the two nodes are completely unrelated. A large minified bundle will often contain URL reads and `fetch` calls that belong to different features. `taintFrom` eliminates those false positives by tracing the data flowing out of the source step's match nodes and checking whether the sink's value-side subtree is reachable from that data.
+
+**How it works internally:**
+
+1. All nodes matched by the named source step are treated as taint seeds.
+2. The engine runs an iterative, scope-aware propagation pass (up to 8 rounds) over the chunk AST:
+    - A `VariableDeclarator` whose initializer references a tainted node/binding/member chain taints the declared variable.
+    - An `AssignmentExpression` whose right-hand side is tainted propagates taint to the left-hand side (identifier, member expression, or destructuring pattern).
+3. The resulting taint set (bindings + member-expression chains + original source nodes) is checked against each ESQuery candidate match. Only matches whose value-side subtree (RHS for assignments, arguments for calls/`new`, value for object/JSX properties) touches the taint set are kept.
+4. Taint info is cached per source-step name, so multiple sink steps sharing the same source pay the computation cost only once.
+
+**Usage:**
+
+```yaml
+- name: <sink_step>
+  message: <message>
+  requires:
+      - <source_step>
+  esquery:
+      type: esquery
+      query: <sink_selector>
+      taintFrom: <source_step>
+```
+
+`taintFrom` can be combined with `inScopeOf` — scope restricts which AST subtree is searched, while `taintFrom` filters the results of that search by data-flow.
+
+**Example — header name controlled by URL parameter:**
+
+The rule below detects a `fetch` call whose `headers` object has a computed-key property (variable header name) where that key is derived from a URL parameter. Without `taintFrom` the rule would fire on any chunk that happens to contain both a `URLSearchParams.get` call and a `fetch` with dynamic headers, regardless of whether they are connected.
+
+```yaml
+steps:
+    - name: find_url_param_source
+      message: URL-derived value read
+      esquery:
+          type: esquery
+          query: 'CallExpression[callee.type="MemberExpression"][callee.property.name="get"][callee.object.type="NewExpression"][callee.object.callee.name="URLSearchParams"]'
+
+    - name: find_computed_header_key
+      message: fetch headers object contains a computed-key property tainted by URL param
+      requires:
+          - find_url_param_source
+      esquery:
+          type: esquery
+          taintFrom: find_url_param_source
+          query: 'ObjectProperty[key.name="headers"][value.type="ObjectExpression"] > ObjectExpression > ObjectProperty[computed=true]'
+```
+
+**When to use `taintFrom` vs `inScopeOf`:**
+
+| Need                                                         | Use                          |
+| ------------------------------------------------------------ | ---------------------------- |
+| Source and sink must be in the same function/block           | `inScopeOf`                  |
+| Sink must receive a value that actually came from the source | `taintFrom`                  |
+| Both — same function **and** real data-flow                  | both fields on the same step |
 
 ### Post Message Function Resolve
 

@@ -32,6 +32,29 @@ The following keybindings are available for navigation and control:
 | `Up Arrow`      | In the output box, scroll up.                                                                         |
 | `Down Arrow`    | In the output box, scroll down.                                                                       |
 
+### Line editing in the input box
+
+The input box supports standard line-editor controls so you can correct typos or paste a long snippet without retyping:
+
+| Key                        | Action                                 |
+| -------------------------- | -------------------------------------- |
+| `Left` / `Right`           | Move cursor one character              |
+| `Ctrl+Left` / `Ctrl+Right` | Move cursor one word                   |
+| `Home` / `Ctrl+A`          | Jump to start of line                  |
+| `End` / `Ctrl+E`           | Jump to end of line                    |
+| `Backspace`                | Delete the character before the cursor |
+| `Delete`                   | Delete the character at the cursor     |
+| `Ctrl+W`                   | Delete the previous word               |
+| `Ctrl+U`                   | Delete from cursor to start of line    |
+| `Ctrl+K`                   | Delete from cursor to end of line      |
+| Paste (`Cmd+V` / `Ctrl+V`) | Inserts pasted text at the cursor      |
+
+When the value is longer than the visible width, the input scrolls horizontally to keep the cursor in view.
+
+### Copying text from the output box
+
+The output pane no longer captures mouse events, so you can use your terminal's native text selection (click-drag to highlight, then `Cmd+C` / `Ctrl+Shift+C`) to copy chunk code, selectors, etc. Scrolling the output still uses the keyboard bindings above.
+
 ## Commands
 
 Here is a list of available commands and their usage:
@@ -84,3 +107,36 @@ Sets configuration options. Usage: `set <option> <value>`
 ### `trace`
 
 Traces the imports for a given function. Usage: `trace <functionName>`
+
+### `esquery`
+
+Generates [ESQuery](https://github.com/estools/esquery) selectors from a pasted code snippet — handy when authoring a new AST rule against a real chunk you've already located. Usage:
+
+```
+esquery <chunkId|*> <code-snippet>
+```
+
+How it works:
+
+1. The snippet is parsed with babel and re-emitted in compact mode (whitespace/comments stripped) — call this the **needle**.
+2. Each AST node in the target chunk is also re-emitted in compact mode. Any node whose compact source contains the needle is a candidate.
+3. Candidates that strictly contain another candidate are dropped, so the output is the **smallest** matching node — typically the actual call/assignment/expression you pasted.
+4. For each surviving candidate the tool prints two selectors:
+    - **loose** — type + the most distinguishing key (for example, `CallExpression[callee.name="fetch"]`). Paste this into a rule and broaden/narrow it as needed.
+    - **strict** — same selector with the immediate children pinned by type (for example, `[arguments.0.type="TemplateLiteral"]`). Useful for checking whether an existing rule already covers the exact shape.
+
+Pass `*` (or `all`) as the chunk id to scan every chunk in `mapped.json`. This is especially useful on minified production bundles where the chunk id changes between builds.
+
+Examples:
+
+```
+esquery 1234 fetch("/api/posts")
+esquery * fetch(`/api/docs/${file}`)
+esquery * headingRef.value.innerHTML = "..."
+```
+
+The same command is available non-interactively via `-c`/`--command` on both `map` and `run`, and can be chained with `&&`:
+
+```bash
+js-recon map -d output/<host> -t vue -c "esquery * fetch(\`/api/posts\`) && esquery * v-html"
+```
