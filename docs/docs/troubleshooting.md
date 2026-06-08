@@ -17,7 +17,7 @@ For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides
 
 ![Puppeteer not found error screenshot](/img/docs/troubleshooting/puppeteer_browser_not_found.png)
 
-This happens becuase the browser, chrome in this case, is not installed. For this:
+This happens because the browser, chrome in this case, is not installed. For this:
 
 - [Download](https://www.google.com/chrome/) and install Chrome for your system
 - Run the command from the error

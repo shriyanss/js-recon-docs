@@ -18,7 +18,7 @@ js-recon fingerprint -u <url/file> [options]
 | ------------------ | ----- | -------------------------------------------------------------------- | -------- | -------- |
 | `--url <url/file>` | `-u`  | Target URL or a file containing a list of URLs (one per line).       |          | Yes      |
 | `--output <file>`  | `-o`  | Output file to write results.                                        |          | No       |
-| `--format <formats>` | `-f` | Output format(s): `text`, `csv`, `json`, `jsonl` (comma-separated for multiple).        | `text`   | No       |
+| `--format <formats>` | `-f` | Output formats: `text`, `csv`, `json`, `jsonl` (comma-separated for multiple).        | `text`   | No       |
 | `--timeout <ms>`   |       | Request timeout in milliseconds.                                     | `30000`  | No       |
 | `--insecure`       | `-k`  | Disable SSL certificate verification.                                | `false`  | No       |
 | `--no-sandbox`     |       | Disable browser sandbox.                                             | `false`  | No       |

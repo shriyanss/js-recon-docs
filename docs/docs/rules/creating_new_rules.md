@@ -59,7 +59,7 @@ The value is a version constraint string: an operator followed by a [semver](htt
 | `<` | current version must be strictly below the specified version |
 | `=` or `==` | current version must match exactly (ignoring pre-release) |
 
-Pre-release suffixes (e.g. `-alpha.2`) are stripped before comparison, so `1.3.1-alpha.2` satisfies `>=1.3.0`.
+Pre-release suffixes (for example, `-alpha.2`) are stripped before comparison, so `1.3.1-alpha.2` satisfies `>=1.3.0`.
 
 ### Example
 

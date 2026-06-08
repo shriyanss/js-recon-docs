@@ -62,7 +62,7 @@ Each numbered `.js` file corresponds to a chunk from the input JSON file, contai
 
 ## How it works (Next.js)
 
-Webpack bundles each module as a function with the signature `(module, exports, __webpack_require__)`. The third argument — the `__webpack_require__` function — is what one module uses to import another. In the minified bundle this parameter is renamed to a single letter (e.g. `e`, `r`, `t`), making the inter-module relationships opaque.
+webpack bundles each module as a function with the signature `(module, exports, __webpack_require__)`. The third argument — the `__webpack_require__` function — is what one module uses to import another. In the minified bundle this parameter is renamed to a single letter (for example, `e`, `r`, `t`), making the inter-module relationships opaque.
 
 The refactor transform does two things to each chunk:
 

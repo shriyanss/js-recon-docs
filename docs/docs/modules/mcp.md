@@ -27,7 +27,7 @@ js-recon mcp --server                       # MCP stdio server
 | `-c, --chat <prompt>`        | `-c`  | Send a one-shot prompt (repeatable; each `-c` adds another turn).                    |                        | No       |
 | `--config <file>`            |       | Path to a custom MCP config file.                                                    | `~/.js-recon/mcp.yaml` | No       |
 | `--api-key <key>`            |       | API key for the LLM provider (overrides config and env vars).                        |                        | No       |
-| `--model <model>`            |       | AI model to use (e.g. `gpt-4o-mini`, `claude-sonnet-4-20250514`).                    | from config            | No       |
+| `--model <model>`            |       | AI model to use (for example, `gpt-4o-mini`, `claude-sonnet-4-20250514`).                    | from config            | No       |
 | `--provider <provider>`      |       | LLM provider to use (`openai` or `anthropic`).                                       | from config            | No       |
 | `--no-refresh-claude-creds`  |       | Do not auto-refresh reused Claude Code OAuth tokens; fail with a hint if expired.    |                        | No       |
 | `--claude-client-id <id>`    |       | OAuth client ID used when refreshing Claude Code credentials. Required in environments where the default Anthropic client ID is not registered. | | No |
@@ -61,7 +61,7 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | node build/index.js mcp 
 
 MCP stores its configuration at `~/.js-recon/mcp.yaml`. A default file is created automatically on first run. You can also pass a custom path with `--config`.
 
-### Config file format
+### config file format
 
 ```yaml
 provider: openai # openai or anthropic
@@ -122,7 +122,7 @@ Slash commands can be typed at any time in the session. Tab completion is suppor
 | `/cost`            | Show token usage and estimated cost for this session.        |
 | `/clear`           | Clear conversation history (keeps the system prompt).        |
 | `/model`           | Show the current model.                                      |
-| `/model <name>`    | Switch to a different model (e.g. `/model gpt-4o`).          |
+| `/model <name>`    | Switch to a different model (for example, `/model gpt-4o`).          |
 | `/models`          | List all available models for the current provider.          |
 | `/provider`        | Show the current provider.                                   |
 | `/provider <name>` | Switch provider (`openai` or `anthropic`).                   |

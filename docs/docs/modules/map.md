@@ -22,7 +22,7 @@ js-recon map -d <directory> -t <technology> [options]
 | `--output <file>`          | `-o`  | Output file name (without extension).                                               | `mapped`              | No       |
 | `--format <format>`        | `-f`  | Output format for the results (comma-separated; available:`json`).                  | `json`                | No       |
 | `--interactive`            | `-i`  | Interactive mode for exploring the mapped functions.                                | `false`               | No       |
-| `--command <command>`      | `-c`  | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && go to 1234"`). | | No |
+| `--command <command>`      | `-c`  | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && go to 1234"`). | | No |
 | `--ai <options>`           |       | Use AI to analyze the code (comma-separated; available:`description`).              |                       | No       |
 | `--ai-threads <threads>`   |       | Number of threads to use for AI.                                                    | `5`                   | No       |
 | `--ai-provider <provider>` |       | Service provider to use for AI (available: openai, ollama).                         | `openai`              | No       |
@@ -83,7 +83,7 @@ This scan is independent of the URL/transport resolvers — it does not require 
 ### Limitations
 
 - **Same-chunk resolution only**: URL variables that are defined in a different chunk and not re-exported are not resolved; the tool will emit the raw variable name as a placeholder.
-- **Dynamic paths**: URLs fully constructed at runtime (e.g. built from a loop variable or a computed key) cannot be statically resolved and will appear as template placeholders.
+- **Dynamic paths**: URLs fully constructed at runtime (for example, built from a loop variable or a computed key) cannot be statically resolved and will appear as template placeholders.
 - **Axios only covers webpack-bundled builds**: Vite/React builds that use Axios may not have complete interceptor coverage depending on how the bundle is split.
 
 ## Framework Support
@@ -117,7 +117,7 @@ js-recon map -d /path/to/js-files -t next -i
 
 ### Headless interactive commands (`-c` / `--command`)
 
-When you already know which interactive command(s) you want to run — for example, generating an esquery selector for a snippet you've copied out of a chunk — pass them with `-c` and the tool will execute them without launching the blessed UI:
+When you already know which interactive commands you want to run — for example, generating an ESQuery selector for a snippet you've copied out of a chunk — pass them with `-c` and the tool will execute them without launching the blessed UI:
 
 ```bash
 js-recon map -d /path/to/js-files -t next -c "list fetch"

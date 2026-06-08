@@ -124,4 +124,4 @@ When `--scan-secrets` is active, each extracted string is matched against the fo
 | Cloudinary Basic Auth | `cloudinary://<id>:<secret>@<cloud>` |
 | MD5 Hash | 32-character hex string |
 
-**Note:** patterns like "Generic API Key", "Generic Secret", "Base64", and "MD5 Hash" have a high false-positive rate and should be treated as leads rather than confirmed findings.
+**Note:** patterns like `Generic API Key`, `Generic Secret`, `Base64`, and `MD5 Hash` have a high false-positive rate and should be treated as leads rather than confirmed findings.

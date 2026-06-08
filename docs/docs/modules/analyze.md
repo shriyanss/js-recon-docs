@@ -54,4 +54,4 @@ This will analyze the `mapped-openapi.json` file against the default rules that 
 
 ## Built-in detection rules
 
-The bundled rules detect both request-level misconfigurations (e.g. missing `Authorization` header) and client-side code patterns such as DOM XSS sinks and Client-Side Path Traversal (CSPT). See [Predefined rules](../rules/predefined-rules.md) for the full catalogue and the constraints each rule applies to avoid false positives.
+The bundled rules detect both request-level misconfigurations (for example, missing `Authorization` header) and client-side code patterns such as DOM XSS sinks and Client-Side Path Traversal (CSPT). See [Predefined rules](../rules/predefined-rules.md) for the full catalogue and the constraints each rule applies to avoid false positives.

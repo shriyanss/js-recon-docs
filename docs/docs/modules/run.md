@@ -14,7 +14,7 @@ The `run` command executes the following modules in sequence. The exact steps de
 1.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
 1.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
 1.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
-1.  **Lazy Load (Re-pass)**: Re-runs subsequent-request crawling with the freshly extracted paths. The first crawl can only use paths that were visible in the initial chunks; dynamic-route paths like `/post/1` are typically only discovered after the first crawl + strings extraction, so this re-pass picks up the chunks for those routes (e.g. dynamic React pages whose code only ships when the URL is visited).
+1.  **Lazy Load (Re-pass)**: Re-runs subsequent-request crawling with the freshly extracted paths. The first crawl can only use paths that were visible in the initial chunks; dynamic-route paths like `/post/1` are typically only discovered after the first crawl + strings extraction, so this re-pass picks up the chunks for those routes (for example, dynamic React pages whose code only ships when the URL is visited).
 1.  **Strings (Re-pass)**: Final strings extraction across all chunks (initial + both crawl passes) so any new endpoints from the freshly fetched code are also indexed.
 1.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.
 1.  **Endpoints**: Analyzes the JS files and `mapped.json` to identify and list all client-side endpoints.
@@ -41,7 +41,7 @@ js-recon run -u <url/file> [options]
 | `--scope <scope>`               | `-s`  | Download JS files from specific domains (comma-separated)            | `*`                        | No       |
 | `--threads <threads>`           | `-t`  | Number of threads to use                                             | `1`                        | No       |
 | `--rules <file/dir>`            | `-r`  | Rules file or directory (passed to analyze module)                   |                            | No       |
-| `--command <command>`           | `-c`  | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (e.g. `-c "list fetch && esquery * fetch"`). |  | No |
+| `--command <command>`           | `-c`  | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && esquery * fetch"`). |  | No |
 | `--api-gateway`                 |       | Generate requests using API Gateway                                  | `false`                    | No       |
 | `--api-gateway-config <file>`   |       | API Gateway config file                                              | `.api_gateway_config.json` | No       |
 | `--cache-file <file>`           |       | File to store response cache                                         | `.resp_cache.json`         | No       |
