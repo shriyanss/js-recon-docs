@@ -49,16 +49,17 @@ js-recon refactor --list
 
 ## Output Structure
 
-The command creates the following directory structure:
+The command creates a directory of individual `.js` files, one per webpack module ID, plus an `index.js` for the application entrypoint (React only):
 
 ```
 output_refactored/
+├── index.js   ← entrypoint / bootstrap (React only)
 ├── 1.js
 ├── 2.js
 └── ...
 ```
 
-Each numbered `.js` file corresponds to a chunk from the input JSON file, containing the refactored code.
+Each numbered `.js` file corresponds to a webpack module from the input bundle. All output files use ES module syntax (`import`/`export`) and are formatted with Prettier.
 
 ## How it works (Next.js)
 
@@ -71,6 +72,12 @@ The refactor transform does two things to each chunk:
 2. **Adds `export default`**: The top-level function or arrow function declaration in each chunk is identified and `export default <name>;` is appended. This makes the module consumable as an ES module.
 
 The result is a directory of standalone `.js` files that can be opened in an IDE, passed to other static-analysis tools, or executed individually.
+
+## Technology Reference
+
+For detailed, technology-specific documentation see:
+
+- [React](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
 
 ## Notes
 
