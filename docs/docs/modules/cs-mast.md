@@ -18,21 +18,21 @@ Run this command after `js-recon run` has already populated an output directory 
 
 ## Options
 
-| Option                        | Alias  | Description                                                                    | Default  | Required |
-| ----------------------------- | ------ | ------------------------------------------------------------------------------ | -------- | -------- |
-| `--output <directory>`        | `-o`   | Directory to scan recursively for `.js` files.                                 | `output` | No       |
-| `--collision-table`           | `--ct` | Find and display structural collisions as a table.                             | `false`  | No       |
-| `--min-collisions <n>`        |        | Minimum number of files that must share a signature to be reported.            | `2`      | No       |
-| `--collision-output <file>`   | `--co` | Write collision results to a file (independent of `--ct`).                     |          | No       |
-| `--collision-format <format>` | `--cf` | Output format for the collision file: `json` or `csv`.                         | `csv`    | No       |
+| Option                        | Alias  | Description                                                         | Default  | Required |
+| ----------------------------- | ------ | ------------------------------------------------------------------- | -------- | -------- |
+| `--output <directory>`        | `-o`   | Directory to scan recursively for `.js` files.                      | `output` | No       |
+| `--collision-table`           | `--ct` | Find and display structural collisions as a table.                  | `false`  | No       |
+| `--min-collisions <n>`        |        | Minimum number of files that must share a signature to be reported. | `2`      | No       |
+| `--collision-output <file>`   | `--co` | Write collision results to a file (independent of `--ct`).          |          | No       |
+| `--collision-format <format>` | `--cf` | Output format for the collision file: `json` or `csv`.              | `csv`    | No       |
 
 ## How it works
 
 1. All `.js` files in the output directory (and subdirectories) are collected.
 2. Each file is parsed and hashed using the CS-MAST algorithm with a fixed configuration:
-   - **Hash algorithm:** SHA-256
-   - **Categories (`scat`):** `lit`, `decl`, `loop`, `cond`
-   - **Parser:** `@babel/parser` with `sourceType: unambiguous`
+    - **Hash algorithm:** SHA-256
+    - **Categories (`scat`):** `lit`, `decl`, `loop`, `cond`
+    - **Parser:** `@babel/parser` with `sourceType: unambiguous`
 3. A full CS-MAST-S PHC signature is built from each file's root hash and the config, e.g.:
    `$v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=lit_decl_loop_cond$<64-hex>`
 4. Files that fail to parse are skipped with a warning.
@@ -44,11 +44,11 @@ Run this command after `js-recon run` has already populated an output directory 
 - If the path already has an extension (e.g. `results.csv`), it is used as-is.
 
 Examples:
-| `--co` value | `--cf` | Written to        |
+| `--co` value | `--cf` | Written to |
 | ------------ | ------ | ----------------- |
-| `output`     | `csv`  | `./collisions.csv` |
-| `results`    | `json` | `./collisions.json` |
-| `results.csv`| `csv`  | `./results.csv`   |
+| `output` | `csv` | `./collisions.csv` |
+| `results` | `json` | `./collisions.json` |
+| `results.csv`| `csv` | `./results.csv` |
 
 ## Examples
 
@@ -105,14 +105,11 @@ js-recon cs-mast --ct --co collisions.json --cf json
 
 ```json
 [
-  {
-    "signature": "$v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=lit_decl_loop_cond$a3f2b1c4...",
-    "count": 2,
-    "files": [
-      "output/host1/chunk.js",
-      "output/host2/chunk.js"
-    ]
-  }
+    {
+        "signature": "$v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=lit_decl_loop_cond$a3f2b1c4...",
+        "count": 2,
+        "files": ["output/host1/chunk.js", "output/host2/chunk.js"]
+    }
 ]
 ```
 
