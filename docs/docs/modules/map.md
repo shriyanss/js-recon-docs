@@ -34,6 +34,7 @@ js-recon map -d <directory> -t <technology> [options]
 | `--openapi-chunk-tag`       |          | Add chunk ID tag to OpenAPI spec for each request found                                                                                                        | `false`               | No       |
 | `--no-graphql`              | `--ngql` | Disable GraphQL operation extraction during OpenAPI generation                                                                                                 | enabled               | No       |
 | `--max-recursion-depth <n>` |          | Max recursion depth for HTTP-client URL fan-out and cross-file resolution.                                                                                     | `3`                   | No       |
+| `--max-heap <mb>`           |          | Cap the V8 heap in MB before any parsing work starts. `0` sets the limit to 100% of available RAM (`os.totalmem()`); any positive integer sets an explicit ceiling. Applied via process re-exec so the limit is effective regardless of how the process was launched. | `0` | No |
 
 ## How it works
 

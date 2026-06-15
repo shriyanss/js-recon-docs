@@ -66,6 +66,7 @@ js-recon run -u <url/file> [options]
 | `--max-iterations <iterations>` |          | Maximum number of recursive crawl iterations                                                                                                                                                   | `10`                       | No       |
 | `--max-js-size <mb>`            |          | Maximum JS file size in MB to parse (Vue only)                                                                                                                                                 | `2`                        | No       |
 | `--lazyload-timeout <minutes>`  |          | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable.                                                         | `30`                       | No       |
+| `--max-heap <mb>`               |          | Cap the V8 heap in MB before any pipeline work starts. `0` sets the limit to 100% of available RAM (`os.totalmem()`); any positive integer sets an explicit ceiling. Useful on memory-constrained hosts and containers to prevent SIGSEGV (exit 139) in the map step. | `0` | No |
 | `-h, --help`                    |          | display help for command                                                                                                                                                                       |                            | No       |
 
 ## Ctrl-C / Interrupt handling
