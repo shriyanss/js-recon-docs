@@ -36,9 +36,10 @@ js-recon lazyload -u <url/file> [options]
 | `--sourcemap-dir <directory>`   |       | Directory to write reconstructed source maps.                                                                                  | `extracted`                | No       |
 | `--research`                    |       | Enable research mode.                                                                                                          | `false`                    | No       |
 | `--research-output <file>`      |       | Output file for research mode.                                                                                                 | `research.json`            | No       |
-| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                                                                  | `10`                       | No       |
-| `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                                                                | `2`                        | No       |
-| `--lazyload-timeout <minutes>`  |       | Hard timeout for the lazyload module. The module stops and the pipeline continues after this many minutes. Use `0` to disable. | `30`                       | No       |
+| `--max-iterations <iterations>` |       | Maximum number of recursive crawl iterations.                                                                                                                                                                     | `10`                       | No       |
+| `--max-js-size <mb>`            |       | Maximum JS file size in MB to parse (Vue only).                                                                                                                                                                   | `2`                        | No       |
+| `--lazyload-timeout <minutes>`  |       | Hard timeout for the lazyload module. The module stops and the pipeline continues after this many minutes. Use `0` to disable.                                                                                     | `30`                       | No       |
+| `--max-pages <pages>`           |       | Maximum number of HTML pages the Next.js crawler will visit across all recursive passes. `0` disables the limit. Prevents memory exhaustion on event-heavy sites with large link graphs. | `200`                      | No       |
 
 ## How it works
 
@@ -73,7 +74,9 @@ Next.js receives the most comprehensive discovery. The crawler runs in two phase
 - Detect `Promise.all([...].map(...))` patterns in newly downloaded chunks to extract additional chunk IDs
 - Parse `layout-*.js` files for `href` object properties; visit discovered routes and extract their script tags
 - Re-run `<script src>` and `<a href>` extraction on each newly discovered page URL
-- Stop when a full pass yields zero new URLs (convergence) or the iteration cap is reached
+- Stop when a full pass yields zero new URLs (convergence), the iteration cap is reached, or the page visit cap (`--max-pages`) is reached
+
+> **Page visit cap:** The crawler counts every HTML page it visits across all recursive passes and stops adding more pages to the queue once the cap is hit. This prevents memory exhaustion on event-heavy or listing sites where every page links to dozens more — without a cap, the queue can fan out to hundreds of pages and exhaust the container's available RAM. The default cap is 200 pages, which is sufficient for virtually all real Next.js apps. Set `--max-pages 0` to disable the cap entirely.
 
 After all passes, `.map` is appended to every discovered `.js` URL and checked for a 200 response to find source maps.
 
