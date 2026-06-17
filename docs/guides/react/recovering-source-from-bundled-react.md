@@ -15,8 +15,12 @@ import { useState } from "react";
 import { createRoot } from "react-dom/client";
 
 function Counter() {
-  const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(count + 1)}>clicked {count} times</button>;
+    const [count, setCount] = useState(0);
+    return (
+        <button onClick={() => setCount(count + 1)}>
+            clicked {count} times
+        </button>
+    );
 }
 
 createRoot(document.getElementById("root")).render(<Counter />);
@@ -26,70 +30,116 @@ After `webpack` + `@babel/preset-env` processes this, the bundle looks like this
 
 ```js title="main.abc123.js (bundled)"
 (() => {
-  "use strict";
-  var e = {
-    540(e, n, t) { e.exports = t(287); },
-    287(e, n) {
-      /* 8000 lines of the React runtime */
-      n.useState = function () { /* ... */ };
-      n.useEffect = function () { /* ... */ };
-      // ... every React hook and API ...
-    },
-    338(e, n, t) {
-      var r = t(961);
-      ((n.H = r.createRoot), r.hydrateRoot);
-    },
-    848(e, n, t) { e.exports = t(20); },
-    20(e, n, t) {
-      /* react/jsx-runtime */
-      function i(e, n, t) { /* createElement equivalent */ }
-      ((n.jsx = i), (n.jsxs = i));
-    },
-    // ... 4 more library modules ...
-  };
-  function t(id) {
-    return (e[id](mod, mod.exports, t), mod.exports);
-  }
-  var r = t(540), l = t(338), a = t(848);
-  var n = {};
-  function o(e, n) {
-    (null == n || n > e.length) && (n = e.length);
-    for (var t = 0, r = Array(n); t < n; t++) r[t] = e[t];
-    return r;
-  }
-  function u() {
-    var e, n,
-      t = (
-        (e = (0, r.useState)(0)),
-        (n = 2),
-        (function (e) { if (Array.isArray(e)) return e; })(e) ||
-        (function (e, n) {
-          var t = null == e ? null : (typeof Symbol !== "undefined" && e[Symbol.iterator]) || e["@@iterator"];
-          if (null != t) {
-            var r, l, a, o, u = [], i = !0, s = !1;
-            try {
-              if (((a = (t = t.call(e)).next), 0 === n)) {
-                if (Object(t) !== t) return;
-                i = !1;
-              } else for (; !(i = (r = a.call(t)).done) && (u.push(r.value), u.length !== n); i = !0);
-            } catch (e) { ((s = !0), (l = e)); }
-            finally {
-              try { if (!i && null != t.return && ((o = t.return()), Object(o) !== o)) return; }
-              finally { if (s) throw l; }
+    "use strict";
+    var e = {
+        540(e, n, t) {
+            e.exports = t(287);
+        },
+        287(e, n) {
+            /* 8000 lines of the React runtime */
+            n.useState = function () {
+                /* ... */
+            };
+            n.useEffect = function () {
+                /* ... */
+            };
+            // ... every React hook and API ...
+        },
+        338(e, n, t) {
+            var r = t(961);
+            ((n.H = r.createRoot), r.hydrateRoot);
+        },
+        848(e, n, t) {
+            e.exports = t(20);
+        },
+        20(e, n, t) {
+            /* react/jsx-runtime */
+            function i(e, n, t) {
+                /* createElement equivalent */
             }
-            return u;
-          }
-        })(e, n) ||
-        (function () { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); })()
-      ),
-      l = t[0],
-      u = t[1];
-    return (0, a.jsxs)("button", {
-      onClick: function () { return u(l + 1); },
-      children: ["clicked ", l, " times"],
-    });
-  }
-  (0, l.H)(document.getElementById("root")).render((0, a.jsx)(u, {}));
+            ((n.jsx = i), (n.jsxs = i));
+        },
+        // ... 4 more library modules ...
+    };
+    function t(id) {
+        return (e[id](mod, mod.exports, t), mod.exports);
+    }
+    var r = t(540),
+        l = t(338),
+        a = t(848);
+    var n = {};
+    function o(e, n) {
+        (null == n || n > e.length) && (n = e.length);
+        for (var t = 0, r = Array(n); t < n; t++) r[t] = e[t];
+        return r;
+    }
+    function u() {
+        var e,
+            n,
+            t =
+                ((e = (0, r.useState)(0)),
+                (n = 2),
+                (function (e) {
+                    if (Array.isArray(e)) return e;
+                })(e) ||
+                    (function (e, n) {
+                        var t =
+                            null == e
+                                ? null
+                                : (typeof Symbol !== "undefined" &&
+                                      e[Symbol.iterator]) ||
+                                  e["@@iterator"];
+                        if (null != t) {
+                            var r,
+                                l,
+                                a,
+                                o,
+                                u = [],
+                                i = !0,
+                                s = !1;
+                            try {
+                                if (((a = (t = t.call(e)).next), 0 === n)) {
+                                    if (Object(t) !== t) return;
+                                    i = !1;
+                                } else
+                                    for (
+                                        ;
+                                        !(i = (r = a.call(t)).done) &&
+                                        (u.push(r.value), u.length !== n);
+                                        i = !0
+                                    );
+                            } catch (e) {
+                                ((s = !0), (l = e));
+                            } finally {
+                                try {
+                                    if (
+                                        !i &&
+                                        null != t.return &&
+                                        ((o = t.return()), Object(o) !== o)
+                                    )
+                                        return;
+                                } finally {
+                                    if (s) throw l;
+                                }
+                            }
+                            return u;
+                        }
+                    })(e, n) ||
+                    (function () {
+                        throw new TypeError(
+                            "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
+                        );
+                    })()),
+            l = t[0],
+            u = t[1];
+        return (0, a.jsxs)("button", {
+            onClick: function () {
+                return u(l + 1);
+            },
+            children: ["clicked ", l, " times"],
+        });
+    }
+    (0, l.H)(document.getElementById("root")).render((0, a.jsx)(u, {}));
 })();
 ```
 
@@ -122,23 +172,23 @@ js-recon refactor -t react-webpack \
 With that single flag, the output shrinks to **one file, 15 lines**:
 
 ```jsx title="output_stripped/index.js"
-import { useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import { useState } from "react";
+import { createRoot } from "react-dom/client";
 
 function u() {
-  const [l, u] = useState(0);
-  return (
-    <button
-      onClick={function () {
-        return u(l + 1);
-      }}
-    >
-      clicked {l} times
-    </button>
-  );
+    const [l, u] = useState(0);
+    return (
+        <button
+            onClick={function () {
+                return u(l + 1);
+            }}
+        >
+            clicked {l} times
+        </button>
+    );
 }
 
-createRoot(document.getElementById('root')).render(<u />);
+createRoot(document.getElementById("root")).render(<u />);
 ```
 
 That is structurally identical to the original source. The only things missing are the variable names (`Counter`, `count`, `setCount`) — those are erased by the minifier before bundling and cannot be recovered by any tool.
@@ -153,7 +203,7 @@ webpack injects a function like:
 
 ```js
 function t(id) {
-  return (e[id](mod, mod.exports, t), mod.exports);
+    return (e[id](mod, mod.exports, t), mod.exports);
 }
 ```
 
@@ -163,12 +213,14 @@ This is detected by its distinctive return shape — a two-element sequence expr
 
 ```js
 // before
-var r = t(540), l = t(338), a = t(848);
+var r = t(540),
+    l = t(338),
+    a = t(848);
 
 // after
-import * as r from './540.js';
-import * as l from './338.js';
-import * as a from './848.js';
+import * as r from "./540.js";
+import * as l from "./338.js";
+import * as a from "./848.js";
 ```
 
 ### Pass C — replace remaining require calls
@@ -211,17 +263,25 @@ Call sites are rewritten too:
 
 ```js
 // before (55 lines)
-var e, n,
-  t = (
-    (e = useState(0)),
-    (n = 2),
-    (function(e){ if (Array.isArray(e)) return e; })(e) ||
-    (function(e, n){ /* iterable check */ })(e, n) ||
-    (function(e, n){ /* string/map/set check */ })(e, n) ||
-    (function(){ throw new TypeError('Invalid attempt to destructure...'); })()
-  ),
-  l = t[0],
-  u = t[1];
+var e,
+    n,
+    t =
+        ((e = useState(0)),
+        (n = 2),
+        (function (e) {
+            if (Array.isArray(e)) return e;
+        })(e) ||
+            (function (e, n) {
+                /* iterable check */
+            })(e, n) ||
+            (function (e, n) {
+                /* string/map/set check */
+            })(e, n) ||
+            (function () {
+                throw new TypeError("Invalid attempt to destructure...");
+            })()),
+    l = t[0],
+    u = t[1];
 
 // after (1 line)
 const [l, u] = useState(0);
@@ -281,12 +341,12 @@ The `lit-decl-loop-cond` directory name reflects the scat configuration: only li
 
 ## What cannot be recovered
 
-| Lost information | Why |
-|---|---|
-| Variable names (`Counter`, `count`, `setCount`) | Erased by the minifier before bundling; not in the bundle at all |
-| Arrow function syntax | `@babel/preset-env` compiles `() => x` to `function() { return x; }` before bundling |
-| JSX source maps | Not present unless the server exposes sourcemaps |
-| TypeScript types | Stripped at compile time |
+| Lost information                                | Why                                                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Variable names (`Counter`, `count`, `setCount`) | Erased by the minifier before bundling; not in the bundle at all                     |
+| Arrow function syntax                           | `@babel/preset-env` compiles `() => x` to `function() { return x; }` before bundling |
+| JSX source maps                                 | Not present unless the server exposes sourcemaps                                     |
+| TypeScript types                                | Stripped at compile time                                                             |
 
 The output is intended for **human review** during a security assessment. It is not runnable as-is (the stripped `./540.js` modules do not exist), and it should not be fed back into the `map` or `analyze` pipeline — those steps require the original downloaded chunks.
 
