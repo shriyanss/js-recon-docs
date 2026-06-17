@@ -20,6 +20,7 @@ js-recon refactor -t <technology> [options]
 | `--output <directory>` | `-o`  | Directory where refactored files will be saved.                                    | `output_refactored` | No       |
 | `--tech <tech>`        | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options). |                     | Yes      |
 | `--list`               | `-l`  | List available technologies.                                                       | `false`             | No       |
+| `--collisions <path>`  |       | Path to a CS-MAST `collisions.json` **or** a baseline directory (e.g. `js-recon-cs-mast-s/`). When a directory is supplied, the right file is resolved automatically based on `-t`. See [React (webpack) Refactor](./refactor/react-webpack.md#library-module-stripping-with---collisions). |                     | No       |
 
 ## Examples
 
