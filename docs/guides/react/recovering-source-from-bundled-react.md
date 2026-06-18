@@ -354,26 +354,26 @@ js-recon refactor -t react-webpack \
 
 The following React hooks and APIs have been tested against real webpack 5 + `@babel/preset-env` bundles and produce clean output with `--collisions`:
 
-| Feature | Recovered imports | Notes |
-| ------- | ----------------- | ----- |
-| `useState` | `react: useState` | `const [a, b] = useState(x)` collapse (Pass E) |
-| `useEffect` | `react: useEffect, useState` | Effect body and dependency array preserved |
-| `useRef` | `react: useEffect, useRef, useState` | Ref object and DOM attachment preserved |
-| `useContext` | `react: createContext, useContext, useState` | Provider and consumer both recovered |
-| `useReducer` | `react: useReducer, useState` | Reducer function and dispatch call preserved |
-| `useMemo` | `react: useMemo, useState` | Memoized computation preserved |
-| `useCallback` | `react: useCallback, useState` | Stable callback reference preserved |
-| `useId` | `react: useId, useState`, `react/jsx-runtime: Fragment` | Unique IDs for accessibility labels |
-| `useTransition` | `react: useState, useTransition` | Concurrent mode transition |
-| `useLayoutEffect` | `react: useLayoutEffect, useRef, useState` | Layout effect with DOM read |
-| `useDeferredValue` | `react: useDeferredValue, useState` | Deferred list rendering |
-| `Fragment` | `react: useState`, `react/jsx-runtime: Fragment` | `<Fragment>` JSX element recovered |
-| `Suspense` + `lazy` | `react: Suspense, lazy, useState` | Lazy component structure recovered; see note below |
-| `StrictMode` | `react: StrictMode, useState` | `<StrictMode>` element recovered |
-| `Profiler` | `react: Profiler, useState` | `<Profiler id="…" onRender={…}>` recovered |
-| `createContext` | `react: createContext, useContext, useState` | Full context pattern recovered |
-| `memo` | `react: memo, useState` | `memo(Component)` wrapper recovered |
-| `forwardRef` | `react: forwardRef, useRef, useState` | `forwardRef((props, ref) => …)` wrapper recovered |
+| Feature             | Recovered imports                                       | Notes                                              |
+| ------------------- | ------------------------------------------------------- | -------------------------------------------------- |
+| `useState`          | `react: useState`                                       | `const [a, b] = useState(x)` collapse (Pass E)     |
+| `useEffect`         | `react: useEffect, useState`                            | Effect body and dependency array preserved         |
+| `useRef`            | `react: useEffect, useRef, useState`                    | Ref object and DOM attachment preserved            |
+| `useContext`        | `react: createContext, useContext, useState`            | Provider and consumer both recovered               |
+| `useReducer`        | `react: useReducer, useState`                           | Reducer function and dispatch call preserved       |
+| `useMemo`           | `react: useMemo, useState`                              | Memoized computation preserved                     |
+| `useCallback`       | `react: useCallback, useState`                          | Stable callback reference preserved                |
+| `useId`             | `react: useId, useState`, `react/jsx-runtime: Fragment` | Unique IDs for accessibility labels                |
+| `useTransition`     | `react: useState, useTransition`                        | Concurrent mode transition                         |
+| `useLayoutEffect`   | `react: useLayoutEffect, useRef, useState`              | Layout effect with DOM read                        |
+| `useDeferredValue`  | `react: useDeferredValue, useState`                     | Deferred list rendering                            |
+| `Fragment`          | `react: useState`, `react/jsx-runtime: Fragment`        | `<Fragment>` JSX element recovered                 |
+| `Suspense` + `lazy` | `react: Suspense, lazy, useState`                       | Lazy component structure recovered; see note below |
+| `StrictMode`        | `react: StrictMode, useState`                           | `<StrictMode>` element recovered                   |
+| `Profiler`          | `react: Profiler, useState`                             | `<Profiler id="…" onRender={…}>` recovered         |
+| `createContext`     | `react: createContext, useContext, useState`            | Full context pattern recovered                     |
+| `memo`              | `react: memo, useState`                                 | `memo(Component)` wrapper recovered                |
+| `forwardRef`        | `react: forwardRef, useRef, useState`                   | `forwardRef((props, ref) => …)` wrapper recovered  |
 
 ### Suspense + lazy note
 
@@ -381,7 +381,7 @@ The lazy-loaded chunk is referenced via webpack's runtime API (`__webpack_requir
 
 ```jsx title="output_stripped/index.js (app with lazy)"
 const LazyComponent = lazy(() =>
-  __webpack_require__.e(/* chunk ID */).then(/* ... */)
+    __webpack_require__.e(/* chunk ID */).then(/* ... */)
 );
 ```
 

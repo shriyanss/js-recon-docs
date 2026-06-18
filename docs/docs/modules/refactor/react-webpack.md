@@ -180,26 +180,26 @@ versus the default refactor output of ten files totalling ~240 KB.
 
 The following React hooks and APIs have been validated against webpack 5 + `@babel/preset-env` bundles:
 
-| Feature | Recovered import sources | Pass E collapse |
-| ------- | ------------------------ | --------------- |
-| `useState` | `react` | Yes — `const [a, b] = useState(x)` |
-| `useEffect` | `react` | No |
-| `useRef` | `react` | No |
-| `useContext` | `react` | No |
-| `useReducer` | `react` | Yes |
-| `useMemo` | `react` | No |
-| `useCallback` | `react` | No |
-| `useId` | `react`, `react/jsx-runtime` (Fragment) | No |
-| `useTransition` | `react` | Yes |
-| `useLayoutEffect` | `react` | No |
-| `useDeferredValue` | `react` | No |
-| `Fragment` | `react`, `react/jsx-runtime` | No |
-| `Suspense` + `lazy` | `react`, `react/jsx-runtime` | No; see lazy note |
-| `StrictMode` | `react` | No |
-| `Profiler` | `react` | No |
-| `createContext` | `react` | No |
-| `memo` | `react`, `react/jsx-runtime` | No |
-| `forwardRef` | `react`, `react/jsx-runtime` | No |
+| Feature             | Recovered import sources                | Pass E collapse                    |
+| ------------------- | --------------------------------------- | ---------------------------------- |
+| `useState`          | `react`                                 | Yes — `const [a, b] = useState(x)` |
+| `useEffect`         | `react`                                 | No                                 |
+| `useRef`            | `react`                                 | No                                 |
+| `useContext`        | `react`                                 | No                                 |
+| `useReducer`        | `react`                                 | Yes                                |
+| `useMemo`           | `react`                                 | No                                 |
+| `useCallback`       | `react`                                 | No                                 |
+| `useId`             | `react`, `react/jsx-runtime` (Fragment) | No                                 |
+| `useTransition`     | `react`                                 | Yes                                |
+| `useLayoutEffect`   | `react`                                 | No                                 |
+| `useDeferredValue`  | `react`                                 | No                                 |
+| `Fragment`          | `react`, `react/jsx-runtime`            | No                                 |
+| `Suspense` + `lazy` | `react`, `react/jsx-runtime`            | No; see lazy note                  |
+| `StrictMode`        | `react`                                 | No                                 |
+| `Profiler`          | `react`                                 | No                                 |
+| `createContext`     | `react`                                 | No                                 |
+| `memo`              | `react`, `react/jsx-runtime`            | No                                 |
+| `forwardRef`        | `react`, `react/jsx-runtime`            | No                                 |
 
 **Lazy component note:** when a lazy-loaded component is emitted to a separate chunk, webpack replaces the dynamic `import()` with `__webpack_require__.e(chunkId).then(...)`. This expression is left as-is in the output — there is no mapping from the numeric chunk ID back to the original source path.
 
