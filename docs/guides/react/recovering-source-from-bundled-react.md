@@ -233,7 +233,7 @@ This is where [CS-MAST](https://cs-mast.ss0x00.com) becomes essential.
 
 By itself, js-recon cannot tell whether `import * as r from './540.js'` refers to React, a polyfill, or application code. Without that knowledge, `(0, r.useState)(0)` cannot be rewritten, and the import stays as a numeric file reference.
 
-CS-MAST provides the baseline. When `--collisions` is passed, every webpack module is hashed and matched against a cross-app signature set. The modules that appear in **every** React app regardless of what application code they contain — i.e. the library modules — are identified and stripped. As a side effect, their identities are also resolved.
+CS-MAST provides the baseline. When `--collisions` is passed, every webpack module is hashed and matched against a cross-app signature set. The modules that appear in **every** React app regardless of what application code they contain — that is, the library modules — are identified and stripped. As a side effect, their identities are also resolved.
 
 The identity resolution works in two steps:
 
@@ -259,7 +259,7 @@ Call sites are rewritten too:
 
 ### Pass E — Babel array-destructure collapse
 
-`@babel/preset-env` compiles `const [count, setCount] = useState(0)` into a ~55-line pattern for broad browser compatibility. The pattern ends with an immediately-invoked function that throws `TypeError("Invalid attempt to destructure non-iterable instance...")`. That throw is the detection signal.
+`@babel/preset-env` compiles `const [count, setCount] = useState(0)` into a ~55-line pattern for broad browser compatibility. The pattern ends with an immediately invoked function that throws `TypeError("Invalid attempt to destructure non-iterable instance...")`. That throw is the detection signal.
 
 ```js
 // before (55 lines)
@@ -308,10 +308,13 @@ The conversion handles: HTML string tags, React component references, props as J
 
 ### Pass G — remove Babel helpers and webpack internals
 
-Two patterns are cleaned up unconditionally:
+Five patterns are cleaned up unconditionally:
 
 - **`arrayLikeToArray` helper** — the function `o(e, n)` that Pass E's slicedToArray expansion used to call. Detected by shape: a 2–4 statement body containing a `for` loop that constructs `Array(n)`. Removed.
 - **`var n = {}`** — webpack's module-cache object. A `VariableDeclaration` where every declarator has an empty object `{}` as its init is treated as a webpack internal and removed.
+- **`_typeof`** — Babel's lazy self-reassignment typeof polyfill. Detected as a 1-param function whose entire body is `return ((fnName = conditional), fnName(arg))`. Appears when the app uses `typeof` with Symbol handling. Removed.
+- **`_defineProperty`** — Babel's property definition helper. Detected as a 3-param function containing `Object.defineProperty(obj, key, {value, enumerable, configurable, writable})` anywhere in its body. Appears when the app uses JSX spread or object spread. Removed.
+- **`_objectSpreadPropsHelper`** — Babel's object spread props helper. Detected as a 2-param function whose first statement is `var t = Object.keys(e)` and whose body references `getOwnPropertySymbols`. Appears when the app uses `{...props}` JSX spread. Removed.
 
 ### Pass H — prune unused imports
 
@@ -323,7 +326,7 @@ After JSX recovery, `jsx` and `jsxs` are no longer identifiers in the code — t
 
 The baseline used by `--collisions` was generated from an experiment: 18 minimal React apps — one exercising each hook or API (`useState`, `useEffect`, `useRef`, `useMemo`, …) — were each rebuilt with every other hook injected. This produced 18 webpack bundles all sharing the same React runtime but differing in application code. Every bundle was then hashed with every possible combination of scat (signature category) parameters.
 
-A signature that appears in **all 18 bundles** can only come from code that is present in every React app regardless of what the application does — i.e. the React runtime itself. The set of those signatures, stored in `collisions.json`, is the baseline.
+A signature that appears in **all 18 bundles** can only come from code that is present in every React app regardless of what the application does — that is, the React runtime itself. The set of those signatures, stored in `collisions.json`, is the baseline.
 
 When `--collisions` points at that baseline, `refactorReact` hashes each webpack module's body against it. Any module whose body matches a baseline signature is library code and is dropped from the output. What remains is only the application code.
 
@@ -338,6 +341,49 @@ js-recon-cs-mast-s/
 ```
 
 The `lit-decl-loop-cond` directory name reflects the scat configuration: only literal values, declarations, loop structures, and conditionals contribute to the hash. Identifiers and operator names are excluded, which is what makes the hash minification-stable.
+
+For a richer baseline derived from a large per-feature corpus, you can also point `--collisions` at a per-feature results directory — a directory whose immediate subdirs each contain a `<scat>/collisions.json` file (one subdir per feature app). The tool reads only the one `lit-decl-loop-cond/collisions.json` per feature subdir, intersects the max-count signature sets across all features, and uses the intersection as the baseline. This works even when the full dataset is hundreds of GB:
+
+```bash
+js-recon refactor -t react-webpack \
+  --collisions /path/to/react-webpack-feature-signatures/results \
+  -o output_stripped
+```
+
+## Supported React features
+
+The following React hooks and APIs have been tested against real webpack 5 + `@babel/preset-env` bundles and produce clean output with `--collisions`:
+
+| Feature | Recovered imports | Notes |
+| ------- | ----------------- | ----- |
+| `useState` | `react: useState` | `const [a, b] = useState(x)` collapse (Pass E) |
+| `useEffect` | `react: useEffect, useState` | Effect body and dependency array preserved |
+| `useRef` | `react: useEffect, useRef, useState` | Ref object and DOM attachment preserved |
+| `useContext` | `react: createContext, useContext, useState` | Provider and consumer both recovered |
+| `useReducer` | `react: useReducer, useState` | Reducer function and dispatch call preserved |
+| `useMemo` | `react: useMemo, useState` | Memoized computation preserved |
+| `useCallback` | `react: useCallback, useState` | Stable callback reference preserved |
+| `useId` | `react: useId, useState`, `react/jsx-runtime: Fragment` | Unique IDs for accessibility labels |
+| `useTransition` | `react: useState, useTransition` | Concurrent mode transition |
+| `useLayoutEffect` | `react: useLayoutEffect, useRef, useState` | Layout effect with DOM read |
+| `useDeferredValue` | `react: useDeferredValue, useState` | Deferred list rendering |
+| `Fragment` | `react: useState`, `react/jsx-runtime: Fragment` | `<Fragment>` JSX element recovered |
+| `Suspense` + `lazy` | `react: Suspense, lazy, useState` | Lazy component structure recovered; see note below |
+| `StrictMode` | `react: StrictMode, useState` | `<StrictMode>` element recovered |
+| `Profiler` | `react: Profiler, useState` | `<Profiler id="…" onRender={…}>` recovered |
+| `createContext` | `react: createContext, useContext, useState` | Full context pattern recovered |
+| `memo` | `react: memo, useState` | `memo(Component)` wrapper recovered |
+| `forwardRef` | `react: forwardRef, useRef, useState` | `forwardRef((props, ref) => …)` wrapper recovered |
+
+### Suspense + lazy note
+
+The lazy-loaded chunk is referenced via webpack's runtime API (`__webpack_require__.e(chunkId).then(...)`). There is no mapping from the webpack chunk ID back to the original source path, so this expression is left as-is in the output. The `lazy()` call wrapping it is recovered normally:
+
+```jsx title="output_stripped/index.js (app with lazy)"
+const LazyComponent = lazy(() =>
+  __webpack_require__.e(/* chunk ID */).then(/* ... */)
+);
+```
 
 ## What cannot be recovered
 
