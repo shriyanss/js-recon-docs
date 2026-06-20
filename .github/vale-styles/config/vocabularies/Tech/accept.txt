@@ -54,3 +54,14 @@ patchFlag
 allowlist
 URIs
 middleware
+polyfills?
+minifier
+[Nn]amespace
+callee
+declarator
+[Mm]erkelized
+[Mm]emoized
+sourcemaps?
+subcommand
+toolchain
+repo
