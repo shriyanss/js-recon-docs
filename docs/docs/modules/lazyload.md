@@ -85,6 +85,27 @@ After all passes, `.map` is appended to every discovered `.js` URL and checked f
 
 > **Content-entropy deduplication:** When the crawler encounters a page URL whose pathname has already been visited, it fetches the new URL and compares its `<script src>` tags against every script set already recorded for that pathname. If the scripts are identical, the variant is skipped — it loads the same JS and would contribute nothing new. If the scripts differ (for example, a dynamically routed page that loads a unique chunk), the variant is visited and its script fingerprint is added. This lets the crawler correctly skip variants that differ only in a filter or selector parameter (for example, `/search?sort=asc` vs `/search?sort=desc`) while still visiting genuinely distinct parameterized routes (for example, different product or user pages that load unique chunks). The same fingerprint logic is applied in the script-tag subsequent-requests pass.
 
+### SvelteKit discovery pipeline
+
+SvelteKit's chunk discovery depends on the build adapter.
+
+**`adapter-node` (SSR server):** The HTML response does not include `<link rel="modulepreload">` tags. Instead, the SvelteKit boot script is an inline `<script>` block with no `src` attribute:
+
+```html
+<script>
+  Promise.all([
+    import("./_app/immutable/entry/start.js"),
+    import("./_app/immutable/entry/app.js")
+  ]).then(...)
+</script>
+```
+
+`svelte_getFromPageSource` extracts these two entry URLs via an `import("...")` regex. The full chunk graph is then discovered by following ESM `import` statements and string-scanning downloaded chunks.
+
+**`adapter-static` SSG and SPA:** The shell HTML (`404.html` for SSG, `index.html` for SPA) contains both `<link rel="modulepreload">` tags for all initial chunks and the same inline boot script. The modulepreload links provide a larger seed set (typically 17+ JS URLs) compared to the two entry points in the adapter-node case.
+
+**Detection signal:** All three adapters are detected via the `_app/immutable/` path prefix on JS or CSS links in the HTML response.
+
 ### `--yes` flag and JS execution
 
 The webpack chunk-enumeration technique extracts a function from the webpack runtime and executes it locally in a Node.js sandbox with each discovered integer chunk ID as input. Before executing, the tool prompts you to inspect the extracted function and confirm. Pass `--yes` to skip the prompt — useful in automated pipelines, but verify you trust the target's JS first.

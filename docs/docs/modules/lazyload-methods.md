@@ -60,7 +60,7 @@ js-recon lazyload --list-methods next_js
 
 | Method name                    | Description                                                                                                                                |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `svelte_getFromPageSource`     | Extracts JS file URLs from the server-rendered HTML.                                                                                       |
+| `svelte_getFromPageSource`     | Extracts JS file URLs from the server-rendered HTML. Handles three patterns: `<link rel="modulepreload">` tags, `<script src="...">` tags, and — for SvelteKit `adapter-node` targets — inline `<script>` bodies containing `import("...")` calls (the `Promise.all([import(...)])` boot pattern emitted by the Node adapter). |
 | `svelte_stringAnalysisJSFiles` | Scans downloaded JS for string-embedded paths to additional chunks and source maps.                                                        |
 | `svelte_recursivePageCrawl`    | Crawls same-origin HTML pages found via `<a href>` and `<link href>` tags, running the full JS-discovery pipeline on each.                 |
 | `svelte_discoverPagesFromJs`   | Scans downloaded JS for embedded page path strings (e.g. `/admin`, `/debug`) and visits each page to discover Astro island component URLs. |
