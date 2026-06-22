@@ -93,10 +93,10 @@ SvelteKit's chunk discovery depends on the build adapter.
 
 ```html
 <script>
-  Promise.all([
-    import("./_app/immutable/entry/start.js"),
-    import("./_app/immutable/entry/app.js")
-  ]).then(...)
+    Promise.all([
+      import("./_app/immutable/entry/start.js"),
+      import("./_app/immutable/entry/app.js")
+    ]).then(...)
 </script>
 ```
 
