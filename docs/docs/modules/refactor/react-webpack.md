@@ -90,6 +90,92 @@ cat output_refactored/index.js
 
 Expected to see clean ES module imports at the top, followed by the application's own functions and the `render()` call — no webpack runtime code.
 
+## Remote signatures (default)
+
+By default, when running `refactor -t react-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace dataset [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/datasets/shriyanss/cs-mast-s-dataset) and uses it to strip library modules — no local baseline clone required.
+
+### How it works
+
+1. The tool maps the tech flag (`react-webpack`) to a dataset branch (`react-small`).
+2. It validates that the branch contains `sample_size` and `technology` metadata files, and that the technology matches.
+3. It fetches (or loads from cache) the list of `collisions.json` files on that branch.
+4. For each file whose path contains the configured scat directory (`lit-decl-loop-cond`), it downloads and caches the file.
+5. After applying the signature quality filter, it intersects all loaded signature sets. Signatures surviving the intersection appeared in every feature's baseline, making them definitionally library code.
+6. The resulting set is used exactly like the `--collisions` baseline.
+
+On a fresh run the tool prints download progress; subsequent runs use the local cache silently.
+
+### Configuration
+
+The tool reads (and creates on first use) `~/.js-recon/refactor/config.json`:
+
+```json
+{
+  "maxCacheSizeMb": 512
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `maxCacheSizeMb` | Maximum signature cache size in MB. When exceeded, oldest entries are evicted until the cache is below 50% of this limit. Default: `512`. |
+
+### Cache layout
+
+```
+~/.js-recon/refactor/
+├── config.json
+├── cs-mast-s-list-cache.json          ← file list cache (7-day TTL)
+└── signature_cache/
+    └── react-small/
+        └── 01-usestate-hook-webpack/
+            └── lit-decl-loop-cond/
+                ├── collisions.json
+                └── cached_at.txt      ← unix timestamp; 7-day TTL
+```
+
+Both cache layers have a 7-day TTL and are refreshed automatically when stale.
+
+### Signature quality (`--sq / --signature-quality`)
+
+Each dataset branch includes a `sample_size` file (e.g. `18` for the react-small branch). The quality of a signature record is computed as:
+
+```
+quality = (count / sample_size) * 100
+```
+
+A signature is included only when its quality meets the threshold (default 100%). At 100% a signature must appear in **every** file in the sample, which is the strictest possible filter — only library code shared across all 18 apps survives.
+
+Lowering `--sq` below 100 includes signatures that appeared in most-but-not-all apps, which may catch more library modules at the cost of a small false-positive risk.
+
+```bash
+# Default (strictest — only universally shared signatures)
+js-recon refactor -t react-webpack -o output_refactored
+
+# More permissive — include signatures in ≥90% of the sample
+js-recon refactor -t react-webpack --sq 90 -o output_refactored
+```
+
+### Cache control flags
+
+| Flag | Effect |
+|------|--------|
+| `--refresh-cache` | Force-refresh the file list cache regardless of age |
+| `--skip-cache-checks` | Skip all age/staleness checks; use whatever is cached |
+| `--no-remote` | Disable remote fetch entirely; runs without library stripping unless `--collisions` is also provided |
+
+```bash
+# Force a fresh file list from the remote dataset
+js-recon refactor -t react-webpack --refresh-cache -o output_refactored
+
+# Air-gapped / offline — use cache as-is, no HTTP requests
+js-recon refactor -t react-webpack --skip-cache-checks -o output_refactored
+
+# Disable remote entirely (same as old default when --collisions was absent)
+js-recon refactor -t react-webpack --no-remote -o output_refactored
+```
+
+---
+
 ## Library module stripping (with `--collisions`)
 
 The `--collisions <file>` flag enables a second pass that classifies every numeric webpack module as either _library code_ (for example, React, React-DOM, scheduler, `react/jsx-runtime`) or _user code_, and **drops the library modules entirely** from the output. Only `index.js` (the application entry) is written.
