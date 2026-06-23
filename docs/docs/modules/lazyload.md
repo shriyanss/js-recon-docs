@@ -104,6 +104,8 @@ SvelteKit's chunk discovery depends on the build adapter.
 
 **`adapter-static` SSG and SPA:** The shell HTML (`404.html` for SSG, `index.html` for SPA) contains both `<link rel="modulepreload">` tags for all initial chunks and the same inline boot script. The modulepreload links provide a larger seed set (typically 17+ JS URLs) compared to the two entry points in the adapter-node case.
 
+**`version.json` probe:** After page-source extraction, the tool probes `/<appDir>/version.json` (typically `/_app/version.json`). SvelteKit generates this file at build time for the `updated` store — it is never linked from any HTML tag or JS `import()` call, so all other discovery steps miss it. The `appDir` is inferred from the entry-point URLs already found (default: `_app`). This step can be skipped with `--exclude-methods svelte_getVersionJson`.
+
 **Detection signal:** All three adapters are detected via the `_app/immutable/` path prefix on JS or CSS links in the HTML response.
 
 ### `--yes` flag and JS execution
