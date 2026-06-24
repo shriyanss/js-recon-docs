@@ -187,6 +187,8 @@ js-recon refactor -t react-webpack --scat lit,id,op,decl,loop,cond,name,val,op_n
 
 The value is a comma-separated list from: `lit`, `id`, `op`, `decl`, `loop`, `cond`, `name`, `val`, `op_name`. Order does not matter — categories are automatically mapped to the bucket directory name in canonical order (the same ordering used by the HuggingFace dataset generator). Both `--scat lit,cond,decl` and `--scat decl,lit,cond` resolve to the same `lit-decl-cond` bucket directory.
 
+For guidance on which combination to use, see [Choosing scat categories](./choosing-scat.md).
+
 ### Cache control flags
 
 | Flag | Effect |

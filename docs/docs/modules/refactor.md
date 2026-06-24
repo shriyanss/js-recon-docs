@@ -79,6 +79,7 @@ The result is a directory of standalone `.js` files that can be opened in an IDE
 For detailed, technology-specific documentation see:
 
 - [React](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
+- [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
 
 ## Notes
 
