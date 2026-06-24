@@ -105,7 +105,7 @@ Expected to see clean ES module imports at the top, followed by the application'
 
 ## Remote signatures (default)
 
-By default, when running `refactor -t react-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace bucket [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/shriyanss/cs-mast-s-dataset) and uses it to strip library modules — no local baseline clone required.
+By default, when running `refactor -t react-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace bucket [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/buckets/shriyanss/cs-mast-s-dataset) and uses it to strip library modules — no local baseline clone required.
 
 ### How it works
 
