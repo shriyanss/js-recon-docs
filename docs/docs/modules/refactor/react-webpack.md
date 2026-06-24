@@ -170,6 +170,23 @@ js-recon refactor -t react-webpack -o output_refactored
 js-recon refactor -t react-webpack --sq 90 -o output_refactored
 ```
 
+### Scat category override (`--scat`)
+
+The `--scat <categories>` flag overrides the CS-MAST scat category set used for both the remote signature download and the module classifier. The default is `lit,decl,loop,cond`.
+
+```bash
+# Use a minimal scat config (fastest, fewer signatures)
+js-recon refactor -t react-webpack --scat lit
+
+# Use a broader config
+js-recon refactor -t react-webpack --scat lit,id,decl,loop,cond
+
+# Full 9-category config (most signatures, slowest)
+js-recon refactor -t react-webpack --scat lit,id,op,decl,loop,cond,name,val,op_name
+```
+
+The value is a comma-separated list from: `lit`, `id`, `op`, `decl`, `loop`, `cond`, `name`, `val`, `op_name`. Order does not matter — categories are automatically mapped to the bucket directory name in canonical order (the same ordering used by the HuggingFace dataset generator). Both `--scat lit,cond,decl` and `--scat decl,lit,cond` resolve to the same `lit-decl-cond` bucket directory.
+
 ### Cache control flags
 
 | Flag | Effect |
