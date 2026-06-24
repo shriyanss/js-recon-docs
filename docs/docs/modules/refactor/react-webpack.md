@@ -46,7 +46,9 @@ The numeric module map (`var e = { 540: fn, … }`) is identified and each entry
 2. Converts `exports.<prop> = <value>` assignments to named ES module exports (`export const`, `export function`, `export { … as … }`).
 3. Hoists `var x = require(N)` declarations to `import * as x from "./N.js"` at the top of the file.
 4. Replaces any remaining inline `require(N)` calls with the hoisted import identifier.
-5. Strips the outer module function wrapper so the file is plain ES module code.
+5. Converts webpack async chunk-loading expressions to true dynamic imports:
+   `__webpack_require__.e(N).then(__webpack_require__.bind(__webpack_require__, N))` → `import('./N.js')`
+6. Strips the outer module function wrapper so the file is plain ES module code.
 
 ### Stage 2 — Entrypoint extraction (`index.js`)
 
@@ -57,6 +59,17 @@ Everything in the IIFE body that is **not** part of the numeric module map is wr
 3. **Recursive require replacement** — any remaining `requireFn(N)` calls inside other functions in the file are replaced with the corresponding import identifier.
 
 The result is that `index.js` contains only application logic — utility functions, root component definitions, and the `ReactDOM.render()` / `createRoot().render()` call — expressed in standard ES module syntax.
+
+### Stage 3 — Route-aware component renaming
+
+After library imports are resolved (Pass D), a final pass (`renameRouteComponents`) renames minified lazy-component variables to descriptive PascalCase names based on their `<Route path="…">` attributes:
+
+- `/` → `Home`
+- `/post/:id` → `Post`
+- `/admin/users` → `AdminUsers`
+- `/admin/index` → `AdminDashboard`
+
+The Suspense fallback component is renamed to `Loading` and the top-level App function to `App`. Renaming uses Babel's `scope.rename` so all references (JSX tags and identifiers) are updated consistently.
 
 ## Output structure
 
@@ -92,13 +105,13 @@ Expected to see clean ES module imports at the top, followed by the application'
 
 ## Remote signatures (default)
 
-By default, when running `refactor -t react-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace dataset [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/datasets/shriyanss/cs-mast-s-dataset) and uses it to strip library modules — no local baseline clone required.
+By default, when running `refactor -t react-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace bucket [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/shriyanss/cs-mast-s-dataset) and uses it to strip library modules — no local baseline clone required.
 
 ### How it works
 
-1. The tool maps the tech flag (`react-webpack`) to a dataset branch (`react-small`).
-2. It validates that the branch contains `sample_size` and `technology` metadata files, and that the technology matches.
-3. It fetches (or loads from cache) the list of `collisions.json` files on that branch.
+1. The tool maps the tech flag (`react-webpack`) to a bucket prefix (`react/webpack/small`).
+2. It validates that the prefix contains `sample_size` and `technology` metadata files, and that the technology matches.
+3. It fetches (or loads from cache) the list of `collisions.json` files under that prefix.
 4. For each file whose path contains the configured scat directory (`lit-decl-loop-cond`), it downloads and caches the file.
 5. After applying the signature quality filter, it intersects all loaded signature sets. Signatures surviving the intersection appeared in every feature's baseline, making them definitionally library code.
 6. The resulting set is used exactly like the `--collisions` baseline.
@@ -126,18 +139,20 @@ The tool reads (and creates on first use) `~/.js-recon/refactor/config.json`:
 ├── config.json
 ├── cs-mast-s-list-cache.json          ← file list cache (7-day TTL)
 └── signature_cache/
-    └── react-small/
-        └── 01-usestate-hook-webpack/
-            └── lit-decl-loop-cond/
-                ├── collisions.json
-                └── cached_at.txt      ← unix timestamp; 7-day TTL
+    └── react/
+        └── webpack/
+            └── small/
+                └── 01-usestate-hook-webpack/
+                    └── lit-decl-loop-cond/
+                        ├── collisions.json
+                        └── cached_at.txt      ← unix timestamp; 7-day TTL
 ```
 
 Both cache layers have a 7-day TTL and are refreshed automatically when stale.
 
 ### Signature quality (`--sq / --signature-quality`)
 
-Each dataset branch includes a `sample_size` file (e.g. `18` for the react-small branch). The quality of a signature record is computed as:
+Each bucket prefix includes a `sample_size` file (e.g. `18` for the `react/webpack/small` prefix). The quality of a signature record is computed as:
 
 ```
 quality = (count / sample_size) * 100
@@ -280,14 +295,14 @@ The following React hooks and APIs have been validated against webpack 5 + `@bab
 | `useLayoutEffect`   | `react`                                 | No                                 |
 | `useDeferredValue`  | `react`                                 | No                                 |
 | `Fragment`          | `react`, `react/jsx-runtime`            | No                                 |
-| `Suspense` + `lazy` | `react`, `react/jsx-runtime`            | No; see lazy note                  |
+| `Suspense` + `lazy` | `react`, `react/jsx-runtime`            | No; chunk IDs → `import('./N.js')` |
 | `StrictMode`        | `react`                                 | No                                 |
 | `Profiler`          | `react`                                 | No                                 |
 | `createContext`     | `react`                                 | No                                 |
 | `memo`              | `react`, `react/jsx-runtime`            | No                                 |
 | `forwardRef`        | `react`, `react/jsx-runtime`            | No                                 |
 
-**Lazy component note:** when a lazy-loaded component is emitted to a separate chunk, webpack replaces the dynamic `import()` with `__webpack_require__.e(chunkId).then(...)`. This expression is left as-is in the output — there is no mapping from the numeric chunk ID back to the original source path.
+**Lazy component note:** webpack's async chunk-loading expression `__webpack_require__.e(N).then(__webpack_require__.bind(__webpack_require__, N))` is automatically converted to `import('./N.js')` (Pass 4.5). The numeric chunk ID is preserved in the output path; there is no reverse-mapping to the original source file name, but the dynamic import is syntactically valid and the component loads correctly in any ES module environment.
 
 ## Notes
 
