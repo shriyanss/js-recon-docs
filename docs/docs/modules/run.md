@@ -68,6 +68,9 @@ js-recon run -u <url/file> [options]
 | `--lazyload-timeout <minutes>`  |          | Hard timeout for each lazyload step in minutes. The step stops and the pipeline continues after this many minutes. Use `0` to disable.                                                                                                                                | `30`                       | No       |
 | `--max-heap <mb>`               |          | Cap the V8 heap in MB before any pipeline work starts. `0` sets the limit to 100% of available RAM (`os.totalmem()`); any positive integer sets an explicit ceiling. Useful on memory-constrained hosts and containers to prevent SIGSEGV (exit 139) in the map step. | `0`                        | No       |
 | `--max-pages <pages>`           |          | Maximum number of HTML pages the Next.js crawler will visit across all recursive passes. `0` disables the limit. Prevents memory exhaustion on event-heavy sites with large link graphs. See [Lazyload — page visit cap](./lazyload.md#nextjs-discovery-pipeline).    | `200`                      | No       |
+| `--include-methods <methods>`   |          | Comma-separated list of lazyload method names to run (whitelist). Only these methods will execute in every lazyload pass; all others are skipped. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload-methods.md).                            |                            | No       |
+| `--exclude-methods <methods>`   |          | Comma-separated list of lazyload method names to skip (blacklist). All methods except these will run in every lazyload pass. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload-methods.md).                                                 |                            | No       |
+| `--list-methods [framework]`    |          | Print all available lazyload method names grouped by framework and exit. Optionally filter by framework (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`). Does not require `-u`.                                                                          |                            | No       |
 | `-h, --help`                    |          | display help for command                                                                                                                                                                                                                                              |                            | No       |
 
 ## Ctrl-C / Interrupt handling
@@ -98,3 +101,33 @@ js-recon run -u https://example.com --secrets --ai description
 ```
 
 This command will perform a full analysis on `https://example.com`, save the JavaScript files to the `output` directory, scan for secrets, and use AI to generate descriptions for the mapped functions.
+
+### List available lazyload methods
+
+Print all method names without supplying a target:
+
+```bash
+js-recon run --list-methods
+```
+
+Filter by framework:
+
+```bash
+js-recon run --list-methods next_js
+```
+
+### Skip a specific lazyload method
+
+Run the full pipeline but skip the brute-force JS file discovery method in every lazyload pass:
+
+```bash
+js-recon run -u https://example.com -y --exclude-methods next_bruteForceJsFiles
+```
+
+### Run only specific lazyload methods
+
+Run only the script-tag and build-manifest methods in every lazyload pass:
+
+```bash
+js-recon run -u https://example.com -y --include-methods next_GetJSScript,next_GetLazyResourcesBuildManifestJs
+```
