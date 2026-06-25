@@ -22,27 +22,27 @@ Unlike webpack, Vite already produces split ESM chunks — one file per route co
 
 A Vite production build with rolldown typically produces:
 
-| Chunk | Description |
-|-------|-------------|
-| `rolldown-runtime-*.js` | Interop helper module exporting `__toESM` and `__commonJS`. Skipped by the refactor. |
-| `vendor-react-*.js` | CJS library wrappers for React, react-dom, react/jsx-runtime, and direct exports for react-router-dom. |
-| `index-*.js` | App entry chunk. Uses `lazy(() => import('./RouteChunk-*.js'))` for route-based code splitting. |
-| `Home-*.js`, `Profile-*.js`, … | Route component chunks. Each contains a single default export. |
+| Chunk                          | Description                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `rolldown-runtime-*.js`        | Interop helper module exporting `__toESM` and `__commonJS`. Skipped by the refactor.                   |
+| `vendor-react-*.js`            | CJS library wrappers for React, react-dom, react/jsx-runtime, and direct exports for react-router-dom. |
+| `index-*.js`                   | App entry chunk. Uses `lazy(() => import('./RouteChunk-*.js'))` for route-based code splitting.        |
+| `Home-*.js`, `Profile-*.js`, … | Route component chunks. Each contains a single default export.                                         |
 
 A typical app chunk before refactoring:
 
 ```javascript
-import { r as n, t, s as a, o as l } from './vendor-react-CLFLfR9F.js';
-import { n as p } from './rolldown-runtime-Bh1tDfsg.js';
+import { r as n, t, s as a, o as l } from "./vendor-react-CLFLfR9F.js";
+import { n as p } from "./rolldown-runtime-Bh1tDfsg.js";
 
-var i = p(t(), 1),      // __toESM(React getter, 1)
-    u = a(),            // bare jsx-runtime getter
-    d = l();            // bare react-dom/client getter
+var i = p(t(), 1), // __toESM(React getter, 1)
+    u = a(), // bare jsx-runtime getter
+    d = l(); // bare react-dom/client getter
 
 function s(props) {
-  return (0, u.jsxs)(`div`, {
-    children: [(0, u.jsx)(`h1`, { children: `Hello` }), (0, i.useState)(0)]
-  });
+    return (0, u.jsxs)(`div`, {
+        children: [(0, u.jsx)(`h1`, { children: `Hello` }), (0, i.useState)(0)],
+    });
 }
 export { s as default };
 ```
@@ -50,16 +50,16 @@ export { s as default };
 After refactoring:
 
 ```jsx
-import { useState } from 'react';
-import { jsx, jsxs } from 'react/jsx-runtime';
+import { useState } from "react";
+import { jsx, jsxs } from "react/jsx-runtime";
 
 function s(props) {
-  return (
-    <div>
-      <h1>Hello</h1>
-      {useState(0)}
-    </div>
-  );
+    return (
+        <div>
+            <h1>Hello</h1>
+            {useState(0)}
+        </div>
+    );
 }
 export { s as default };
 ```
@@ -68,14 +68,14 @@ export { s as default };
 
 The refactor parses every vendor chunk (`vendor-react-*.js`) and builds a classification map that links each short exported name (for example `r`, `n`, `t`) to its canonical library identity:
 
-| Exported name | Library | Canonical identity |
-|---------------|---------|-------------------|
-| `r` | `react` | CJS module getter |
-| `t` | `react/jsx-runtime` | CJS module getter |
-| `d` | `react-dom/client` | CJS module getter |
-| `n` | `react-router-dom` | `Link` |
-| `s` | `react-router-dom` | `BrowserRouter` |
-| … | … | … |
+| Exported name | Library             | Canonical identity |
+| ------------- | ------------------- | ------------------ |
+| `r`           | `react`             | CJS module getter  |
+| `t`           | `react/jsx-runtime` | CJS module getter  |
+| `d`           | `react-dom/client`  | CJS module getter  |
+| `n`           | `react-router-dom`  | `Link`             |
+| `s`           | `react-router-dom`  | `BrowserRouter`    |
+| …             | …                   | …                  |
 
 CJS library wrappers are identified by inspecting the factory function body. react-router-dom exports are identified by their `.displayName` assignments (rolldown uses template literal syntax: `` Link.displayName = `Link` ``).
 
@@ -84,8 +84,8 @@ CJS library wrappers are identified by inspecting the factory function body. rea
 In each app chunk, variable declarations of the form:
 
 ```javascript
-var i = p(t(), 1)   // __toESM(getter(), 1)
-var u = a()         // bare getter call
+var i = p(t(), 1); // __toESM(getter(), 1)
+var u = a(); // bare getter call
 ```
 
 are recognized as interop vars. They are linked to their library using the vendor export map, and their local names are recorded.
@@ -110,13 +110,13 @@ The vendor import statement is replaced with direct canonical library imports:
 
 ```javascript
 // before
-import { r as n, t, s as a } from './vendor-react-CLFLfR9F.js';
+import { r as n, t, s as a } from "./vendor-react-CLFLfR9F.js";
 
 // after
-import { useState, useEffect } from 'react';
-import { jsx, jsxs } from 'react/jsx-runtime';
-import { createRoot } from 'react-dom/client';
-import { Link, BrowserRouter } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { jsx, jsxs } from "react/jsx-runtime";
+import { createRoot } from "react-dom/client";
+import { Link, BrowserRouter } from "react-router-dom";
 ```
 
 Only the imports actually used in the chunk are emitted (Pass H prunes unused specifiers).

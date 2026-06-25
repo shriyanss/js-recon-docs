@@ -10,17 +10,17 @@ The `--scat` flag controls which CS-MAST structural categories are used to finge
 
 CS-MAST partitions every AST node into one of nine structural categories before hashing:
 
-| Category | What it captures |
-|----------|-----------------|
-| `lit` | Literal values (strings, numbers, booleans, regex) |
-| `id` | Identifier names (variable names, property names) |
-| `op` | Operators (`+`, `-`, `===`, `??`, etc.) |
-| `decl` | Variable and function declarations |
-| `loop` | Loop statements (`for`, `while`, `do`) |
-| `cond` | Conditional statements and expressions (`if`, `? :`, `switch`) |
-| `name` | Named constructs (function names, class names) |
-| `val` | Value-producing expressions (calls, member access, assignments) |
-| `op_name` | Operator + name combinations |
+| Category  | What it captures                                                |
+| --------- | --------------------------------------------------------------- |
+| `lit`     | Literal values (strings, numbers, booleans, regex)              |
+| `id`      | Identifier names (variable names, property names)               |
+| `op`      | Operators (`+`, `-`, `===`, `??`, etc.)                         |
+| `decl`    | Variable and function declarations                              |
+| `loop`    | Loop statements (`for`, `while`, `do`)                          |
+| `cond`    | Conditional statements and expressions (`if`, `? :`, `switch`)  |
+| `name`    | Named constructs (function names, class names)                  |
+| `val`     | Value-producing expressions (calls, member access, assignments) |
+| `op_name` | Operator + name combinations                                    |
 
 A scat combo like `lit,decl,loop,cond` tells CS-MAST to include those four categories when computing each sub-tree's hash. More categories → more structural detail → more signatures → larger intersection with the library baseline → better library detection.
 
@@ -39,31 +39,31 @@ An experiment tested all 511 non-empty subsets of the 9 scat categories against 
 
 ### Category impact summary
 
-| Category | Avg detection **with** | Avg detection **without** | Delta |
-|----------|------------------------|---------------------------|-------|
-| `id` | 13.25/16 | 8.18/16 | **+5.07** |
-| `lit` | 11.29/16 | 10.14/16 | +1.15 |
-| `name` | 11.26/16 | 10.18/16 | +1.08 |
-| `loop` | 11.03/16 | 10.40/16 | +0.63 |
-| `op` | 10.76/16 | 10.67/16 | +0.09 |
-| `op_name` | 10.60/16 | 10.84/16 | -0.24 |
-| `decl` | 10.55/16 | 10.89/16 | -0.34 |
-| `cond` | 9.94/16 | 11.50/16 | -1.56 |
-| `val` | 9.39/16 | 12.05/16 | -2.65 |
+| Category  | Avg detection **with** | Avg detection **without** | Delta     |
+| --------- | ---------------------- | ------------------------- | --------- |
+| `id`      | 13.25/16               | 8.18/16                   | **+5.07** |
+| `lit`     | 11.29/16               | 10.14/16                  | +1.15     |
+| `name`    | 11.26/16               | 10.18/16                  | +1.08     |
+| `loop`    | 11.03/16               | 10.40/16                  | +0.63     |
+| `op`      | 10.76/16               | 10.67/16                  | +0.09     |
+| `op_name` | 10.60/16               | 10.84/16                  | -0.24     |
+| `decl`    | 10.55/16               | 10.89/16                  | -0.34     |
+| `cond`    | 9.94/16                | 11.50/16                  | -1.56     |
+| `val`     | 9.39/16                | 12.05/16                  | -2.65     |
 
 ### Top performing combinations
 
 All of the following achieve 16/16 library module detection on the reference bundle:
 
-| Scat combo | Intersection size |
-|------------|------------------|
-| `lit,id,loop,cond,name,val` | 2840 signatures |
-| `lit,id,cond,name,val` | 2803 signatures |
-| `lit,id,decl,loop,name,val` | 2677 signatures |
-| `lit,id,decl,name,val` | 2603 signatures |
-| `id,loop,cond,name,val` | 2201 signatures |
-| `id,cond,name,val` | 2164 signatures |
-| `id,cond,name` | 1987 signatures |
+| Scat combo                  | Intersection size |
+| --------------------------- | ----------------- |
+| `lit,id,loop,cond,name,val` | 2840 signatures   |
+| `lit,id,cond,name,val`      | 2803 signatures   |
+| `lit,id,decl,loop,name,val` | 2677 signatures   |
+| `lit,id,decl,name,val`      | 2603 signatures   |
+| `id,loop,cond,name,val`     | 2201 signatures   |
+| `id,cond,name,val`          | 2164 signatures   |
+| `id,cond,name`              | 1987 signatures   |
 
 ## Recommended combinations
 
