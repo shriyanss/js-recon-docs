@@ -43,6 +43,7 @@ The feature to map all the functions are available only for the following JavaSc
 - [Vue.js](https://vuejs.org) — [Vite](https://vitejs.dev) production chunks (2-character function name convention) are decoded into per-function chunks; for non-bundled / dev-server output, each `.js` and `.vue` module is emitted as a single chunk so it remains analyzable.
 - [React](https://react.dev) — ES module and webpack chunk formats are supported; `fetch()` calls are resolved using the same taint-flow analysis as Next.js.
 - [Svelte/Astro](https://astro.build) — Vite production chunks are decoded using the same logic as Vue.js; `fetch()` and Axios calls are resolved with the same taint-flow analysis.
+- [Angular](https://angular.dev) — Angular CLI (esbuild, v17+) bundles are scanned as whole-file chunks; `HttpClient` method calls (`n.get(url)`, `n.post(url, body)`, etc.) and native `fetch()` calls are resolved using the shared HTTP-client and fetch resolvers.
 
 ## Analyze
 
@@ -52,7 +53,10 @@ The static-analysis [`analyze`](./modules/analyze.md) module evaluates AST rules
 - [Vue.js](https://vuejs.org)
 - [React](https://react.dev)
 - [Svelte/Astro](https://astro.build)
+- [Angular](https://angular.dev) — includes the Angular-specific `detect_angular_bypass_security_trust` rule that detects `bypassSecurityTrust*` calls (DomSanitizer bypasses)
 
 ## Run
 
 This module automated the flow of other modules, so please refer to specific modules to know the compatibility.
+
+The `run` command provides full pipeline support (lazyload → map → analyze → report) for: **Next.js**, **Vue.js**, **Nuxt.js**, **React**, **Svelte/Astro**, and **Angular**.
