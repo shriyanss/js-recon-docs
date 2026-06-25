@@ -124,12 +124,12 @@ The tool reads (and creates on first use) `~/.js-recon/refactor/config.json`:
 
 ```json
 {
-  "maxCacheSizeMb": 512
+    "maxCacheSizeMb": 512
 }
 ```
 
-| Field | Description |
-|-------|-------------|
+| Field            | Description                                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `maxCacheSizeMb` | Maximum signature cache size in MB. When exceeded, oldest entries are evicted until the cache is below 50% of this limit. Default: `512`. |
 
 ### Cache layout
@@ -191,11 +191,11 @@ For guidance on which combination to use, see [Choosing scat categories](./choos
 
 ### Cache control flags
 
-| Flag | Effect |
-|------|--------|
-| `--refresh-cache` | Force-refresh the file list cache regardless of age |
-| `--skip-cache-checks` | Skip all age/staleness checks; use whatever is cached |
-| `--no-remote` | Disable remote fetch entirely; runs without library stripping unless `--collisions` is also provided |
+| Flag                  | Effect                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `--refresh-cache`     | Force-refresh the file list cache regardless of age                                                  |
+| `--skip-cache-checks` | Skip all age/staleness checks; use whatever is cached                                                |
+| `--no-remote`         | Disable remote fetch entirely; runs without library stripping unless `--collisions` is also provided |
 
 ```bash
 # Force a fresh file list from the remote dataset
