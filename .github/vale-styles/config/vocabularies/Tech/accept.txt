@@ -65,3 +65,7 @@ sourcemaps?
 subcommand
 toolchain
 repo
+[Rr]olldown
+[Ii]nterop
+basenames?
+[Ss]caffolding?
