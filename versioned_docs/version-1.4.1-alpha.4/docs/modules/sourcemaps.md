@@ -14,10 +14,10 @@ js-recon sourcemaps -i <path> [options]
 
 ## Options
 
-| Option                    | Alias | Description                                               | Default     | Required |
-| ------------------------- | ----- | --------------------------------------------------------- | ----------- | -------- |
-| `--input <path>`          | `-i`  | Single `.map` file or directory containing `.map` files.  |             | Yes      |
-| `--output <directory>`    | `-o`  | Output directory for extracted source files.              | `extracted` | No       |
+| Option                 | Alias | Description                                              | Default     | Required |
+| ---------------------- | ----- | -------------------------------------------------------- | ----------- | -------- |
+| `--input <path>`       | `-i`  | Single `.map` file or directory containing `.map` files. |             | Yes      |
+| `--output <directory>` | `-o`  | Output directory for extracted source files.             | `extracted` | No       |
 
 ## Examples
 
