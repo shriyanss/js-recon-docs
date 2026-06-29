@@ -44,11 +44,12 @@ Run this command after `js-recon run` has already populated an output directory 
 - If the path already has an extension (e.g. `results.csv`), it is used as-is.
 
 Examples:
-| `--co` value | `--cf` | Written to |
-| ------------ | ------ | ----------------- |
-| `output` | `csv` | `./collisions.csv` |
-| `results` | `json` | `./collisions.json` |
-| `results.csv`| `csv` | `./results.csv` |
+
+| `--co` value  | `--cf` | Written to          |
+| ------------- | ------ | ------------------- |
+| `output`      | `csv`  | `./collisions.csv`  |
+| `results`     | `json` | `./collisions.json` |
+| `results.csv` | `csv`  | `./results.csv`     |
 
 ## Examples
 
