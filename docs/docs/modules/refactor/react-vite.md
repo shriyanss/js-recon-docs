@@ -180,8 +180,21 @@ cat output_vite_refactored/Home-J6pOhRyO.jsx
 
 Expected output: clean JSX with canonical React imports — no interop wrappers, no vendor chunk references.
 
+## Remote library stripping
+
+When processing an app with non-vendor chunks that contain inlined library code, the tool can strip those chunks automatically using the remote CS-MAST-S signature dataset.
+
+By default the tool fetches signatures from the `react/vite/large-0.1.8` bucket prefix. Use `--remote-collisions` to supply an explicit path:
+
+```bash
+js-recon refactor -t react-vite --remote-collisions react/vite/large-0.1.8 -o output_refactored
+```
+
+If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md). Use `--no-remote` to disable remote fetching entirely.
+
+Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequent runs are fast.
+
 ## Notes
 
 - Vendor chunks and the rolldown-runtime chunk are not written to the output directory — they contain no application code.
-- The `--collisions` flag has no effect on `react-vite` (library stripping is not implemented for Vite bundles; library code lives in vendor chunks that are excluded automatically).
 - Template literal strings in JSX props and children are preserved as-is — rolldown uses `` `string` `` instead of `"string"` in many places and the refactor maintains this.

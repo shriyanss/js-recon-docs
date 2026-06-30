@@ -189,6 +189,16 @@ The value is a comma-separated list from: `lit`, `id`, `op`, `decl`, `loop`, `co
 
 For guidance on which combination to use, see [Choosing scat categories](./choosing-scat.md).
 
+### Remote dataset path override (`--remote-collisions`)
+
+By default the tool resolves the dataset path automatically from the detected technology (`react-webpack` → `react/webpack/large`). Use `--remote-collisions` to supply an explicit HuggingFace bucket path instead:
+
+```bash
+js-recon refactor -t react-webpack --remote-collisions react/webpack/large -o output_refactored
+```
+
+If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md).
+
 ### Cache control flags
 
 | Flag                  | Effect                                                                                               |
