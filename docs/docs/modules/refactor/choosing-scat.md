@@ -142,6 +142,32 @@ If a combination is genuinely absent (for example, for a technology not yet in t
 
 The category order in the directory name follows a fixed canonical order (`lit → id → op → decl → loop → cond → name → val → op_name`), regardless of the order you pass to `--scat`. So `--scat cond,lit,id` and `--scat id,lit,cond` both resolve to the `lit-id-cond` directory in the bucket.
 
+## React Vite recommendations
+
+A separate benchmark (2026-06-30) tested all 511 scat combinations against 13 React Vite apps using a **recovery quality score** metric — how closely the refactored output's structural fingerprints match the original source. This metric differs from the webpack library-module count, so the two studies aren't directly comparable, but the category rankings are instructive.
+
+| Scat combo | Recovery score | Notes |
+|------------|---------------|-------|
+| `id` | 1.0000 | Perfect score — top recommendation |
+| `id,val` | 1.0000 | Equivalent to `id` alone |
+| `id,op_name` | 1.0000 | Equivalent to `id` alone |
+| `lit,id` | 0.6599 | Good, but adding `lit` reduces score vs `id` alone |
+| `lit` | 0.4918 | Acceptable if identifier-level matching is undesirable |
+
+The default `lit,decl,loop,cond` ranks **314/511** with a score of 0.0527 — significantly worse than `id` alone for Vite targets.
+
+**Recommended combinations for React Vite:**
+
+```bash
+# Best recovery quality — use when false positives are not a concern
+js-recon refactor -t react-vite --scat id
+
+# Conservative — identifier-level matching disabled
+js-recon refactor -t react-vite --scat lit
+```
+
+**Key difference from webpack:** `name` is beneficial for webpack (+1.08) but harmful for Vite (-0.048). Avoid `name`, `decl`, and `cond` in Vite scat configs.
+
 ## See also
 
 - [React (webpack) Refactor — Scat category override](./react-webpack.md#scat-category-override---scat) — full `--scat` flag reference
