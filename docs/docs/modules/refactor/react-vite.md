@@ -197,4 +197,5 @@ Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequen
 ## Notes
 
 - Vendor chunks and the rolldown-runtime chunk are not written to the output directory — they contain no application code.
+- **Vendor chunks are auto-discovered.** `mapped.json` typically contains only app chunks because vendor files are excluded during mapping. The refactor automatically locates `vendor-react-*.js` and `rolldown-runtime-*.js` from the downloaded assets directory (detected via `// File Source:` headers in each chunk's code) and loads them before processing. No extra flags or manual file preparation are required.
 - Template literal strings in JSX props and children are preserved as-is — rolldown uses `` `string` `` instead of `"string"` in many places and the refactor maintains this.
