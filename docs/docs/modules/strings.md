@@ -23,6 +23,7 @@ js-recon strings -d <directory> [options]
 | `--permutate`                 | `-p`  | Permutate the URLs and paths found.                           | `false`          | No       |
 | `--openapi`                   |       | Generate an OpenAPI specification from the paths found.       | `false`          | No       |
 | `--scan-secrets`              | `-s`  | Scan for secrets within the strings.                          | `false`          | No       |
+| `--trufflehog`                |       | Run TruffleHog secret scanner on the output directory.        | `false`          | No       |
 
 ## Examples
 
@@ -55,6 +56,30 @@ js-recon strings -d /path/to/js-files -s
 This will print all the potential finds on the terminal window.
 
 _Please note that this process could be memory and compute-intensive, and can take longer to run._
+
+### Scan with TruffleHog
+
+Run TruffleHog as a more comprehensive secret scanner on the output directory:
+
+```bash
+js-recon strings -d output/ --trufflehog
+```
+
+TruffleHog must be installed separately before using this flag:
+
+```bash
+# macOS
+brew install trufflehog
+
+# Linux / macOS (install script)
+curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh
+```
+
+You can combine both secret scanners in a single run:
+
+```bash
+js-recon strings -d output/ -s --trufflehog
+```
 
 ### Generate OpenAPI specification
 
