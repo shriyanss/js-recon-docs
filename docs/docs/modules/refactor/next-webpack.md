@@ -27,20 +27,20 @@ The `mapped.json` produced by the `map` command preserves the full string includ
 
 **Parameter order** (webpack, not turbopack):
 
-| Position   | Minified | Role                                                  |
-| ---------- | -------- | ----------------------------------------------------- |
+| Position    | Minified | Role                                                      |
+| ----------- | -------- | --------------------------------------------------------- |
 | `params[0]` | `e`      | `module` — module object; `e.exports = X` for CJS exports |
-| `params[1]` | `t`      | `exports` — export target for ODP / `require.d`      |
-| `params[2]` | `r`      | `require` — import function; `r(N)` imports module N |
+| `params[1]` | `t`      | `exports` — export target for ODP / `require.d`           |
+| `params[2]` | `r`      | `require` — import function; `r(N)` imports module N      |
 
 Module arity varies:
 
-| Params | Frequency | Notes |
-| ------ | --------- | ----- |
-| 3      | ~67%      | Full module, exports + require |
+| Params | Frequency | Notes                                            |
+| ------ | --------- | ------------------------------------------------ |
+| 3      | ~67%      | Full module, exports + require                   |
 | 2      | ~29%      | Module + exports only (no cross-module requires) |
-| 1      | ~2%       | Module only (CJS-only modules) |
-| 0      | ~2%       | Empty modules — skipped |
+| 1      | ~2%       | Module only (CJS-only modules)                   |
+| 0      | ~2%       | Empty modules — skipped                          |
 
 ## Transform passes
 
@@ -49,19 +49,23 @@ Module arity varies:
 The pass scans each top-level statement and sequence sub-expression to:
 
 **Collect named exports** from:
+
 - `Object.defineProperty(exports, "name", { get: () => localVar })` — ODP named export
 - `require.d(exports, { name: () => localVar, ... })` — webpack `require.d` batch
 - `for (var k in mapVar) Object.defineProperty(exports, k, ...)` — for-in loop batch
 
 **Collect default exports** from:
+
 - `module.exports = VALUE` — becomes `export default VALUE`
 - `module.exports = require(N)` — becomes `export * from './N.js'`
 
 **Collect side-effect imports** from:
+
 - `require(N);` standalone statement — becomes `import './N.js'`
 - `require(N)` inside a sequence expression — becomes `import './N.js'`
 
 **Drop boilerplate**:
+
 - `Object.defineProperty(exports, "__esModule", ...)` — interop marker, dropped
 - `require.r(exports)` — ES module marker, dropped
 - `("function"==typeof exports.default || ...) && (exports.default.__esModule) && (module.exports = exports.default)` — CJS interop copy-back, dropped
@@ -108,13 +112,13 @@ Shared with the turbopack transform:
 **Output** (`20.js`):
 
 ```js
-import * as n from './603.js';
-import * as u from './2697.js';
+import * as n from "./603.js";
+import * as u from "./2697.js";
 
 let a = (e) => {
-  if (!e.startsWith('/')) return e;
-  let { pathname: t, query: r, hash: a } = (0, u.parsePath)(e);
-  return `${(0, n.removeTrailingSlash)(t)}${r}${a}`;
+    if (!e.startsWith("/")) return e;
+    let { pathname: t, query: r, hash: a } = (0, u.parsePath)(e);
+    return `${(0, n.removeTrailingSlash)(t)}${r}${a}`;
 };
 
 export { a as normalizePathTrailingSlash };
