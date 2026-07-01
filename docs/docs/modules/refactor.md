@@ -79,6 +79,7 @@ The result is a directory of standalone `.js` files that can be opened in an IDE
 For detailed, technology-specific documentation see:
 
 - [Next.js (Turbopack)](./refactor/next-turbopack.md) — Next.js Turbopack bundles: module format detection, require hoisting, JSX recovery
+- [Next.js (webpack)](./refactor/next-webpack.md) — Next.js webpack bundles: CJS export recovery, require hoisting, interop boilerplate removal
 - [React (webpack)](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
 - [React (Vite)](./refactor/react-vite.md) — Vite (rolldown) React bundles: CJS interop removal, vendor import rewriting, JSX recovery, build check
 - [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
