@@ -194,6 +194,14 @@ If the path does not exist in the dataset the tool exits with [code 25](../../ex
 
 Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequent runs are fast.
 
+## Known limitations
+
+**Variable names are not recovered.** Vite's minifier mangles identifiers to single letters (for example `v.useState`, `ce`, `xr`). The refactor preserves these as-is because there is no sourcemap to consult. Use the original source or sourcemaps if available for fully-readable names.
+
+**Multi-chunk files — only the component function is preserved.** When a single Vite chunk file contains both inlined library helpers and the route component, `map` segments it into multiple sub-chunks. The refactor writes each sub-chunk to the same output file, with later writes overwriting earlier ones. The result is that only the last (and typically most important) chunk — the exported component — survives. The library helper functions from within the file are not in the output. This is usually desirable since those helpers are third-party library code, but app-specific utilities co-bundled in the same chunk are also lost.
+
+**Remote library stripping requires populated signatures.** The `react/vite/large` bucket in the CS-MAST-S HuggingFace dataset must be populated before remote stripping runs. If the bucket is empty or missing, the tool falls back to the component-extraction-only path with a warning.
+
 ## Notes
 
 - Vendor chunks and the rolldown-runtime chunk are not written to the output directory — they contain no application code.
