@@ -12,17 +12,17 @@ Vue webpack bundles store modules inside a `webpackJsonp` push container. Each `
 
 ```js
 (window.webpackJsonp = window.webpackJsonp || []).push([
-  [100],
-  {
-    429: function (t, e, r) {
-      "use strict";
-      r.r(e);
-      // module body
+    [100],
+    {
+        429: function (t, e, r) {
+            "use strict";
+            r.r(e);
+            // module body
+        },
+        430: function (t, e, r) {
+            // another module
+        },
     },
-    430: function (t, e, r) {
-      // another module
-    }
-  }
 ]);
 ```
 
@@ -30,23 +30,23 @@ In webpack 5 the same pattern uses arrow functions and a different global name:
 
 ```js
 (self.webpackChunkMyApp = self.webpackChunkMyApp || []).push([
-  [0],
-  {
-    429: (t, e, r) => {
-      "use strict";
-      // module body
-    }
-  }
+    [0],
+    {
+        429: (t, e, r) => {
+            "use strict";
+            // module body
+        },
+    },
 ]);
 ```
 
 **Parameter order** (same for webpack 4 and webpack 5):
 
-| Position     | Role                                                         |
-| ------------ | ------------------------------------------------------------ |
-| `params[0]`  | `module` — module object; `t.exports = X` for CJS exports   |
-| `params[1]`  | `exports` — export target for ODP / `require.d`             |
-| `params[2]`  | `require` — import function; `r(N)` imports module N        |
+| Position    | Role                                                      |
+| ----------- | --------------------------------------------------------- |
+| `params[0]` | `module` — module object; `t.exports = X` for CJS exports |
+| `params[1]` | `exports` — export target for ODP / `require.d`           |
+| `params[2]` | `require` — import function; `r(N)` imports module N      |
 
 The `mapped.json` produced by the `map` command stores each chunk file's full source (including the push container) in the `code` field. The refactor tool strips the container and processes each module function independently.
 
@@ -57,14 +57,17 @@ The same transform passes used for [Next.js (webpack)](./next-webpack.md) are ap
 ### Pass 1 — export collection and boilerplate removal
 
 Collects named exports from:
+
 - `Object.defineProperty(exports, "name", { get: () => localVar })` — ODP named export
 - `require.d(exports, { name: () => localVar, ... })` — webpack `require.d` batch
 
 Collects default exports from:
+
 - `module.exports = VALUE` — becomes `export default VALUE`
 - `module.exports = require(N)` — becomes `export * from './N.js'`
 
 Drops boilerplate:
+
 - `Object.defineProperty(exports, "__esModule", ...)` — interop marker
 - `require.r(exports)` — ES module marker
 - `module.exports = exports.default` — CJS interop copy-back
@@ -91,28 +94,30 @@ Vue 2 components compiled by webpack emit template render functions using the Vu
 
 ```js
 // Output (429.js)
-import * as v from './3.js';
+import * as v from "./3.js";
 
 var n = Object(v.a)(
-  {},
-  function () {
-    var t = this, e = t._self._c;
-    return e('div', { class: 'container' }, [
-      e('h1', [t._v('Page Title')]),
-      e('p', [t._v(t._s(t.message))])
-    ]);
-  },
-  [],
-  false,
-  null,
-  null,
-  null
+    {},
+    function () {
+        var t = this,
+            e = t._self._c;
+        return e("div", { class: "container" }, [
+            e("h1", [t._v("Page Title")]),
+            e("p", [t._v(t._s(t.message))]),
+        ]);
+    },
+    [],
+    false,
+    null,
+    null,
+    null
 );
 
 e.default = n.exports;
 ```
 
 Where:
+
 - `this._c` — Vue's `createElement` function
 - `this._v()` — creates a text VNode
 - `this._s()` — converts a value to its display string (`toString`)

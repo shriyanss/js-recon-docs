@@ -11,19 +11,21 @@ The `-t vue-vite` technology refactors Vue 3 + Vite bundle chunks into readable 
 Vue 3 + Vite produces two types of files:
 
 **Main index chunk** (large, ~80–300 kB):
+
 - Contains all of Vue core, vue-router, and shared app utilities
 - Exports a small set of Vue runtime functions under minified single-letter aliases:
-  ```js
-  export { Eu as _, qt as a, Nl as c, Pl as o }
-  ```
+    ```js
+    export { Eu as _, qt as a, Nl as c, Pl as o };
+    ```
 - Identified by the presence of `__vccOpts` (the SFC component options flag)
 
 **Lazy page chunks** (small, ~0.2–5 kB per route):
+
 - Generated when routes are lazy-loaded: `component: () => import('../views/Home.vue')`
 - Import minified Vue functions from the main index:
-  ```js
-  import { _ as t, c as a, a as o, o as s } from "./index-Dcf91m-J.js"
-  ```
+    ```js
+    import { _ as t, c as a, a as o, o as s } from "./index-Dcf91m-J.js";
+    ```
 - Export the page component as the default export
 
 For vue-vite to produce useful output, your Vue app must use **lazy-loaded routes** to trigger code splitting. Eager routes produce a single bundle with no separate page chunks.
@@ -34,12 +36,12 @@ For vue-vite to produce useful output, your Vue app must use **lazy-loaded route
 
 The refactor tool parses the main index chunk and builds a map of export aliases to canonical Vue 3 API names by fingerprinting each function body:
 
-| Export alias | Canonical name    | Fingerprint                                             |
-| ------------ | ----------------- | ------------------------------------------------------- |
-| `_`          | `_export_sfc`     | body contains `__vccOpts`                               |
-| `c`          | `createElementBlock` | wraps createBaseVNode with block tracking flag       |
-| `o`          | `openBlock`       | `(e=!1)` param + pushes to block stack array            |
-| `a`          | `createBaseVNode` | creates `{__v_isVNode: true, ...}` object               |
+| Export alias | Canonical name       | Fingerprint                                    |
+| ------------ | -------------------- | ---------------------------------------------- |
+| `_`          | `_export_sfc`        | body contains `__vccOpts`                      |
+| `c`          | `createElementBlock` | wraps createBaseVNode with block tracking flag |
+| `o`          | `openBlock`          | `(e=!1)` param + pushes to block stack array   |
+| `a`          | `createBaseVNode`    | creates `{__v_isVNode: true, ...}` object      |
 
 The specific aliases vary per build (they depend on which Vue APIs the app uses).
 
@@ -48,13 +50,19 @@ The specific aliases vary per build (they depend on which Vue APIs the app uses)
 Each lazy page chunk's index import is rewritten to a canonical `import { ... } from 'vue'` statement:
 
 **Before:**
+
 ```js
 import { _ as t, c as a, a as o, o as s } from "./index-Dcf91m-J.js";
 ```
 
 **After:**
+
 ```js
-import { createElementBlock as a, createBaseVNode as o, openBlock as s } from 'vue';
+import {
+    createElementBlock as a,
+    createBaseVNode as o,
+    openBlock as s,
+} from "vue";
 ```
 
 ### Step 3 — Inline the `_export_sfc` helper
@@ -63,9 +71,9 @@ The `_export_sfc` function is a compiler-internal helper injected by `@vitejs/pl
 
 ```js
 const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) target[key] = val;
-  return target;
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) target[key] = val;
+    return target;
 };
 const t = _export_sfc; // local alias used in this chunk
 ```
@@ -75,44 +83,64 @@ const t = _export_sfc; // local alias used in this chunk
 **Input** (lazy page chunk, raw):
 
 ```js
-import{_ as t,c as a,a as o,o as s}from"./index-Dcf91m-J.js";
-const c={},n={class:"home"};
-function r(l,e){
-  return s(),a("div",n,[...e[0]||(e[0]=[o("h1",null,"Home Page",-1),o("p",null,"Welcome.",-1)])])
+import { _ as t, c as a, a as o, o as s } from "./index-Dcf91m-J.js";
+const c = {},
+    n = { class: "home" };
+function r(l, e) {
+    return (
+        s(),
+        a("div", n, [
+            ...(e[0] ||
+                (e[0] = [
+                    o("h1", null, "Home Page", -1),
+                    o("p", null, "Welcome.", -1),
+                ])),
+        ])
+    );
 }
-const m=t(c,[["render",r],["__scopeId","data-v-88586f7c"]]);
-export{m as default};
+const m = t(c, [
+    ["render", r],
+    ["__scopeId", "data-v-88586f7c"],
+]);
+export { m as default };
 ```
 
 **Output** (`Home--CqlrOQV.js`):
 
 ```js
-import { createElementBlock as a, createBaseVNode as o, openBlock as s } from 'vue';
+import {
+    createElementBlock as a,
+    createBaseVNode as o,
+    openBlock as s,
+} from "vue";
 
 const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) target[key] = val;
-  return target;
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) target[key] = val;
+    return target;
 };
 const t = _export_sfc;
 
 const c = {},
-  n = { class: 'home' };
+    n = { class: "home" };
 
 function r(l, e) {
-  return (
-    s(),
-    a('div', n, [
-      ...(e[0] ||
-        (e[0] = [
-          o('h1', null, 'Home Page', -1),
-          o('p', null, 'Welcome.', -1)
-        ]))
-    ])
-  );
+    return (
+        s(),
+        a("div", n, [
+            ...(e[0] ||
+                (e[0] = [
+                    o("h1", null, "Home Page", -1),
+                    o("p", null, "Welcome.", -1),
+                ])),
+        ])
+    );
 }
 
-const m = t(c, [['render', r], ['__scopeId', 'data-v-88586f7c']]);
+const m = t(c, [
+    ["render", r],
+    ["__scopeId", "data-v-88586f7c"],
+]);
 export { m as default };
 ```
 
@@ -120,17 +148,17 @@ export { m as default };
 
 Vue 3 compile render functions using these runtime helpers:
 
-| Function              | Purpose                                        |
-| --------------------- | ---------------------------------------------- |
-| `openBlock()`         | Starts a new block for tracking dynamic nodes  |
+| Function               | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `openBlock()`          | Starts a new block for tracking dynamic nodes |
 | `createElementBlock()` | Creates a block-level element VNode           |
-| `createElementVNode()` | Creates a non-block element VNode            |
-| `createBaseVNode()`   | Core VNode factory (internal alias)            |
-| `createTextVNode()`   | Creates a text node                            |
-| `toDisplayString()`   | Converts a value to its display string         |
-| `normalizeClass()`    | Normalizes class binding to a string           |
-| `withDirectives()`    | Applies custom directives to a VNode           |
-| `resolveComponent()`  | Resolves a component by name at runtime        |
+| `createElementVNode()` | Creates a non-block element VNode             |
+| `createBaseVNode()`    | Core VNode factory (internal alias)           |
+| `createTextVNode()`    | Creates a text node                           |
+| `toDisplayString()`    | Converts a value to its display string        |
+| `normalizeClass()`     | Normalizes class binding to a string          |
+| `withDirectives()`     | Applies custom directives to a VNode          |
+| `resolveComponent()`   | Resolves a component by name at runtime       |
 
 ## Usage
 
@@ -149,8 +177,8 @@ For meaningful output, your Vue app must use lazy-loaded routes:
 ```js
 // router/index.js
 const routes = [
-  { path: '/', component: () => import('../views/Home.vue') },
-  { path: '/about', component: () => import('../views/About.vue') },
+    { path: "/", component: () => import("../views/Home.vue") },
+    { path: "/about", component: () => import("../views/About.vue") },
 ];
 ```
 
