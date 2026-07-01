@@ -29,7 +29,7 @@ js-recon refactor -t <technology> [options]
 To refactor code using the default `mapped.json` file and output to the default `output_refactored` directory:
 
 ```bash
-js-recon refactor -t next
+js-recon refactor -t next-turbopack
 ```
 
 ### Custom Input and Output
@@ -37,7 +37,7 @@ js-recon refactor -t next
 Specify a custom input JSON file and output directory:
 
 ```bash
-js-recon refactor -m custom-mapped.json -o refactored_output -t next
+js-recon refactor -m custom-mapped.json -o refactored_output -t next-turbopack
 ```
 
 ### List Available Technologies
@@ -78,6 +78,7 @@ The result is a directory of standalone `.js` files that can be opened in an IDE
 
 For detailed, technology-specific documentation see:
 
+- [Next.js (Turbopack)](./refactor/next-turbopack.md) — Next.js Turbopack bundles: module format detection, require hoisting, JSX recovery
 - [React (webpack)](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
 - [React (Vite)](./refactor/react-vite.md) — Vite (rolldown) React bundles: CJS interop removal, vendor import rewriting, JSX recovery, build check
 - [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
