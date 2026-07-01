@@ -40,11 +40,11 @@ func_16624 = (runtime, module, exports) => {
 
 The three parameters map to:
 
-| Position | Role | Usage |
-|---|---|---|
+| Position    | Role    | Usage                                                                         |
+| ----------- | ------- | ----------------------------------------------------------------------------- |
 | `params[0]` | runtime | `runtime.r(N)` / `runtime.i(N)` — require/import another module by numeric ID |
-| `params[1]` | module | `module.exports = …` — CJS interop boilerplate |
-| `params[2]` | exports | `Object.defineProperty(exports, "name", { get: fn })` — export registration |
+| `params[1]` | module  | `module.exports = …` — CJS interop boilerplate                                |
+| `params[2]` | exports | `Object.defineProperty(exports, "name", { get: fn })` — export registration   |
 
 #### 1-param format (page component chunks)
 
@@ -76,6 +76,7 @@ Recognises and converts several export forms to ES module `export` statements:
 - `runtime.s(["name", 0, fn])` (1-param format) → `export const name = fn` / `export default fn`
 
 Also strips Turbopack boilerplate:
+
 - `Object.defineProperty(exports, "__esModule", …)` — ES module interop marker
 - `require.r(exports)` — webpack ES-module marker
 - `module.exports = exports.default` — CJS interop assignment
@@ -97,7 +98,9 @@ Babel's compiled array destructure expansion is collapsed back to clean destruct
 
 ```javascript
 // Before
-var _ref = _slicedToArray(expr, 2), a = _ref[0], b = _ref[1];
+var _ref = _slicedToArray(expr, 2),
+    a = _ref[0],
+    b = _ref[1];
 // After
 var [a, b] = expr;
 ```
@@ -126,36 +129,36 @@ Input chunk (abbreviated):
 
 ```javascript
 func_16624 = (e, t, r) => {
-  "use strict";
-  Object.defineProperty(r, "__esModule", { value: true });
-  Object.defineProperty(r, "default", {
-    enumerable: true,
-    get: () => PostPage
-  });
-  var n = e.r(18566);
-  var a = e.r(71645);
-  function PostPage() {
-    let id = (0, n.useParams)().id;
-    let [post, setPost] = (0, a.useState)(null);
-    return (0, jsxs)("main", { children: [
-      (0, jsx)("h1", { children: post.title })
-    ]});
-  }
+    "use strict";
+    Object.defineProperty(r, "__esModule", { value: true });
+    Object.defineProperty(r, "default", {
+        enumerable: true,
+        get: () => PostPage,
+    });
+    var n = e.r(18566);
+    var a = e.r(71645);
+    function PostPage() {
+        let id = (0, n.useParams)().id;
+        let [post, setPost] = (0, a.useState)(null);
+        return (0, jsxs)("main", {
+            children: [(0, jsx)("h1", { children: post.title })],
+        });
+    }
 };
 ```
 
 Output (`16624.jsx`):
 
 ```javascript
-import * as n from './18566.js';
-import * as a from './71645.js';
+import * as n from "./18566.js";
+import * as a from "./71645.js";
 export default (function PostPage() {
-  let id = (0, n.useParams)().id;
-  let [post, setPost] = (0, a.useState)(null);
-  return (
-    <main>
-      <h1>{post.title}</h1>
-    </main>
-  );
+    let id = (0, n.useParams)().id;
+    let [post, setPost] = (0, a.useState)(null);
+    return (
+        <main>
+            <h1>{post.title}</h1>
+        </main>
+    );
 });
 ```
