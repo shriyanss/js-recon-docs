@@ -194,6 +194,17 @@ If the path does not exist in the dataset the tool exits with [code 25](../../ex
 
 Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequent runs are fast.
 
+## Version detection (`--detect-version`)
+
+The `--detect-version` flag identifies the React version embedded in the Vite bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`. It works the same way as for react-webpack (see the [react-webpack docs](./react-webpack.md#version-detection---detect-version)), with the difference that the dataset covers react-16 through react-19 (4 versions) for the Vite bundler.
+
+```bash
+js-recon refactor -t react-vite \
+  -m mapped.json \
+  -o output/ \
+  --detect-version
+```
+
 ## Known limitations
 
 **Variable names are not recovered.** Vite's minifier mangles identifiers to single letters (for example `v.useState`, `ce`, `xr`). The refactor preserves these as-is because there is no sourcemap to consult. Use the original source or sourcemaps if available for fully-readable names.

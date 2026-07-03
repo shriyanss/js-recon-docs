@@ -306,6 +306,35 @@ versus the default refactor output of ten files totalling ~240 KB.
 - Library detection is **opt-in via the baseline you provide**. Pointing `--collisions` at a baseline from a different toolchain (different React version, different bundler, different babel target) will under- or over-match.
 - Modules whose body parse fails are silently treated as non-library and emitted normally.
 
+## Version detection (`--detect-version`)
+
+The `--detect-version` flag automatically identifies the React version embedded in the bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`.
+
+```bash
+js-recon refactor -t react-webpack \
+  -m mapped.json \
+  -o output/ \
+  --detect-version
+```
+
+When enabled, the tool:
+
+1. Generates CS-MAST structural signatures from every code unit in the mapped bundle (using the same `lit-decl-loop-cond` scat configuration as library stripping by default).
+2. For each React version available in the dataset (react-0.12 through react-19), fetches a list of **reliable signatures** — sub-tree hashes that appear in every build of that version but not in any other. These are downloaded from the `shriyanss/cs-mast-s-dataset` HuggingFace bucket (`version/react/webpack/<version>/lit-decl-loop-cond/reliable_signatures.json`) and cached locally with a 7-day TTL.
+3. Counts how many reliable signatures match the bundle's signature set. The version with the most matches is reported as the detected React version.
+4. Updates `package.json` in the refactored output to pin the detected version (e.g. `react@^18.3.1`) instead of the default `^18.3.1`.
+
+Detection results are printed to the console:
+
+```
+[✓] Detected React version: react-18 (262 signature matches)
+[i] Using detected React version react-18 in package.json (react@^18.3.1)
+```
+
+**Cache location:** `~/.js-recon/refactor/version_sigs_cache/<version>/<scat>/reliable_signatures.json`
+
+**Dataset coverage:** react-0.12 through react-19 (8 versions for webpack). Older versions (0.11–0.13) are in the dataset for webpack but lack `react-dom` as a separate package.
+
 ## Supported React features
 
 The following React hooks and APIs have been validated against webpack 5 + `@babel/preset-env` bundles:
