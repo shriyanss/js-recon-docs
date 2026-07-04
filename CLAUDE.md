@@ -68,25 +68,25 @@ docs/
 Modules are ordered to match the typical recon workflow so that a newcomer reading
 top-to-bottom sees the most-used commands first:
 
-| Position | Module          | Role in workflow                                          |
-| -------- | --------------- | --------------------------------------------------------- |
-| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut      |
-| 2        | `lazyload`      | First manual step: download JS files                      |
-| 3        | *(lazyload/)*   | Discovery method reference (sub-pages)                    |
-| 4        | `strings`       | Second step: extract URLs and secrets                     |
-| 5        | `map`           | Third step: build the function map                        |
-| 6        | *(interactive)* | Interactive console for `map` (Next.js)                   |
-| 7        | `endpoints`     | Fourth step: extract the client-side route tree           |
-| 8        | `analyze`       | Fifth step: run static-analysis rules                     |
-| 9        | `report`        | Sixth step: render the final HTML report                  |
-| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules        |
-| 11       | *(refactor/)*   | Technology-specific refactor docs                         |
-| 12       | `sourcemaps`    | Extract embedded source maps                              |
-| 13       | `load`          | Offline workflow: import a Caido export as a cache        |
-| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                 |
-| 15       | `fingerprint`   | Utility: detect the JS framework before running           |
-| 16       | `cs-mast`       | Advanced: structural signature generation and comparison  |
-| 17       | `mcp`           | MCP server and Claude Code integration                    |
+| Position | Module          | Role in workflow                                         |
+| -------- | --------------- | -------------------------------------------------------- |
+| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut     |
+| 2        | `lazyload`      | First manual step: download JS files                     |
+| 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                   |
+| 4        | `strings`       | Second step: extract URLs and secrets                    |
+| 5        | `map`           | Third step: build the function map                       |
+| 6        | _(interactive)_ | Interactive console for `map` (Next.js)                  |
+| 7        | `endpoints`     | Fourth step: extract the client-side route tree          |
+| 8        | `analyze`       | Fifth step: run static-analysis rules                    |
+| 9        | `report`        | Sixth step: render the final HTML report                 |
+| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules       |
+| 11       | _(refactor/)_   | Technology-specific refactor docs                        |
+| 12       | `sourcemaps`    | Extract embedded source maps                             |
+| 13       | `load`          | Offline workflow: import a Caido export as a cache       |
+| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                |
+| 15       | `fingerprint`   | Utility: detect the JS framework before running          |
+| 16       | `cs-mast`       | Advanced: structural signature generation and comparison |
+| 17       | `mcp`           | MCP server and Claude Code integration                   |
 
 ## Sidebar position rules
 
@@ -101,6 +101,7 @@ top-to-bottom sees the most-used commands first:
 ### `docs/docs/` — Reference documentation
 
 Use for:
+
 - Module command reference (flags, options, output files, examples)
 - Installation and prerequisites
 - Framework compatibility matrix
@@ -113,6 +114,7 @@ Use for:
 ### `docs/docs/example-scenarios/` — End-to-end scenarios
 
 Use for:
+
 - Complete pipeline walkthroughs against a realistic target of a specific framework
 - One file per framework; the file shows the full `run` or step-by-step flow
 
@@ -121,6 +123,7 @@ Use for:
 ### `docs/docs/rules/` — Rules reference
 
 Use for:
+
 - YAML rule schema specification
 - Predefined rule catalog with descriptions
 - Engine documentation (AST engine, request engine)
@@ -128,6 +131,7 @@ Use for:
 ### `docs/guides/` — Task-oriented how-to guides
 
 Use for:
+
 - Practical step-by-step guides focused on a single task (fuzzing, reversing, exporting)
 - Organized by target framework (`next_js/`, `react/`, etc.)
 - Each guide is self-contained
@@ -173,6 +177,7 @@ sidebar_position: <N>
 ```
 
 Optional additional fields:
+
 - `sidebar_label` — only when the H1 title is too long for the sidebar (keep it rare).
 - `title` — only for the tab title in browser when it differs from H1.
 
@@ -189,6 +194,7 @@ Do NOT add `slug`, `id`, or other Docusaurus frontmatter unless you understand t
 ## Versioned docs
 
 When a new release is cut:
+
 - The current `docs/` tree is snapshotted into `versioned_docs/version-X.Y.Z/`.
 - Only edit `docs/` (the current/next version); never edit versioned snapshots directly.
 - Update `lastVersion` in `docusaurus.config.ts` to match the latest stable release.
@@ -196,6 +202,7 @@ When a new release is cut:
 ## Vale lint (CI)
 
 This repo runs Vale on documentation. If Vale CI fails:
+
 - Run `vale sync` to pull the latest style definitions.
 - Run `vale docs/` locally to see errors before pushing.
 - Do not add words to `.vale/` accept lists unless they are real technical terms (module names, flag names, proper nouns).
