@@ -99,7 +99,7 @@ const config: Config = {
                     title: "Docs",
                     items: [
                         {
-                            label: "Installtion",
+                            label: "Installation",
                             to: "/docs/docs/installation",
                         },
                         {

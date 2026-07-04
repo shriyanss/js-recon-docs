@@ -1,0 +1,202 @@
+# JS Recon Docs — Documentation Guidelines
+
+## Directory structure
+
+```
+docs/
+├── docs/                         ← Reference documentation
+│   ├── README.md                 ← Introduction            (sidebar_position: 1)
+│   ├── installation.md           ← npm/Homebrew install    (sidebar_position: 2)
+│   ├── docker-installation.md    ← Docker install          (sidebar_position: 3)
+│   ├── framework-support.md      ← Per-module compat table (sidebar_position: 4)
+│   ├── modules/                  ← Module command reference (category position: 5)
+│   │   ├── run.md                ← Orchestrator            (pos 1)
+│   │   ├── lazyload.md           ← JS downloader           (pos 2)
+│   │   ├── lazyload/             ← Lazyload sub-pages      (pos 3)
+│   │   │   └── lazyload-methods.md
+│   │   ├── strings.md            ← String/secret extractor (pos 4)
+│   │   ├── map.md                ← Function mapper         (pos 5)
+│   │   ├── interactive_mode/     ← map's interactive shell (pos 6)
+│   │   │   └── next-js.md
+│   │   ├── endpoints.md          ← Route extractor         (pos 7)
+│   │   ├── analyze.md            ← Static-analysis runner  (pos 8)
+│   │   ├── report.md             ← HTML report generator   (pos 9)
+│   │   ├── refactor.md           ← Chunk decompiler        (pos 10)
+│   │   ├── refactor/             ← Tech-specific refactor  (pos 11)
+│   │   │   ├── choosing-scat.md
+│   │   │   ├── next-turbopack.md
+│   │   │   ├── next-webpack.md
+│   │   │   ├── react-vite.md
+│   │   │   ├── react-webpack.md
+│   │   │   ├── vue-vite.md
+│   │   │   └── vue-webpack.md
+│   │   ├── sourcemaps.md         ← Source map extractor    (pos 12)
+│   │   ├── load.md               ← Offline cache import    (pos 13)
+│   │   ├── api-gateway.md        ← IP rotation via AWS     (pos 14)
+│   │   ├── fingerprint.md        ← Framework detector      (pos 15)
+│   │   ├── cs-mast.md            ← Structural signatures   (pos 16)
+│   │   └── mcp.md                ← MCP / Claude shell      (pos 17)
+│   ├── rules/                    ← Rules reference         (category position: 6)
+│   │   ├── README.md             ← Overview                (pos 1)
+│   │   ├── creating_new_rules.md ← Authoring guide         (pos 2)
+│   │   ├── predefined-rules.md   ← Built-in rule catalog   (pos 3)
+│   │   └── engines/              ← Engine reference        (category pos 3)
+│   │       ├── request-engine.md (pos 1)
+│   │       └── ast-engine.md     (pos 2)
+│   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 7)
+│   │   ├── next-js.md            (pos 1)
+│   │   ├── svelte-astro.md       (pos 3)
+│   │   ├── using-api-gateway.md  (pos 2)
+│   │   └── vue-js.md             (pos 2)
+│   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 8)
+│   ├── nuclei_templates.mdx      ← Nuclei templates        (sidebar_position: 9)
+│   └── troubleshooting.md        ← Common errors           (sidebar_position: 10)
+└── guides/                       ← Task-oriented how-to guides
+    ├── README.md                 (pos 1)
+    ├── next_js/                  (category pos 2)
+    │   ├── fuzzing_endpoints.md  (pos 1)
+    │   ├── reversing_fetch.md    (pos 2)
+    │   ├── reversing_axios.md    (pos 3)
+    │   └── generating_api_collection.md (pos 4)
+    ├── react/                    (category pos 3)
+    │   └── recovering-source-from-bundled-react.md (pos 1)
+    └── sharing_projects.md       (pos 4)
+```
+
+## Module ordering rationale
+
+Modules are ordered to match the typical recon workflow so that a newcomer reading
+top-to-bottom sees the most-used commands first:
+
+| Position | Module          | Role in workflow                                          |
+| -------- | --------------- | --------------------------------------------------------- |
+| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut      |
+| 2        | `lazyload`      | First manual step: download JS files                      |
+| 3        | *(lazyload/)*   | Discovery method reference (sub-pages)                    |
+| 4        | `strings`       | Second step: extract URLs and secrets                     |
+| 5        | `map`           | Third step: build the function map                        |
+| 6        | *(interactive)* | Interactive console for `map` (Next.js)                   |
+| 7        | `endpoints`     | Fourth step: extract the client-side route tree           |
+| 8        | `analyze`       | Fifth step: run static-analysis rules                     |
+| 9        | `report`        | Sixth step: render the final HTML report                  |
+| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules        |
+| 11       | *(refactor/)*   | Technology-specific refactor docs                         |
+| 12       | `sourcemaps`    | Extract embedded source maps                              |
+| 13       | `load`          | Offline workflow: import a Caido export as a cache        |
+| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                 |
+| 15       | `fingerprint`   | Utility: detect the JS framework before running           |
+| 16       | `cs-mast`       | Advanced: structural signature generation and comparison  |
+| 17       | `mcp`           | MCP server and Claude Code integration                    |
+
+## Sidebar position rules
+
+- Every `.md` and `.mdx` file **must** have a `sidebar_position` in its YAML frontmatter.
+- Positions must be **unique within each directory level** — no two files or category directories at the same level may share the same number.
+- Category (`_category_.json`) positions and file positions share the same namespace at their level; keep them non-overlapping.
+- Sub-page directories (e.g. `lazyload/`, `refactor/`, `interactive_mode/`) carry their position in `_category_.json`, not in individual child files. Child file positions are relative within their own directory (start at 1).
+- When adding a new module, append it at the end of the modules list and assign the next available integer.
+
+## What goes where
+
+### `docs/docs/` — Reference documentation
+
+Use for:
+- Module command reference (flags, options, output files, examples)
+- Installation and prerequisites
+- Framework compatibility matrix
+- Exit codes and their causes
+- Troubleshooting known errors
+- Nuclei templates
+
+**Do NOT add** walkthroughs, how-tos, or "when to use X" content here. That belongs in `guides/` or `example-scenarios/`.
+
+### `docs/docs/example-scenarios/` — End-to-end scenarios
+
+Use for:
+- Complete pipeline walkthroughs against a realistic target of a specific framework
+- One file per framework; the file shows the full `run` or step-by-step flow
+
+**Do NOT add** individual-feature how-tos (e.g. "how to fuzz endpoints"). Those go in `guides/`.
+
+### `docs/docs/rules/` — Rules reference
+
+Use for:
+- YAML rule schema specification
+- Predefined rule catalog with descriptions
+- Engine documentation (AST engine, request engine)
+
+### `docs/guides/` — Task-oriented how-to guides
+
+Use for:
+- Practical step-by-step guides focused on a single task (fuzzing, reversing, exporting)
+- Organized by target framework (`next_js/`, `react/`, etc.)
+- Each guide is self-contained
+
+**Do NOT add** module command reference here. That goes in `docs/docs/modules/`.
+
+## Adding sub-pages to a module
+
+When a module grows large enough to need sub-pages (like `lazyload/` or `refactor/`):
+
+1. Create a `modules/<module_name>/` directory.
+2. Add a `_category_.json` with a position that slots between the module's top-level file and the next module:
+
+```json
+{
+    "label": "Descriptive Label",
+    "position": <N>,
+    "link": {
+        "type": "generated-index",
+        "description": "One-sentence description of this sub-section."
+    }
+}
+```
+
+3. Move or create the sub-pages inside the directory. Number them from 1.
+4. The parent module's top-level `.md` file stays at `modules/<module_name>.md` (not inside the directory).
+
+## File naming conventions
+
+- Use `snake_case` for all `.md` file names (e.g. `exit_codes.md`, `creating_new_rules.md`).
+- Use `kebab-case` only when it matches the existing convention already in that directory.
+- Category directories use `snake_case`.
+- No spaces in file names.
+
+## Frontmatter
+
+Every doc file must begin with:
+
+```yaml
+---
+sidebar_position: <N>
+---
+```
+
+Optional additional fields:
+- `sidebar_label` — only when the H1 title is too long for the sidebar (keep it rare).
+- `title` — only for the tab title in browser when it differs from H1.
+
+Do NOT add `slug`, `id`, or other Docusaurus frontmatter unless you understand the downstream effects on versioned docs URLs.
+
+## What NOT to do
+
+- Do not place a module's sub-pages at the same level as other top-level module files. Always nest them in a subdirectory.
+- Do not duplicate `sidebar_position` numbers within the same directory.
+- Do not add new top-level reference files next to `exit_codes.md` without assigning a unique position and updating this file.
+- Do not mix reference content (how the tool works) with task-oriented content (how to accomplish a goal).
+- Do not edit files under `versioned_docs/` directly — those are snapshots.
+
+## Versioned docs
+
+When a new release is cut:
+- The current `docs/` tree is snapshotted into `versioned_docs/version-X.Y.Z/`.
+- Only edit `docs/` (the current/next version); never edit versioned snapshots directly.
+- Update `lastVersion` in `docusaurus.config.ts` to match the latest stable release.
+
+## Vale lint (CI)
+
+This repo runs Vale on documentation. If Vale CI fails:
+- Run `vale sync` to pull the latest style definitions.
+- Run `vale docs/` locally to see errors before pushing.
+- Do not add words to `.vale/` accept lists unless they are real technical terms (module names, flag names, proper nouns).
+- Avoid passive voice, weasel words, and long sentences — Vale flags these.
