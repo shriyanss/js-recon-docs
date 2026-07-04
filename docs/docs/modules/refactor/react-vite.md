@@ -196,7 +196,7 @@ Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequen
 
 ## Version detection (`--detect-version`)
 
-The `--detect-version` flag identifies the React version embedded in the Vite bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`. It works the same way as for react-webpack (see the [react-webpack docs](./react-webpack.md#version-detection---detect-version)), with the difference that the dataset covers react-16 through react-19 (4 versions) for the Vite bundler.
+The `--detect-version` flag identifies the React version embedded in the Vite bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`. It works the same way as for react-webpack — see the [react-webpack docs](./react-webpack.md#version-detection---detect-version) for full details on `--detect-version-config`, `--detect-version-dynamic-threshold`, and `--detect-version-dynamic-conf-purge`. The difference is that the dataset covers react-16 through react-19 (4 versions) for the Vite bundler.
 
 ```bash
 js-recon refactor -t react-vite \
