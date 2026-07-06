@@ -20,6 +20,7 @@ The `run` command executes the following modules in sequence. The exact steps de
 1.  **Endpoints**: Analyzes the JS files and `mapped.json` to identify and list all client-side endpoints.
 1.  **Analyze**: Runs the analyze module to check the code against the rules.
 1.  **Report**: Generates a report based on the results of the analyze module.
+1.  **Refactor** _(optional)_: Detects the bundler via CS-MAST-S signature matching and decompiles the bundle into readable ES modules. Runs automatically for React targets when signatures are available; skipped silently for other frameworks or when detection confidence is below `--cs-mast-tech-detect-threshold`. See [Refactor integration](#refactor-integration).
 
 ## Usage
 
@@ -72,6 +73,7 @@ js-recon run -u <url/file> [options]
 | `--include-methods <methods>`   |          | Comma-separated list of lazyload method names to run (whitelist). Only these methods will execute in every lazyload pass; all others are skipped. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                    |                            | No       |
 | `--exclude-methods <methods>`   |          | Comma-separated list of lazyload method names to skip (blacklist). All methods except these will run in every lazyload pass. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                         |                            | No       |
 | `--list-methods [framework]`    |          | Print all available lazyload method names grouped by framework and exit. Optionally filter by framework (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`). Does not require `-u`.                                                                           |                            | No       |
+| `--cs-mast-tech-detect-threshold <n>` |    | Minimum number of CS-MAST-S signature matches required to detect the bundler and trigger the automatic refactor step. Pass `0` to disable refactor. See [Refactor integration](#refactor-integration).                                                               | `50`                       | No       |
 | `-h, --help`                    |          | display help for command                                                                                                                                                                                                                                              |                            | No       |
 
 ## Ctrl-C / Interrupt handling
@@ -92,6 +94,45 @@ Pressing Ctrl-C while `run` is active shows an interactive menu instead of immed
 | **Last — Exit**                    | The process exits cleanly (`process.exit(0)`).                                                                                                                                                     |
 
 Pressing Ctrl-C a second time during the menu prompt falls through to the OS default (immediate termination).
+
+## Refactor integration
+
+After the report step, `run` automatically attempts to decompile the target's JavaScript bundle using the [`refactor`](./refactor.md) module. It does this without any extra flags by detecting the bundler via CS-MAST-S signature matching.
+
+### How bundler detection works
+
+1. `run` loads the `mapped.json` produced by the map step and generates CS-MAST-S structural signatures for all chunks.
+2. It fetches a random sample of `collisions.json` files from the `shriyanss/cs-mast-s-dataset` HuggingFace bucket — the same dataset used by `refactor --remote-collisions`.
+3. It counts how many bucket signatures appear in the bundle's signature set for each candidate tech (for example, `react-webpack` and `react-vite` for a React target).
+4. The candidate with the most matches wins. If the winner's match count meets `--cs-mast-tech-detect-threshold` (default `50`), `refactor` runs with the detected tech identifier.
+
+The sampled signatures are cached under `~/.js-recon/refactor/signature_cache/` with a 7-day TTL — the same cache used by the standalone `refactor` command.
+
+### Output
+
+Refactored files are written to:
+
+- **Single-URL mode:** `refactored/` in the current working directory.
+- **Batch mode:** `<workingDir>/refactored/` alongside `mapped.json` for each target.
+
+Any existing `refactored/` directory is deleted before writing.
+
+### Framework support
+
+| Framework | Bundler detection | Refactor available |
+| --------- | ----------------- | ------------------ |
+| React     | Yes (webpack + Vite) | Yes              |
+| Vue.js    | Pending (no bucket data yet) | No (skip) |
+| Nuxt.js   | Pending (no bucket data yet) | No (skip) |
+| Next.js   | Pending (no bucket data yet) | No (skip) |
+| Svelte    | Not applicable    | No                 |
+| Angular   | Not applicable    | No                 |
+
+When detection fails or the framework has no bucket data, `run` prints a yellow warning and continues to the next target without error.
+
+### Disabling refactor
+
+Pass `--cs-mast-tech-detect-threshold 0` to skip bundler detection and the refactor step entirely.
 
 ## Example
 
