@@ -34,15 +34,16 @@ A CS-MAST-S signature is a PHC-style string with the form:
 $v=1$hash=<algo>,lang=<lang>,prsr=<parser>,scat=<categories>$<64-hex-chars>
 ```
 
-| Field | Description |
-|-------|-------------|
-| `hash` | Hash algorithm (always `sha256`) |
-| `lang` | Language (`js`) |
-| `prsr` | Parser identifier (sanitized form of `@babel/parser` → `-babel/parser`) |
-| `scat` | Stratification categories joined with `_` (e.g. `name_id` means `["name", "id"]`) |
-| last segment | 64-character lowercase hex hash of the matched AST node |
+| Field        | Description                                                                       |
+| ------------ | --------------------------------------------------------------------------------- |
+| `hash`       | Hash algorithm (always `sha256`)                                                  |
+| `lang`       | Language (`js`)                                                                   |
+| `prsr`       | Parser identifier (sanitized form of `@babel/parser` → `-babel/parser`)           |
+| `scat`       | Stratification categories joined with `_` (e.g. `name_id` means `["name", "id"]`) |
+| last segment | 64-character lowercase hex hash of the matched AST node                           |
 
 **Example:**
+
 ```
 $v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=name_id$1a572a605f850b1396d0d0950ba1f5c2c2d9f65eebb2fca04ce8f167e32b0c68
 ```
@@ -51,11 +52,11 @@ $v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=name_id$1a572a605f850b1396d0d09
 
 Based on experiments across React, Vue, and Angular compiled bundles:
 
-| Use case | Recommended config | FP rate | Cross-bundler portable? |
-|----------|--------------------|---------|------------------------|
-| Framework constants (`dangerouslySetInnerHTML.__html`, `eval`, `bypassSecurityTrustHtml`) | `scat=name,id` | 0 | Yes |
-| Generic component sinks (minified variable names) | `scat=id` | Low–medium | Yes |
-| Same-build regression (bundle hasn't changed) | `scat=name,id` | 0 | Same bundler only |
+| Use case                                                                                  | Recommended config | FP rate    | Cross-bundler portable? |
+| ----------------------------------------------------------------------------------------- | ------------------ | ---------- | ----------------------- |
+| Framework constants (`dangerouslySetInnerHTML.__html`, `eval`, `bypassSecurityTrustHtml`) | `scat=name,id`     | 0          | Yes                     |
+| Generic component sinks (minified variable names)                                         | `scat=id`          | Low–medium | Yes                     |
+| Same-build regression (bundle hasn't changed)                                             | `scat=name,id`     | 0          | Same bundler only       |
 
 `scat=name,id` is the best starting point. It produces zero false positives for all tested sinks when checking within the same build. For sinks where variable names differ between bundlers (e.g. `l.current` vs `h.current`), use `scat=id`.
 
@@ -63,18 +64,24 @@ Based on experiments across React, Vue, and Angular compiled bundles:
 
 1. Run `js-recon analyze` with an AST rule to confirm a vulnerability and identify the chunk.
 2. Use the `cs-mast` subcommand to inspect signatures in the chunk:
-   ```bash
-   js-recon cs-mast -o output/<host>/static/js --scat name,id --ct
-   ```
+    ```bash
+    js-recon cs-mast -o output/<host>/static/js --scat name,id --ct
+    ```
 3. For node-level (sub-root) signatures, use the `@shriyanss/cs-mast` library directly:
-   ```js
-   import { cs_mast_init, buildSignatureFromConfig } from "@shriyanss/cs-mast";
-   const config = { hash: "sha256", lang: "js", prsr: "@babel/parser",
-                    scat: ["name", "id"], sinc: [], sourceType: "unambiguous" };
-   const tree = cs_mast_init(source, config);
-   // Walk tree.root to find the node of interest and read node.computedHash
-   const sig = buildSignatureFromConfig(config, sinkNode.computedHash);
-   ```
+    ```js
+    import { cs_mast_init, buildSignatureFromConfig } from "@shriyanss/cs-mast";
+    const config = {
+        hash: "sha256",
+        lang: "js",
+        prsr: "@babel/parser",
+        scat: ["name", "id"],
+        sinc: [],
+        sourceType: "unambiguous",
+    };
+    const tree = cs_mast_init(source, config);
+    // Walk tree.root to find the node of interest and read node.computedHash
+    const sig = buildSignatureFromConfig(config, sinkNode.computedHash);
+    ```
 4. Embed the resulting PHC string in a `cs-mast-s` rule.
 
 ## Multi-step rules
