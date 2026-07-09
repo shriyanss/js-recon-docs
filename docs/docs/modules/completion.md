@@ -62,13 +62,13 @@ Fish picks up new completions automatically — no reload needed.
 
 ## What gets completed
 
-| When you type…           | Tab shows…                                        |
-| ------------------------ | ------------------------------------------------- |
-| `js-recon `              | All subcommands (lazyload, run, map, etc.)        |
-| `js-recon run `          | All flags for the `run` command                   |
-| `js-recon map `          | All flags for the `map` command                   |
-| `js-recon completion `   | Available shell names (`bash`, `zsh`, `fish`)     |
-| `js-recon run --url `    | No further suggestions (free-form argument)       |
+| When you type…         | Tab shows…                                    |
+| ---------------------- | --------------------------------------------- |
+| `js-recon `            | All subcommands (lazyload, run, map, etc.)    |
+| `js-recon run `        | All flags for the `run` command               |
+| `js-recon map `        | All flags for the `map` command               |
+| `js-recon completion ` | Available shell names (`bash`, `zsh`, `fish`) |
+| `js-recon run --url `  | No further suggestions (free-form argument)   |
 
 Every subcommand and every flag registered in `src/index.ts` is covered.
 
