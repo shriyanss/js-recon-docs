@@ -94,20 +94,28 @@ Shared with the turbopack transform:
 
 ```js
 func_20 = (e, t, r) => {
-  "use strict";
-  var n=r(603);
-  var u=r(2697);
-  Object.defineProperty(t,"__esModule",{value:!0});
-  Object.defineProperty(t,"normalizePathTrailingSlash",{enumerable:!0,get:function(){return a}});
-  function a(e){
-    if(!e.startsWith("/")) return e;
-    var {pathname:t,query:r,hash:a}=(0,u.parsePath)(e);
-    return `${(0,n.removeTrailingSlash)(t)}${r}${a}`;
-  }
-  ("function"==typeof t.default||"object"==typeof t.default&&null!==t.default)&&
-    void 0===t.default.__esModule&&(Object.defineProperty(t.default,"__esModule",{value:!0}),
-    Object.assign(t.default,t),e.exports=t.default)
-}
+    "use strict";
+    var n = r(603);
+    var u = r(2697);
+    Object.defineProperty(t, "__esModule", { value: !0 });
+    Object.defineProperty(t, "normalizePathTrailingSlash", {
+        enumerable: !0,
+        get: function () {
+            return a;
+        },
+    });
+    function a(e) {
+        if (!e.startsWith("/")) return e;
+        var { pathname: t, query: r, hash: a } = (0, u.parsePath)(e);
+        return `${(0, n.removeTrailingSlash)(t)}${r}${a}`;
+    }
+    ("function" == typeof t.default ||
+        ("object" == typeof t.default && null !== t.default)) &&
+        void 0 === t.default.__esModule &&
+        (Object.defineProperty(t.default, "__esModule", { value: !0 }),
+        Object.assign(t.default, t),
+        (e.exports = t.default));
+};
 ```
 
 **Output** (`20.js`):
