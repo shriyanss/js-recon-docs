@@ -1,23 +1,15 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-    padding: 4rem 0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+@keyframes blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-@media screen and (max-width: 996px) {
-    .heroBanner {
-        padding: 2rem;
-    }
-}
-
-.buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.blinkCursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: oklch(0.95 0.004 250);
+  animation: blink 1.1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 4px;
 }
