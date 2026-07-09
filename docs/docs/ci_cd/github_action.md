@@ -26,7 +26,7 @@ Run JS Recon against any URL directly from a GitHub Actions workflow. Surface ex
 - name: JS Recon
   uses: shriyanss/js-recon-action@v1
   with:
-    url: https://your-target.com
+      url: https://your-target.com
 ```
 
 ## Scanning a localhost app
@@ -35,55 +35,55 @@ If the target runs on `localhost`, provide a command to start it. The action wai
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-  - name: Install dependencies
-    run: npm ci
+    - name: Install dependencies
+      run: npm ci
 
-  - name: Build app
-    run: npm run build
+    - name: Build app
+      run: npm run build
 
-  - name: JS Recon
-    uses: shriyanss/js-recon-action@v1
-    with:
-      url: http://localhost:3000
-      start-cmd: npm start
-      working-directory: .
+    - name: JS Recon
+      uses: shriyanss/js-recon-action@v1
+      with:
+          url: http://localhost:3000
+          start-cmd: npm start
+          working-directory: .
 ```
 
 ## Inputs
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `url` | Yes | — | URL to scan (external or `http://localhost:PORT`) |
-| `start-cmd` | No | — | Shell command to start the app for localhost scanning |
-| `working-directory` | No | `.` | Working directory for `start-cmd` |
-| `version` | No | `latest` | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …) |
-| `break-on-map-files` | No | `true` | Fail if `.map` source map files are detected in the output |
-| `break-on-vulnerabilities` | No | `true` | Fail if findings at or above the threshold are detected |
-| `vulnerability-severity` | No | `high` | Minimum severity to fail on: `low`, `medium`, or `high` |
-| `output-dir` | No | `js-recon-output` | Directory to save output files |
+| Input                      | Required | Default           | Description                                                |
+| -------------------------- | -------- | ----------------- | ---------------------------------------------------------- |
+| `url`                      | Yes      | —                 | URL to scan (external or `http://localhost:PORT`)          |
+| `start-cmd`                | No       | —                 | Shell command to start the app for localhost scanning      |
+| `working-directory`        | No       | `.`               | Working directory for `start-cmd`                          |
+| `version`                  | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)    |
+| `break-on-map-files`       | No       | `true`            | Fail if `.map` source map files are detected in the output |
+| `break-on-vulnerabilities` | No       | `true`            | Fail if findings at or above the threshold are detected    |
+| `vulnerability-severity`   | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`    |
+| `output-dir`               | No       | `js-recon-output` | Directory to save output files                             |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| `map-files-found` | `true` if `.map` files were detected, `false` otherwise |
-| `vulnerability-count` | Number of findings at or above the configured severity |
-| `output-path` | Absolute path to the output directory |
+| Output                | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| `map-files-found`     | `true` if `.map` files were detected, `false` otherwise |
+| `vulnerability-count` | Number of findings at or above the configured severity  |
+| `output-path`         | Absolute path to the output directory                   |
 
 ## Output files
 
 JS Recon writes the following files inside the output directory:
 
-| File | Description |
-|------|-------------|
-| `analyze.json` | All vulnerability findings |
-| `mapped.json` | Parsed bundle structure |
+| File                  | Description                               |
+| --------------------- | ----------------------------------------- |
+| `analyze.json`        | All vulnerability findings                |
+| `mapped.json`         | Parsed bundle structure                   |
 | `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json` | Client-side routes |
-| `report.html` | Full HTML report |
-| `js-recon.db` | SQLite database of all findings |
+| `endpoints.json`      | Client-side routes                        |
+| `report.html`         | Full HTML report                          |
+| `js-recon.db`         | SQLite database of all findings           |
 
 ## Break conditions
 
@@ -94,8 +94,8 @@ By default, the action fails if `.map` source map files are publicly accessible:
 ```yaml
 - uses: shriyanss/js-recon-action@v1
   with:
-    url: https://target.com
-    break-on-map-files: true  # default
+      url: https://target.com
+      break-on-map-files: true # default
 ```
 
 To disable: set `break-on-map-files: false`.
@@ -107,9 +107,9 @@ Control which severity level triggers a failure:
 ```yaml
 - uses: shriyanss/js-recon-action@v1
   with:
-    url: https://target.com
-    break-on-vulnerabilities: true
-    vulnerability-severity: medium  # fail on medium or high
+      url: https://target.com
+      break-on-vulnerabilities: true
+      vulnerability-severity: medium # fail on medium or high
 ```
 
 Available: `low`, `medium`, `high` (default: `high`).
@@ -121,14 +121,14 @@ Available: `low`, `medium`, `high` (default: `high`).
   id: jsrecon
   uses: shriyanss/js-recon-action@v1
   with:
-    url: https://target.com
+      url: https://target.com
 
 - name: Upload output
   if: always()
   uses: actions/upload-artifact@v4
   with:
-    name: js-recon-output
-    path: ${{ steps.jsrecon.outputs.output-path }}
+      name: js-recon-output
+      path: ${{ steps.jsrecon.outputs.output-path }}
 ```
 
 ## Pinning to a specific JS Recon version
@@ -136,8 +136,8 @@ Available: `low`, `medium`, `high` (default: `high`).
 ```yaml
 - uses: shriyanss/js-recon-action@v1
   with:
-    url: https://target.com
-    version: 1.3.1
+      url: https://target.com
+      version: 1.3.1
 ```
 
 Use `alpha` to track the latest pre-release.
