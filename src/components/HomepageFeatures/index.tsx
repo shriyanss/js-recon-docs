@@ -43,6 +43,17 @@ const FeatureList: FeatureItem[] = [
             </>
         ),
     },
+    {
+        title: "Automate Your Recon",
+        description: (
+            <>
+                Run JS Recon on every build. Automatically surface source maps,
+                exposed endpoints, and client-side vulnerabilities — before
+                defenders notice. Available as a{" "}
+                <a href="/docs/next/docs/ci_cd/github_action">GitHub Action</a>.
+            </>
+        ),
+    },
 ];
 
 // function Feature({ title, Svg, description }: FeatureItem) {

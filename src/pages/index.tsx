@@ -24,6 +24,13 @@ function HomepageHeader() {
                     >
                         Get Started 🏁
                     </Link>
+                    <Link
+                        className="button button--outline button--secondary button--lg"
+                        to="/docs/next/docs/ci_cd/github_action"
+                        style={{ marginLeft: "1rem" }}
+                    >
+                        GitHub Action
+                    </Link>
                 </div>
             </div>
         </header>
