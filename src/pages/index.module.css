@@ -1,15 +1,23 @@
 @keyframes blink {
-  0%, 45% { opacity: 1; }
-  50%, 95% { opacity: 0; }
-  100% { opacity: 1; }
+    0%,
+    45% {
+        opacity: 1;
+    }
+    50%,
+    95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .blinkCursor {
-  display: inline-block;
-  width: 7px;
-  height: 14px;
-  background: oklch(0.95 0.004 250);
-  animation: blink 1.1s step-end infinite;
-  vertical-align: middle;
-  margin-left: 4px;
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: oklch(0.95 0.004 250);
+    animation: blink 1.1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 4px;
 }
