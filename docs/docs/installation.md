@@ -79,6 +79,32 @@ Test the installation:
 js-recon -V
 ```
 
+## Shell completion (optional)
+
+Enable tab completion for subcommand names and flags:
+
+### Bash
+
+```bash
+echo 'eval "$(js-recon completion bash)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Zsh
+
+```zsh
+echo 'eval "$(js-recon completion zsh)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+### Fish
+
+```fish
+js-recon completion fish > ~/.config/fish/completions/js-recon.fish
+```
+
+See the [Completion command reference](./modules/completion.md) for more options.
+
 ## API keys setup
 
 JS Recon requires API access to several services for enhanced analysis.
