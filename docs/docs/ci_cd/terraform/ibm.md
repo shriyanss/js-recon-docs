@@ -4,7 +4,7 @@ sidebar_position: 5
 
 import Link from "@docusaurus/Link";
 
-# Terraform — IBM Cloud
+# IBM Cloud
 
 Provision an IBM Code Engine Job that runs JS Recon against any URL. Upload results to IBM Cloud Object Storage automatically.
 

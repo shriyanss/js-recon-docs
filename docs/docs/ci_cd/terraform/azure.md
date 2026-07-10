@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Terraform — Azure
+# Azure
 
 Provision an [Azure Container App Job](https://learn.microsoft.com/en-us/azure/container-apps/jobs) that runs JS Recon against any URL. Upload results to Azure Blob Storage automatically.
 

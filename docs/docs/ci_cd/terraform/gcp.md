@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Terraform — GCP
+# GCP
 
 Provision a [GCP Cloud Build](https://cloud.google.com/build) trigger that runs JS Recon against any URL. Upload results to a GCS bucket automatically.
 

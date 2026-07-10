@@ -4,7 +4,7 @@ sidebar_position: 4
 
 import Link from "@docusaurus/Link";
 
-# Terraform — DigitalOcean
+# DigitalOcean
 
 Provision a DigitalOcean Droplet that runs JS Recon against any URL. Upload results to DigitalOcean Spaces automatically.
 

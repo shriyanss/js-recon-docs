@@ -4,7 +4,7 @@ sidebar_position: 6
 
 import Link from "@docusaurus/Link";
 
-# Terraform — Oracle Cloud
+# Oracle Cloud
 
 Provision an OCI Container Instance that runs JS Recon against any URL. Upload results to OCI Object Storage automatically.
 

@@ -4,7 +4,7 @@ sidebar_position: 7
 
 import Link from "@docusaurus/Link";
 
-# Terraform — Alibaba Cloud
+# Alibaba Cloud
 
 Provision an Alibaba Cloud ECI container group that runs JS Recon against any URL. Upload results to OSS automatically.
 

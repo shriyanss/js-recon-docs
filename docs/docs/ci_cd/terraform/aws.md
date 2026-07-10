@@ -4,7 +4,7 @@ sidebar_position: 1
 
 import Link from "@docusaurus/Link";
 
-# Terraform AWS
+# AWS
 
 Provision an AWS CodeBuild project that runs JS Recon against any URL. Surface exposed endpoints, client-side vulnerabilities, and leaked source maps automatically on demand or on a schedule.
 
