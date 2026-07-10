@@ -53,45 +53,45 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 
 ## Inputs
 
-| Name | Required | Default | Description |
-| --- | --- | --- | --- |
-| `url` | Yes | — | Target URL to scan (external or `http://localhost:PORT`) |
-| `js_recon_version` | No | `latest` | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …) |
-| `break_on_map_files` | No | `true` | Fail if `.map` source map files are detected |
-| `break_on_vulnerabilities` | No | `true` | Fail if findings at or above the threshold are detected |
-| `vulnerability_severity` | No | `high` | Minimum severity to fail on: `low`, `medium`, or `high` |
-| `output_dir` | No | `js-recon-output` | Directory to save output files inside the build |
-| `project_name` | No | `js-recon` | Name prefix for all AWS resources |
-| `create_s3_bucket` | No | `true` | Whether the module creates an S3 bucket for artifacts |
-| `s3_bucket_name` | No | _(auto-generated)_ | Explicit S3 bucket name |
-| `s3_artifact_prefix` | No | `js-recon-output` | S3 key prefix for uploaded artifacts |
-| `schedule_expression` | No | `""` | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
-| `build_timeout` | No | `30` | Maximum build duration in minutes |
-| `tags` | No | `{}` | Tags applied to all AWS resources |
+| Name                       | Required | Default            | Description                                                             |
+| -------------------------- | -------- | ------------------ | ----------------------------------------------------------------------- |
+| `url`                      | Yes      | —                  | Target URL to scan (external or `http://localhost:PORT`)                |
+| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                 |
+| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                            |
+| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                 |
+| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                 |
+| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the build                         |
+| `project_name`             | No       | `js-recon`         | Name prefix for all AWS resources                                       |
+| `create_s3_bucket`         | No       | `true`             | Whether the module creates an S3 bucket for artifacts                   |
+| `s3_bucket_name`           | No       | _(auto-generated)_ | Explicit S3 bucket name                                                 |
+| `s3_artifact_prefix`       | No       | `js-recon-output`  | S3 key prefix for uploaded artifacts                                    |
+| `schedule_expression`      | No       | `""`               | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
+| `build_timeout`            | No       | `30`               | Maximum build duration in minutes                                       |
+| `tags`                     | No       | `{}`               | Tags applied to all AWS resources                                       |
 
 ## Outputs
 
-| Name | Description |
-| --- | --- |
-| `codebuild_project_name` | Name of the CodeBuild project |
-| `codebuild_project_arn` | ARN of the CodeBuild project |
-| `s3_bucket_name` | Name of the S3 artifact bucket |
-| `s3_bucket_arn` | ARN of the S3 artifact bucket |
-| `iam_role_arn` | ARN of the CodeBuild IAM role |
+| Name                     | Description                    |
+| ------------------------ | ------------------------------ |
+| `codebuild_project_name` | Name of the CodeBuild project  |
+| `codebuild_project_arn`  | ARN of the CodeBuild project   |
+| `s3_bucket_name`         | Name of the S3 artifact bucket |
+| `s3_bucket_arn`          | ARN of the S3 artifact bucket  |
+| `iam_role_arn`           | ARN of the CodeBuild IAM role  |
 
 ## Output files
 
 JS Recon writes the following files inside the output directory and uploads them to S3:
 
-| File | Description |
-| --- | --- |
-| `analyze.json` | All vulnerability findings |
-| `mapped.json` | Parsed bundle structure |
+| File                  | Description                               |
+| --------------------- | ----------------------------------------- |
+| `analyze.json`        | All vulnerability findings                |
+| `mapped.json`         | Parsed bundle structure                   |
 | `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json` | Client-side routes |
-| `strings.json` | Extracted strings, URLs, and secrets |
-| `report.html` | Full HTML report |
-| `js-recon.db` | SQLite database of all findings |
+| `endpoints.json`      | Client-side routes                        |
+| `strings.json`        | Extracted strings, URLs, and secrets      |
+| `report.html`         | Full HTML report                          |
+| `js-recon.db`         | SQLite database of all findings           |
 
 Artifacts are uploaded to `s3://<bucket>/<s3_artifact_prefix>/` after every scan.
 
