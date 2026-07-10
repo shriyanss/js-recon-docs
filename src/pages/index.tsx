@@ -893,7 +893,7 @@ export default function Home(): ReactNode {
                                         color: "var(--h-term-muted)",
                                     }}
                                 >
-                                    js-recon run --target app.example.com
+                                    js-recon run -u https://app.example.com
                                 </div>
                             </div>
                             <div
@@ -905,7 +905,7 @@ export default function Home(): ReactNode {
                                 }}
                             >
                                 <div style={{ color: "var(--h-term-muted)" }}>
-                                    $ js-recon run --target app.example.com
+                                    $ js-recon run -u https://app.example.com
                                 </div>
                                 <div style={{ color: "oklch(0.75 0.14 210)" }}>
                                     ✓ lazyload — 48 files fetched
