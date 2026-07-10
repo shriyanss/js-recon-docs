@@ -2,11 +2,23 @@
 sidebar_position: 2
 ---
 
+import Link from "@docusaurus/Link";
+
 # GCP
 
-Provision a [GCP Cloud Build](https://cloud.google.com/build) trigger that runs JS Recon against any URL. Upload results to a GCS bucket automatically.
+Provision a GCP Cloud Build trigger that runs JS Recon against any URL. Upload results to a GCS bucket automatically.
 
----
+<br />
+
+<Link
+    className="button button--primary button--lg"
+    to="https://registry.terraform.io/modules/shriyanss/js-recon/gcp"
+>
+    View on Terraform Registry →
+</Link>
+
+<br />
+<br />
 
 ## Quick start
 
