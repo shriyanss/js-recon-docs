@@ -108,7 +108,7 @@ const config: Config = {
                         },
                         {
                             label: "Integrations",
-                            to: "/docs/category/cicd",
+                            to: "/docs/category/ci-cd",
                         },
                     ],
                 },
