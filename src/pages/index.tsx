@@ -1166,7 +1166,7 @@ export default function Home(): ReactNode {
                             className={styles.integrationGrid}
                         >
                             {INTEGRATIONS.filter(
-                                (it) => it.category === cat,
+                                (it) => it.category === cat
                             ).map((it) => (
                                 <IntegrationCard key={it.label} it={it} />
                             ))}
