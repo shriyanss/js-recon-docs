@@ -34,6 +34,12 @@ const MCP_PATH =
 const TERRAFORM_PATH =
     "M1.44 0v7.575l6.561 3.79V3.787zm21.12 4.227l-6.561 3.791v7.574l6.56-3.787zM8.72 4.23v7.575l6.561 3.787V8.018zm0 8.405v7.575L15.28 24v-7.578z";
 
+const GOOGLE_CLOUD_PATH =
+    "M12.19 2.38a9.344 9.344 0 0 0-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006-.007-.007.03a6.717 6.717 0 0 0 4.077 1.356h5.173l.03.03h5.192c6.687.053 9.376-8.605 3.835-12.35a9.365 9.365 0 0 0-2.821-4.552l-.043.043.006-.05A9.344 9.344 0 0 0 12.19 2.38zm-.358 4.146c1.244-.04 2.518.368 3.486 1.15a5.186 5.186 0 0 1 1.862 4.078v.518c3.53-.07 3.53 5.262 0 5.193h-5.193l-.008.009v-.04H6.785a2.59 2.59 0 0 1-1.067-.23h.001a2.597 2.597 0 1 1 3.437-3.437l3.013-3.012A6.747 6.747 0 0 0 8.11 8.24c.018-.01.04-.026.054-.023a5.186 5.186 0 0 1 3.67-1.69z";
+
+const ALIBABA_CLOUD_PATH =
+    "M3.996 4.517h5.291L8.01 6.324 4.153 7.506a1.668 1.668 0 0 0-1.165 1.601v5.786a1.668 1.668 0 0 0 1.165 1.6l3.857 1.183 1.277 1.807H3.996A3.996 3.996 0 0 1 0 15.487V8.513a3.996 3.996 0 0 1 3.996-3.996m16.008 0h-5.291l1.277 1.807 3.857 1.182c.715.227 1.17.889 1.165 1.601v5.786a1.668 1.668 0 0 1-1.165 1.6l-3.857 1.183-1.277 1.807h5.291A3.996 3.996 0 0 0 24 15.487V8.513a3.996 3.996 0 0 0-3.996-3.996m-4.007 8.345H8.002v-1.804h7.995Z";
+
 const LOGOS: Logo[] = [
     {
         key: "npm",
@@ -98,6 +104,20 @@ const LOGOS: Logo[] = [
         brandColor: "#844FBA",
         href: "https://registry.terraform.io/modules/shriyanss/js-recon",
         svgContent: <path d={TERRAFORM_PATH} />,
+    },
+    {
+        key: "google-cloud",
+        label: "Google Cloud",
+        brandColor: "#4285F4",
+        href: "https://console.cloud.google.com/marketplace/product/shriyanss/js-recon",
+        svgContent: <path d={GOOGLE_CLOUD_PATH} />,
+    },
+    {
+        key: "alibaba-cloud",
+        label: "Alibaba Cloud",
+        brandColor: "#FF6A00",
+        href: "https://marketplace.alibabacloud.com/products",
+        svgContent: <path d={ALIBABA_CLOUD_PATH} />,
     },
 ];
 
