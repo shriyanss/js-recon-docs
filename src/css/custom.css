@@ -60,7 +60,12 @@
     --prism-background-color: var(--code-surface);
     --prism-color: var(--code-text);
     --ifm-code-border-radius: 12px;
-    --ifm-pre-padding: 18px 20px;
+    /* Must stay a SINGLE length: Docusaurus positions the code-block copy
+       button with `calc(var(--ifm-pre-padding) / 2)`, and a multi-value
+       shorthand here makes that calc invalid, breaking the button position.
+       Asymmetric code padding is applied via --code-block-padding below. */
+    --ifm-pre-padding: 18px;
+    --code-block-padding: 18px 20px;
 }
 
 /* ── Light theme (default) ───────────────────────────────────────── */
@@ -363,7 +368,7 @@ body {
     border: none !important;
     color: inherit !important;
     border-radius: 0 !important;
-    padding: var(--ifm-pre-padding) !important;
+    padding: var(--code-block-padding) !important;
 }
 
 /* ── Code Blocks ─────────────────────────────────────────────────── */
