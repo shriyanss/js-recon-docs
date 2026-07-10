@@ -346,8 +346,8 @@ const INTEGRATIONS: Integration[] = [
     {
         category: "Infra & agents",
         label: "Terraform",
-        tagline: "Run on AWS, Azure & GCP",
-        href: "https://registry.terraform.io/search/modules?q=js-recon",
+        tagline: "Run on AWS, Azure, GCP & other cloud providers",
+        href: "https://registry.terraform.io/modules/shriyanss/js-recon",
         accent: PURPLE,
         cmdAccent: AMBER,
         icon: (

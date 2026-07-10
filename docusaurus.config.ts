@@ -106,6 +106,10 @@ const config: Config = {
                             label: "Modules",
                             to: "/docs/category/modules",
                         },
+                        {
+                            label: "Integrations",
+                            to: "/docs/category/cicd",
+                        },
                     ],
                 },
                 {
