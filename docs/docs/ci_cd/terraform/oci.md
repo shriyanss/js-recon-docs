@@ -45,39 +45,39 @@ terraform apply
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                        |
-| -------------------------- | -------- | ------------------ | ------------------------------------------------------------------ |
-| `compartment_id`           | Yes      | —                  | OCID of the OCI compartment                                        |
-| `region`                   | Yes      | —                  | OCI region (e.g. `us-ashburn-1`, `eu-frankfurt-1`)                 |
-| `url`                      | Yes      | —                  | Target URL to scan                                                 |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)            |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                       |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected            |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`            |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                |
-| `display_name`             | No       | `js-recon`         | Display name prefix for all OCI resources                          |
-| `availability_domain`      | No       | `AD-1`             | Availability domain suffix (e.g. `AD-1`)                           |
-| `container_cpu`            | No       | `2`                | OCPUs for the Container Instance                                   |
-| `container_memory_gb`      | No       | `4`                | Memory in GB for the Container Instance                            |
-| `create_bucket`            | No       | `true`             | Whether the module creates an Object Storage bucket for artifacts  |
-| `bucket_name`              | No       | _(auto-generated)_ | Object Storage bucket name                                         |
+| Name                       | Required | Default            | Description                                                                 |
+| -------------------------- | -------- | ------------------ | --------------------------------------------------------------------------- |
+| `compartment_id`           | Yes      | —                  | OCID of the OCI compartment                                                 |
+| `region`                   | Yes      | —                  | OCI region (e.g. `us-ashburn-1`, `eu-frankfurt-1`)                          |
+| `url`                      | Yes      | —                  | Target URL to scan                                                          |
+| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                     |
+| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                                |
+| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                     |
+| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                     |
+| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                         |
+| `display_name`             | No       | `js-recon`         | Display name prefix for all OCI resources                                   |
+| `availability_domain`      | No       | `AD-1`             | Availability domain suffix (e.g. `AD-1`)                                    |
+| `container_cpu`            | No       | `2`                | OCPUs for the Container Instance                                            |
+| `container_memory_gb`      | No       | `4`                | Memory in GB for the Container Instance                                     |
+| `create_bucket`            | No       | `true`             | Whether the module creates an Object Storage bucket for artifacts           |
+| `bucket_name`              | No       | _(auto-generated)_ | Object Storage bucket name                                                  |
 | `bucket_namespace`         | No       | `""`               | OCI Object Storage tenancy namespace (required when `create_bucket = true`) |
-| `bucket_artifact_prefix`   | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                           |
-| `build_timeout`            | No       | `1800`             | Maximum Container Instance run duration in seconds                 |
-| `freeform_tags`            | No       | `{}`               | Freeform tags applied to all OCI resources                         |
+| `bucket_artifact_prefix`   | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                    |
+| `build_timeout`            | No       | `1800`             | Maximum Container Instance run duration in seconds                          |
+| `freeform_tags`            | No       | `{}`               | Freeform tags applied to all OCI resources                                  |
 
 ---
 
 ## Outputs
 
-| Name                       | Description                                        |
-| -------------------------- | -------------------------------------------------- |
-| `container_instance_id`    | OCID of the Container Instance                     |
-| `container_instance_name`  | Display name of the Container Instance             |
-| `bucket_name`              | Name of the Object Storage bucket                  |
-| `bucket_namespace`         | Object Storage namespace                           |
-| `subnet_id`                | OCID of the subnet                                 |
-| `vcn_id`                   | OCID of the VCN                                    |
+| Name                      | Description                            |
+| ------------------------- | -------------------------------------- |
+| `container_instance_id`   | OCID of the Container Instance         |
+| `container_instance_name` | Display name of the Container Instance |
+| `bucket_name`             | Name of the Object Storage bucket      |
+| `bucket_namespace`        | Object Storage namespace               |
+| `subnet_id`               | OCID of the subnet                     |
+| `vcn_id`                  | OCID of the VCN                        |
 
 ---
 
