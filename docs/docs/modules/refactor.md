@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 10
 ---
 
 # Refactor Command
@@ -21,6 +21,7 @@ js-recon refactor -t <technology> [options]
 | `--tech <tech>`        | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                     | Yes      |
 | `--list`               | `-l`  | List available technologies.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | `false`             | No       |
 | `--collisions <path>`  |       | Path to a CS-MAST `collisions.json`, a baseline directory (for example `js-recon-cs-mast-s/`), or a per-feature results directory (for example `react-webpack-feature-signatures/results/`). When a standard directory is supplied, the right file is resolved automatically based on `-t`. When a per-feature results directory is supplied (immediate subdirectories each containing `<scat>/collisions.json`), the tool intersects the max-count signature sets across all feature subdirectories — reading only one file per feature — and uses the intersection as the baseline. See [React (webpack) Refactor](./refactor/react-webpack.md#library-module-stripping-with---collisions). |                     | No       |
+| `--detect-version`     |       | Detect the React version used in the bundle and use it in the refactored output's `package.json` (`react-webpack` and `react-vite` only). See [React (webpack) Refactor](./refactor/react-webpack.md#version-detection---detect-version).                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `false`             | No       |
 
 ## Examples
 
@@ -29,7 +30,7 @@ js-recon refactor -t <technology> [options]
 To refactor code using the default `mapped.json` file and output to the default `output_refactored` directory:
 
 ```bash
-js-recon refactor -t next
+js-recon refactor -t next-turbopack
 ```
 
 ### Custom Input and Output
@@ -37,7 +38,7 @@ js-recon refactor -t next
 Specify a custom input JSON file and output directory:
 
 ```bash
-js-recon refactor -m custom-mapped.json -o refactored_output -t next
+js-recon refactor -m custom-mapped.json -o refactored_output -t next-turbopack
 ```
 
 ### List Available Technologies
@@ -78,8 +79,12 @@ The result is a directory of standalone `.js` files that can be opened in an IDE
 
 For detailed, technology-specific documentation see:
 
+- [Next.js (Turbopack)](./refactor/next-turbopack.md) — Next.js Turbopack bundles: module format detection, require hoisting, JSX recovery
+- [Next.js (webpack)](./refactor/next-webpack.md) — Next.js webpack bundles: CJS export recovery, require hoisting, interop boilerplate removal
 - [React (webpack)](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
 - [React (Vite)](./refactor/react-vite.md) — Vite (rolldown) React bundles: CJS interop removal, vendor import rewriting, JSX recovery, build check
+- [Vue.js (webpack)](./refactor/vue-webpack.md) — Vue webpack 4/5 bundles: webpackJsonp container parsing, per-module extraction, Vue 2 render function recovery
+- [Vue.js (Vite)](./refactor/vue-vite.md) — Vue 3 + Vite bundles: export alias fingerprinting, canonical Vue import rewriting, _export_sfc inlining
 - [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
 
 ## Notes

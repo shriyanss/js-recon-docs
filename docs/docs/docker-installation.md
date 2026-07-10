@@ -96,6 +96,14 @@ There could be multiple other files created based on the module used. You can re
     - `.api_gateway_config.json` (this is a configuration file, but is worth keeping it if generated)
 - [Map](./modules/map.md):
     - `mapped.json`
+- [Analyze](./modules/analyze.md):
+    - `analyze.json`
+- [Report](./modules/report.md):
+    - `report.html`
+- [Refactor](./modules/refactor.md):
+    - `output_refactored/` (directory)
+- [Sourcemaps](./modules/sourcemaps.md):
+    - `extracted/` (directory)
 - [Run](./modules/run.md):
     - This will generate files from all of the above modules
 

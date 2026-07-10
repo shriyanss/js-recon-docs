@@ -180,8 +180,41 @@ cat output_vite_refactored/Home-J6pOhRyO.jsx
 
 Expected output: clean JSX with canonical React imports — no interop wrappers, no vendor chunk references.
 
+## Remote library stripping
+
+When processing an app with non-vendor chunks that contain inlined library code, the tool can strip those chunks automatically using the remote CS-MAST-S signature dataset.
+
+By default the tool fetches signatures from the `react/vite/large-0.1.8` bucket prefix. Use `--remote-collisions` to supply an explicit path:
+
+```bash
+js-recon refactor -t react-vite --remote-collisions react/vite/large-0.1.8 -o output_refactored
+```
+
+If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md). Use `--no-remote` to disable remote fetching entirely.
+
+Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequent runs are fast.
+
+## Version detection (`--detect-version`)
+
+The `--detect-version` flag identifies the React version embedded in the Vite bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`. It works the same way as for react-webpack — see the [react-webpack docs](./react-webpack.md#version-detection---detect-version) for full details on `--detect-version-config`, `--detect-version-dynamic-threshold`, and `--detect-version-dynamic-conf-purge`. The difference is that the dataset covers react-16 through react-19 (4 versions) for the Vite bundler.
+
+```bash
+js-recon refactor -t react-vite \
+  -m mapped.json \
+  -o output/ \
+  --detect-version
+```
+
+## Known limitations
+
+**Variable names are not recovered.** Vite's minifier mangles identifiers to single letters (for example `v.useState`, `ce`, `xr`). The refactor preserves these as-is because there is no sourcemap to consult. Use the original source or sourcemaps if available for fully-readable names.
+
+**Multi-chunk files — only the component function is preserved.** When a single Vite chunk file contains both inlined library helpers and the route component, `map` segments it into multiple sub-chunks. The refactor writes each sub-chunk to the same output file, with later writes overwriting earlier ones. The result is that only the last (and typically most important) chunk — the exported component — survives. The library helper functions from within the file are not in the output. This is usually desirable since those helpers are third-party library code, but app-specific utilities co-bundled in the same chunk are also lost.
+
+**Remote library stripping requires populated signatures.** The `react/vite/large` bucket in the CS-MAST-S HuggingFace dataset must be populated before remote stripping runs. If the bucket is empty or missing, the tool falls back to the component-extraction-only path with a warning.
+
 ## Notes
 
 - Vendor chunks and the rolldown-runtime chunk are not written to the output directory — they contain no application code.
-- The `--collisions` flag has no effect on `react-vite` (library stripping is not implemented for Vite bundles; library code lives in vendor chunks that are excluded automatically).
+- **Vendor chunks are auto-discovered.** `mapped.json` typically contains only app chunks because vendor files are excluded during mapping. The refactor automatically locates `vendor-react-*.js` and `rolldown-runtime-*.js` from the downloaded assets directory (detected via `// File Source:` headers in each chunk's code) and loads them before processing. No extra flags or manual file preparation are required.
 - Template literal strings in JSX props and children are preserved as-is — rolldown uses `` `string` `` instead of `"string"` in many places and the refactor maintains this.

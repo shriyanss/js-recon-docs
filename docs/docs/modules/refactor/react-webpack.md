@@ -189,6 +189,16 @@ The value is a comma-separated list from: `lit`, `id`, `op`, `decl`, `loop`, `co
 
 For guidance on which combination to use, see [Choosing scat categories](./choosing-scat.md).
 
+### Remote dataset path override (`--remote-collisions`)
+
+By default the tool resolves the dataset path automatically from the detected technology (`react-webpack` → `react/webpack/large`). Use `--remote-collisions` to supply an explicit HuggingFace bucket path instead:
+
+```bash
+js-recon refactor -t react-webpack --remote-collisions react/webpack/large -o output_refactored
+```
+
+If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md).
+
 ### Cache control flags
 
 | Flag                  | Effect                                                                                               |
@@ -295,6 +305,63 @@ versus the default refactor output of ten files totalling ~240 KB.
 
 - Library detection is **opt-in via the baseline you provide**. Pointing `--collisions` at a baseline from a different toolchain (different React version, different bundler, different babel target) will under- or over-match.
 - Modules whose body parse fails are silently treated as non-library and emitted normally.
+
+## Version detection (`--detect-version`)
+
+The `--detect-version` flag automatically identifies the React version embedded in the bundle and uses it to pin `react` and `react-dom` in the refactored output's `package.json`.
+
+```bash
+js-recon refactor -t react-webpack \
+  -m mapped.json \
+  -o output/ \
+  --detect-version
+```
+
+When enabled, the tool:
+
+1. Selects one or more scat configurations to use for detection (see `--detect-version-config` below).
+2. For each selected scat config, generates CS-MAST structural signatures from every code unit in the mapped bundle (plus vendor chunks for webpack code-split apps).
+3. For each React version available in the dataset (react-0.12 through react-19), fetches a list of **reliable signatures** — sub-tree hashes that appear in every build of that version but not in any other. These are downloaded from the `shriyanss/cs-mast-s-dataset` HuggingFace bucket and cached locally with a 7-day TTL.
+4. Sums match counts across all scat configs per version. The version with the highest total is reported as the detected React version.
+5. Updates `package.json` in the refactored output to pin the detected version (e.g. `react@^18.3.1`) instead of the default `^18.3.1`.
+
+Detection results are printed to the console:
+
+```
+[✓] Detected React version: react-18 (262 signature matches)
+[i] Using detected React version react-18 in package.json (react@^18.3.1)
+```
+
+### `--detect-version-config`
+
+Controls which scat configuration(s) are used for detection. Accepts:
+
+- **`dynamic`** (default) — the tool automatically selects up to `--detect-version-dynamic-threshold` scat configs that have non-empty reliable signatures across **all** known React versions. The selected configs are cached in `~/.js-recon/refactor/config.json` and reused on subsequent runs.
+- **Comma-separated scat categories** (e.g. `lit,decl,loop,cond`) — uses exactly that one scat config. The tool validates that reliable signatures exist for all known versions; if any version has an empty file, the tool exits with code 26.
+
+```bash
+# Dynamic mode (default): auto-select reliable configs
+js-recon refactor -t react-webpack -m mapped.json -o out/ --detect-version
+
+# Static mode: use a specific scat config
+js-recon refactor -t react-webpack -m mapped.json -o out/ \
+  --detect-version --detect-version-config lit,decl,loop,cond
+```
+
+### `--detect-version-dynamic-threshold`
+
+The maximum number of scat configs to select in dynamic mode. Defaults to `3`. Must be a positive integer. Using more configs provides more signature evidence and can improve detection accuracy for bundles with sparse signatures.
+
+### `--detect-version-dynamic-conf-purge`
+
+Clears the cached dynamic scat config selection from `~/.js-recon/refactor/config.json` and recomputes it on this run. Use this if the HuggingFace dataset has been updated with new scat config data.
+
+**Cache locations:**
+
+- Signature cache: `~/.js-recon/refactor/version_sigs_cache/<bundler>/<version>/<scat>/reliable_signatures.json`
+- Dynamic config cache: `~/.js-recon/refactor/config.json` (`dynamicVersionDetectionScatConfig` field)
+
+**Dataset coverage:** react-0.12 through react-19 (8 versions for webpack). Older versions (0.11–0.13) are in the dataset for webpack but lack `react-dom` as a separate package.
 
 ## Supported React features
 

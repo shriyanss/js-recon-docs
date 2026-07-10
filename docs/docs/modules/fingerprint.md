@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 15
 ---
 
 # Fingerprint command
@@ -19,6 +19,7 @@ js-recon fingerprint -u <url/file> [options]
 | `--url <url/file>`   | `-u`  | Target URL or a file containing a list of URLs (one per line).                 |         | Yes      |
 | `--output <file>`    | `-o`  | Output file to write results.                                                  |         | No       |
 | `--format <formats>` | `-f`  | Output formats: `text`, `csv`, `json`, `jsonl` (comma-separated for multiple). | `text`  | No       |
+| `--threads <n>`      | `-t`  | Number of concurrent detection workers.                                        | `5`     | No       |
 | `--timeout <ms>`     |       | Request timeout in milliseconds.                                               | `30000` | No       |
 | `--insecure`         | `-k`  | Disable SSL certificate verification.                                          | `false` | No       |
 | `--no-sandbox`       |       | Disable browser sandbox.                                                       | `false` | No       |
@@ -130,6 +131,16 @@ js-recon fingerprint -u targets.txt -o results -f text,csv,json,jsonl
 ```
 
 This produces `results.txt`, `results.csv`, `results.json`, and `results.jsonl`.
+
+### Run with more threads
+
+By default, 5 URLs are fingerprinted concurrently. Increase the thread count for large URL lists to reduce total run time:
+
+```bash
+js-recon fingerprint -u targets.txt -t 10 -o results.txt
+```
+
+Tune `-t` based on available memory and network capacity. Higher values are faster but increase memory use and the chance of rate-limiting by the target.
 
 ### Skip SSL verification
 

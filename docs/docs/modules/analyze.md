@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 8
 ---
 
 # Analyze command
@@ -55,3 +55,61 @@ This will analyze the `mapped-openapi.json` file against the default rules that 
 ## Built-in detection rules
 
 The bundled rules detect both request-level misconfigurations (for example, missing `Authorization` header) and client-side code patterns such as DOM XSS sinks and Client-Side Path Traversal (CSPT). See [Predefined rules](../rules/predefined-rules.md) for the full catalogue and the constraints each rule applies to avoid false positives.
+
+## Output format
+
+`analyze.json` is a JSON array where each element represents one finding. An empty array means no rules fired.
+
+```json
+[
+    {
+        "ruleId": "dom_xss_innerHTML",
+        "ruleName": "DOM XSS via innerHTML",
+        "ruleType": "ast",
+        "ruleDescription": "Detects direct assignment to innerHTML from a user-controlled source.",
+        "ruleAuthor": "js-recon",
+        "ruleTech": ["next", "react"],
+        "severity": "high",
+        "message": "[+] \"DOM XSS via innerHTML\" found in chunk 4821",
+        "findingLocation": "// 4821\n\ndocument.getElementById('out').innerHTML = userInput"
+    }
+]
+```
+
+### Fields
+
+| Field             | Type       | Description                                                                                   |
+| ----------------- | ---------- | --------------------------------------------------------------------------------------------- |
+| `ruleId`          | `string`   | Unique rule identifier from the YAML rule file.                                               |
+| `ruleName`        | `string`   | Human-readable rule name.                                                                     |
+| `ruleType`        | `string`   | Engine that produced the finding: `ast`, `request`, or `cs-mast-s`.                           |
+| `ruleDescription` | `string`   | Description of what the rule detects.                                                         |
+| `ruleAuthor`      | `string`   | Author of the rule.                                                                           |
+| `ruleTech`        | `string[]` | Technologies the rule targets. Values: `next`, `vue`, `react`, `svelte`, `angular`, or `all`. |
+| `severity`        | `string`   | Finding severity: `info`, `low`, `medium`, or `high`.                                         |
+| `message`         | `string`   | One-line summary of the finding (see below).                                                  |
+| `findingLocation` | `string`   | Where the finding was detected (see below).                                                   |
+
+### `message` format
+
+The `message` field is a one-line human-readable label:
+
+- **AST and CS-MAST-S rules:** `[+] "<rule name>" found in chunk <chunk id>`
+- **Request rules:** `[+] "<rule name>" found in <path> [<METHOD>]`
+
+### `findingLocation` format
+
+The `findingLocation` field varies by engine:
+
+- **AST rules:** A comment with the chunk ID followed by the matched source code snippet:
+    ```
+    // <chunk id>
+
+    <matched source code>
+    ```
+- **CS-MAST-S rules:** The chunk ID and matched CS-MAST-S signature(s):
+    ```
+    // chunk: <chunk id>
+    // CS-MAST-S signature: <phc string>
+    ```
+- **Request rules:** The matched endpoint path and HTTP method: `<path> [<METHOD>]`

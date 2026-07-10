@@ -1,12 +1,12 @@
 ---
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 # Lazyload Methods
 
 The `lazyload` module runs a set of **discovery methods** to find JavaScript files on the target. Each method is named after its source file and targets a specific technique (script-tag extraction, manifest parsing, brute-force, etc.).
 
-You can control which methods run using the [`--include-methods`](./lazyload.md) (whitelist) and [`--exclude-methods`](./lazyload.md) (blacklist) flags on the `lazyload` command.
+You can control which methods run using the [`--include-methods`](../lazyload.md) (whitelist) and [`--exclude-methods`](../lazyload.md) (blacklist) flags on the `lazyload` command.
 
 ## Listing methods at runtime
 
@@ -88,4 +88,4 @@ js-recon lazyload --list-methods next_js
 - If `--include-methods` is provided, **only** the listed methods run; all others are skipped.
 - If `--exclude-methods` is provided, all methods except the listed ones run.
 - Providing both flags at the same time is not recommended — `--include-methods` takes priority.
-- Method names are case-sensitive and must match exactly. An invalid name exits with [exit code 22](../exit_codes.md).
+- Method names are case-sensitive and must match exactly. An invalid name exits with [exit code 22](../../exit_codes.md).

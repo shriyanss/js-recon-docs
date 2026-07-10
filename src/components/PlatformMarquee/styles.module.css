@@ -1,0 +1,124 @@
+.strip {
+    width: 100%;
+    padding: 28px 0 26px;
+    border-top: 1px solid var(--h-border);
+    border-bottom: 1px solid var(--h-border);
+}
+
+.eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--h-text-3);
+    text-align: center;
+    margin: 0 0 22px;
+}
+
+.viewport {
+    overflow: hidden;
+    position: relative;
+}
+
+.viewport::before,
+.viewport::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.viewport::before {
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        var(--ifm-background-color) 0%,
+        transparent 100%
+    );
+}
+
+.viewport::after {
+    right: 0;
+    background: linear-gradient(
+        270deg,
+        var(--ifm-background-color) 0%,
+        transparent 100%
+    );
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: marquee 50s linear infinite;
+}
+
+.viewport:hover .track {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .track {
+        animation: none;
+    }
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 40px;
+    flex-shrink: 0;
+    color: var(--h-text-3);
+    transition: color 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logo:hover {
+    color: var(--brand-color, oklch(0.8 0.004 250));
+    text-decoration: none;
+}
+
+.logo:focus-visible {
+    outline: 2px solid oklch(0.75 0.14 210);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+    flex-shrink: 0;
+    transition: fill 0.2s ease;
+}
+
+.name {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--h-text-3);
+    transition: color 0.2s ease;
+}
+
+.logo:hover .name {
+    color: var(--brand-color, oklch(0.6 0.004 250));
+    opacity: 0.75;
+}

@@ -99,7 +99,7 @@ const config: Config = {
                     title: "Docs",
                     items: [
                         {
-                            label: "Installtion",
+                            label: "Installation",
                             to: "/docs/docs/installation",
                         },
                         {
@@ -164,10 +164,15 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} JS Recon. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Shriyans Sudhi. Built with Docusaurus.`,
+        },
+        colorMode: {
+            defaultMode: "dark",
+            disableSwitch: false,
+            respectPrefersColorScheme: false,
         },
         prism: {
-            theme: prismThemes.github,
+            theme: prismThemes.dracula,
             darkTheme: prismThemes.dracula,
         },
     } satisfies Preset.ThemeConfig,
