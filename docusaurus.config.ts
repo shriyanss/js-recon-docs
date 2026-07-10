@@ -164,7 +164,7 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} JS Recon. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Shriyans Sudhi. Built with Docusaurus.`,
         },
         colorMode: {
             defaultMode: "dark",

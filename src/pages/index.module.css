@@ -16,8 +16,68 @@
     display: inline-block;
     width: 7px;
     height: 14px;
-    background: oklch(0.95 0.004 250);
+    background: var(--h-term-text);
     animation: blink 1.1s step-end infinite;
     vertical-align: middle;
     margin-left: 4px;
+}
+
+.integrationCard {
+    transition:
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.integrationCard:hover {
+    border-color: var(--h-accent) !important;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.copyBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--h-term-muted);
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.copyBtn:hover {
+    color: var(--h-code-text);
+    background: var(--h-term-header);
+    border-color: var(--h-term-border);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+
+@media (max-width: 996px) {
+    .heroGrid {
+        grid-template-columns: 1fr !important;
+    }
+    .capGrid,
+    .integrationGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .pipelineGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .capGrid,
+    .integrationGrid,
+    .pipelineGrid {
+        grid-template-columns: 1fr !important;
+    }
 }

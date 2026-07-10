@@ -1,6 +1,127 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
+/* ── Shared tokens (theme-independent) ───────────────────────────── */
 :root {
+    --ifm-color-primary: oklch(0.62 0.14 210);
+    --ifm-color-primary-dark: oklch(0.58 0.14 210);
+    --ifm-color-primary-darker: oklch(0.55 0.14 210);
+    --ifm-color-primary-darkest: oklch(0.48 0.14 210);
+    --ifm-color-primary-light: oklch(0.68 0.14 210);
+    --ifm-color-primary-lighter: oklch(0.72 0.13 210);
+    --ifm-color-primary-lightest: oklch(0.78 0.12 210);
+
+    --ifm-font-family-base:
+        "Manrope", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --ifm-font-family-monospace:
+        "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+
+    --ifm-navbar-height: 60px;
+    --ifm-navbar-item-padding-horizontal: 14px;
+    --ifm-menu-link-padding-horizontal: 12px;
+    --ifm-menu-link-padding-vertical: 7px;
+    --ifm-code-font-size: 90%;
+
+    --ifm-color-warning: oklch(0.7 0.15 75);
+    --ifm-color-warning-contrast-background: oklch(0.78 0.15 75 / 0.08);
+    --ifm-color-warning-dark: oklch(0.64 0.15 75);
+
+    --ifm-color-info: oklch(0.62 0.14 210);
+    --ifm-color-info-contrast-background: oklch(0.75 0.14 210 / 0.08);
+    --ifm-color-info-dark: oklch(0.56 0.14 210);
+
+    --ifm-color-danger: oklch(0.58 0.19 25);
+    --ifm-color-danger-contrast-background: oklch(0.65 0.19 25 / 0.08);
+    --ifm-color-danger-dark: oklch(0.52 0.19 25);
+
+    --ifm-color-success: oklch(0.6 0.13 150);
+    --ifm-color-success-contrast-background: oklch(0.72 0.13 150 / 0.08);
+    --ifm-color-success-dark: oklch(0.54 0.13 150);
+
+    /* Homepage accents — same in both themes */
+    --h-accent: oklch(0.62 0.14 210);
+    --h-red: oklch(0.62 0.19 25);
+    --h-amber: oklch(0.72 0.15 75);
+    --h-green: oklch(0.62 0.13 150);
+
+    /* Terminal graphic — stays dark in both themes (it's a terminal) */
+    --h-term-bg: oklch(0.12 0.012 250);
+    --h-term-header: oklch(0.19 0.014 250);
+    --h-term-border: oklch(0.3 0.014 250);
+    --h-term-text: oklch(0.95 0.004 250);
+    --h-term-muted: oklch(0.6 0.012 250);
+
+    /* Code blocks stay dark in both themes to match the Dracula Prism theme
+       (a light Prism theme would need different token colors). */
+    --code-surface: oklch(0.115 0.012 250);
+    --code-surface-raised: oklch(0.19 0.014 250);
+    --code-border: oklch(0.3 0.014 250);
+    --code-text-muted: oklch(0.68 0.012 250);
+    --code-text: oklch(0.88 0.006 250);
+    --prism-background-color: var(--code-surface);
+    --prism-color: var(--code-text);
+    --ifm-code-border-radius: 12px;
+    --ifm-pre-padding: 18px 20px;
+}
+
+/* ── Light theme (default) ───────────────────────────────────────── */
+:root {
+    --ifm-background-color: oklch(0.99 0.002 250);
+    --ifm-background-surface-color: oklch(0.97 0.004 250);
+    --ifm-font-color-base: oklch(0.24 0.02 250);
+    --ifm-font-color-secondary: oklch(0.44 0.015 250);
+
+    --ifm-link-color: oklch(0.58 0.14 210);
+    --ifm-link-hover-color: oklch(0.5 0.14 210);
+
+    --ifm-navbar-background-color: oklch(0.99 0.002 250 / 0.85);
+    --ifm-navbar-shadow: 0 1px 0 oklch(0.9 0.006 250);
+    --ifm-navbar-link-color: oklch(0.44 0.015 250);
+    --ifm-navbar-link-active-color: oklch(0.24 0.02 250);
+    --ifm-navbar-link-hover-color: oklch(0.24 0.02 250);
+
+    --ifm-menu-color: oklch(0.4 0.015 250);
+    --ifm-menu-color-active: oklch(0.55 0.14 210);
+    --ifm-menu-color-background-active: oklch(0.62 0.14 210 / 0.1);
+    --ifm-menu-color-background-hover: oklch(0.62 0.14 210 / 0.06);
+
+    --ifm-footer-background-color: oklch(0.96 0.005 250);
+    --ifm-footer-link-color: oklch(0.44 0.015 250);
+    --ifm-footer-link-hover-color: oklch(0.5 0.14 210);
+    --ifm-footer-color: oklch(0.4 0.015 250);
+
+    --ifm-code-background: oklch(0.95 0.006 250);
+    --ifm-code-color: oklch(0.5 0.14 210);
+    --docusaurus-highlighted-code-line-bg: oklch(0.9 0.01 250 / 0.6);
+
+    --ifm-hr-border-color: oklch(0.9 0.006 250);
+    --ifm-table-border-color: oklch(0.9 0.006 250);
+    --ifm-toc-border-color: oklch(0.9 0.006 250);
+
+    --ifm-breadcrumb-color-active: oklch(0.55 0.14 210);
+    --ifm-heading-color: oklch(0.22 0.02 250);
+
+    --ifm-blockquote-border-color: oklch(0.9 0.006 250);
+    --ifm-blockquote-color: oklch(0.44 0.015 250);
+
+    /* Homepage neutrals */
+    --h-bg: oklch(0.985 0.003 250);
+    --h-card: oklch(1 0 0);
+    --h-card-raised: oklch(0.98 0.004 250);
+    --h-border: oklch(0.9 0.006 250);
+    --h-chip: oklch(0.96 0.005 250);
+    --h-text: oklch(0.22 0.02 250);
+    --h-text-2: oklch(0.44 0.015 250);
+    --h-text-3: oklch(0.56 0.012 250);
+    --h-btn-bg: oklch(0.22 0.02 250);
+    --h-btn-fg: oklch(0.99 0.003 250);
+    --h-code-bg: oklch(0.12 0.012 250);
+    --h-code-text: oklch(0.88 0.006 250);
+
+    --ifm-global-shadow-lw: 0 12px 32px -16px oklch(0 0 0 / 0.12);
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────── */
+[data-theme="dark"] {
     --ifm-color-primary: oklch(0.75 0.14 210);
     --ifm-color-primary-dark: oklch(0.7 0.14 210);
     --ifm-color-primary-darker: oklch(0.67 0.14 210);
@@ -13,10 +134,6 @@
     --ifm-background-surface-color: oklch(0.19 0.014 250);
     --ifm-font-color-base: oklch(0.95 0.004 250);
     --ifm-font-color-secondary: oklch(0.68 0.012 250);
-    --ifm-font-family-base:
-        "Manrope", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --ifm-font-family-monospace:
-        "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
 
     --ifm-link-color: oklch(0.75 0.14 210);
     --ifm-link-hover-color: oklch(0.82 0.13 210);
@@ -26,15 +143,11 @@
     --ifm-navbar-link-color: oklch(0.68 0.012 250);
     --ifm-navbar-link-active-color: oklch(0.95 0.004 250);
     --ifm-navbar-link-hover-color: oklch(0.95 0.004 250);
-    --ifm-navbar-height: 60px;
-    --ifm-navbar-item-padding-horizontal: 14px;
 
     --ifm-menu-color: oklch(0.85 0.006 250);
     --ifm-menu-color-active: oklch(0.75 0.14 210);
     --ifm-menu-color-background-active: oklch(0.75 0.14 210 / 0.12);
     --ifm-menu-color-background-hover: oklch(0.75 0.14 210 / 0.06);
-    --ifm-menu-link-padding-horizontal: 12px;
-    --ifm-menu-link-padding-vertical: 7px;
 
     --ifm-footer-background-color: oklch(0.12 0.012 250);
     --ifm-footer-link-color: oklch(0.68 0.012 250);
@@ -43,8 +156,7 @@
 
     --ifm-code-background: oklch(0.23 0.015 250);
     --ifm-code-color: oklch(0.75 0.14 210);
-    --ifm-code-font-size: 90%;
-    --docusaurus-highlighted-code-line-bg: oklch(0.25 0.015 250 / 0.5);
+    --docusaurus-highlighted-code-line-bg: oklch(0.25 0.015 250);
 
     --ifm-hr-border-color: oklch(0.3 0.014 250);
     --ifm-table-border-color: oklch(0.3 0.014 250);
@@ -56,32 +168,32 @@
     --ifm-blockquote-border-color: oklch(0.3 0.014 250);
     --ifm-blockquote-color: oklch(0.68 0.012 250);
 
-    --ifm-color-warning: oklch(0.78 0.15 75);
-    --ifm-color-warning-contrast-background: oklch(0.78 0.15 75 / 0.08);
-    --ifm-color-warning-dark: oklch(0.72 0.15 75);
-
     --ifm-color-info: oklch(0.75 0.14 210);
-    --ifm-color-info-contrast-background: oklch(0.75 0.14 210 / 0.08);
-    --ifm-color-info-dark: oklch(0.7 0.14 210);
-
     --ifm-color-danger: oklch(0.65 0.19 25);
-    --ifm-color-danger-contrast-background: oklch(0.65 0.19 25 / 0.08);
-    --ifm-color-danger-dark: oklch(0.6 0.19 25);
-
     --ifm-color-success: oklch(0.72 0.13 150);
-    --ifm-color-success-contrast-background: oklch(0.72 0.13 150 / 0.08);
-    --ifm-color-success-dark: oklch(0.67 0.13 150);
-}
+    --ifm-color-warning: oklch(0.78 0.15 75);
 
-[data-theme="dark"] {
-    --ifm-color-primary: oklch(0.75 0.14 210);
-    --ifm-color-primary-dark: oklch(0.7 0.14 210);
-    --ifm-color-primary-darker: oklch(0.67 0.14 210);
-    --ifm-color-primary-darkest: oklch(0.6 0.14 210);
-    --ifm-color-primary-light: oklch(0.8 0.14 210);
-    --ifm-color-primary-lighter: oklch(0.82 0.13 210);
-    --ifm-color-primary-lightest: oklch(0.85 0.12 210);
-    --docusaurus-highlighted-code-line-bg: oklch(0.25 0.015 250);
+    /* Homepage accents brighten slightly on dark */
+    --h-accent: oklch(0.75 0.14 210);
+    --h-red: oklch(0.65 0.19 25);
+    --h-amber: oklch(0.78 0.15 75);
+    --h-green: oklch(0.72 0.13 150);
+
+    /* Homepage neutrals */
+    --h-bg: oklch(0.15 0.012 250);
+    --h-card: oklch(0.15 0.012 250);
+    --h-card-raised: oklch(0.19 0.014 250);
+    --h-border: oklch(0.3 0.014 250);
+    --h-chip: oklch(0.23 0.015 250);
+    --h-text: oklch(0.95 0.004 250);
+    --h-text-2: oklch(0.68 0.012 250);
+    --h-text-3: oklch(0.5 0.012 250);
+    --h-btn-bg: oklch(0.95 0.004 250);
+    --h-btn-fg: oklch(0.15 0.012 250);
+    --h-code-bg: oklch(0.12 0.012 250);
+    --h-code-text: oklch(0.88 0.006 250);
+
+    --ifm-global-shadow-lw: 0 12px 32px -16px oklch(0 0 0 / 0.5);
 }
 
 /* ── Global ─────────────────────────────────────────────────────── */
@@ -91,12 +203,12 @@ html {
 }
 
 body {
-    background-color: oklch(0.15 0.012 250);
-    color: oklch(0.95 0.004 250);
+    background-color: var(--ifm-background-color);
+    color: var(--ifm-font-color-base);
 }
 
 ::selection {
-    background: oklch(0.65 0.19 25 / 0.35);
+    background: oklch(0.65 0.19 25 / 0.3);
 }
 
 ::-webkit-scrollbar {
@@ -105,7 +217,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: oklch(0.3 0.014 250);
+    background: var(--ifm-toc-border-color);
     border-radius: 4px;
 }
 
@@ -118,7 +230,7 @@ body {
 .navbar {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid oklch(0.3 0.014 250);
+    border-bottom: 1px solid var(--ifm-toc-border-color);
 }
 
 .navbar__brand {
@@ -133,7 +245,7 @@ body {
 
 .navbar__link:hover,
 .navbar__link--active {
-    color: oklch(0.95 0.004 250);
+    color: var(--ifm-navbar-link-active-color);
 }
 
 .navbar__item.dropdown .navbar__link {
@@ -141,21 +253,21 @@ body {
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 6px;
-    background: oklch(0.23 0.015 250);
-    border: 1px solid oklch(0.3 0.014 250);
-    color: oklch(0.68 0.012 250);
+    background: var(--ifm-code-background);
+    border: 1px solid var(--ifm-toc-border-color);
+    color: var(--ifm-font-color-secondary);
 }
 
 .navbar__item.dropdown .navbar__link:hover {
-    background: oklch(0.27 0.015 250);
-    color: oklch(0.95 0.004 250);
+    background: var(--ifm-background-surface-color);
+    color: var(--ifm-navbar-link-active-color);
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────── */
 
 .theme-doc-sidebar-container {
-    border-right: 1px solid oklch(0.3 0.014 250) !important;
-    background-color: oklch(0.15 0.012 250);
+    border-right: 1px solid var(--ifm-toc-border-color) !important;
+    background-color: var(--ifm-background-color);
 }
 
 .menu {
@@ -177,7 +289,7 @@ body {
 
 .menu__list-item-collapsible .menu__link {
     font-weight: 700;
-    color: oklch(0.95 0.004 250);
+    color: var(--ifm-heading-color);
 }
 
 .menu__list-item-collapsible:hover,
@@ -192,7 +304,7 @@ body {
 }
 
 .table-of-contents__left-border {
-    border-left: 2px solid oklch(0.3 0.014 250);
+    border-left: 2px solid var(--ifm-toc-border-color);
 }
 
 .table-of-contents__link--active {
@@ -217,7 +329,7 @@ body {
 .markdown h2 {
     font-weight: 700;
     letter-spacing: -0.01em;
-    border-bottom: 1px solid oklch(0.3 0.014 250);
+    border-bottom: 1px solid var(--ifm-toc-border-color);
     padding-bottom: 8px;
 }
 
@@ -227,52 +339,51 @@ body {
 
 .markdown p {
     line-height: 1.7;
-    color: oklch(0.8 0.008 250);
+    color: var(--ifm-font-color-base);
 }
 
 .markdown code {
-    background: oklch(0.23 0.015 250);
-    border: 1px solid oklch(0.3 0.014 250);
-    color: oklch(0.75 0.14 210);
+    background: var(--ifm-code-background);
+    border: 1px solid var(--ifm-toc-border-color);
+    color: var(--ifm-code-color);
     border-radius: 4px;
     padding: 2px 5px;
 }
 
-/* Reset for code inside pre blocks — let Prism do the coloring */
+/*
+ * Reset inline-code visual styling for code inside blocks — let Prism do
+ * the coloring. NOTE: the code-block padding lives on `.codeBlockLines`
+ * (a <code> element), so we must NOT zero its padding here or blocks
+ * collapse to a single-line pill. Restore the block padding instead.
+ */
 .markdown pre code,
 .theme-code-block code,
 .prism-code code {
     background: transparent !important;
     border: none !important;
     color: inherit !important;
-    padding: 0 !important;
     border-radius: 0 !important;
+    padding: var(--ifm-pre-padding) !important;
 }
 
 /* ── Code Blocks ─────────────────────────────────────────────────── */
 
-/* Override the Prism theme background/color via CSS vars */
-:root {
-    --prism-background-color: oklch(0.115 0.012 250);
-    --prism-color: oklch(0.88 0.006 250);
-    --ifm-code-border-radius: 12px;
-    --ifm-pre-padding: 18px 20px;
-    --ifm-global-shadow-lw: 0 12px 32px -16px oklch(0 0 0 / 0.5);
-}
-
-/* Outer container — stable class guaranteed by Docusaurus */
+/* Outer container — stable class guaranteed by Docusaurus.
+   The Prism theme sets the container bg via an inline style, so override
+   it with !important to match our surface color. */
 .theme-code-block {
-    border: 1px solid oklch(0.3 0.014 250) !important;
+    background: var(--code-surface) !important;
+    border: 1px solid var(--code-border) !important;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 12px 32px -16px oklch(0 0 0 / 0.5);
+    box-shadow: var(--ifm-global-shadow-lw);
 }
 
 /* Title bar (shown only when title="..." is set) */
 [class*="codeBlockTitle"] {
-    background: oklch(0.19 0.014 250) !important;
-    border-bottom: 1px solid oklch(0.3 0.014 250) !important;
-    color: oklch(0.68 0.012 250) !important;
+    background: var(--code-surface-raised) !important;
+    border-bottom: 1px solid var(--code-border) !important;
+    color: var(--code-text-muted) !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 12px !important;
     font-weight: 600 !important;
@@ -280,24 +391,25 @@ body {
 
 /* The actual code content */
 .prism-code {
-    background: oklch(0.115 0.012 250) !important;
+    background: var(--code-surface) !important;
+    color: var(--code-text) !important;
     font-size: 13.5px !important;
     line-height: 1.9 !important;
 }
 
 /* Copy button */
 [class*="buttonGroup"] button {
-    background: oklch(0.19 0.014 250) !important;
-    border: 1px solid oklch(0.3 0.014 250) !important;
+    background: var(--code-surface-raised) !important;
+    border: 1px solid var(--code-border) !important;
     border-radius: 6px !important;
-    color: oklch(0.68 0.012 250) !important;
+    color: var(--code-text-muted) !important;
     padding: 5px 8px !important;
     opacity: 1 !important;
 }
 
 [class*="buttonGroup"] button:hover {
-    background: oklch(0.27 0.015 250) !important;
-    color: oklch(0.85 0.006 250) !important;
+    background: var(--code-border) !important;
+    color: var(--code-text) !important;
     opacity: 1 !important;
 }
 
@@ -311,7 +423,7 @@ body {
     border-radius: 10px;
     border-width: 1px;
     border-style: solid;
-    color: oklch(0.88 0.006 250);
+    color: var(--ifm-font-color-base);
 }
 
 .alert--warning {
@@ -378,56 +490,56 @@ body {
 /* ── Breadcrumbs ─────────────────────────────────────────────────── */
 
 .breadcrumbs__item--active .breadcrumbs__link {
-    color: oklch(0.75 0.14 210);
+    color: var(--ifm-breadcrumb-color-active);
     background: transparent;
 }
 
 .breadcrumbs__link {
-    color: oklch(0.5 0.012 250);
+    color: var(--ifm-font-color-secondary);
 }
 
 .breadcrumbs__link:hover {
-    color: oklch(0.68 0.012 250);
-    background: oklch(0.23 0.015 250);
+    color: var(--ifm-font-color-base);
+    background: var(--ifm-code-background);
 }
 
 .breadcrumbs__separator {
-    color: oklch(0.4 0.012 250);
+    color: var(--ifm-font-color-secondary);
 }
 
 /* ── Pagination Nav ──────────────────────────────────────────────── */
 
 .pagination-nav__link {
-    border: 1px solid oklch(0.3 0.014 250);
+    border: 1px solid var(--ifm-toc-border-color);
     border-radius: 8px;
     background: transparent;
 }
 
 .pagination-nav__link:hover {
-    border-color: oklch(0.75 0.14 210 / 0.5);
-    background: oklch(0.75 0.14 210 / 0.06);
+    border-color: var(--ifm-color-primary);
+    background: oklch(0.62 0.14 210 / 0.06);
 }
 
 .pagination-nav__label {
-    color: oklch(0.75 0.14 210);
+    color: var(--ifm-color-primary);
     font-weight: 600;
     font-size: 15px;
 }
 
 .pagination-nav__sublabel {
-    color: oklch(0.5 0.012 250);
+    color: var(--ifm-font-color-secondary);
     font-size: 12px;
 }
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 
 footer.footer {
-    border-top: 1px solid oklch(0.3 0.014 250);
-    background-color: oklch(0.12 0.012 250);
+    border-top: 1px solid var(--ifm-toc-border-color);
+    background-color: var(--ifm-footer-background-color);
 }
 
 .footer__title {
-    color: oklch(0.95 0.004 250);
+    color: var(--ifm-heading-color);
     font-weight: 700;
     font-size: 13px;
     letter-spacing: 0;
@@ -438,17 +550,17 @@ footer.footer {
 }
 
 .footer__link-item {
-    color: oklch(0.68 0.012 250);
+    color: var(--ifm-footer-link-color);
     font-size: 14px;
 }
 
 .footer__link-item:hover {
-    color: oklch(0.82 0.13 210);
+    color: var(--ifm-footer-link-hover-color);
     text-decoration: none;
 }
 
 .footer__copyright {
-    color: oklch(0.5 0.012 250);
+    color: var(--ifm-font-color-secondary);
     font-size: 12px;
 }
 
@@ -460,20 +572,20 @@ table {
 }
 
 table th {
-    background: oklch(0.19 0.014 250);
-    border: 1px solid oklch(0.3 0.014 250);
+    background: var(--ifm-background-surface-color);
+    border: 1px solid var(--ifm-table-border-color);
     font-weight: 700;
-    color: oklch(0.95 0.004 250);
+    color: var(--ifm-heading-color);
     padding: 10px 14px;
 }
 
 table td {
-    border: 1px solid oklch(0.3 0.014 250);
+    border: 1px solid var(--ifm-table-border-color);
     padding: 9px 14px;
 }
 
 table tr:nth-child(even) td {
-    background: oklch(0.17 0.012 250);
+    background: var(--ifm-background-surface-color);
 }
 
 /* ── Badge / Version chip ────────────────────────────────────────── */
@@ -481,8 +593,8 @@ table tr:nth-child(even) td {
 .badge {
     font-family: "JetBrains Mono", monospace;
     font-size: 12px;
-    background: oklch(0.23 0.015 250);
-    border: 1px solid oklch(0.3 0.014 250);
-    color: oklch(0.68 0.012 250);
+    background: var(--ifm-code-background);
+    border: 1px solid var(--ifm-toc-border-color);
+    color: var(--ifm-font-color-secondary);
     border-radius: 6px;
 }
