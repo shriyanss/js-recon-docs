@@ -2,11 +2,23 @@
 sidebar_position: 3
 ---
 
+import Link from "@docusaurus/Link";
+
 # Azure
 
-Provision an [Azure Container App Job](https://learn.microsoft.com/en-us/azure/container-apps/jobs) that runs JS Recon against any URL. Upload results to Azure Blob Storage automatically.
+Provision an Azure Container App Job that runs JS Recon against any URL. Upload results to Azure Blob Storage automatically.
 
----
+<br />
+
+<Link
+    className="button button--primary button--lg"
+    to="https://registry.terraform.io/modules/shriyanss/js-recon/azure"
+>
+    View on Terraform Registry →
+</Link>
+
+<br />
+<br />
 
 ## Quick start
 
