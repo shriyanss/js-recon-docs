@@ -44,36 +44,36 @@ terraform apply
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                          |
-| -------------------------- | -------- | ------------------ | -------------------------------------------------------------------- |
-| `url`                      | Yes      | —                  | Target URL to scan                                                   |
-| `region`                   | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`)          |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)              |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                         |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected              |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`              |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                  |
-| `name_prefix`              | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                          |
-| `container_cpu`            | No       | `2`                | CPU units for the ECI container group                                |
-| `container_memory_gb`      | No       | `4`                | Memory in GB for the ECI container group                             |
-| `create_oss_bucket`        | No       | `true`             | Whether the module creates an OSS bucket for artifacts               |
-| `oss_bucket_name`          | No       | _(auto-generated)_ | OSS bucket name (must be globally unique)                            |
-| `oss_artifact_prefix`      | No       | `js-recon-output`  | OSS object key prefix for uploaded artifacts                         |
-| `build_timeout`            | No       | `1800`             | Maximum scan duration in seconds                                     |
-| `tags`                     | No       | `{}`               | Tags applied to all Alibaba Cloud resources                          |
+| Name                       | Required | Default            | Description                                                 |
+| -------------------------- | -------- | ------------------ | ----------------------------------------------------------- |
+| `url`                      | Yes      | —                  | Target URL to scan                                          |
+| `region`                   | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`) |
+| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)     |
+| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                |
+| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected     |
+| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`     |
+| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container         |
+| `name_prefix`              | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                 |
+| `container_cpu`            | No       | `2`                | CPU units for the ECI container group                       |
+| `container_memory_gb`      | No       | `4`                | Memory in GB for the ECI container group                    |
+| `create_oss_bucket`        | No       | `true`             | Whether the module creates an OSS bucket for artifacts      |
+| `oss_bucket_name`          | No       | _(auto-generated)_ | OSS bucket name (must be globally unique)                   |
+| `oss_artifact_prefix`      | No       | `js-recon-output`  | OSS object key prefix for uploaded artifacts                |
+| `build_timeout`            | No       | `1800`             | Maximum scan duration in seconds                            |
+| `tags`                     | No       | `{}`               | Tags applied to all Alibaba Cloud resources                 |
 
 ---
 
 ## Outputs
 
-| Name                   | Description                                       |
-| ---------------------- | ------------------------------------------------- |
-| `container_group_name` | Name of the ECI container group                   |
-| `container_group_id`   | ID of the ECI container group                     |
-| `oss_bucket_name`      | Name of the OSS bucket                            |
-| `ram_role_name`        | Name of the RAM role assigned to the container    |
-| `vpc_id`               | ID of the VPC                                     |
-| `vswitch_id`           | ID of the VSwitch                                 |
+| Name                   | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `container_group_name` | Name of the ECI container group                |
+| `container_group_id`   | ID of the ECI container group                  |
+| `oss_bucket_name`      | Name of the OSS bucket                         |
+| `ram_role_name`        | Name of the RAM role assigned to the container |
+| `vpc_id`               | ID of the VPC                                  |
+| `vswitch_id`           | ID of the VSwitch                              |
 
 ---
 
