@@ -207,3 +207,9 @@ This repo runs Vale on documentation. If Vale CI fails:
 - Run `vale docs/` locally to see errors before pushing.
 - Do not add words to `.vale/` accept lists unless they are real technical terms (module names, flag names, proper nouns).
 - Avoid passive voice, weasel words, and long sentences — Vale flags these.
+
+## Navbar CSS (`src/css/custom.css`)
+
+Never apply `backdrop-filter`, `filter`, `transform`, `perspective`, or `will-change` naming one of those directly to `.navbar`. Docusaurus renders the mobile sidebar (`.navbar-sidebar`, a `position: fixed` element meant to cover the full viewport) as a DOM child of `.navbar` itself. Any of those properties on `.navbar` makes it a containing block for `position: fixed` descendants, so the sidebar's `top`/`bottom` resolve against the navbar's own ~60px box instead of the viewport — the mobile hamburger menu then silently fails to appear when tapped.
+
+If a blur/filter effect on the navbar is needed, apply it via a `::before` overlay instead (`position: absolute; inset: 0` on the pseudo-element, with `.navbar { position: relative }`) — this keeps the visual effect without turning `.navbar` into a containing block for its fixed-position children.
