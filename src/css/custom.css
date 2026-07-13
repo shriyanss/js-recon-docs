@@ -233,9 +233,18 @@ body {
 /* ── Navbar ──────────────────────────────────────────────────────── */
 
 .navbar {
+    position: relative;
+    border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.navbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--ifm-toc-border-color);
+    z-index: -1;
+    pointer-events: none;
 }
 
 .navbar__brand {
