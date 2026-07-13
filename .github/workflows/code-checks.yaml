@@ -91,6 +91,7 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     needs: build
+    environment: commit-signing
     permissions:
       contents: write
     steps:
@@ -111,14 +112,19 @@ jobs:
 
       - name: Run Prettier
         run: prettier --write . --tab-width 4 --trailing-comma es5 --no-color
-      
+
       - name: Remove node_modules
         run: rm -rf node_modules
 
+      - name: Configure SSH commit signing
+        uses: shriyanss/verified-commit-action@v1
+        with:
+          ssh-private-key: ${{ secrets.JS_RECON_SIGNING_KEY }}
+          commit-name: "github-actions[bot]"
+          commit-email: ${{ secrets.JS_RECON_SIGNING_EMAIL }}
+
       - name: Commit and push changes
         run: |
-          git config user.name "prettier-action[bot]"
-          git config user.email "prettier-action[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: prettify code" || echo "No changes to commit"
           git push
