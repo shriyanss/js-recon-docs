@@ -56,18 +56,15 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 | Name                       | Required | Default            | Description                                                             |
 | -------------------------- | -------- | ------------------ | ----------------------------------------------------------------------- |
 | `url`                      | Yes      | —                  | Target URL to scan (external or `http://localhost:PORT`)                |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                 |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                            |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                 |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                 |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the build                         |
 | `project_name`             | No       | `js-recon`         | Name prefix for all AWS resources                                       |
 | `create_s3_bucket`         | No       | `true`             | Whether the module creates an S3 bucket for artifacts                   |
 | `s3_bucket_name`           | No       | _(auto-generated)_ | Explicit S3 bucket name                                                 |
 | `s3_artifact_prefix`       | No       | `js-recon-output`  | S3 key prefix for uploaded artifacts                                    |
 | `schedule_expression`      | No       | `""`               | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
-| `build_timeout`            | No       | `30`               | Maximum build duration in minutes                                       |
+| `build_timeout`            | No       | `30`               | Maximum build duration in **minutes**                                   |
 | `tags`                     | No       | `{}`               | Tags applied to all AWS resources                                       |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ## Outputs
 
@@ -81,25 +78,13 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 
 ## Output files
 
-JS Recon writes the following files inside the output directory and uploads them to S3:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
-
-Artifacts are uploaded to `s3://<bucket>/<s3_artifact_prefix>/` after every scan.
+JS Recon writes the [common output files](./common-reference.md#output-files) inside the output directory and uploads them to `s3://<bucket>/<s3_artifact_prefix>/` after every scan.
 
 ## Break conditions
 
-### Source maps
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
-By default, the build fails if `.map` source map files are publicly accessible:
+### Source maps
 
 ```hcl
 module "js_recon" {
@@ -110,11 +95,7 @@ module "js_recon" {
 }
 ```
 
-To disable: `break_on_map_files = false`.
-
 ### Vulnerabilities
-
-Control which severity level triggers a failure:
 
 ```hcl
 module "js_recon" {
@@ -125,8 +106,6 @@ module "js_recon" {
   vulnerability_severity   = "medium" # fail on medium or high
 }
 ```
-
-Available: `low`, `medium`, `high` (default: `high`).
 
 ## Scheduled scans
 
@@ -166,4 +145,4 @@ module "js_recon" {
 }
 ```
 
-Use `alpha` to track the latest pre-release.
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.

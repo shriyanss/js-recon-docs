@@ -50,11 +50,6 @@ terraform apply
 | `compartment_id`           | Yes      | —                  | OCID of the OCI compartment                                                 |
 | `region`                   | Yes      | —                  | OCI region (e.g. `us-ashburn-1`, `eu-frankfurt-1`)                          |
 | `url`                      | Yes      | —                  | Target URL to scan                                                          |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                     |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                                |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                     |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                     |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                         |
 | `display_name`             | No       | `js-recon`         | Display name prefix for all OCI resources                                   |
 | `availability_domain`      | No       | `AD-1`             | Availability domain suffix (e.g. `AD-1`)                                    |
 | `container_cpu`            | No       | `2`                | OCPUs for the Container Instance                                            |
@@ -63,8 +58,10 @@ terraform apply
 | `bucket_name`              | No       | _(auto-generated)_ | Object Storage bucket name                                                  |
 | `bucket_namespace`         | No       | `""`               | OCI Object Storage tenancy namespace (required when `create_bucket = true`) |
 | `bucket_artifact_prefix`   | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                    |
-| `build_timeout`            | No       | `1800`             | Maximum Container Instance run duration in seconds                          |
+| `build_timeout`            | No       | `1800`             | Maximum Container Instance run duration in **seconds**                      |
 | `freeform_tags`            | No       | `{}`               | Freeform tags applied to all OCI resources                                  |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ---
 
@@ -83,21 +80,13 @@ terraform apply
 
 ## Output files
 
-JS Recon writes the following files and uploads them to OCI Object Storage via instance principal authentication:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
+JS Recon writes the [common output files](./common-reference.md#output-files) and uploads them to OCI Object Storage via instance principal authentication.
 
 ---
 
 ## Break conditions
+
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
 ### Source maps
 
@@ -161,3 +150,5 @@ module "js_recon" {
   js_recon_version = "1.3.1"
 }
 ```
+
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.

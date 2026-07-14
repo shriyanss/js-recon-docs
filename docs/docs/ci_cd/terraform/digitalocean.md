@@ -57,11 +57,6 @@ terraform destroy
 | `url`                      | Yes      | —                  | Target URL to scan                                                                    |
 | `spaces_access_id`         | Yes*     | `""`               | Spaces access key ID (*required when `create_spaces_bucket = true`)                   |
 | `spaces_secret_key`        | Yes*     | `""`               | Spaces secret access key                                                              |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                               |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                                          |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                               |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                               |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                                   |
 | `droplet_name`             | No       | `js-recon`         | Name prefix for all DigitalOcean resources                                            |
 | `region`                   | No       | `nyc3`             | DigitalOcean region (e.g. `nyc3`, `ams3`, `sgp1`)                                     |
 | `droplet_size`             | No       | `s-2vcpu-4gb`      | Droplet size slug — minimum 4 GB RAM recommended                                      |
@@ -70,8 +65,10 @@ terraform destroy
 | `spaces_bucket_name`       | No       | _(auto-generated)_ | Spaces bucket name (must be globally unique)                                          |
 | `spaces_artifact_prefix`   | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                              |
 | `schedule`                 | No       | `""`               | Cron expression for recurring scans (e.g. `0 8 * * *`). Empty = run once at creation. |
-| `build_timeout`            | No       | `30`               | Maximum scan duration in minutes                                                      |
+| `build_timeout`            | No       | `30`               | Maximum scan duration in **minutes**                                                  |
 | `tags`                     | No       | `[]`               | Tags applied to the Droplet                                                           |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ---
 
@@ -90,23 +87,13 @@ terraform destroy
 
 ## Output files
 
-JS Recon writes the following files and uploads them to DigitalOcean Spaces:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
-
-Artifacts are uploaded via the AWS CLI using the Spaces S3-compatible endpoint.
+JS Recon writes the [common output files](./common-reference.md#output-files) and uploads them to DigitalOcean Spaces via the AWS CLI using the Spaces S3-compatible endpoint.
 
 ---
 
 ## Break conditions
+
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
 ### Source maps
 
@@ -181,3 +168,5 @@ module "js_recon" {
   js_recon_version = "1.3.1"
 }
 ```
+
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.

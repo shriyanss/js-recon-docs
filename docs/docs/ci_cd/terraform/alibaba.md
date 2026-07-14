@@ -48,19 +48,16 @@ terraform apply
 | -------------------------- | -------- | ------------------ | ----------------------------------------------------------- |
 | `url`                      | Yes      | —                  | Target URL to scan                                          |
 | `region`                   | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`) |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)     |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected     |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`     |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container         |
 | `name_prefix`              | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                 |
 | `container_cpu`            | No       | `2`                | CPU units for the ECI container group                       |
 | `container_memory_gb`      | No       | `4`                | Memory in GB for the ECI container group                    |
 | `create_oss_bucket`        | No       | `true`             | Whether the module creates an OSS bucket for artifacts      |
 | `oss_bucket_name`          | No       | _(auto-generated)_ | OSS bucket name (must be globally unique)                   |
 | `oss_artifact_prefix`      | No       | `js-recon-output`  | OSS object key prefix for uploaded artifacts                |
-| `build_timeout`            | No       | `1800`             | Maximum scan duration in seconds                            |
+| `build_timeout`            | No       | `1800`             | Maximum scan duration in **seconds**                        |
 | `tags`                     | No       | `{}`               | Tags applied to all Alibaba Cloud resources                 |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ---
 
@@ -79,21 +76,13 @@ terraform apply
 
 ## Output files
 
-JS Recon writes the following files and uploads them to Alibaba Cloud OSS via `ossutil` with ECS RAM Role authentication:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
+JS Recon writes the [common output files](./common-reference.md#output-files) and uploads them to Alibaba Cloud OSS via `ossutil` with ECS RAM Role authentication.
 
 ---
 
 ## Break conditions
+
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
 ### Source maps
 
@@ -155,3 +144,5 @@ module "js_recon" {
   js_recon_version = "1.3.1"
 }
 ```
+
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.

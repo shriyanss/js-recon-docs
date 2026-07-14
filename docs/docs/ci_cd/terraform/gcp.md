@@ -64,18 +64,15 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 | `project`                  | Yes      | —                  | GCP project ID                                                           |
 | `url`                      | Yes      | —                  | Target URL to scan                                                       |
 | `region`                   | No       | `us-central1`      | GCP region for Cloud Build trigger and Cloud Scheduler                   |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                  |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                             |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                  |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                  |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the build                          |
 | `trigger_name`             | No       | `js-recon`         | Name prefix for all GCP resources                                        |
 | `create_gcs_bucket`        | No       | `true`             | Whether the module creates a GCS bucket for artifacts                    |
 | `gcs_bucket_name`          | No       | _(auto-generated)_ | Explicit GCS bucket name                                                 |
 | `gcs_artifact_prefix`      | No       | `js-recon-output`  | GCS object prefix for uploaded artifacts                                 |
 | `schedule`                 | No       | `""`               | Cloud Scheduler cron expression (e.g. `0 8 * * *`). Empty = no schedule. |
-| `build_timeout`            | No       | `30`               | Maximum build duration in minutes                                        |
+| `build_timeout`            | No       | `30`               | Maximum build duration in **minutes**                                    |
 | `labels`                   | No       | `{}`               | Labels applied to all GCP resources                                      |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ---
 
@@ -93,23 +90,13 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 
 ## Output files
 
-JS Recon writes the following files inside the output directory and uploads them to GCS:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
-
-Artifacts are uploaded to `gs://<bucket>/<gcs_artifact_prefix>/` after every scan.
+JS Recon writes the [common output files](./common-reference.md#output-files) inside the output directory and uploads them to `gs://<bucket>/<gcs_artifact_prefix>/` after every scan.
 
 ---
 
 ## Break conditions
+
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
 ### Source maps
 
@@ -122,8 +109,6 @@ module "js_recon" {
   break_on_map_files = true # default
 }
 ```
-
-Set `break_on_map_files = false` to continue the scan even when source map files are found.
 
 ### Vulnerabilities
 
@@ -184,3 +169,5 @@ module "js_recon" {
   js_recon_version = "1.3.1-beta.1"
 }
 ```
+
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.

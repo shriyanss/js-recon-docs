@@ -61,18 +61,15 @@ The job waits up to 120 seconds for the URL to respond before scanning.
 | `url`                      | Yes      | —                  | Target URL to scan                                                           |
 | `resource_group_name`      | No       | `js-recon`         | Azure resource group name                                                    |
 | `location`                 | No       | `East US`          | Azure region for all resources                                               |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                      |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                                 |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                      |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`                      |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the container                          |
 | `job_name`                 | No       | `js-recon`         | Name prefix for all Azure resources                                          |
 | `create_storage_account`   | No       | `true`             | Whether the module creates a Storage Account for artifacts                   |
 | `storage_account_name`     | No       | _(auto-generated)_ | Explicit Storage Account name (3-24 lowercase alphanumeric)                  |
 | `storage_container_name`   | No       | `js-recon-output`  | Blob container name for artifacts                                            |
 | `schedule`                 | No       | `""`               | Cron expression for automated scans (e.g. `0 8 * * *`). Empty = manual only. |
-| `build_timeout`            | No       | `30`               | Maximum job duration in minutes                                              |
+| `build_timeout`            | No       | `30`               | Maximum job duration in **minutes**                                          |
 | `tags`                     | No       | `{}`               | Tags applied to all Azure resources                                          |
+
+See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
 ---
 
@@ -91,23 +88,13 @@ The job waits up to 120 seconds for the URL to respond before scanning.
 
 ## Output files
 
-JS Recon writes the following files inside the output directory and uploads them to Azure Blob Storage:
-
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `analyze.json`        | All vulnerability findings                |
-| `mapped.json`         | Parsed bundle structure                   |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
-| `endpoints.json`      | Client-side routes                        |
-| `strings.json`        | Extracted strings, URLs, and secrets      |
-| `report.html`         | Full HTML report                          |
-| `js-recon.db`         | SQLite database of all findings           |
-
-Artifacts are uploaded to `https://<storage_account>.blob.core.windows.net/<storage_container>/` using azcopy with the managed identity.
+JS Recon writes the [common output files](./common-reference.md#output-files) inside the output directory and uploads them to `https://<storage_account>.blob.core.windows.net/<storage_container>/` using azcopy with the managed identity.
 
 ---
 
 ## Break conditions
+
+See [Common Reference — Break conditions](./common-reference.md#break-conditions) for how `break_on_map_files` and `break_on_vulnerabilities`/`vulnerability_severity` work.
 
 ### Source maps
 
@@ -119,8 +106,6 @@ module "js_recon" {
   break_on_map_files = true # default
 }
 ```
-
-Set `break_on_map_files = false` to continue the scan even when source map files are found.
 
 ### Vulnerabilities
 
@@ -176,3 +161,5 @@ module "js_recon" {
   js_recon_version = "1.3.1-beta.1"
 }
 ```
+
+See [Common Reference — Pinning](./common-reference.md#pinning-to-a-specific-js-recon-version) for details.
