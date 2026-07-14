@@ -45,10 +45,21 @@ The tool reads (and creates on first use) `~/.js-recon/refactor/config.json`:
             └── <feature-app>/
                 └── <scat-combo>/
                     ├── collisions.json
-                    └── cached_at.txt      ← unix timestamp; 7-day TTL
+                    ├── cached_at.txt      ← unix timestamp; 7-day TTL
+                    └── remote_hash.txt    ← last-known upstream content hash
 ```
 
 The `<bundler>/<build-size>` segment is the technology-specific bucket prefix (for example `react/webpack/small`); see each tech page for its actual value. Both cache layers have a 7-day TTL and are refreshed automatically when stale.
+
+## Content-based cache validation
+
+Age alone can't tell you whether the *content* behind a cached file changed upstream — a dataset regeneration or fix could land at any point inside the 7-day window and a purely age-based cache would keep serving the old (possibly empty or incorrect) signatures until the TTL expired. To close that gap, every run (unless `--skip-cache-checks` is set) also fetches each bucket file's current content hash and compares it against the hash recorded in `remote_hash.txt` when that file was last cached:
+
+- **Hash matches** — the cache entry is still valid; the age-based TTL is used as normal.
+- **Hash differs (or `remote_hash.txt` doesn't exist yet)** — the cache entry is treated as stale regardless of its age, and the file is re-downloaded and re-cached with the new hash.
+- **The current run couldn't determine the upstream hash** (network error) — falls back to the pre-existing age-based check only, same as before this mechanism existed.
+
+This is what makes `refactor` output deterministic across repeated runs against the same bundle without requiring a manual cache purge — see the "Manual cache purge" note below for when a purge is still worth doing anyway (for example, before a benchmark comparison, to also pick up cache-size-eviction changes).
 
 ## Signature quality (`--sq` / `--signature-quality`)
 
@@ -116,4 +127,12 @@ js-recon refactor -t react-webpack --skip-cache-checks -o output_refactored
 
 # Disable remote entirely (same as old default when --collisions was absent)
 js-recon refactor -t react-webpack --no-remote -o output_refactored
+```
+
+## Manual cache purge
+
+The content-based validation above catches upstream dataset changes automatically. It's still worth purging the cache by hand before any benchmark or regression comparison, since a purge also re-evaluates cache-size eviction and clears any pre-existing entries written before this mechanism existed (which have no `remote_hash.txt` yet, so they rely on the age-based fallback for one more cycle):
+
+```bash
+rm -rf ~/.js-recon/refactor/{signature_cache,cs-mast-s-list-cache.json,version_sigs_cache,config.json}
 ```
