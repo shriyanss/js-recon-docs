@@ -53,7 +53,7 @@ The `<bundler>/<build-size>` segment is the technology-specific bucket prefix (f
 
 ## Content-based cache validation
 
-Age alone can't tell you whether the *content* behind a cached file changed upstream — a dataset regeneration or fix could land at any point inside the 7-day window and a purely age-based cache would keep serving the old (possibly empty or incorrect) signatures until the TTL expired. To close that gap, every run (unless `--skip-cache-checks` is set) also fetches each bucket file's current content hash and compares it against the hash recorded in `remote_hash.txt` when that file was last cached:
+Age alone can't tell you whether the _content_ behind a cached file changed upstream — a dataset regeneration or fix could land at any point inside the 7-day window and a purely age-based cache would keep serving the old (possibly empty or incorrect) signatures until the TTL expired. To close that gap, every run (unless `--skip-cache-checks` is set) also fetches each bucket file's current content hash and compares it against the hash recorded in `remote_hash.txt` when that file was last cached:
 
 - **Hash matches** — the cache entry is still valid; the age-based TTL is used as normal.
 - **Hash differs (or `remote_hash.txt` doesn't exist yet)** — the cache entry is treated as stale regardless of its age, and the file is re-downloaded and re-cached with the new hash.
