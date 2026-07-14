@@ -102,7 +102,7 @@ If the path does not exist in the dataset the tool exits with [code 25](../../ex
 ## Cache control flags
 
 | Flag                  | Effect                                                                                               |
-| --------------------- | ----------------------------------------------------------------------------------------------------- |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
 | `--refresh-cache`     | Force-refresh the file list cache regardless of age                                                  |
 | `--skip-cache-checks` | Skip all age/staleness checks; use whatever is cached                                                |
 | `--no-remote`         | Disable remote fetch entirely; runs without library stripping unless `--collisions` is also provided |

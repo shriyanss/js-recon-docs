@@ -89,7 +89,7 @@ top-to-bottom sees the most-used commands first:
 | 15       | `fingerprint`   | Utility: detect the JS framework before running          |
 | 16       | `cs-mast`       | Advanced: structural signature generation and comparison |
 | 17       | `mcp`           | MCP server and Claude Code integration                   |
-| 18       | `completion`    | Utility: generate shell completion scripts                |
+| 18       | `completion`    | Utility: generate shell completion scripts               |
 
 ## Sidebar position rules
 
