@@ -42,9 +42,10 @@ docs/
 │   │   ├── README.md             ← Overview                (pos 1)
 │   │   ├── creating_new_rules.md ← Authoring guide         (pos 2)
 │   │   ├── predefined-rules.md   ← Built-in rule catalog   (pos 3)
-│   │   └── engines/              ← Engine reference        (category pos 3)
+│   │   └── engines/              ← Engine reference        (category pos 4)
 │   │       ├── request-engine.md (pos 1)
-│   │       └── ast-engine.md     (pos 2)
+│   │       ├── ast-engine.md     (pos 2)
+│   │       └── cs-mast-s-engine.md (pos 3)
 │   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 7)
 │   │   ├── next-js.md            (pos 1)
 │   │   ├── using-api-gateway.md  (pos 2)
@@ -52,7 +53,18 @@ docs/
 │   │   └── svelte-astro.md       (pos 4)
 │   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 8)
 │   ├── nuclei_templates.mdx      ← Nuclei templates        (sidebar_position: 9)
-│   └── troubleshooting.md        ← Common errors           (sidebar_position: 10)
+│   ├── troubleshooting.md        ← Common errors           (sidebar_position: 10)
+│   └── ci_cd/                    ← CI/CD reference         (category position: 11)
+│       ├── github_action.md      (pos 1)
+│       ├── gitlab_ci.md          (pos 2)
+│       └── terraform/            ← Cloud provisioning      (category pos 3)
+│           ├── aws.md            (pos 1)
+│           ├── gcp.md            (pos 2)
+│           ├── azure.md          (pos 3)
+│           ├── digitalocean.md   (pos 4)
+│           ├── ibm.md            (pos 5)
+│           ├── oci.md            (pos 6)
+│           └── alibaba.md        (pos 7)
 └── guides/                       ← Task-oriented how-to guides
     ├── README.md                 (pos 1)
     ├── next_js/                  (category pos 2)
@@ -129,7 +141,16 @@ Use for:
 
 - YAML rule schema specification
 - Predefined rule catalog with descriptions
-- Engine documentation (AST engine, request engine)
+- Engine documentation (request engine, AST engine, CS-MAST-S engine)
+
+### `docs/docs/ci_cd/` — CI/CD reference
+
+Use for:
+
+- Running JS Recon via CI providers (GitHub Actions, GitLab CI)
+- Provisioning JS Recon on cloud platforms via Terraform (`ci_cd/terraform/`), one page per provider
+
+Each provider/platform page documents inputs, outputs, output files, and break conditions — this is reference material, not a walkthrough.
 
 ### `docs/guides/` — Task-oriented how-to guides
 

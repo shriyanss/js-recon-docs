@@ -20,6 +20,11 @@ Welcome to the official documentation for `js-recon`, a powerful tool for JavaSc
 - **[Analyze](./modules/analyze.md):** Analyze the JS files using the [js-recon-rules](https://github.com/shriyanss/js-recon-rules).
 - **[Refactor](./modules/refactor.md):** Refactor the JS Chunks into separate files.
 - **[Load](./modules/load.md):** Populate the response cache from a Caido export so later runs can be executed offline with `--cache-only`.
+- **[Sourcemaps](./modules/sourcemaps.md):** Extract embedded sourcemaps from downloaded JavaScript files.
+- **[Fingerprint](./modules/fingerprint.md):** Detect the JS framework used by a target before running other modules.
+- **[CS-MAST](./modules/cs-mast.md):** Generate and compare structural signatures across bundles.
+- **[MCP](./modules/mcp.md):** Run JS Recon as an MCP server for Claude Code integration.
+- **[Completion](./modules/completion.md):** Generate shell completion scripts for `js-recon`.
 
 Select a command from the list preceding to view its detailed documentation, including all available options and practical examples.
 

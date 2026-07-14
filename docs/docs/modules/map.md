@@ -110,7 +110,7 @@ js-recon map -d /path/to/js-files -t next
 
 ### Interactive mode
 
-Map functions and explore them in an interactive session. For a detailed guide, see the [Interactive Mode documentation](../modules/interactive_mode/next-js.md).
+Map functions and explore them in an interactive session. For a detailed guide, see the [Interactive Mode documentation](./interactive_mode/next-js.md).
 
 ```bash
 js-recon map -d /path/to/js-files -t next -i
@@ -131,7 +131,7 @@ js-recon map -d output/<host> -t vue \
   -c "esquery * fetch(\`/api/posts\`) && esquery * v-html"
 ```
 
-See the [Interactive Mode documentation](../modules/interactive_mode/next-js.md) for the full command surface, including the [`esquery`](../modules/interactive_mode/next-js.md#esquery) command for generating selectors from a pasted snippet.
+See the [Interactive Mode documentation](./interactive_mode/next-js.md) for the full command surface, including the [`esquery`](./interactive_mode/next-js.md#esquery) command for generating selectors from a pasted snippet.
 
 ### AI-powered analysis
 

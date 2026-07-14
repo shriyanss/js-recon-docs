@@ -9,7 +9,7 @@ The `endpoints` command is used to extract client-side endpoints from a director
 ## Usage
 
 ```bash
-js-recon endpoints [options]
+js-recon endpoints -u <url> -d <directory> -t <technology> [options]
 ```
 
 ## Options

@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Interactive mode for Next.js maps
 
 The interactive mode for Next.js maps provides a terminal-based interface to explore and analyze the functions within your Next.js application. This guide will walk you through the features and commands available in this mode.

@@ -9,7 +9,7 @@ JS Recon is a Node.js-based, security-focused JavaScript analysis tool built for
 ## Prerequisites
 
 :::note Homebrew users
-If you install via Homebrew, Node.js is installed automatically as a dependency — no manual setup required. Skip to the [Installation](#installation) section.
+If you install via Homebrew, Node.js is installed automatically as a dependency — no manual setup required. Skip to the [Installation methods](#installation-methods) section.
 :::
 
 - Node.js 22 or higher (npm install only)
@@ -27,7 +27,7 @@ If you install via Homebrew, Node.js is installed automatically as a dependency 
       Puppeteer installs automatically for npm installs, no manual setup required.
       Homebrew installs require a separate browser setup — see the [Homebrew](#homebrew-macos-and-linux) section below.
 
-## Installation
+## Installation methods
 
 ### Homebrew (macOS and Linux)
 

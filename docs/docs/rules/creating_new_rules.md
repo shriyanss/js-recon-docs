@@ -17,7 +17,7 @@ author: <author>
 js_recon_version: ">=<min-version>"
 description: <description>
 severity: <info | low | medium | high>
-type: <request | ast>
+type: <request | ast | cs-mast-s>
 tech:
     - <tech>
 
@@ -77,6 +77,7 @@ The steps are parsed by an engine, which is named as per the type of step. The f
 
 - [Request Engine](./engines/request-engine.md)
 - [AST Engine](./engines/ast-engine.md)
+- [CS-MAST-S Engine](./engines/cs-mast-s-engine.md)
 
 ## Multi-step rules and how matches are combined
 

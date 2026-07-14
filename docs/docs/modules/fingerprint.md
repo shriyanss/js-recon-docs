@@ -26,16 +26,7 @@ js-recon fingerprint -u <url/file> [options]
 
 ## How it works
 
-For each URL, the command delegates to the same framework-detection logic used by `lazyload`. Detection checks HTML attributes, inline script content, and fetched JS asset content in this priority order:
-
-1. **Next.js** — elements with `src`, `srcset`, or `imageSrcSet` attributes containing `/_next/`
-2. **Vue.js** — `data-v-*` / `data-vue-*` attributes or `__vue` in fetched script content
-3. **Nuxt.js** — sub-check after Vue: `src`/`href` containing `/_nuxt`
-4. **Svelte** — SvelteKit attribute markers or `__svelte_*` in bundled code
-5. **Angular** — `ng-*` attributes or Angular-specific markers
-6. **React** — markers such as `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`, `__REACT_DEVTOOLS_GLOBAL_HOOK__`, or `react-dom.production` in inline scripts or fetched assets
-
-If none of the above match, the framework is reported as `unknown`.
+For each URL, the command delegates to the same framework-detection logic used by `lazyload` — see [Lazyload — Framework detection](./lazyload.md#framework-detection) for the full priority-ordered marker list. If none of the markers match, the framework is reported as `unknown`.
 
 Detection uses two sources per URL: a raw HTTP response (fast path) and a Puppeteer-rendered page (catches client-side-only markers after a 2-second settle). Results are printed live as each URL is processed, with a progress bar showing overall completion.
 
