@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 7
 ---
 
 # Choosing the Right Scat Categories
@@ -170,5 +170,5 @@ js-recon refactor -t react-vite --scat lit
 
 ## See also
 
-- [React (webpack) Refactor — Scat category override](./react-webpack.md#scat-category-override---scat) — full `--scat` flag reference
-- [React (webpack) Refactor — Remote signatures](./react-webpack.md#remote-signatures-default) — how the bucket download and cache work
+- [Remote signature stripping — Scat category override](./remote-signatures.md#scat-category-override---scat) — full `--scat` flag reference
+- [Remote signature stripping](./remote-signatures.md) — how the bucket download and cache work

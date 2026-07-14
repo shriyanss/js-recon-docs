@@ -143,20 +143,11 @@ js-recon refactor -m mapped.json -t next-webpack -o output_refactored
 
 One `.js` file per module ID, formatted with Prettier. Empty modules (0-param functions `()=>{}`) are skipped. Each file uses ES module syntax and can be opened in an IDE or passed to static analysis tools.
 
-## Remote signatures (default)
+## Remote signature stripping
 
-By default, when running `refactor -t next-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data from the HuggingFace bucket [`shriyanss/cs-mast-s-dataset`](https://huggingface.co/buckets/shriyanss/cs-mast-s-dataset) and uses it to strip Next.js framework modules from the output — no local baseline clone required.
+By default, when running `refactor -t next-webpack` without `--collisions`, the tool automatically downloads CS-MAST signature data and uses it to strip Next.js framework modules from the output — no local baseline clone required. The bucket prefix used is `next/webpack/large-0.1.8`, cached locally under `~/.js-recon/refactor/signature_cache/next/webpack/large-0.1.8/`.
 
-### How it works
-
-1. The tool maps the tech flag (`next-webpack`) to a bucket prefix (`next/webpack/large-0.1.8`).
-2. It validates that the prefix contains `sample_size` and `technology` metadata files, and that the technology matches.
-3. It fetches (or loads from cache) the list of `collisions.json` files under that prefix.
-4. For each file whose path contains the configured scat directory (`lit-decl-loop-cond`), it downloads and caches the file.
-5. After applying the signature quality filter, it intersects all loaded signature sets. Signatures surviving the intersection appeared in every feature app's baseline, making them definitionally framework/library code.
-6. The resulting signature set is used to classify and strip framework modules before writing output files.
-
-On a fresh run the tool prints download progress; subsequent runs use the local cache silently.
+For the shared mechanics (configuration, cache layout, `--sq`, `--scat`, `--remote-collisions`, cache-control flags), see [Remote signature stripping](./remote-signatures.md).
 
 ### Library module classification
 
@@ -169,89 +160,6 @@ For each Next.js webpack module captured from `mapped.json`:
 5. Library-flagged modules are logged (`[-] Module N matches library baseline — skipping`) and not written to disk. Application-specific modules are written normally.
 
 The 51% threshold ensures that modules which are almost entirely Next.js framework code (close to 100% matching sub-trees) are correctly classified, while modules that happen to share only a small number of common patterns with the baseline are left untouched.
-
-### Cache layout
-
-```
-~/.js-recon/refactor/
-├── config.json
-├── cs-mast-s-list-cache.json          ← file list cache (7-day TTL)
-└── signature_cache/
-    └── next/
-        └── webpack/
-            └── large-0.1.8/
-                └── <feature-app>/
-                    └── lit-decl-loop-cond/
-                        ├── collisions.json
-                        └── cached_at.txt      ← unix timestamp; 7-day TTL
-```
-
-Both cache layers have a 7-day TTL and are refreshed automatically when stale.
-
-### Signature quality (`--sq / --signature-quality`)
-
-Each bucket prefix includes a `sample_size` file. The quality of a signature record is computed as:
-
-```
-quality = (count / sample_size) * 100
-```
-
-A signature is included only when its quality meets the threshold (default 100%). At 100% a signature must appear in **every** file in the sample — only framework code shared across all feature apps survives.
-
-Lowering `--sq` below 100 includes signatures that appeared in most-but-not-all apps, which may catch more library modules at the cost of a small false-positive risk.
-
-```bash
-# Default (strictest — only universally shared signatures)
-js-recon refactor -t next-webpack -o output_refactored
-
-# More permissive — include signatures in ≥90% of the sample
-js-recon refactor -t next-webpack --sq 90 -o output_refactored
-```
-
-### Scat category override (`--scat`)
-
-The `--scat <categories>` flag overrides the CS-MAST scat category set used for both the remote signature download and the module classifier. The default is `lit,decl,loop,cond`.
-
-```bash
-# Use a minimal scat config (fastest, fewer signatures)
-js-recon refactor -t next-webpack --scat lit
-
-# Use a broader config
-js-recon refactor -t next-webpack --scat lit,id,decl,loop,cond
-```
-
-The value is a comma-separated list from: `lit`, `id`, `op`, `decl`, `loop`, `cond`, `name`, `val`, `op_name`. Categories are automatically mapped to the bucket directory name in canonical order.
-
-For guidance on which combination to use, see [Choosing scat categories](./choosing-scat.md).
-
-### Remote dataset path override (`--remote-collisions`)
-
-Use `--remote-collisions` to supply an explicit HuggingFace bucket path instead of the automatic mapping:
-
-```bash
-js-recon refactor -t next-webpack --remote-collisions next/webpack/large-0.1.8 -o output_refactored
-```
-
-If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md).
-
-### Cache control flags
-
-| Flag                  | Effect                                                                                               |
-| --------------------- | ---------------------------------------------------------------------------------------------------- |
-| `--refresh-cache`     | Force-refresh the file list cache regardless of age                                                  |
-| `--skip-cache-checks` | Skip all age/staleness checks; use whatever is cached                                                |
-| `--no-remote`         | Disable remote fetch entirely; runs without library stripping unless `--collisions` is also provided |
-
-```bash
-# Force a fresh file list from the remote dataset
-js-recon refactor -t next-webpack --refresh-cache -o output_refactored
-
-# Air-gapped / offline — use cache as-is, no HTTP requests
-js-recon refactor -t next-webpack --skip-cache-checks -o output_refactored
-
-# Disable remote entirely
-js-recon refactor -t next-webpack --no-remote -o output_refactored
-```
 
 ### Local baseline (`--collisions`)
 

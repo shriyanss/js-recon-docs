@@ -86,6 +86,7 @@ For detailed, technology-specific documentation see:
 - [Vue.js (webpack)](./refactor/vue-webpack.md) — Vue webpack 4/5 bundles: webpackJsonp container parsing, per-module extraction, Vue 2 render function recovery
 - [Vue.js (Vite)](./refactor/vue-vite.md) — Vue 3 + Vite bundles: export alias fingerprinting, canonical Vue import rewriting, _export_sfc inlining
 - [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
+- [Remote signature stripping](./refactor/remote-signatures.md) — shared cache, config, and flag reference used by all technologies
 
 ## Notes
 

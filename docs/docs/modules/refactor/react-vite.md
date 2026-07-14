@@ -182,17 +182,9 @@ Expected output: clean JSX with canonical React imports — no interop wrappers,
 
 ## Remote library stripping
 
-When processing an app with non-vendor chunks that contain inlined library code, the tool can strip those chunks automatically using the remote CS-MAST-S signature dataset.
+When processing an app with non-vendor chunks that contain inlined library code, the tool can strip those chunks automatically using the remote CS-MAST-S signature dataset. The bucket prefix used is `react/vite/large-0.1.8`, cached locally under `~/.js-recon/refactor/signature_cache/react/vite/large-0.1.8/`.
 
-By default the tool fetches signatures from the `react/vite/large-0.1.8` bucket prefix. Use `--remote-collisions` to supply an explicit path:
-
-```bash
-js-recon refactor -t react-vite --remote-collisions react/vite/large-0.1.8 -o output_refactored
-```
-
-If the path does not exist in the dataset the tool exits with [code 25](../../exit_codes.md). Use `--no-remote` to disable remote fetching entirely.
-
-Signatures are cached under `~/.js-recon/refactor/signature_cache/` so subsequent runs are fast.
+For the shared mechanics (configuration, cache layout, `--sq`, `--scat`, `--remote-collisions`, cache-control flags), see [Remote signature stripping](./remote-signatures.md).
 
 ## Version detection (`--detect-version`)
 

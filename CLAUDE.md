@@ -23,19 +23,21 @@ docs/
 │   │   ├── report.md             ← HTML report generator   (pos 9)
 │   │   ├── refactor.md           ← Chunk decompiler        (pos 10)
 │   │   ├── refactor/             ← Tech-specific refactor  (pos 11)
-│   │   │   ├── choosing-scat.md
-│   │   │   ├── next-turbopack.md
-│   │   │   ├── next-webpack.md
-│   │   │   ├── react-vite.md
-│   │   │   ├── react-webpack.md
-│   │   │   ├── vue-vite.md
-│   │   │   └── vue-webpack.md
+│   │   │   ├── react-webpack.md      (pos 1)
+│   │   │   ├── react-vite.md         (pos 2)
+│   │   │   ├── next-webpack.md       (pos 3)
+│   │   │   ├── next-turbopack.md     (pos 4)
+│   │   │   ├── vue-webpack.md        (pos 5)
+│   │   │   ├── vue-vite.md           (pos 6)
+│   │   │   ├── choosing-scat.md      (pos 7)
+│   │   │   └── remote-signatures.md  (pos 8)
 │   │   ├── sourcemaps.md         ← Source map extractor    (pos 12)
 │   │   ├── load.md               ← Offline cache import    (pos 13)
 │   │   ├── api-gateway.md        ← IP rotation via AWS     (pos 14)
 │   │   ├── fingerprint.md        ← Framework detector      (pos 15)
 │   │   ├── cs-mast.md            ← Structural signatures   (pos 16)
-│   │   └── mcp.md                ← MCP / Claude shell      (pos 17)
+│   │   ├── mcp.md                ← MCP / Claude shell      (pos 17)
+│   │   └── completion.md         ← Shell completion script (pos 18)
 │   ├── rules/                    ← Rules reference         (category position: 6)
 │   │   ├── README.md             ← Overview                (pos 1)
 │   │   ├── creating_new_rules.md ← Authoring guide         (pos 2)
@@ -45,9 +47,9 @@ docs/
 │   │       └── ast-engine.md     (pos 2)
 │   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 7)
 │   │   ├── next-js.md            (pos 1)
-│   │   ├── svelte-astro.md       (pos 3)
 │   │   ├── using-api-gateway.md  (pos 2)
-│   │   └── vue-js.md             (pos 2)
+│   │   ├── vue-js.md             (pos 3)
+│   │   └── svelte-astro.md       (pos 4)
 │   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 8)
 │   ├── nuclei_templates.mdx      ← Nuclei templates        (sidebar_position: 9)
 │   └── troubleshooting.md        ← Common errors           (sidebar_position: 10)
@@ -87,6 +89,7 @@ top-to-bottom sees the most-used commands first:
 | 15       | `fingerprint`   | Utility: detect the JS framework before running          |
 | 16       | `cs-mast`       | Advanced: structural signature generation and comparison |
 | 17       | `mcp`           | MCP server and Claude Code integration                   |
+| 18       | `completion`    | Utility: generate shell completion scripts                |
 
 ## Sidebar position rules
 
