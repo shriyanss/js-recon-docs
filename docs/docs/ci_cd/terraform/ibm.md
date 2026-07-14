@@ -48,22 +48,22 @@ ibmcloud ce job run --name js-recon --project js-recon
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                             |
-| -------------------------- | -------- | ------------------ | ------------------------------------------------------- |
-| `url`                      | Yes      | —                  | Target URL to scan                                      |
-| `project_name`             | No       | `js-recon`         | Name of the IBM Code Engine project                     |
-| `job_name`                 | No       | `js-recon`         | Name of the Code Engine Job                             |
-| `region`                   | No       | `us-south`         | IBM Cloud region (e.g. `us-south`, `eu-de`)             |
-| `resource_group`           | No       | `default`          | IBM Cloud resource group name                           |
-| `job_cpu`                  | No       | `2`                | CPU units for each job run                              |
-| `job_memory`               | No       | `4G`               | Memory for each job run                                 |
-| `create_cos_bucket`        | No       | `true`             | Whether the module creates a COS bucket for artifacts   |
-| `cos_instance_name`        | No       | _(auto-generated)_ | COS service instance name                               |
-| `cos_bucket_name`          | No       | _(auto-generated)_ | COS bucket name (must be globally unique)               |
-| `cos_bucket_region`        | No       | `us-south`         | COS bucket region                                       |
-| `cos_artifact_prefix`      | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                |
-| `build_timeout`            | No       | `1800`             | Maximum job run duration in **seconds**                 |
-| `tags`                     | No       | `[]`               | Tags applied to IBM Cloud resources                     |
+| Name                  | Required | Default            | Description                                           |
+| --------------------- | -------- | ------------------ | ----------------------------------------------------- |
+| `url`                 | Yes      | —                  | Target URL to scan                                    |
+| `project_name`        | No       | `js-recon`         | Name of the IBM Code Engine project                   |
+| `job_name`            | No       | `js-recon`         | Name of the Code Engine Job                           |
+| `region`              | No       | `us-south`         | IBM Cloud region (e.g. `us-south`, `eu-de`)           |
+| `resource_group`      | No       | `default`          | IBM Cloud resource group name                         |
+| `job_cpu`             | No       | `2`                | CPU units for each job run                            |
+| `job_memory`          | No       | `4G`               | Memory for each job run                               |
+| `create_cos_bucket`   | No       | `true`             | Whether the module creates a COS bucket for artifacts |
+| `cos_instance_name`   | No       | _(auto-generated)_ | COS service instance name                             |
+| `cos_bucket_name`     | No       | _(auto-generated)_ | COS bucket name (must be globally unique)             |
+| `cos_bucket_region`   | No       | `us-south`         | COS bucket region                                     |
+| `cos_artifact_prefix` | No       | `js-recon-output`  | Object key prefix for uploaded artifacts              |
+| `build_timeout`       | No       | `1800`             | Maximum job run duration in **seconds**               |
+| `tags`                | No       | `[]`               | Tags applied to IBM Cloud resources                   |
 
 See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 

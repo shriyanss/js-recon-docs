@@ -45,21 +45,21 @@ terraform apply
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                                 |
-| -------------------------- | -------- | ------------------ | --------------------------------------------------------------------------- |
-| `compartment_id`           | Yes      | —                  | OCID of the OCI compartment                                                 |
-| `region`                   | Yes      | —                  | OCI region (e.g. `us-ashburn-1`, `eu-frankfurt-1`)                          |
-| `url`                      | Yes      | —                  | Target URL to scan                                                          |
-| `display_name`             | No       | `js-recon`         | Display name prefix for all OCI resources                                   |
-| `availability_domain`      | No       | `AD-1`             | Availability domain suffix (e.g. `AD-1`)                                    |
-| `container_cpu`            | No       | `2`                | OCPUs for the Container Instance                                            |
-| `container_memory_gb`      | No       | `4`                | Memory in GB for the Container Instance                                     |
-| `create_bucket`            | No       | `true`             | Whether the module creates an Object Storage bucket for artifacts           |
-| `bucket_name`              | No       | _(auto-generated)_ | Object Storage bucket name                                                  |
-| `bucket_namespace`         | No       | `""`               | OCI Object Storage tenancy namespace (required when `create_bucket = true`) |
-| `bucket_artifact_prefix`   | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                    |
-| `build_timeout`            | No       | `1800`             | Maximum Container Instance run duration in **seconds**                      |
-| `freeform_tags`            | No       | `{}`               | Freeform tags applied to all OCI resources                                  |
+| Name                     | Required | Default            | Description                                                                 |
+| ------------------------ | -------- | ------------------ | --------------------------------------------------------------------------- |
+| `compartment_id`         | Yes      | —                  | OCID of the OCI compartment                                                 |
+| `region`                 | Yes      | —                  | OCI region (e.g. `us-ashburn-1`, `eu-frankfurt-1`)                          |
+| `url`                    | Yes      | —                  | Target URL to scan                                                          |
+| `display_name`           | No       | `js-recon`         | Display name prefix for all OCI resources                                   |
+| `availability_domain`    | No       | `AD-1`             | Availability domain suffix (e.g. `AD-1`)                                    |
+| `container_cpu`          | No       | `2`                | OCPUs for the Container Instance                                            |
+| `container_memory_gb`    | No       | `4`                | Memory in GB for the Container Instance                                     |
+| `create_bucket`          | No       | `true`             | Whether the module creates an Object Storage bucket for artifacts           |
+| `bucket_name`            | No       | _(auto-generated)_ | Object Storage bucket name                                                  |
+| `bucket_namespace`       | No       | `""`               | OCI Object Storage tenancy namespace (required when `create_bucket = true`) |
+| `bucket_artifact_prefix` | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                    |
+| `build_timeout`          | No       | `1800`             | Maximum Container Instance run duration in **seconds**                      |
+| `freeform_tags`          | No       | `{}`               | Freeform tags applied to all OCI resources                                  |
 
 See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 

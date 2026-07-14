@@ -53,16 +53,16 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                             |
-| -------------------------- | -------- | ------------------ | ----------------------------------------------------------------------- |
-| `url`                      | Yes      | —                  | Target URL to scan (external or `http://localhost:PORT`)                |
-| `project_name`             | No       | `js-recon`         | Name prefix for all AWS resources                                       |
-| `create_s3_bucket`         | No       | `true`             | Whether the module creates an S3 bucket for artifacts                   |
-| `s3_bucket_name`           | No       | _(auto-generated)_ | Explicit S3 bucket name                                                 |
-| `s3_artifact_prefix`       | No       | `js-recon-output`  | S3 key prefix for uploaded artifacts                                    |
-| `schedule_expression`      | No       | `""`               | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
-| `build_timeout`            | No       | `30`               | Maximum build duration in **minutes**                                   |
-| `tags`                     | No       | `{}`               | Tags applied to all AWS resources                                       |
+| Name                  | Required | Default            | Description                                                             |
+| --------------------- | -------- | ------------------ | ----------------------------------------------------------------------- |
+| `url`                 | Yes      | —                  | Target URL to scan (external or `http://localhost:PORT`)                |
+| `project_name`        | No       | `js-recon`         | Name prefix for all AWS resources                                       |
+| `create_s3_bucket`    | No       | `true`             | Whether the module creates an S3 bucket for artifacts                   |
+| `s3_bucket_name`      | No       | _(auto-generated)_ | Explicit S3 bucket name                                                 |
+| `s3_artifact_prefix`  | No       | `js-recon-output`  | S3 key prefix for uploaded artifacts                                    |
+| `schedule_expression` | No       | `""`               | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
+| `build_timeout`       | No       | `30`               | Maximum build duration in **minutes**                                   |
+| `tags`                | No       | `{}`               | Tags applied to all AWS resources                                       |
 
 See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 

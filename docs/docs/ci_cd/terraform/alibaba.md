@@ -44,18 +44,18 @@ terraform apply
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                 |
-| -------------------------- | -------- | ------------------ | ----------------------------------------------------------- |
-| `url`                      | Yes      | —                  | Target URL to scan                                          |
-| `region`                   | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`) |
-| `name_prefix`              | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                 |
-| `container_cpu`            | No       | `2`                | CPU units for the ECI container group                       |
-| `container_memory_gb`      | No       | `4`                | Memory in GB for the ECI container group                    |
-| `create_oss_bucket`        | No       | `true`             | Whether the module creates an OSS bucket for artifacts      |
-| `oss_bucket_name`          | No       | _(auto-generated)_ | OSS bucket name (must be globally unique)                   |
-| `oss_artifact_prefix`      | No       | `js-recon-output`  | OSS object key prefix for uploaded artifacts                |
-| `build_timeout`            | No       | `1800`             | Maximum scan duration in **seconds**                        |
-| `tags`                     | No       | `{}`               | Tags applied to all Alibaba Cloud resources                 |
+| Name                  | Required | Default            | Description                                                 |
+| --------------------- | -------- | ------------------ | ----------------------------------------------------------- |
+| `url`                 | Yes      | —                  | Target URL to scan                                          |
+| `region`              | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`) |
+| `name_prefix`         | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                 |
+| `container_cpu`       | No       | `2`                | CPU units for the ECI container group                       |
+| `container_memory_gb` | No       | `4`                | Memory in GB for the ECI container group                    |
+| `create_oss_bucket`   | No       | `true`             | Whether the module creates an OSS bucket for artifacts      |
+| `oss_bucket_name`     | No       | _(auto-generated)_ | OSS bucket name (must be globally unique)                   |
+| `oss_artifact_prefix` | No       | `js-recon-output`  | OSS object key prefix for uploaded artifacts                |
+| `build_timeout`       | No       | `1800`             | Maximum scan duration in **seconds**                        |
+| `tags`                | No       | `{}`               | Tags applied to all Alibaba Cloud resources                 |
 
 See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 

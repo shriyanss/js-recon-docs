@@ -9,12 +9,12 @@ Every per-provider JS Recon Terraform module — [AWS](./aws.md), [GCP](./gcp.md
 ## Common inputs
 
 | Name                       | Required | Default           | Description                                                |
-| -------------------------- | -------- | ------------------ | ----------------------------------------------------------- |
-| `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)     |
-| `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                |
-| `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected     |
-| `vulnerability_severity`   | No       | `high`             | Minimum severity to fail on: `low`, `medium`, or `high`     |
-| `output_dir`               | No       | `js-recon-output`  | Directory to save output files inside the scan environment  |
+| -------------------------- | -------- | ----------------- | ---------------------------------------------------------- |
+| `js_recon_version`         | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)    |
+| `break_on_map_files`       | No       | `true`            | Fail if `.map` source map files are detected               |
+| `break_on_vulnerabilities` | No       | `true`            | Fail if findings at or above the threshold are detected    |
+| `vulnerability_severity`   | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`    |
+| `output_dir`               | No       | `js-recon-output` | Directory to save output files inside the scan environment |
 
 Every provider module also exposes its own required `url` input and a resource-naming/tagging input (named `tags`, `labels`, or `freeform_tags` depending on the platform's native terminology, and typed as a map or list depending on the platform) — see the provider's own Inputs table for those, since the name, type, and default differ by platform.
 
@@ -25,14 +25,14 @@ Every provider module also exposes its own required `url` input and a resource-n
 Every provider module writes the same set of files into `output_dir` and uploads them to the platform's own object storage:
 
 | File                  | Description                               |
-| --------------------- | ------------------------------------------ |
-| `analyze.json`        | All vulnerability findings                 |
-| `mapped.json`         | Parsed bundle structure                    |
-| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format)  |
-| `endpoints.json`      | Client-side routes                         |
-| `strings.json`        | Extracted strings, URLs, and secrets       |
-| `report.html`         | Full HTML report                           |
-| `js-recon.db`         | SQLite database of all findings            |
+| --------------------- | ----------------------------------------- |
+| `analyze.json`        | All vulnerability findings                |
+| `mapped.json`         | Parsed bundle structure                   |
+| `mapped-openapi.json` | Extracted HTTP endpoints (OpenAPI format) |
+| `endpoints.json`      | Client-side routes                        |
+| `strings.json`        | Extracted strings, URLs, and secrets      |
+| `report.html`         | Full HTML report                          |
+| `js-recon.db`         | SQLite database of all findings           |
 
 See the provider's own "Output files" section for the exact upload destination and mechanism (S3, GCS, Azure Blob Storage, Spaces, IBM COS, OCI Object Storage, or Alibaba OSS).
 

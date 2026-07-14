@@ -56,18 +56,18 @@ The job waits up to 120 seconds for the URL to respond before scanning.
 
 ## Inputs
 
-| Name                       | Required | Default            | Description                                                                  |
-| -------------------------- | -------- | ------------------ | ---------------------------------------------------------------------------- |
-| `url`                      | Yes      | —                  | Target URL to scan                                                           |
-| `resource_group_name`      | No       | `js-recon`         | Azure resource group name                                                    |
-| `location`                 | No       | `East US`          | Azure region for all resources                                               |
-| `job_name`                 | No       | `js-recon`         | Name prefix for all Azure resources                                          |
-| `create_storage_account`   | No       | `true`             | Whether the module creates a Storage Account for artifacts                   |
-| `storage_account_name`     | No       | _(auto-generated)_ | Explicit Storage Account name (3-24 lowercase alphanumeric)                  |
-| `storage_container_name`   | No       | `js-recon-output`  | Blob container name for artifacts                                            |
-| `schedule`                 | No       | `""`               | Cron expression for automated scans (e.g. `0 8 * * *`). Empty = manual only. |
-| `build_timeout`            | No       | `30`               | Maximum job duration in **minutes**                                          |
-| `tags`                     | No       | `{}`               | Tags applied to all Azure resources                                          |
+| Name                     | Required | Default            | Description                                                                  |
+| ------------------------ | -------- | ------------------ | ---------------------------------------------------------------------------- |
+| `url`                    | Yes      | —                  | Target URL to scan                                                           |
+| `resource_group_name`    | No       | `js-recon`         | Azure resource group name                                                    |
+| `location`               | No       | `East US`          | Azure region for all resources                                               |
+| `job_name`               | No       | `js-recon`         | Name prefix for all Azure resources                                          |
+| `create_storage_account` | No       | `true`             | Whether the module creates a Storage Account for artifacts                   |
+| `storage_account_name`   | No       | _(auto-generated)_ | Explicit Storage Account name (3-24 lowercase alphanumeric)                  |
+| `storage_container_name` | No       | `js-recon-output`  | Blob container name for artifacts                                            |
+| `schedule`               | No       | `""`               | Cron expression for automated scans (e.g. `0 8 * * *`). Empty = manual only. |
+| `build_timeout`          | No       | `30`               | Maximum job duration in **minutes**                                          |
+| `tags`                   | No       | `{}`               | Tags applied to all Azure resources                                          |
 
 See [Common Reference — Common inputs](./common-reference.md#common-inputs) for `js_recon_version`, `break_on_map_files`, `break_on_vulnerabilities`, `vulnerability_severity`, and `output_dir`.
 
