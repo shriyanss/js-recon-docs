@@ -2,11 +2,11 @@
 
 ## Reporting Bugs
 
-If you find an issue with the tool, please create a new issue on GitHub [here](https://github.com/shriyanss/js-recon/issues/new?template=bug_report.md).
+If you find an issue with the tool, please create a new issue on GitHub [here](https://github.com/js-recon/js-recon/issues/new?template=bug_report.md).
 
 ## Requesting new support for new technologies
 
-If the tool doesn't support a framework and you want the tool to support it, please create a new issue on GitHub [here](https://github.com/shriyanss/js-recon/issues/new?template=new_tech_support_request.md).
+If the tool doesn't support a framework and you want the tool to support it, please create a new issue on GitHub [here](https://github.com/js-recon/js-recon/issues/new?template=new_tech_support_request.md).
 
 ## Contributing to the codebase
 
@@ -15,7 +15,7 @@ If the tool doesn't support a framework and you want the tool to support it, ple
 First of all, clone the repository:
 
 ```bash
-git clone https://github.com/shriyanss/js-recon.git
+git clone https://github.com/js-recon/js-recon.git
 cd js-recon
 npm install
 ```
@@ -32,9 +32,9 @@ npm run start # run the tool in production mode
 npm run cleanup # remove all the output files of tool and build the tool again
 ```
 
-All the code for this tool is written in TypeScript, and is under the [`src/`](https://github.com/shriyanss/js-recon/tree/main/src) directory. The file `index.ts` is the entry point of the tool. It contains all the CLI arguments for the tool, and executes the responsible functions.
+All the code for this tool is written in TypeScript, and is under the [`src/`](https://github.com/js-recon/js-recon/tree/main/src) directory. The file `index.ts` is the entry point of the tool. It contains all the CLI arguments for the tool, and executes the responsible functions.
 
-The code for the modules is stored in directories inside the [`src/`](https://github.com/shriyanss/js-recon/tree/main/src) directory, except for the [`utility`](https://github.com/shriyanss/js-recon/tree/main/src/utility) directory.
+The code for the modules is stored in directories inside the [`src/`](https://github.com/js-recon/js-recon/tree/main/src) directory, except for the [`utility`](https://github.com/js-recon/js-recon/tree/main/src/utility) directory.
 
 The directories for the modules contain a file `index.ts`, which is the entry point for the module.
 
@@ -68,4 +68,4 @@ git push origin <your-feature-name>
 
 8. The changes will be available in the next release of the tool.
 
-9. If you want to contribute to the docs, please create a new pull request on GitHub [here](https://github.com/shriyanss/js-recon-docs/pulls/).
+9. If you want to contribute to the docs, please create a new pull request on GitHub [here](https://github.com/js-recon/js-recon-docs/pulls/).

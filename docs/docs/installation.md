@@ -32,7 +32,7 @@ If you install via Homebrew, Node.js is installed automatically as a dependency 
 ### Homebrew (macOS and Linux)
 
 ```bash
-brew tap shriyanss/tap
+brew tap js-recon/tap
 brew install js-recon
 ```
 
@@ -40,8 +40,8 @@ This always installs the latest **stable** release. For the latest alpha or
 beta prerelease instead:
 
 ```bash
-brew install shriyanss/tap/js-recon-alpha
-brew install shriyanss/tap/js-recon-beta
+brew install js-recon/tap/js-recon-alpha
+brew install js-recon/tap/js-recon-beta
 ```
 
 To update:
@@ -61,7 +61,7 @@ Subcommands that work without a browser: `strings`, `map`, `analyze`, `report`, 
 Install the command-line tool globally using NPM:
 
 ```bash
-npm i -g @shriyanss/js-recon@latest
+npm i -g @js-recon/js-recon@latest
 ```
 
 :::tip
@@ -70,13 +70,13 @@ You can try the `alpha` and `beta` builds as well. They are updated more often t
 To download the `alpha` build, use the following command:
 
 ```bash
-npm i -g @shriyanss/js-recon@alpha
+npm i -g @js-recon/js-recon@alpha
 ```
 
 To download the `beta` build, use the following command:
 
 ```bash
-npm i -g @shriyanss/js-recon@beta
+npm i -g @js-recon/js-recon@beta
 ```
 
 :::

@@ -12,7 +12,7 @@ Provision an OCI Container Instance that runs JS Recon against any URL. Upload r
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/oci"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/oci"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision an OCI Container Instance that runs JS Recon against any URL. Upload r
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/oci"
+  source  = "js-recon/js-recon/oci"
   version = "~> 1.0"
 
   compartment_id   = var.compartment_id
@@ -92,7 +92,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/oci"
+  source = "js-recon/js-recon/oci"
   # required inputs...
 
   break_on_map_files = true # default
@@ -103,7 +103,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/oci"
+  source = "js-recon/js-recon/oci"
   # required inputs...
 
   break_on_vulnerabilities = true
@@ -144,7 +144,7 @@ oci container-instances container-instance restart \
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/oci"
+  source = "js-recon/js-recon/oci"
   # required inputs...
 
   js_recon_version = "1.3.1"

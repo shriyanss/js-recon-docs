@@ -12,7 +12,7 @@ Provision an Alibaba Cloud ECI container group that runs JS Recon against any UR
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/alibaba"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/alibaba"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision an Alibaba Cloud ECI container group that runs JS Recon against any UR
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/alibaba"
+  source  = "js-recon/js-recon/alibaba"
   version = "~> 1.0"
 
   url    = "https://example.com"
@@ -88,7 +88,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/alibaba"
+  source = "js-recon/js-recon/alibaba"
   url    = "https://example.com"
   region = "ap-southeast-1"
 
@@ -100,7 +100,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/alibaba"
+  source = "js-recon/js-recon/alibaba"
   url    = "https://example.com"
   region = "ap-southeast-1"
 
@@ -137,7 +137,7 @@ aliyun eci RestartContainerGroup \
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/alibaba"
+  source = "js-recon/js-recon/alibaba"
   url    = "https://example.com"
   region = "ap-southeast-1"
 

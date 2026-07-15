@@ -160,11 +160,11 @@ export default function Labs(): ReactNode {
                         The repository for the labs mentioned in the video
                         walkthroughs can be found at{" "}
                         <a
-                            href="https://github.com/shriyanss/js-recon-labs"
+                            href="https://github.com/js-recon/js-recon-labs"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            github.com/shriyanss/js-recon-labs
+                            github.com/js-recon/js-recon-labs
                         </a>
                         .
                     </p>

@@ -12,7 +12,7 @@ Provision a GCP Cloud Build trigger that runs JS Recon against any URL. Upload r
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/gcp"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/gcp"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision a GCP Cloud Build trigger that runs JS Recon against any URL. Upload r
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/gcp"
+  source  = "js-recon/js-recon/gcp"
   version = "~> 1.0"
 
   project = "my-gcp-project"
@@ -102,7 +102,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/gcp"
+  source  = "js-recon/js-recon/gcp"
   project = "my-gcp-project"
   url     = "https://example.com"
 
@@ -114,7 +114,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/gcp"
+  source  = "js-recon/js-recon/gcp"
   project = "my-gcp-project"
   url     = "https://example.com"
 
@@ -129,7 +129,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/gcp"
+  source  = "js-recon/js-recon/gcp"
   project = "my-gcp-project"
   url     = "https://example.com"
 
@@ -162,7 +162,7 @@ gcloud builds triggers run js-recon \
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/gcp"
+  source  = "js-recon/js-recon/gcp"
   project = "my-gcp-project"
   url     = "https://example.com"
 

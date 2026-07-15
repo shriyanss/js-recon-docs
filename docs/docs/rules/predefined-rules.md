@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Predefined rules
 
-The [`js-recon-rules`](https://github.com/shriyanss/js-recon-rules) repository ships with a curated set of rules that the [`analyze`](../modules/analyze.md) module evaluates against every chunk in `mapped.json` and every operation in the generated OpenAPI spec. The rules below are downloaded automatically the first time you run `js-recon analyze` (or any flow that depends on it, such as [`run`](../modules/run.md)) and are stored in `$HOME/.js-recon/rules`.
+The [`js-recon-rules`](https://github.com/js-recon/js-recon-rules) repository ships with a curated set of rules that the [`analyze`](../modules/analyze.md) module evaluates against every chunk in `mapped.json` and every operation in the generated OpenAPI spec. The rules below are downloaded automatically the first time you run `js-recon analyze` (or any flow that depends on it, such as [`run`](../modules/run.md)) and are stored in `$HOME/.js-recon/rules`.
 
 Each rule documents:
 

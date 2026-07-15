@@ -12,7 +12,7 @@ Provision a DigitalOcean Droplet that runs JS Recon against any URL. Upload resu
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/digitalocean"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/digitalocean"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision a DigitalOcean Droplet that runs JS Recon against any URL. Upload resu
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/digitalocean"
+  source  = "js-recon/js-recon/digitalocean"
   version = "~> 1.0"
 
   url               = "https://example.com"
@@ -99,7 +99,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/digitalocean"
+  source = "js-recon/js-recon/digitalocean"
   url    = "https://example.com"
 
   break_on_map_files = true # default
@@ -110,7 +110,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/digitalocean"
+  source = "js-recon/js-recon/digitalocean"
   url    = "https://example.com"
 
   break_on_vulnerabilities = true
@@ -124,7 +124,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/digitalocean"
+  source = "js-recon/js-recon/digitalocean"
   url    = "https://example.com"
 
   schedule = "0 8 * * *"
@@ -162,7 +162,7 @@ export TF_VAR_spaces_secret_key="..."
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/digitalocean"
+  source = "js-recon/js-recon/digitalocean"
   url    = "https://example.com"
 
   js_recon_version = "1.3.1"

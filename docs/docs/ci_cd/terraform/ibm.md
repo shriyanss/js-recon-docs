@@ -12,7 +12,7 @@ Provision an IBM Code Engine Job that runs JS Recon against any URL. Upload resu
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/ibm"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/ibm"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision an IBM Code Engine Job that runs JS Recon against any URL. Upload resu
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/ibm"
+  source  = "js-recon/js-recon/ibm"
   version = "~> 1.0"
 
   url = "https://example.com"
@@ -96,7 +96,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/ibm"
+  source = "js-recon/js-recon/ibm"
   url    = "https://example.com"
 
   break_on_map_files = true # default
@@ -107,7 +107,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/ibm"
+  source = "js-recon/js-recon/ibm"
   url    = "https://example.com"
 
   break_on_vulnerabilities = true
@@ -151,7 +151,7 @@ ibmcloud ce job run \
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/ibm"
+  source = "js-recon/js-recon/ibm"
   url    = "https://example.com"
 
   js_recon_version = "1.3.1"

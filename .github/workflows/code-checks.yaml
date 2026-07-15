@@ -14,7 +14,7 @@ jobs:
       - name: Check version
         run: |
           echo "[i] Getting versions from the main repo"
-          GH_VERSIONS=$(git ls-remote --tags https://github.com/shriyanss/js-recon.git \
+          GH_VERSIONS=$(git ls-remote --tags https://github.com/js-recon/js-recon.git \
             | awk '{print $2}' \
             | grep -v '\^{}' \
             | sed 's|refs/tags/v||')
@@ -41,7 +41,7 @@ jobs:
       - name: Check latest stable version
         run: |
           echo "[i] Getting latest stable version from the main repo"
-          LATEST_VERSION_GH=$(curl -s https://api.github.com/repos/shriyanss/js-recon/releases/latest | jq '.name' -r)
+          LATEST_VERSION_GH=$(curl -s https://api.github.com/repos/js-recon/js-recon/releases/latest | jq '.name' -r)
           
           # get the latest version from the docusaurus.config.ts
           # the var name is `lastVersion: "1.1.1",`

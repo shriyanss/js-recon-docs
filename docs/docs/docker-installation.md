@@ -14,16 +14,10 @@ The image is only available for `amd64` architecture. For users running `arm64` 
 
 ## Installation
 
-You can get started with just pulling the image:
+You can get started with just pulling the image from the GitHub Container Registry:
 
 ```bash
-docker pull docker.io/shriyanss/js-recon:latest
-```
-
-Or, if you prefer GitHub Container Registry, you can use the following command:
-
-```bash
-docker pull ghcr.io/shriyanss/js-recon:latest
+docker pull ghcr.io/js-recon/js-recon:latest
 ```
 
 This will pull the image on your local machine.
@@ -34,21 +28,13 @@ You can try the `alpha` and `beta` builds as well. They are updated more often t
 To download the `alpha` build, use the following command:
 
 ```bash
-docker pull docker.io/shriyanss/js-recon:alpha
-```
-
-```bash
-docker pull ghcr.io/shriyanss/js-recon:alpha
+docker pull ghcr.io/js-recon/js-recon:alpha
 ```
 
 To download the `beta` build, use the following command:
 
 ```bash
-docker pull docker.io/shriyanss/js-recon:beta
-```
-
-```bash
-docker pull ghcr.io/shriyanss/js-recon:beta
+docker pull ghcr.io/js-recon/js-recon:beta
 ```
 
 :::
@@ -58,13 +44,13 @@ docker pull ghcr.io/shriyanss/js-recon:beta
 You can run JS Recon using the following command:
 
 ```bash
-docker run -it shriyanss/js-recon <js_recon_arguments>
+docker run -it ghcr.io/js-recon/js-recon <js_recon_arguments>
 ```
 
 For example, to run the [`lazyload` module](./modules/lazyload.md), you can use the following command:
 
 ```bash
-docker run -it shriyanss/js-recon lazyload -u https://app.example.com
+docker run -it ghcr.io/js-recon/js-recon lazyload -u https://app.example.com
 ```
 
 The results will be stored in the `/home/pptruser` directory inside the container. You should copy it before deleting the container.

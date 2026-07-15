@@ -17,7 +17,7 @@ Welcome to the official documentation for `js-recon`, a powerful tool for JavaSc
 - **[Map](./modules/map.md):** Map and analyze functions within JavaScript files. For Next.js, an [interactive mode](./modules/interactive_mode/next-js.md) is also available.
 - **[Run](./modules/run.md):** Run essential modules automatically.
 - **[Report](./modules/report.md):** Generate an HTML report of the reconnaissance results.
-- **[Analyze](./modules/analyze.md):** Analyze the JS files using the [js-recon-rules](https://github.com/shriyanss/js-recon-rules).
+- **[Analyze](./modules/analyze.md):** Analyze the JS files using the [js-recon-rules](https://github.com/js-recon/js-recon-rules).
 - **[Refactor](./modules/refactor.md):** Refactor the JS Chunks into separate files.
 - **[Load](./modules/load.md):** Populate the response cache from a Caido export so later runs can be executed offline with `--cache-only`.
 - **[Sourcemaps](./modules/sourcemaps.md):** Extract embedded sourcemaps from downloaded JavaScript files.

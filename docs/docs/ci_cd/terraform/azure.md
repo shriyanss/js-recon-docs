@@ -12,7 +12,7 @@ Provision an Azure Container App Job that runs JS Recon against any URL. Upload 
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/azure"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/azure"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision an Azure Container App Job that runs JS Recon against any URL. Upload 
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/azure"
+  source  = "js-recon/js-recon/azure"
   version = "~> 1.0"
 
   url = "https://example.com"
@@ -100,7 +100,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/azure"
+  source = "js-recon/js-recon/azure"
   url    = "https://example.com"
 
   break_on_map_files = true # default
@@ -111,7 +111,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/azure"
+  source = "js-recon/js-recon/azure"
   url    = "https://example.com"
 
   break_on_vulnerabilities = true
@@ -125,7 +125,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/azure"
+  source = "js-recon/js-recon/azure"
   url    = "https://example.com"
 
   schedule = "0 8 * * *"
@@ -155,7 +155,7 @@ az containerapp job start \
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/azure"
+  source = "js-recon/js-recon/azure"
   url    = "https://example.com"
 
   js_recon_version = "1.3.1-beta.1"

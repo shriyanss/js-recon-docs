@@ -12,7 +12,7 @@ Provision an AWS CodeBuild project that runs JS Recon against any URL. Surface e
 
 <Link
     className="button button--primary button--lg"
-    to="https://registry.terraform.io/modules/shriyanss/js-recon/aws"
+    to="https://registry.terraform.io/modules/js-recon/js-recon/aws"
 >
     View on Terraform Registry →
 </Link>
@@ -24,7 +24,7 @@ Provision an AWS CodeBuild project that runs JS Recon against any URL. Surface e
 
 ```hcl
 module "js_recon" {
-  source  = "shriyanss/js-recon/aws"
+  source  = "js-recon/js-recon/aws"
   version = "~> 1.0"
 
   url = "https://example.com"
@@ -88,7 +88,7 @@ See [Common Reference — Break conditions](./common-reference.md#break-conditio
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/aws"
+  source = "js-recon/js-recon/aws"
 
   url                = "https://example.com"
   break_on_map_files = true # default
@@ -99,7 +99,7 @@ module "js_recon" {
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/aws"
+  source = "js-recon/js-recon/aws"
 
   url                      = "https://example.com"
   break_on_vulnerabilities = true
@@ -113,7 +113,7 @@ Run JS Recon automatically on a CloudWatch Events schedule:
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/aws"
+  source = "js-recon/js-recon/aws"
 
   url                 = "https://example.com"
   schedule_expression = "rate(1 day)"
@@ -138,7 +138,7 @@ aws codebuild start-build \
 
 ```hcl
 module "js_recon" {
-  source = "shriyanss/js-recon/aws"
+  source = "js-recon/js-recon/aws"
 
   url              = "https://example.com"
   js_recon_version = "1.3.1"

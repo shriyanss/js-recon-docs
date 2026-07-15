@@ -60,14 +60,14 @@ const LOGOS: Logo[] = [
         key: "npm",
         label: "npm",
         brandColor: "#CB3837",
-        href: "https://www.npmjs.com/package/@shriyanss/js-recon",
+        href: "https://www.npmjs.com/package/@js-recon/js-recon",
         svgContent: <path d={NPM_PATH} />,
     },
     {
         key: "docker-hub",
         label: "Docker Hub",
         brandColor: "#2496ED",
-        href: "https://hub.docker.com/r/shriyanss/js-recon",
+        href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
         svgContent: <path d={DOCKER_PATH} />,
     },
     {
@@ -75,14 +75,14 @@ const LOGOS: Logo[] = [
         label: "GHCR",
         // GitHub brand is #181717 (near-black) — invert to white on dark bg
         brandColor: "var(--h-text)",
-        href: "https://github.com/shriyanss/js-recon/pkgs/container/js-recon",
+        href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
         svgContent: <path d={GITHUB_PATH} />,
     },
     {
         key: "homebrew",
         label: "Homebrew",
         brandColor: "#FBB040",
-        href: "https://github.com/shriyanss/homebrew-tap",
+        href: "https://github.com/js-recon/homebrew-tap",
         svgContent: <path d={HOMEBREW_PATH} />,
     },
     {
@@ -117,14 +117,14 @@ const LOGOS: Logo[] = [
         key: "terraform",
         label: "Terraform",
         brandColor: "#844FBA",
-        href: "https://registry.terraform.io/modules/shriyanss/js-recon",
+        href: "https://registry.terraform.io/modules/js-recon/js-recon",
         svgContent: <path d={TERRAFORM_PATH} />,
     },
     {
         key: "google-cloud",
         label: "Google Cloud",
         brandColor: "#4285F4",
-        href: "https://console.cloud.google.com/marketplace/product/shriyanss/js-recon",
+        href: "https://console.cloud.google.com/marketplace/product/js-recon/js-recon",
         svgContent: <path d={GOOGLE_CLOUD_PATH} />,
     },
     {
