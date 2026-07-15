@@ -45,7 +45,7 @@ const config: Config = {
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
                     editUrl:
-                        "https://github.com/shriyanss/js-recon-docs/edit/main/",
+                        "https://github.com/js-recon/js-recon-docs/edit/main/",
 
                     lastVersion: "1.3.1",
                 },
@@ -113,19 +113,19 @@ const config: Config = {
                     items: [
                         {
                             label: "GitHub",
-                            href: "https://github.com/shriyanss/js-recon",
+                            href: "https://github.com/js-recon/js-recon",
                         },
                         {
                             label: "npm",
-                            href: "https://www.npmjs.com/package/@shriyanss/js-recon",
+                            href: "https://www.npmjs.com/package/@js-recon/js-recon",
                         },
                         {
                             label: "Docker Hub",
-                            href: "https://hub.docker.com/r/shriyanss/js-recon",
+                            href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
                         },
                         {
                             label: "GitHub Container Registry",
-                            href: "https://github.com/shriyanss/js-recon/pkgs/container/js-recon",
+                            href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
                         },
                     ],
                 },
@@ -159,7 +159,7 @@ const config: Config = {
                         },
                         {
                             label: "This site is open source",
-                            href: "https://github.com/shriyanss/js-recon-docs",
+                            href: "https://github.com/js-recon/js-recon-docs",
                         },
                     ],
                 },

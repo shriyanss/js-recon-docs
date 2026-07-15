@@ -211,7 +211,7 @@ const INTEGRATIONS: Integration[] = [
         category: "Local",
         label: "npm CLI",
         tagline: "Global install for local recon",
-        href: "https://www.npmjs.com/package/@shriyanss/js-recon",
+        href: "https://www.npmjs.com/package/@js-recon/js-recon",
         accent: "var(--h-accent)",
         cmdAccent: CYAN,
         icon: (
@@ -233,14 +233,14 @@ const INTEGRATIONS: Integration[] = [
         ),
         prompt: "$",
         cmdPlain: "npm i -g ",
-        cmdHi: "@shriyanss/js-recon",
-        copy: "npm i -g @shriyanss/js-recon",
+        cmdHi: "@js-recon/js-recon",
+        copy: "npm i -g @js-recon/js-recon",
     },
     {
         category: "Local",
         label: "Homebrew",
         tagline: "macOS & Linux via the tap",
-        href: "https://github.com/shriyanss/homebrew-tap",
+        href: "https://github.com/js-recon/homebrew-tap",
         accent: "var(--h-accent)",
         cmdAccent: CYAN,
         icon: (
@@ -260,7 +260,7 @@ const INTEGRATIONS: Integration[] = [
         category: "Containers",
         label: "Docker Hub",
         tagline: "Zero-dependency container",
-        href: "https://hub.docker.com/r/shriyanss/js-recon",
+        href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
         accent: "var(--h-amber)",
         cmdAccent: AMBER,
         icon: (
@@ -283,14 +283,14 @@ const INTEGRATIONS: Integration[] = [
         ),
         prompt: "$",
         cmdPlain: "docker pull ",
-        cmdHi: "shriyanss/js-recon",
-        copy: "docker pull shriyanss/js-recon",
+        cmdHi: "js-recon/js-recon",
+        copy: "docker pull js-recon/js-recon",
     },
     {
         category: "Containers",
         label: "GHCR",
         tagline: "Same image, mirrored on GitHub",
-        href: "https://github.com/shriyanss/js-recon/pkgs/container/js-recon",
+        href: "https://github.com/js-recon/js-recon/pkgs/container/js-recon",
         accent: "var(--h-amber)",
         cmdAccent: AMBER,
         icon: (
@@ -303,8 +303,8 @@ const INTEGRATIONS: Integration[] = [
         ),
         prompt: "$",
         cmdPlain: "docker pull ",
-        cmdHi: "ghcr.io/shriyanss/js-recon",
-        copy: "docker pull ghcr.io/shriyanss/js-recon",
+        cmdHi: "ghcr.io/js-recon/js-recon",
+        copy: "docker pull ghcr.io/js-recon/js-recon",
     },
     {
         category: "CI / CD",
@@ -320,8 +320,8 @@ const INTEGRATIONS: Integration[] = [
             <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1.1 2 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.7 5.6-5.4 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" />
         ),
         cmdPlain: "uses: ",
-        cmdHi: "shriyanss/js-recon-action@v1",
-        copy: "uses: shriyanss/js-recon-action@v1",
+        cmdHi: "js-recon/js-recon-action@v1",
+        copy: "uses: js-recon/js-recon-action@v1",
     },
     {
         category: "CI / CD",
@@ -347,7 +347,7 @@ const INTEGRATIONS: Integration[] = [
         category: "Infra & agents",
         label: "Terraform",
         tagline: "Run on AWS, Azure, GCP & other cloud providers",
-        href: "https://registry.terraform.io/modules/shriyanss/js-recon",
+        href: "https://registry.terraform.io/modules/js-recon/js-recon",
         accent: PURPLE,
         cmdAccent: AMBER,
         icon: (
@@ -777,7 +777,7 @@ export default function Home(): ReactNode {
                                     Get Started
                                 </Link>
                                 <a
-                                    href="https://github.com/shriyanss/js-recon"
+                                    href="https://github.com/js-recon/js-recon"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
@@ -1188,7 +1188,7 @@ export default function Home(): ReactNode {
                     }}
                 >
                     <span style={{ color: "var(--h-term-muted)" }}>$</span> npm
-                    i -g @shriyanss/js-recon{"  "}
+                    i -g @js-recon/js-recon{"  "}
                     <span style={{ color: "var(--h-green)" }}>
                         ✓ js-recon@{VERSION} installed
                     </span>
