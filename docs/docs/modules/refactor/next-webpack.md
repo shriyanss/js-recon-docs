@@ -42,6 +42,20 @@ Module arity varies:
 | 1      | ~2%       | Module only (CJS-only modules)                   |
 | 0      | ~2%       | Empty modules — skipped                          |
 
+## Wrapper form varies by webpack/SWC version
+
+The module wrapper shown above is the arrow-function form. A second, equally common form appears when the original bundle module was itself a `function` expression rather than an arrow function — the `map` step synthesizes it as a named function declaration:
+
+```
+function webpack_3899 (e, t, r) {
+  "use strict";
+  r.d(t, { foo: () => bar });
+  var bar = 42;
+}
+```
+
+Both forms are recognized and refactored identically; the wrapper form has no effect on the output. Which form a bundle uses depends on the webpack/SWC configuration that produced it, not on the module's content.
+
 ## Transform passes
 
 ### Pass 1 — export collection and boilerplate removal
