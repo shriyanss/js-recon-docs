@@ -64,6 +64,7 @@ brew untap shriyanss/tap
 brew tap js-recon/tap
 brew install js-recon/tap/js-recon
 ```
+
 :::
 
 :::note
