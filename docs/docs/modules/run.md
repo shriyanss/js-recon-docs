@@ -134,6 +134,36 @@ When detection fails or the framework has no bucket data, `run` prints a yellow 
 
 Pass `--cs-mast-tech-detect-threshold 0` to skip bundler detection and the refactor step entirely.
 
+## Global database (batch mode)
+
+When `-u` points to a file of URLs, each domain still gets its own `<output>/<host>/js-recon.db` exactly as before. In addition, `run` now maintains one combined database at the root of the output directory:
+
+```
+output/
+  domain1.com/js-recon.db
+  domain2.com/js-recon.db
+  js-recon.db   <- combined database for the whole batch
+```
+
+This lets you query findings, endpoints, and mapped chunks across every target in the batch without opening each per-domain database individually.
+
+### Schema
+
+The global database reuses the same four tables as the per-domain database (`mapped`, `mapped_openapi`, `endpoints`, `analysis_findings`), with two differences:
+
+- Every table gains a **`domain`** column — the sanitized host used for that target's output directory (for example `example.com` or `example.com_8443` when a non-default port is in the URL). This doubles as a foreign key back to the corresponding `<output>/<domain>/` directory.
+- Primary keys that were only unique within a single domain are widened so rows from different domains never collide or overwrite each other:
+    - `mapped` gets a new autoincrement `globalId` primary key (the original per-bundle chunk `id` is kept as a plain column, since chunk IDs reset for every domain and aren't unique across a batch).
+    - `mapped_openapi`'s primary key becomes `(domain, path, method)`.
+    - `endpoints`'s primary key becomes `(domain, url)`.
+    - `analysis_findings` gains an autoincrement `globalId` primary key.
+
+### Behavior
+
+- The global database is created once at the start of a batch run and updated after each target finishes its own `report` step — it accumulates across the whole batch rather than being replaced.
+- If a target's pipeline stops before the `report` step (for example, an unsupported framework), that domain has no `js-recon.db` to merge and is skipped with a warning; the rest of the batch continues normally.
+- This behavior is automatic in batch mode and requires no extra flags. Single-URL mode (`-u <url>`) is unaffected — there's only one domain, so no global database is created.
+
 ## Example
 
 ### Run all modules on target, scan for secrets, and generate AI descriptions
