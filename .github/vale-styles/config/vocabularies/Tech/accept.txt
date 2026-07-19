@@ -69,3 +69,5 @@ repo
 [Ii]nterop
 basenames?
 [Ss]caffolding?
+[Nn]ullable
+[Uu]pserted

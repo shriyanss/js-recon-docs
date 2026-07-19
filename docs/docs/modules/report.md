@@ -43,3 +43,71 @@ js-recon report -a ./analyze.json
 ```bash
 js-recon report -m mapped.json -a analyze.json -e endpoints.json --map-openapi mapped-openapi.json
 ```
+
+## Database schema (`js-recon.db`)
+
+Alongside `report.html`, the `report` command populates a SQLite database (`js-recon.db` by default, or the path given to `--sqlite-db`) using [better-sqlite3](https://github.com/WiseLibs/better-sqlite3). There is no ORM and no migration system — the schema is created with `CREATE TABLE IF NOT EXISTS` on every run, and each table is fully rebuilt (with one exception, noted below) from whichever input JSON files were passed to `report`. Tables for inputs that weren't supplied are simply left empty.
+
+The database has four tables:
+
+### `mapped`
+
+Populated from `mapped.json` (one row per function/chunk resolved by the `map` command).
+
+| Column          | Type    | Notes                                                          |
+| --------------- | ------- | --------------------------------------------------------------- |
+| `id`            | TEXT    | Primary key.                                                   |
+| `description`   | TEXT    |                                                                 |
+| `loadedOn`      | TEXT    | JSON-encoded array.                                            |
+| `containsFetch` | BOOLEAN | Stored as SQLite `0`/`1`.                                       |
+| `isAxiosClient` | BOOLEAN | Stored as SQLite `0`/`1`.                                       |
+| `exports`       | TEXT    | JSON-encoded array.                                             |
+| `callStack`     | TEXT    | JSON-encoded array.                                             |
+| `code`          | TEXT    | Source code of the function/chunk.                             |
+| `imports`       | TEXT    | JSON-encoded array.                                             |
+| `file`          | TEXT    | Path of the file the entry was extracted from.                  |
+
+Rows are cleared (`DELETE FROM mapped`) before each run's insert.
+
+### `mapped_openapi`
+
+Populated from `mapped-openapi.json` (one row per path + method combination).
+
+| Column        | Type | Notes                                              |
+| ------------- | ---- | --------------------------------------------------- |
+| `path`        | TEXT | Part of the composite primary key.                  |
+| `method`      | TEXT | Part of the composite primary key.                  |
+| `summary`     | TEXT | Nullable.                                           |
+| `parameters`  | TEXT | JSON-encoded, nullable.                             |
+| `requestBody` | TEXT | JSON-encoded, nullable.                              |
+| `tags`        | TEXT | JSON-encoded, nullable.                              |
+
+Primary key: `(path, method)`. Unlike the other three tables, rows here are **upserted** (`INSERT OR REPLACE`) rather than cleared first — a prior run's rows for paths/methods no longer present in the current `mapped-openapi.json` are not removed.
+
+### `endpoints`
+
+Populated from `endpoints.json` (client-side route tree extracted by the `endpoints` command, flattened to full URLs).
+
+| Column | Type | Notes         |
+| ------ | ---- | ------------- |
+| `url`  | TEXT | Primary key.  |
+
+Rows are cleared (`DELETE FROM endpoints`) before each run's insert; duplicate URLs are ignored (`INSERT OR IGNORE`).
+
+### `analysis_findings`
+
+Populated from `analyze.json` (one row per rule finding produced by the `analyze` command).
+
+| Column            | Type | Notes                                                        |
+| ----------------- | ---- | ------------------------------------------------------------- |
+| `ruleId`          | TEXT |                                                                 |
+| `ruleName`        | TEXT |                                                                 |
+| `ruleType`        | TEXT |                                                                 |
+| `ruleDescription` | TEXT |                                                                 |
+| `ruleAuthor`      | TEXT |                                                                 |
+| `ruleTech`        | TEXT | Comma-joined if the rule targets multiple technologies.        |
+| `severity`        | TEXT |                                                                 |
+| `message`         | TEXT |                                                                 |
+| `findingLocation` | TEXT |                                                                 |
+
+No primary key or other constraints. Rows are cleared (`DELETE FROM analysis_findings`) before each run's insert.
