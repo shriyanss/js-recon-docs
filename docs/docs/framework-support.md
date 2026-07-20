@@ -17,7 +17,7 @@ The feature to download all lazy-loaded (dynamically loaded) JavaScript files is
 - [Vue.js](https://vuejs.org)
 - [React](https://react.dev)
 
-For all other apps, the tool downloads the JavaScript files that will be loaded on the initial webpage.
+For all other apps, the tool falls back to a generic extraction pass: it downloads JS referenced by `<script>`/`<link rel="modulepreload">` tags on the initial page, plus any other URL on the page whose path contains a `.js`-suffixed segment and whose response `Content-Type` confirms it as JavaScript (see [Lazyload command](./modules/lazyload.md#generic-extraction-no-framework-detected)).
 
 ## API gateway
 

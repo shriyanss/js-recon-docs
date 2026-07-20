@@ -56,7 +56,7 @@ Before downloading any files, the tool auto-detects which JavaScript framework t
 4. **Svelte** — SvelteKit-specific attribute markers or `__svelte_*` in bundled code
 5. **Angular** — `ng-*` attributes or Angular-specific markers in bundled code
 6. **React** — markers such as `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`, `__REACT_DEVTOOLS_GLOBAL_HOOK__`, `react-jsx-runtime.production`, or `react-dom.production` in inline scripts or fetched assets
-7. **Fallback** — if nothing matches, only the JS files present in the initial page load are downloaded
+7. **Generic fallback** — if nothing matches, the tool runs the generic extraction pipeline described below instead of aborting
 
 Detection uses two sources: the raw HTTP response (fast) and a Puppeteer-rendered page (catches client-side-only markers, after a 2-second settle delay). In `--cache-only` mode, the browser step is skipped.
 
@@ -108,6 +108,16 @@ SvelteKit's chunk discovery depends on the build adapter.
 
 **Detection signal:** All three adapters are detected via the `_app/immutable/` path prefix on JS or CSS links in the HTML response.
 
+### Generic extraction (no framework detected)
+
+When none of the supported frameworks are detected, the tool no longer stops at the initial page load. It runs a generic extraction pass instead:
+
+- `<script src>` tags, inline `<script>` bodies, and `<link rel="modulepreload">` hrefs are collected the same way the framework crawlers collect them.
+- Every HTML attribute value on the page is additionally resolved with the `URL` constructor. If the resulting URL has a path segment ending in `.js` — even if that segment isn't the last part of the path (for example `/beacon.min.js/v124/token`, a common shape for analytics/tag-manager scripts served with a cache-busting suffix) — the tool requests it and checks the response `Content-Type` header rather than trusting the URL shape alone. Accepted types are `text/javascript` (the current type per [RFC 9239](https://datatracker.ietf.org/doc/html/rfc9239)), plus [RFC 4329](https://datatracker.ietf.org/doc/html/rfc4329)'s now-obsoleted `application/javascript` / `application/ecmascript` and a few other legacy variants still seen in the wild.
+- Files whose URL doesn't end in a clean `.js`/`.mjs` filename are still saved with a `.js` extension (derived from the matching path segment plus a short hash) so downstream steps like `strings` pick them up correctly.
+
+`run` only downloads JS files for this fallback — it does not attempt `map`/`analyze`/`report` against generic output, since those steps depend on framework-specific bundle structure.
+
 ### `--yes` flag and JS execution
 
 The webpack chunk-enumeration technique extracts a function from the webpack runtime and executes it locally in a Node.js sandbox with each discovered integer chunk ID as input. Before executing, the tool prompts you to inspect the extracted function and confirm. Pass `--yes` to skip the prompt — useful in automated pipelines, but verify you trust the target's JS first.
@@ -134,6 +144,8 @@ Each framework is added to the tool after thorough research on the framework. Ne
 - Svelte
 
 Please note that some frameworks are supported better than others. Currently, the frameworks with the most supported techniques are Next.js and Vue.
+
+Sites running none of the above still get JS extraction through the generic fallback described above, but `run` only downloads their JS files — it does not run `map`/`analyze`/`report` for them.
 
 ## Examples
 
