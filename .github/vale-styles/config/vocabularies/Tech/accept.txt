@@ -72,3 +72,5 @@ basenames?
 [Nn]ullable
 [Uu]pserted
 fetchable
+[Dd]ebounce(d|s)?
+dedup
