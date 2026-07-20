@@ -71,3 +71,4 @@ basenames?
 [Ss]caffolding?
 [Nn]ullable
 [Uu]pserted
+fetchable
