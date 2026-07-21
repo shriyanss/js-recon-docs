@@ -101,6 +101,8 @@ Pressing Ctrl-C while `run` is active shows an interactive menu instead of immed
 
 Pressing Ctrl-C a second time during the menu prompt falls through to the OS default (immediate termination).
 
+The menu reliably waits for your choice before the process continues or exits — it no longer races with the browser step that was interrupted.
+
 ## Refactor integration
 
 After the report step, `run` automatically attempts to decompile the target's JavaScript bundle using the [`refactor`](./refactor.md) module. It does this without any extra flags by detecting the bundler via CS-MAST-S signature matching.
