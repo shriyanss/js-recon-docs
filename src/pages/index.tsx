@@ -70,9 +70,9 @@ const CAPABILITIES: Capability[] = [
         accent: "var(--h-green)",
         desc: (
             <>
-                Route requests through a rotating pool of AWS API Gateway IPs
-                with the <code>api-gateway</code> module to slip past IP-based
-                firewall and rate-limit rules.
+                Route requests through AWS API Gateway, SOCKS5/HTTP, or
+                Oxylabs residential proxies with the <code>proxy</code>{" "}
+                module to slip past IP-based firewall and rate-limit rules.
             </>
         ),
         icon: (

@@ -76,13 +76,13 @@ Every subcommand and every flag registered in `src/index.ts` is covered.
 
 ```bash
 $ js-recon <TAB>
-analyze      api-gateway  completion   cs-mast      endpoints    fingerprint
-lazyload     load         map          mcp          refactor     report
+analyze      completion   cs-mast      endpoints    fingerprint  lazyload
+load         map          mcp          proxy        refactor     report
 run          sourcemaps   strings
 
 $ js-recon run --<TAB>
 --ai                      --ai-endpoint             --ai-provider
---ai-threads              --api-gateway             --api-gateway-config
+--ai-threads              --aws-access-key          --aws-secret-key
 --cache-file              --cache-only              --command
 --cs-mast-tech-detect-threshold  --disable-cache   --exclude-methods
 --include-methods         --insecure                --lazyload-timeout

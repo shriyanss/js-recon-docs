@@ -23,8 +23,17 @@ js-recon lazyload -u <url/file> [options]
 | `--threads <threads>`               | `-t`  | Number of threads to use for downloading.                                                                                                                                                                                                                        | `1`                        | No       |
 | `--subsequent-requests`             |       | Download JS files from subsequent requests (Next.js only).                                                                                                                                                                                                       | `false`                    | No       |
 | `--urls-file <file>`                |       | Input JSON file containing URLs (for `--subsequent-requests`)                                                                                                                                                                                                    | `extracted_urls.json`      | No       |
-| `--api-gateway`                     |       | Generate requests using API Gateway for IP rotation.                                                                                                                                                                                                             | `false`                    | No       |
-| `--api-gateway-config <file>`       |       | API Gateway config file.                                                                                                                                                                                                                                         | `.api_gateway_config.json` | No       |
+| `--proxy-method <method>`           |       | Proxy method to use: `aws`, `socks`, `http`, or `oxylabs`. See [Proxy](./proxy.md).                                                                                                                                                                              |                            | No       |
+| `--proxy <url>`                     |       | SOCKS5/HTTP proxy URL. See [Proxy](./proxy.md).                                                                                                                                                                                                                  |                            | No       |
+| `--proxy-config <file>`             |       | Proxy config file.                                                                                                                                                                                                                                               | `.proxy_config.json`       | No       |
+| `--aws-access-key <key>`            |       | AWS access key for the `aws` proxy method.                                                                                                                                                                                                                       |                            | No       |
+| `--aws-secret-key <key>`            |       | AWS secret key for the `aws` proxy method.                                                                                                                                                                                                                       |                            | No       |
+| `--oxylabs-username <username>`     |       | Oxylabs residential proxy username.                                                                                                                                                                                                                              |                            | No       |
+| `--oxylabs-password <password>`     |       | Oxylabs residential proxy password.                                                                                                                                                                                                                              |                            | No       |
+| `--oxylabs-country <country>`       |       | Oxylabs residential proxy country code.                                                                                                                                                                                                                          |                            | No       |
+| `--oxylabs-city <city>`             |       | Oxylabs residential proxy city.                                                                                                                                                                                                                                  |                            | No       |
+| `--oxylabs-session-id <id>`         |       | Oxylabs residential proxy sticky session id.                                                                                                                                                                                                                     |                            | No       |
+| `--ignore-proxy-env`                |       | Skip `JS_RECON_*` proxy environment variables during resolution.                                                                                                                                                                                                 | `false`                    | No       |
 | `--cache-file <file>`               |       | File to contain response cache.                                                                                                                                                                                                                                  | `.resp_cache.json`         | No       |
 | `--disable-cache`                   |       | Disable response caching.                                                                                                                                                                                                                                        | `false`                    | No       |
 | `--cache-only`                      |       | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                         | `false`                    | No       |
@@ -210,12 +219,13 @@ js-recon lazyload -u https://example.com -s "example.com,cdn.example.com"
 
 Using the `--strict-scope` will only download JS files from the URL provided. This will skip any files from the external CDN.
 
-### Using API gateway
+### Using a proxy
 
-Use AWS API Gateway to rotate IP addresses while downloading:
+Route requests through AWS API Gateway (IP rotation), a SOCKS5/HTTP proxy, or Oxylabs residential
+proxies:
 
 ```bash
-js-recon lazyload -u https://example.com --api-gateway
+js-recon lazyload -u https://example.com --proxy-method aws
 ```
 
-Read the docs of [API Gateway](./api-gateway.md) for more information.
+Read the docs of [Proxy](./proxy.md) for more information.
