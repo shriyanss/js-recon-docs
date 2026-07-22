@@ -58,10 +58,10 @@ Deleting the config file doesn't mean deleting the API gateways. If it is delete
 
 The configuration file generated in the previous step is consumed by any module that makes outbound HTTP requests — `lazyload`, and the `run` pipeline it's part of (yes, most other processing is done locally, except features requiring external APIs like AI or rules download).
 
-To use the configuration generated, pass `--proxy-method aws`. For example:
+`lazyload` and `run` don't take a `--proxy-method` flag or any credentials — they only ever read the config file `proxy -i` generated. Point them at it with `--proxy-config` (or leave it at the default `.proxy_config.json`):
 
 ```bash
-js-recon lazyload -u <url/file> --proxy-method aws
+js-recon lazyload -u <url/file> --proxy-config .proxy_config.json
 ```
 
 When doing so, the tool will make all the HTTP requests to the target through the API gateway.
@@ -69,7 +69,7 @@ When doing so, the tool will make all the HTTP requests to the target through th
 This can also be done with the [`run`](../modules/run.md) module, which automates the execution of all the other modules. However, you have to make sure you have generated a config file by following the steps above:
 
 ```bash
-js-recon run -u <url> --proxy-method aws
+js-recon run -u <url> --proxy-config .proxy_config.json
 ```
 
 :::tip

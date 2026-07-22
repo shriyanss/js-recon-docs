@@ -82,16 +82,17 @@ run          sourcemaps   strings
 
 $ js-recon run --<TAB>
 --ai                      --ai-endpoint             --ai-provider
---ai-threads              --aws-access-key          --aws-secret-key
---cache-file              --cache-only              --command
---cs-mast-tech-detect-threshold  --disable-cache   --exclude-methods
---include-methods         --insecure                --lazyload-timeout
---list-methods            --map-openapi-chunk-tag   --max-heap
---max-iterations          --max-js-size             --max-pages
---model                   --ngql                    --no-graphql
---no-sandbox              --openai-api-key          --output
---research                --research-output         --rules
---scope                   --secrets                 --sourcemap-dir
---strict-scope            --threads                 --timeout
---trufflehog              --url                     --yes
+--ai-threads              --cache-file              --cache-only
+--command                 --cs-mast-tech-detect-threshold  --disable-cache
+--disable-refactor        --disable-rules-version-check  --exclude-methods
+--ignore-proxy-env        --include-methods         --insecure
+--lazyload-timeout        --list-methods            --map-openapi-chunk-tag
+--max-heap                --max-iterations          --max-js-size
+--max-pages               --model                   --ngql
+--no-graphql              --no-sandbox              --openai-api-key
+--output                  --proxy-config            --research
+--research-output         --rules                   --scope
+--secrets                 --sourcemap-dir           --strict-scope
+--threads                 --timeout                 --trufflehog
+--url                     --yes
 ```
