@@ -23,6 +23,7 @@ js-recon analyze [options]
 | `--list`               | `-l`  | List available technologies                                                   | `false`        | No       |
 | `--validate`           |       | Validate the rules                                                            | `false`        | No       |
 | `--output <file>`      | `-o`  | Output JSON file name                                                         | `analyze.json` | No       |
+| `--disable-rules-version-check` |       | Skip the GitHub rules version check and use cached rules as-is                | `false`        | No       |
 
 ## Examples
 
