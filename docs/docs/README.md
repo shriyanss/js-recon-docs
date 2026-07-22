@@ -13,7 +13,7 @@ Welcome to the official documentation for `js-recon`, a powerful tool for JavaSc
 - **[Lazyload](./modules/lazyload.md):** Download all Lazy-Loaded JavaScript files from a target URL or a list of URLs.
 - **[Endpoints](./modules/endpoints.md):** Extract client-side from JavaScript files.
 - **[Strings](./modules/strings.md):** Extract strings, URLs, and secrets from JavaScript files.
-- **[API Gateway](./modules/api-gateway.md):** Configure and manage Amazon Web Services API Gateway for IP rotation.
+- **[Proxy](./modules/proxy.md):** Route outbound requests through AWS API Gateway (IP rotation), a SOCKS5/HTTP proxy, or Oxylabs residential proxies.
 - **[Map](./modules/map.md):** Map and analyze functions within JavaScript files. For Next.js, an [interactive mode](./modules/interactive_mode/next-js.md) is also available.
 - **[Run](./modules/run.md):** Run essential modules automatically.
 - **[Report](./modules/report.md):** Generate an HTML report of the reconnaissance results.

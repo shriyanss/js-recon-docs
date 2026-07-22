@@ -19,11 +19,11 @@ The feature to download all lazy-loaded (dynamically loaded) JavaScript files is
 
 For all other apps, the tool falls back to a generic extraction pass: it downloads JS referenced by `<script>`/`<link rel="modulepreload">` tags on the initial page, plus any other URL on the page whose path contains a `.js`-suffixed segment and whose response `Content-Type` confirms it as JavaScript (see [Lazyload command](./modules/lazyload.md#generic-extraction-no-framework-detected)).
 
-## API gateway
+## Proxy (AWS API Gateway method)
 
 This feature will make HTTP requests to the target through Amazon Web Services IP pool. This means that it could potentially bypass misconfigured/poorly configured firewall rules.
 
-However, if the site blocks IP addresses originating from Amazon Web Services, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/api-gateway.md#check-feasibility) flag.
+However, if the site blocks IP addresses originating from Amazon Web Services, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/proxy.md#check-feasibility) flag.
 
 ## Endpoints
 
