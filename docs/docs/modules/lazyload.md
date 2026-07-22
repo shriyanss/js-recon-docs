@@ -212,7 +212,7 @@ Using the `--strict-scope` will only download JS files from the URL provided. Th
 
 ### Using a proxy
 
-Route requests through AWS API Gateway (IP rotation), a SOCKS5/HTTP proxy, or Oxylabs residential
+Route requests through AWS API Gateway (IP rotation), a SOCKS5/HTTP proxy, or Oxylabs datacenter
 proxies. First configure a method with `js-recon proxy -i`, then point `lazyload` at the resulting
 config file:
 

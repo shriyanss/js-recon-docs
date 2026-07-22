@@ -73,7 +73,7 @@ js-recon run -u <url> --proxy-config .proxy_config.json
 ```
 
 :::tip
-The `proxy` module also supports SOCKS5/HTTP proxies and Oxylabs residential proxies as alternatives to AWS API Gateway — see the [Proxy module reference](../modules/proxy.md) for the full set of methods, flags, and the `JS_RECON_*` environment variables.
+The `proxy` module also supports SOCKS5/HTTP proxies and Oxylabs datacenter proxies as alternatives to AWS API Gateway — see the [Proxy module reference](../modules/proxy.md) for the full set of methods, flags, and the `JS_RECON_*` environment variables.
 :::
 
 ## Cleaning up

@@ -71,7 +71,7 @@ const CAPABILITIES: Capability[] = [
         desc: (
             <>
                 Route requests through AWS API Gateway, SOCKS5/HTTP, or Oxylabs
-                residential proxies with the <code>proxy</code> module to slip
+                datacenter proxies with the <code>proxy</code> module to slip
                 past IP-based firewall and rate-limit rules.
             </>
         ),

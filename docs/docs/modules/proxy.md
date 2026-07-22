@@ -10,7 +10,7 @@ js-recon. It supports four pluggable methods:
 - **`aws`** — throwaway AWS API Gateway REST APIs across regions, for IP rotation against
   rate-limiting targets. This is the original `api-gateway` behavior, unchanged.
 - **`socks`** / **`http`** — a generic SOCKS5 or HTTP proxy given as a single URL.
-- **`oxylabs`** — [Oxylabs](https://oxylabs.io/) residential proxies.
+- **`oxylabs`** — [Oxylabs](https://oxylabs.io/) datacenter proxies.
 
 Configuration is written to `.proxy_config.json` by default (previously `.api_gateway_config.json`
 for the `aws` method only — see [Migrating from `.api_gateway_config.json`](#migrating-from-api_gateway_configjson)
@@ -56,11 +56,11 @@ through the wizard, since `socks`/`http`/`oxylabs` have no create/destroy lifecy
 | `--feasibility-url <url>`        |       | URL to check the feasibility of. `[aws method]`                                                       |                        | No       |
 | `--proxy-method <method>`        |       | Method to configure with `-i`: `aws`, `socks`, `http`, or `oxylabs`. Omit for an interactive prompt.   |                        | No       |
 | `--proxy <url>`                  |       | SOCKS5/HTTP proxy URL for `-i`: `socks5://[user:pass@]host:port` or `http://[user:pass@]host:port`.   |                        | No       |
-| `--oxylabs-username <username>`  |       | Oxylabs residential proxy username for `-i`.                                                          |                        | No       |
-| `--oxylabs-password <password>`  |       | Oxylabs residential proxy password for `-i`.                                                          |                        | No       |
-| `--oxylabs-country <country>`    |       | Oxylabs residential proxy country code for `-i`.                                                      |                        | No       |
-| `--oxylabs-city <city>`          |       | Oxylabs residential proxy city for `-i` (requires `--oxylabs-country`).                                |                        | No       |
-| `--oxylabs-session-id <id>`      |       | Oxylabs residential proxy sticky session id for `-i`.                                                  |                        | No       |
+| `--oxylabs-username <username>`  |       | Oxylabs datacenter proxy username for `-i`.                                                           |                        | No       |
+| `--oxylabs-password <password>`  |       | Oxylabs datacenter proxy password for `-i`.                                                           |                        | No       |
+| `--oxylabs-country <country>`    |       | Oxylabs datacenter proxy country code for `-i`.                                                       |                        | No       |
+| `--oxylabs-city <city>`          |       | Not supported (no documented username-level city targeting for datacenter proxies).                  |                        | No       |
+| `--oxylabs-session-id <id>`      |       | Not supported via username (sticky sessions are selected by port, not username, for datacenter proxies). |                     | No       |
 
 ### Examples
 
@@ -175,9 +175,7 @@ method's block, without touching any other method's block already saved in the f
     "oxylabs": {
         "username": "myuser",
         "password": "mypass",
-        "country": "US",
-        "city": "newyork",
-        "sessionId": "abc12345"
+        "country": "US"
     },
     "aws": {
         "<gateway-name>": {
