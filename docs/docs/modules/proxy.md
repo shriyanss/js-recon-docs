@@ -21,7 +21,7 @@ its Puppeteer-driven page visits), the shared request client used across the too
 rules-download step.
 
 **Configuration is one-directional.** The `proxy` command is the only place you set a method or
-credentials — it writes everything to `.proxy_config.json`. `lazyload` and `run` only ever *read* that
+credentials — it writes everything to `.proxy_config.json`. `lazyload` and `run` only ever _read_ that
 file (plus environment variables); they don't accept method or credential flags at all. This keeps
 credentials out of every `lazyload`/`run` invocation and out of your shell history.
 
@@ -42,25 +42,25 @@ through the wizard, since `socks`/`http`/`oxylabs` have no create/destroy lifecy
 
 ## `proxy` subcommand options
 
-| Option                           | Alias | Description                                                                                          | Default               | Required |
-| -------------------------------- | ----- | ----------------------------------------------------------------------------------------------------- | --------------------- | -------- |
-| `--init`                         | `-i`  | Run the interactive config wizard (or create a new AWS API Gateway, `aws` method).                    | `false`               | No       |
-| `--destroy <id>`                 | `-d`  | Destroy the AWS API with the given ID. `[aws method]`                                                 |                        | No       |
-| `--destroy-all`                  |       | Destroy all APIs created by this tool in all regions. `[aws method]`                                  | `false`                | No       |
-| `--region <region>`              | `-r`  | AWS region to create the API in. `[aws method]`                                                       | random region          | No       |
-| `--aws-access-key <key>`         |       | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided. `[aws method]`                       |                        | No       |
-| `--aws-secret-key <key>`         |       | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. `[aws method]`                    |                       | No       |
-| `--config <config>`              | `-c`  | Name of the config file (if different from the default)                                                | `.proxy_config.json`  | No       |
-| `--list`                         | `-l`  | List all APIs created by this tool. `[aws method]`                                                    | `false`                | No       |
-| `--feasibility`                  |       | Check the feasibility of using API Gateway for a target. `[aws method]`                               | `false`                | No       |
-| `--feasibility-url <url>`        |       | URL to check the feasibility of. `[aws method]`                                                       |                        | No       |
-| `--proxy-method <method>`        |       | Method to configure with `-i`: `aws`, `socks`, `http`, or `oxylabs`. Omit for an interactive prompt.   |                        | No       |
-| `--proxy <url>`                  |       | SOCKS5/HTTP proxy URL for `-i`: `socks5://[user:pass@]host:port` or `http://[user:pass@]host:port`.   |                        | No       |
-| `--oxylabs-username <username>`  |       | Oxylabs datacenter proxy username for `-i`.                                                           |                        | No       |
-| `--oxylabs-password <password>`  |       | Oxylabs datacenter proxy password for `-i`.                                                           |                        | No       |
-| `--oxylabs-country <country>`    |       | Oxylabs datacenter proxy country code for `-i`.                                                       |                        | No       |
-| `--oxylabs-city <city>`          |       | Not supported (no documented username-level city targeting for datacenter proxies).                  |                        | No       |
-| `--oxylabs-session-id <id>`      |       | Not supported via username (sticky sessions are selected by port, not username, for datacenter proxies). |                     | No       |
+| Option                          | Alias | Description                                                                                              | Default              | Required |
+| ------------------------------- | ----- | -------------------------------------------------------------------------------------------------------- | -------------------- | -------- |
+| `--init`                        | `-i`  | Run the interactive config wizard (or create a new AWS API Gateway, `aws` method).                       | `false`              | No       |
+| `--destroy <id>`                | `-d`  | Destroy the AWS API with the given ID. `[aws method]`                                                    |                      | No       |
+| `--destroy-all`                 |       | Destroy all APIs created by this tool in all regions. `[aws method]`                                     | `false`              | No       |
+| `--region <region>`             | `-r`  | AWS region to create the API in. `[aws method]`                                                          | random region        | No       |
+| `--aws-access-key <key>`        |       | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided. `[aws method]`                         |                      | No       |
+| `--aws-secret-key <key>`        |       | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. `[aws method]`                     |                      | No       |
+| `--config <config>`             | `-c`  | Name of the config file (if different from the default)                                                  | `.proxy_config.json` | No       |
+| `--list`                        | `-l`  | List all APIs created by this tool. `[aws method]`                                                       | `false`              | No       |
+| `--feasibility`                 |       | Check the feasibility of using API Gateway for a target. `[aws method]`                                  | `false`              | No       |
+| `--feasibility-url <url>`       |       | URL to check the feasibility of. `[aws method]`                                                          |                      | No       |
+| `--proxy-method <method>`       |       | Method to configure with `-i`: `aws`, `socks`, `http`, or `oxylabs`. Omit for an interactive prompt.     |                      | No       |
+| `--proxy <url>`                 |       | SOCKS5/HTTP proxy URL for `-i`: `socks5://[user:pass@]host:port` or `http://[user:pass@]host:port`.      |                      | No       |
+| `--oxylabs-username <username>` |       | Oxylabs datacenter proxy username for `-i`.                                                              |                      | No       |
+| `--oxylabs-password <password>` |       | Oxylabs datacenter proxy password for `-i`.                                                              |                      | No       |
+| `--oxylabs-country <country>`   |       | Oxylabs datacenter proxy country code for `-i`.                                                          |                      | No       |
+| `--oxylabs-city <city>`         |       | Not supported (no documented username-level city targeting for datacenter proxies).                      |                      | No       |
+| `--oxylabs-session-id <id>`     |       | Not supported via username (sticky sessions are selected by port, not username, for datacenter proxies). |                      | No       |
 
 ### Examples
 
@@ -131,10 +131,10 @@ js-recon proxy --feasibility --feasibility-url https://example.com
 `lazyload` and `run` take **only** these two flags — no method or credential flags. Both are declared
 identically on both commands.
 
-| Option                  | Description                                                                    | Default              |
-| ------------------------ | ------------------------------------------------------------------------------ | --------------------- |
-| `--proxy-config <file>` | Proxy config file to read (generated via `js-recon proxy -i`).                 | `.proxy_config.json`  |
-| `--ignore-proxy-env`    | Skip `JS_RECON_*` proxy environment variables during resolution (see below).  | `false`                |
+| Option                  | Description                                                                  | Default              |
+| ----------------------- | ---------------------------------------------------------------------------- | -------------------- |
+| `--proxy-config <file>` | Proxy config file to read (generated via `js-recon proxy -i`).               | `.proxy_config.json` |
+| `--ignore-proxy-env`    | Skip `JS_RECON_*` proxy environment variables during resolution (see below). | `false`              |
 
 ### Example
 
