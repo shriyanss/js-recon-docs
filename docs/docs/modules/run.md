@@ -80,7 +80,8 @@ js-recon run -u <url/file> [options]
 | `--exclude-methods <methods>`         |          | Comma-separated list of lazyload method names to skip (blacklist). All methods except these will run in every lazyload pass. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                                                                 |                            | No       |
 | `--list-methods [framework]`          |          | Print all available lazyload method names grouped by framework and exit. Optionally filter by framework (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`). Does not require `-u`.                                                                                                                   |                            | No       |
 | `--cs-mast-tech-detect-threshold <n>` |          | Minimum number of CS-MAST-S signature matches required to detect the bundler and trigger the automatic refactor step. Pass `0` to disable refactor. See [Refactor integration](#refactor-integration).                                                                                                        | `50`                       | No       |
-| `--verbose`                           |          | Show detailed file write error messages during the lazyload step (e.g. when a downloaded JS chunk fails to write to disk). Suppressed by default to reduce terminal noise.                                                                                                                                    | `false`                    | No       |
+| `--disable-refactor`                  |          | Skip the automatic bundler-detection and refactor step entirely, without needing to touch `--cs-mast-tech-detect-threshold`. See [Refactor integration](#refactor-integration).                                                                                                                               | `false`                    | No       |
+| `--verbose`                           |          | Show detailed file write error messages during the lazyload step (e.g. when a downloaded JS chunk fails to write to disk). Suppressed by default to reduce terminal noise.                                                                                                                                   | `false`                    | No       |
 | `-h, --help`                          |          | display help for command                                                                                                                                                                                                                                                                                      |                            | No       |
 
 ## Ctrl-C / Interrupt handling
@@ -141,7 +142,9 @@ When detection fails or the framework has no bucket data, `run` prints a yellow 
 
 ### Disabling refactor
 
-Pass `--cs-mast-tech-detect-threshold 0` to skip bundler detection and the refactor step entirely.
+Pass `--disable-refactor` to skip bundler detection and the refactor step entirely — no signature sampling against the HuggingFace bucket, no `refactor` invocation. `run` prints `[!] Refactor step disabled via --disable-refactor, skipping.` in place of the usual refactor log lines and continues with the rest of the pipeline.
+
+Passing `--cs-mast-tech-detect-threshold 0` has the same practical effect (no match count can ever meet a `0` threshold), but `--disable-refactor` is the clearer, dedicated way to opt out.
 
 ## Global database (batch mode)
 
