@@ -261,6 +261,12 @@ Fires when a value derived from `Math.random()` co-occurs with a write to `docum
 
 Detects string literals in compiled JavaScript matching well-known cloud-provider credential formats: AWS access key IDs (`AKIA`/`ASIA` prefix) and Google Cloud API keys (`AIza` prefix). These values compile directly into the bundle and are readable by anyone who fetches the JS file. An AWS access key ID is a long-lived IAM credential rather than a scoped browser key, so a match here is high-value on its own. Skips AWS's own documentation placeholder (`AKIAIOSFODNN7EXAMPLE`) and any match whose body is a run of 10+ identical characters, since these are masked/placeholder display values rather than real credentials.
 
+### `detect_hardcoded_hmac_signing_key` — hardcoded HMAC signing key fed into `createHmac`
+
+`severity: high`
+
+Fires on a `crypto.createHmac(algorithm, key)` call (member-expression or destructured form) whose `key` argument is a string literal at least 8 characters long, rather than a value read from a server response or request-scoped input. This rule is format-independent: it doesn't look for a recognizable secret shape, it looks for how the value is used — as a signing key fed directly into an HMAC construction. If the client signs or verifies a token with a key baked into the bundle, anyone who downloads the JS can extract the key and forge a signature the server will accept.
+
 ---
 
 ## Tuning false positives vs. false negatives

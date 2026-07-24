@@ -48,7 +48,7 @@ hostname
 semver
 subtree
 initializer
-destructuring
+destructur(ing|ed)
 bundlers?
 patchFlag
 allowlist
