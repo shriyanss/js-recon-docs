@@ -178,7 +178,7 @@ Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `se
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)`, `new Function(X)`, `setTimeout(<string>, ...)`, `setInterval(<string>, ...)` in the same chunk. These sinks execute their argument as JavaScript in the page origin — full DOM-XSS / arbitrary-code-execution primitives. The `setTimeout`/`setInterval` variants exclude the safe function-callback forms via `:not([arguments.0.type="ArrowFunctionExpression"])` etc.
+Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)`, `new Function(X)`, `setTimeout(<string>, ...)`, `setInterval(<string>, ...)` in the same chunk. These sinks execute their argument as JavaScript in the page origin — full DOM-XSS / arbitrary-code-execution primitives. The `setTimeout`/`setInterval` variants exclude the safe function-callback forms via `:not([arguments.0.type="ArrowFunctionExpression"])` etc., and also exclude a `.bind(...)` call as the first argument (e.g. `this.render.bind(this, delay)`), since that produces a bound function reference rather than a string to execute.
 
 ### `detect_json_injection_to_dangerouslysetinnerhtml` — Client-Side JSON Injection into React render
 
