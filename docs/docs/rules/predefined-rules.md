@@ -243,6 +243,12 @@ Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pa
 
 Fires when a URL-derived value co-occurs with `element.style.cssText = X`, `element.setAttribute("style", X)`, or a CSS-in-JS tagged template (`styled.<tag>` / `styled(Component)` / `css`) that interpolates the value. Attacker-controlled CSS can exfiltrate other page data via request-issuing selectors (`@import`, `background-image: url(...)`) or conditional-render primitives, entirely without executing any JavaScript — so this sink is dangerous even behind a strict script-blocking CSP.
 
+### `detect_client_side_authz_gate` — Client-side authorization gate on a role/entitlement flag
+
+`severity: info`
+
+Fires on an `if` statement (or its minified ternary/`&&` equivalent) whose condition reads a role or entitlement flag — `isAdmin`, `isPaid`, `isPremium`, `isSubscribed`, `subscriptionType`, `userRole`, `permissionLevel`, `accessLevel` — directly off an object, and uses it to decide whether to render UI or call an endpoint. This is a heuristic, informational finding: when the backend independently re-derives the same authorization decision, the client-side check is harmless. When it doesn't, an attacker can flip the flag in the response before the JS reads it, or call the underlying endpoint directly, and reach functionality the UI never exposes. Manual verification of server-side enforcement is required before treating a match as a confirmed finding.
+
 ---
 
 ## Tuning false positives vs. false negatives
