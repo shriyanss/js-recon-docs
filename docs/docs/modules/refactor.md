@@ -104,13 +104,13 @@ The sampled signatures are cached under `~/.js-recon/refactor/signature_cache/` 
 ### Framework support
 
 | Framework | Bundler detection            | Refactor available |
-| --------- | ----------------------------- | ------------------- |
-| React     | Yes (webpack + Vite)         | Yes                 |
-| Vue.js    | Pending (no bucket data yet) | No (skip)           |
-| Nuxt.js   | Pending (no bucket data yet) | No (skip)           |
-| Next.js   | Pending (no bucket data yet) | No (skip)           |
-| Svelte    | Not applicable               | No                  |
-| Angular   | Not applicable               | No                  |
+| --------- | ---------------------------- | ------------------ |
+| React     | Yes (webpack + Vite)         | Yes                |
+| Vue.js    | Pending (no bucket data yet) | No (skip)          |
+| Nuxt.js   | Pending (no bucket data yet) | No (skip)          |
+| Next.js   | Pending (no bucket data yet) | No (skip)          |
+| Svelte    | Not applicable               | No                 |
+| Angular   | Not applicable               | No                 |
 
 When detection fails or the framework has no bucket data, `run` prints a yellow warning and continues to the next target without error.
 

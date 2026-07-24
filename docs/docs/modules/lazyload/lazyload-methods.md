@@ -50,11 +50,11 @@ js-recon lazyload --list-methods next_js
 
 ### Nuxt.js (`nuxt_js`)
 
-| Method name                  | Description                                                                                |
-| ---------------------------- | ------------------------------------------------------------------------------------------- |
-| `nuxt_getFromPageSource`     | Extracts JS file URLs from `<script src>` tags in the server-rendered HTML.                 |
-| `nuxt_stringAnalysisJSFiles` | Scans downloaded JS for string-embedded paths to additional chunks.                         |
-| `nuxt_astParse`              | AST-parses downloaded JS files to resolve dynamic import statements and chunk references.   |
+| Method name                  | Description                                                                               |
+| ---------------------------- | ----------------------------------------------------------------------------------------- |
+| `nuxt_getFromPageSource`     | Extracts JS file URLs from `<script src>` tags in the server-rendered HTML.               |
+| `nuxt_stringAnalysisJSFiles` | Scans downloaded JS for string-embedded paths to additional chunks.                       |
+| `nuxt_astParse`              | AST-parses downloaded JS files to resolve dynamic import statements and chunk references. |
 
 Nuxt.js discovery also probes `/_nuxt/builds/latest.json` and derives `/_nuxt/builds/meta/<id>.json` from it — these files are fetched at runtime by the Nuxt client for incremental-deployment support but are never referenced from HTML or JS string literals, so they are invisible to all other discovery steps. This step always runs and is **not** listed by `--list-methods nuxt_js` or selectable via `--include-methods`/`--exclude-methods`.
 
