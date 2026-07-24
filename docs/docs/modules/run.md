@@ -8,19 +8,67 @@ The `run` command is a powerful feature that automates most of the JavaScript re
 
 ## Workflow
 
-The `run` command executes the following modules in sequence. The exact steps depend on the detected framework — Next.js runs the full pipeline described below, Vue.js, Nuxt.js, Svelte/Astro, and Angular run a shorter `lazyload → map → analyze → report` pipeline, and the tool will exit after lazyload for any unsupported framework.
+The `run` command executes a series of modules in sequence, but the exact steps depend on the framework detected during the initial lazyload pass. Next.js gets the full multi-pass pipeline described below; React, Vue.js, Nuxt.js, Svelte/Astro, and Angular each get a shorter `lazyload → map → analyze → report` pipeline; and any target where none of these frameworks is detected (including generic/unrecognized targets) stops after `lazyload`.
+
+### Next.js
 
 1.  **Lazy Load (Initial)**: Downloads the initial set of JavaScript files from the target URL.
 1.  **Strings (Initial)**: Extracts strings, URLs, and paths from the downloaded JavaScript files.
-1.  **Lazy Load (Subsequent Requests - for Next.js)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
+1.  **Lazy Load (Subsequent Requests)**: Downloads additional JavaScript files discovered from the extracted URLs and paths.
 1.  **Strings (Final)**: Performs another round of string extraction on the newly downloaded files to find more endpoints, secrets, and other valuable information.
-1.  **Lazy Load (Re-pass)**: Re-runs subsequent-request crawling with the freshly extracted paths. The first crawl can only use paths that were visible in the initial chunks; dynamic-route paths like `/post/1` are typically only discovered after the first crawl + strings extraction, so this re-pass picks up the chunks for those routes (for example, dynamic React pages whose code only ships when the URL is visited).
+1.  **Lazy Load (Re-pass)**: Re-runs subsequent-request crawling with the freshly extracted paths. The first crawl can only use paths that were visible in the initial chunks; dynamic-route paths like `/post/1` are typically only discovered after the first crawl + strings extraction, so this re-pass picks up the chunks for those routes.
 1.  **Strings (Re-pass)**: Final strings extraction across all chunks (initial + both crawl passes) so any new endpoints from the freshly fetched code are also indexed.
 1.  **Map**: Maps all the functions and their relationships within the JavaScript files to provide a clear overview of the application's structure.
 1.  **Endpoints**: Analyzes the JS files and `mapped.json` to identify and list all client-side endpoints.
 1.  **Analyze**: Runs the analyze module to check the code against the rules.
 1.  **Report**: Generates a report based on the results of the analyze module.
-1.  **Refactor** _(optional)_: Detects the bundler via CS-MAST-S signature matching and decompiles the bundle into readable ES modules. Runs automatically for React targets when signatures are available; skipped silently for other frameworks or when detection confidence is below `--cs-mast-tech-detect-threshold`. See [Refactor integration](#refactor-integration).
+1.  **Refactor** _(optional)_: Detects the bundler via CS-MAST-S signature matching and decompiles the bundle into readable ES modules. See [Refactor integration](#refactor-integration).
+
+### React
+
+1.  **Lazy Load**: Downloads the JavaScript files from the target URL.
+1.  **Map**: Maps functions and API calls; `fetch()` calls are resolved with the same taint-flow analysis used for Next.js.
+1.  **Analyze**: Runs the analyze module to check the code against the rules.
+1.  **Report**: Generates a report based on the results of the analyze module.
+1.  **Refactor** _(optional)_: Detects the bundler (webpack or Vite) via CS-MAST-S signature matching and decompiles the bundle. See [Refactor integration](#refactor-integration).
+
+There's no separate strings/subsequent-request pass for React — a single lazyload covers the bundle, and endpoint extraction isn't yet implemented, so `report` receives an empty endpoints list.
+
+### Vue.js
+
+1.  **Lazy Load**: Downloads the JavaScript files from the target URL.
+1.  **Map**: Scans the whole download directory for chunks, since Vue builds often spread files across multiple asset hosts, and maps functions and API calls.
+1.  **Analyze**: Runs the analyze module to check the code against the rules.
+1.  **Report**: Generates a report based on the results of the analyze module. Endpoint extraction isn't implemented for Vue yet, so `report` receives an empty endpoints list.
+1.  **Refactor** _(optional)_: Attempts bundler detection (webpack or Vite) via CS-MAST-S signature matching. No signature data is available for Vue yet, so this step is currently skipped with a warning. See [Refactor integration](#refactor-integration).
+
+### Nuxt.js
+
+Nuxt.js is built on Vue.js, so it follows the exact same `lazyload → map → analyze → report` pipeline as Vue.js above (the map and analyze steps run using Vue's chunk-parsing logic). Refactor bundler detection is attempted the same way and is currently skipped for the same reason — no signature data yet.
+
+### Svelte/Astro
+
+1.  **Lazy Load**: Downloads the JavaScript files from the target URL.
+1.  **Map**: Decodes Vite production chunks and maps functions and API calls; `fetch()` and Axios calls are resolved with the same taint-flow analysis used for Vue.js.
+1.  **Analyze**: Runs the analyze module to check the code against the rules.
+1.  **Report**: Generates a report based on the results of the analyze module. Endpoint extraction isn't implemented for Svelte/Astro yet, so `report` receives an empty endpoints list.
+
+There's no refactor step for Svelte/Astro — CS-MAST-S bundler detection doesn't apply to this framework.
+
+### Angular
+
+1.  **Lazy Load**: Downloads the Angular CLI (esbuild) bundle chunks from the target URL.
+1.  **Map**: Scans all downloaded chunks and maps functions and API calls; `HttpClient` calls (`.get()`, `.post()`, etc.) and native `fetch()` calls are both resolved.
+1.  **Analyze**: Runs the analyze module, including the Angular-specific rule that flags `bypassSecurityTrust*` (DomSanitizer bypass) calls.
+1.  **Report**: Generates a report based on the results of the analyze module. Endpoint extraction isn't implemented for Angular yet, so `report` receives an empty endpoints list.
+
+There's no refactor step for Angular — CS-MAST-S bundler detection doesn't apply to this framework.
+
+### Generic / no recognized framework
+
+If lazyload can't confirm any of the six frameworks above, it still downloads what it can: JS referenced by `<script>`/`<link rel="modulepreload">` tags on the initial page, plus a recursive crawl of the site's own pages to find JS the landing page alone doesn't reference. See [Lazyload — Generic extraction](./lazyload.md#generic-extraction-no-framework-detected).
+
+`run` stops after this lazyload step — `map`, `endpoints`, `analyze`, `report`, and `refactor` all depend on a recognized framework's bundle structure, so they're skipped. In single-URL mode `run` prints an error and exits; in batch mode it skips that target and continues with the next URL in the list.
 
 ## Usage
 
