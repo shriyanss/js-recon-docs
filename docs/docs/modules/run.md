@@ -159,68 +159,20 @@ The menu reliably waits for your choice before the process continues or exits �
 
 ## Refactor integration
 
-After the report step, `run` automatically attempts to decompile the target's JavaScript bundle using the [`refactor`](./refactor.md) module. It does this without any extra flags by detecting the bundler via CS-MAST-S signature matching.
+After the report step, `run` automatically attempts to decompile the target's JavaScript bundle using the [`refactor`](./refactor.md) module — no extra flags needed, since the bundler is detected via CS-MAST-S signature matching. See [Refactor — Automatic detection during `run`](./refactor.md#automatic-detection-during-run) for how detection works and the framework-support matrix.
 
-### How bundler detection works
+Two flags control this step:
 
-1. `run` loads the `mapped.json` produced by the map step and generates CS-MAST-S structural signatures for all chunks.
-2. It fetches a random sample of `collisions.json` files from the `shriyanss/cs-mast-s-dataset` HuggingFace bucket — the same dataset used by `refactor --remote-collisions`.
-3. It counts how many bucket signatures appear in the bundle's signature set for each candidate tech (for example, `react-webpack` and `react-vite` for a React target).
-4. The candidate with the most matches wins. If the winner's match count meets `--cs-mast-tech-detect-threshold` (default `50`), `refactor` runs with the detected tech identifier.
+- `--cs-mast-tech-detect-threshold <n>` (default `50`) sets the minimum signature-match count required to trigger refactor; pass `0` to disable it.
+- `--disable-refactor` skips bundler detection and the refactor step entirely — the clearer, dedicated way to opt out.
 
-The sampled signatures are cached under `~/.js-recon/refactor/signature_cache/` with a 7-day TTL — the same cache used by the standalone `refactor` command.
-
-### Output
-
-Refactored files are written to:
-
-- **Single-URL mode:** `refactored/` in the current working directory.
-- **Batch mode:** `<workingDir>/refactored/` alongside `mapped.json` for each target.
-
-Any existing `refactored/` directory is deleted before writing.
-
-### Framework support
-
-| Framework | Bundler detection            | Refactor available |
-| --------- | ---------------------------- | ------------------ |
-| React     | Yes (webpack + Vite)         | Yes                |
-| Vue.js    | Pending (no bucket data yet) | No (skip)          |
-| Nuxt.js   | Pending (no bucket data yet) | No (skip)          |
-| Next.js   | Pending (no bucket data yet) | No (skip)          |
-| Svelte    | Not applicable               | No                 |
-| Angular   | Not applicable               | No                 |
-
-When detection fails or the framework has no bucket data, `run` prints a yellow warning and continues to the next target without error.
-
-### Disabling refactor
-
-Pass `--disable-refactor` to skip bundler detection and the refactor step entirely — no signature sampling against the HuggingFace bucket, no `refactor` invocation. `run` prints `[!] Refactor step disabled via --disable-refactor, skipping.` in place of the usual refactor log lines and continues with the rest of the pipeline.
-
-Passing `--cs-mast-tech-detect-threshold 0` has the same practical effect (no match count can ever meet a `0` threshold), but `--disable-refactor` is the clearer, dedicated way to opt out.
+Refactored files are written to `refactored/` in the current working directory (single-URL mode) or `<workingDir>/refactored/` alongside `mapped.json` for each target (batch mode). Any existing `refactored/` directory is deleted before writing.
 
 ## sj (swagger-jacker) integration
 
-Passing `--sj` runs [`sj`](https://github.com/BishopFox/sj) (BishopFox's swagger-jacker) against the mapped OpenAPI spec at the report step of the pipeline, the same way `--trufflehog` runs TruffleHog at the strings steps. `sj` actively probes each endpoint in the spec — unlike every other step in `run`, it sends live requests to the target, so use it deliberately.
+Passing `--sj` runs [`sj`](https://github.com/BishopFox/sj) (BishopFox's swagger-jacker) against the mapped OpenAPI spec at the report step, the same way `--trufflehog` runs TruffleHog at the strings steps. Unlike every other step in `run`, `sj` actively probes each endpoint in the spec with live requests, so use it deliberately.
 
-`sj` must be installed separately; js-recon does not bundle it:
-
-```bash
-go install github.com/BishopFox/sj@latest
-```
-
-```bash
-js-recon run -u https://example.com -y --sj
-```
-
-Use `--sj-args` to pass authentication headers or override the target host:
-
-```bash
-js-recon run -u https://example.com -y --sj --sj-args="-H 'Authorization: Bearer xyz' -T https://target.example.com"
-```
-
-`--sj-bin <path>` points at a non-default `sj` binary (a specific install location, or a version pinned outside `$PATH`).
-
-`sj`'s own output file (`swagger-jacker-results.json`) is the artifact from this step — its findings are not merged into `analyze.json`, the SQLite database, or `report.html`.
+`sj` must be installed separately (`go install github.com/BishopFox/sj@latest`); `--sj-bin <path>` points at a non-default binary, and `--sj-args` passes extra arguments through to `sj automate` (for example auth headers via `-H`, or a target override via `-T`). `sj`'s own output file (`swagger-jacker-results.json`) is the artifact from this step — its findings are not merged into `analyze.json`, the SQLite database, or `report.html`.
 
 ## Global database (batch mode)
 
