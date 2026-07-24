@@ -202,7 +202,7 @@ Fires when a URL-derived value co-occurs with an `element.href = X` assignment *
 
 `severity: medium`
 
-Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pattern)` where `pattern` is not a string/regex literal. JavaScript is single-threaded — a catastrophic-backtracking pattern from the URL freezes the victim tab.
+Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pattern)` where `pattern` is not a string/regex literal. JavaScript is single-threaded — a catastrophic-backtracking pattern from the URL freezes the victim tab. Skips the sink if the pattern is the direct return of a call to a regex-escaping helper (for example lodash's `escapeRegExp(...)`), since escaping metacharacters removes the backtracking primitives ReDoS depends on.
 
 ---
 
