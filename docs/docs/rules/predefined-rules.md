@@ -64,7 +64,7 @@ Chains the postMessage listener detection with a check that the handler function
 Detects the `URL → innerHTML` taint pattern. Fires when the same chunk contains both:
 
 1.  A read from a URL-derived source — any of: `new URLSearchParams(...).get(...)`, `window.location.search`, `window.location.hash`, `document.referrer`, `document.URL`, or a call to `useSearchParams()` (Next.js / React Router).
-2.  A dynamic assignment to `.innerHTML` or `.outerHTML` — that is, the right-hand side is **not** a `StringLiteral`, `NumericLiteral`, `BooleanLiteral`, or `NullLiteral`.
+2.  A dynamic assignment to `.innerHTML` or `.outerHTML` — that is, the right-hand side is **not** a `StringLiteral`, `NumericLiteral`, `BooleanLiteral`, or `NullLiteral`, and is not the direct return value of a call to a common sanitizer/encoder function (for example `DOMPurify.sanitize(...)`, `sanitizeHtml(...)`, `escapeHtml(...)`).
 
 Both halves must appear in the same module/chunk for the rule to fire. This excludes the React-internal `innerHTML` writes in vendor chunks (those chunks never read from a URL parameter). For Vue.js single-file components the Vite-transformed `setup()` body (for example, `headingRef.value.innerHTML = ...`) matches the same shape.
 
