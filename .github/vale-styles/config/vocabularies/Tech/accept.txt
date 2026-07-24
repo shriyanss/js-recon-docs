@@ -74,3 +74,6 @@ basenames?
 fetchable
 [Dd]ebounce(d|s)?
 dedup
+bypassable
+untrusted
+exfiltrate

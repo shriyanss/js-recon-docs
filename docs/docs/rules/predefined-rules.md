@@ -56,6 +56,12 @@ Flags `window.addEventListener("message", handler)` calls. postMessage handlers 
 
 Chains the postMessage listener detection with a check that the handler function assigns to `.innerHTML`. The combination is a classic stored-DOM-XSS pattern: if the listener doesn't validate `event.origin` and `event.data`, an attacker who controls a framed/embedded page can inject HTML into the parent.
 
+### `detect_postmessage_weak_origin_check` — `postMessage` handler using a bypassable origin-check idiom
+
+`severity: medium`
+
+Resolves the first `message`-event handler in a chunk and checks whether its origin validation relies on `event.origin.endsWith(...)`, `.includes(...)`, `.indexOf(...)`, or `.startsWith(...)` instead of an exact-string equality check. These idioms are mechanically bypassable — a page hosted at a path or subdomain that merely contains the allowed suffix (for example `https://attacker.example/allowed.example.com`, or a crafted subdomain) satisfies the check while sending from an untrusted origin. Fires regardless of which sink the handler reaches, since the validation logic itself is the flaw.
+
 ### `detect_dom_xss_innerHTML_url_source` — DOM XSS via URL parameter to `innerHTML`
 
 `severity: high`
@@ -95,6 +101,13 @@ fetch(`/api/docs/${e}`);
 ```
 
 To suppress the warning legitimately, allowlist-validate the parameter or wrap it in `encodeURIComponent(...)` (which prevents `..` and `/` from surviving normalisation).
+
+### `detect_cspt_xhr_url_param` — Client-Side Path Traversal (CSPT) via XHR/axios
+
+`severity: high`
+`tech: [next, vue, react, svelte, angular]`
+
+Same taint pattern as `detect_cspt_fetch_url_param`, but for the `XMLHttpRequest.open()` and `axios.get/post/put/delete/patch/head/options(...)` sinks instead of `fetch()`. XHR and axios requests carry the same cookies/auth headers as `fetch()`, so the same traversal-reroute impact applies wherever a bundle uses one of these request builders instead of (or alongside) `fetch()`. Skips the sink when the interpolated value is wrapped in `encodeURIComponent`/`encodeURI`.
 
 ### `detect_dom_xss_dangerouslySetInnerHTML` — XSS via raw-HTML sink (`dangerouslySetInnerHTML` / `v-html`)
 
@@ -203,6 +216,12 @@ Fires when a URL-derived value co-occurs with an `element.href = X` assignment *
 `severity: medium`
 
 Fires when a URL-derived value co-occurs with `new RegExp(pattern)` / `RegExp(pattern)` where `pattern` is not a string/regex literal. JavaScript is single-threaded — a catastrophic-backtracking pattern from the URL freezes the victim tab. Skips the sink if the pattern is the direct return of a call to a regex-escaping helper (for example lodash's `escapeRegExp(...)`), since escaping metacharacters removes the backtracking primitives ReDoS depends on.
+
+### `detect_css_injection_style_sink` — CSS injection via URL parameter into a style sink
+
+`severity: medium`
+
+Fires when a URL-derived value co-occurs with `element.style.cssText = X`, `element.setAttribute("style", X)`, or a CSS-in-JS tagged template (`styled.<tag>` / `styled(Component)` / `css`) that interpolates the value. Attacker-controlled CSS can exfiltrate other page data via request-issuing selectors (`@import`, `background-image: url(...)`) or conditional-render primitives, entirely without executing any JavaScript — so this sink is dangerous even behind a strict script-blocking CSP.
 
 ---
 
