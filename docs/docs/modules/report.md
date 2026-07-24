@@ -14,15 +14,15 @@ js-recon report [options]
 
 ## Options
 
-| Option                                        | Alias | Description                                                                                                                                   | Default       | Required |
-| --------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
-| `--sqlite-db <file>`                          | `-s`  | SQLite database file                                                                                                                          | `js-recon.db` | No       |
-| `--mapped-json <file>`                        | `-m`  | Mapped JSON file                                                                                                                              |               | No       |
-| `--analyze-json <file>`                       | `-a`  | Analyze JSON file                                                                                                                             |               | No       |
-| `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                                                                                                                           |               | No       |
-| `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                                                                                                                      |               | No       |
-| `--output <file>`                             | `-o`  | Output file name (without the extension)                                                                                                      | `report`      | No       |
-| `-h, --help`                                  |       | display help for command                                                                                                                      |               | No       |
+| Option                                        | Alias | Description                              | Default       | Required |
+| --------------------------------------------- | ----- | ---------------------------------------- | ------------- | -------- |
+| `--sqlite-db <file>`                          | `-s`  | SQLite database file                     | `js-recon.db` | No       |
+| `--mapped-json <file>`                        | `-m`  | Mapped JSON file                         |               | No       |
+| `--analyze-json <file>`                       | `-a`  | Analyze JSON file                        |               | No       |
+| `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                      |               | No       |
+| `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                 |               | No       |
+| `--output <file>`                             | `-o`  | Output file name (without the extension) | `report`      | No       |
+| `-h, --help`                                  |       | display help for command                 |               | No       |
 
 ## Example
 

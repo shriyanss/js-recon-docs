@@ -18,18 +18,18 @@ Run this command after `js-recon run` has already populated an output directory 
 
 ## Options
 
-| Option                        | Alias  | Description                                                                                            | Default              | Required                             |
-| ----------------------------- | ------ | -------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------- |
-| `--output <directory>`        | `-o`   | Directory to scan recursively for `.js` files.                                                            | `output`              | No                                    |
-| `--collision-table`           | `--ct` | Find and display structural collisions as a table.                                                        | `false`               | No                                    |
-| `--min-collisions <n>`        |        | Minimum number of files that must share a signature to be reported.                                       | `2`                   | No                                    |
-| `--collision-output <file>`   | `--co` | Write collision results to a file (independent of `--ct`).                                                |                       | No                                    |
-| `--collision-format <format>` | `--cf` | Output format for the collision file: `json` or `csv`.                                                    | `csv`                 | No                                    |
-| `--scat <categories>`         |        | Comma-separated CS-MAST scat categories to hash with.                                                     | `lit,decl,loop,cond`  | No                                    |
-| `--sinc <nodes>`              |        | Comma-separated exact AST node types to include (e.g. `IfStatement`), instead of `--scat` categories.     | `""`                  | No                                    |
-| `--all-scat-permutations`     |        | Run all 511 non-empty `scat` category permutations instead of a single configuration.                     | `false`               | No                                    |
-| `--perm-output <dir>`         |        | Directory to write per-permutation results to.                                                            |                       | Yes, with `--all-scat-permutations`   |
-| `--perm-concurrency <n>`      |        | Number of permutation workers to run in parallel.                                                         | half of CPU count     | No                                    |
+| Option                        | Alias  | Description                                                                                           | Default              | Required                            |
+| ----------------------------- | ------ | ----------------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------- |
+| `--output <directory>`        | `-o`   | Directory to scan recursively for `.js` files.                                                        | `output`             | No                                  |
+| `--collision-table`           | `--ct` | Find and display structural collisions as a table.                                                    | `false`              | No                                  |
+| `--min-collisions <n>`        |        | Minimum number of files that must share a signature to be reported.                                   | `2`                  | No                                  |
+| `--collision-output <file>`   | `--co` | Write collision results to a file (independent of `--ct`).                                            |                      | No                                  |
+| `--collision-format <format>` | `--cf` | Output format for the collision file: `json` or `csv`.                                                | `csv`                | No                                  |
+| `--scat <categories>`         |        | Comma-separated CS-MAST scat categories to hash with.                                                 | `lit,decl,loop,cond` | No                                  |
+| `--sinc <nodes>`              |        | Comma-separated exact AST node types to include (e.g. `IfStatement`), instead of `--scat` categories. | `""`                 | No                                  |
+| `--all-scat-permutations`     |        | Run all 511 non-empty `scat` category permutations instead of a single configuration.                 | `false`              | No                                  |
+| `--perm-output <dir>`         |        | Directory to write per-permutation results to.                                                        |                      | Yes, with `--all-scat-permutations` |
+| `--perm-concurrency <n>`      |        | Number of permutation workers to run in parallel.                                                     | half of CPU count    | No                                  |
 
 ## How it works
 
