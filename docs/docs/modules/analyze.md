@@ -23,6 +23,8 @@ js-recon analyze [options]
 | `--list`               | `-l`  | List available technologies                                                   | `false`        | No       |
 | `--validate`           |       | Validate the rules                                                            | `false`        | No       |
 | `--output <file>`      | `-o`  | Output JSON file name                                                         | `analyze.json` | No       |
+| `--determine-compatible-version` |  | Report the `js_recon_version`/`js_recon_max_version` each rule actually requires, based on the features it uses | `false`        | No       |
+| `--apply-compatible-versions`    |  | Same as `--determine-compatible-version`, but rewrites the rule files in place                                  | `false`        | No       |
 
 ## Examples
 
@@ -35,6 +37,22 @@ Assuming that the rules are stored in the `./rules` directory, you can run the f
 ```bash
 js-recon analyze --validate -r ./rules
 ```
+
+### Determining or applying the correct rule version
+
+Don't hand-pick a rule's `js_recon_version`/`js_recon_max_version` — run `--determine-compatible-version` to see what the rule's features actually require:
+
+```bash
+js-recon analyze -r ./rules --determine-compatible-version
+```
+
+To rewrite the rule files with the correct values instead of just reporting them, use `--apply-compatible-versions`:
+
+```bash
+js-recon analyze -r ./rules --apply-compatible-versions
+```
+
+See [Creating new rules](../rules/creating_new_rules.md#versioning) for how the required version is computed.
 
 ### Analyzing OpenAPI spec file
 

@@ -41,11 +41,23 @@ steps:
     - <step>
 ```
 
-## Version compatibility (`js_recon_version`)
+## Version compatibility (`js_recon_version`) {#versioning}
 
 The `js_recon_version` field is **required** in every rule file. It declares the minimum (or exact) JS Recon version that a rule requires. Omitting it is a schema validation error that stops analysis.
 
-When the `analyze` module loads rules, any rule whose version requirement is not satisfied by the running JS Recon version is **skipped** with a warning — it is not treated as a hard error and does not stop the rest of analysis. This makes it safe to publish rules that rely on newer engine features: such rules will be silently ignored by users on older versions instead of failing with schema errors.
+An optional `js_recon_max_version` field can also be declared, using the same format, for a rule that relies on a feature that has since been retired from JS Recon.
+
+When the `analyze` module loads rules, any rule whose version requirement (min or max) is not satisfied by the running JS Recon version is **skipped** with a warning — it is not treated as a hard error and does not stop the rest of analysis. This makes it safe to publish rules that rely on newer engine features: such rules will be silently ignored by users on older versions instead of failing with schema errors.
+
+### Determining the correct version automatically
+
+Don't hand-pick `js_recon_version`/`js_recon_max_version` — the correct value depends on exactly which schema/engine features a rule's steps use, and guessing can under- or over-restrict a rule relative to what it actually needs. Instead, run the `analyze` command's [`--determine-compatible-version`](../modules/analyze.md#determining-or-applying-the-correct-rule-version) flag (or `--apply-compatible-versions` to rewrite the file in place) whenever you create or edit a rule:
+
+```bash
+js-recon analyze -r ./my-rule.yaml --determine-compatible-version
+```
+
+This computes the version actually required from a map of which JS Recon version introduced (or retired) each feature, so the declared version always matches what the rule uses.
 
 ### Format
 
