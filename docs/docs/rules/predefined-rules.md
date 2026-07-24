@@ -184,7 +184,7 @@ Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)
 
 `severity: high`
 
-Three-way co-occurrence rule: URL-derived value + `JSON.parse(...)` + dynamic `dangerouslySetInnerHTML` in the same chunk. The pattern `JSON.parse(searchParams.get("config"))` flowing into a React render gives an attacker a stored-style XSS via JSON field values. Tighter than the plain `dangerouslySetInnerHTML` rule because all three signals must be present.
+Three-way co-occurrence rule: URL-derived value + `JSON.parse(...)` + dynamic `dangerouslySetInnerHTML` in the same chunk. The pattern `JSON.parse(searchParams.get("config"))` flowing into a React render gives an attacker a stored-style XSS via JSON field values. Tighter than the plain `dangerouslySetInnerHTML` rule because all three signals must be present. Skips the sink if the assigned value is the direct return of a call to a common sanitizer/encoder function (for example `DOMPurify.sanitize(...)`, `sanitizeHtml(...)`, `escapeHtml(...)`).
 
 ### `detect_ajax_header_manipulation` — Ajax request-header manipulation
 
