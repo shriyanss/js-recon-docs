@@ -36,7 +36,7 @@ Marks operations whose path contains both `/api/` and `admin`. Useful for priori
 
 `severity: medium`
 
-Fires when an OpenAPI operation has no `Authorization` header. The rule is intentionally simple — many endpoints _legitimately_ do not require authentication (login, marketing pages, etc.) — but on a Next.js/React app that depends on user identity, it surfaces the endpoints worth inspecting for missing auth.
+Fires when an OpenAPI operation has no `Authorization` header, and also has no `X-Api-Key`, `X-Auth-Token`, or `Cookie` header declared — so API-key- and cookie-session-authenticated endpoints aren't flagged as unauthenticated. The rule is intentionally simple — many endpoints _legitimately_ do not require authentication (login, marketing pages, etc.) — but on a Next.js/React app that depends on user identity, it surfaces the endpoints worth inspecting for missing auth.
 
 ---
 
