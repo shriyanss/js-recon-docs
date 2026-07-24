@@ -17,7 +17,7 @@ js-recon endpoints -u <url> -d <directory> -t <technology> [options]
 | Option                     | Alias | Description                                                                        | Default     | Required |
 | -------------------------- | ----- | ---------------------------------------------------------------------------------- | ----------- | -------- |
 | `--url <url>`              | `-u`  | Target Base URL (will be used to resolve relative paths).                          |             | Yes      |
-| `--directory <directory>`  | `-d`  | Directory containing JS files.                                                     |             | Yes      |
+| `--directory <directory>`  | `-d`  | Directory containing JS files.                                                     |             | No       |
 | `--output <filename>`      | `-o`  | Output filename (without file extension).                                          | `endpoints` | No       |
 | `--output-format <format>` |       | Output format for the results (available: `json`).                                 | `json`      | No       |
 | `--tech <tech>`            | `-t`  | Technology used in the JS files (run with `-l`/`--list` to see available options). |             | Yes      |
@@ -56,7 +56,7 @@ This command will analyze the mapped JSON file along with the subsequent request
 
 The Next.js endpoint extractor runs up to four extraction techniques and merges their results:
 
-1. **Subsequent-requests directory** (`___subsequent_requests/`): Parses the RSC payloads and HTML pages saved by `lazyload --subsequent-requests`. Each file path under this directory maps to a client-side route. **This directory must exist** — run `js-recon lazyload --subsequent-requests` before calling `endpoints`, otherwise the command exits with an error.
+1. **Subsequent-requests directory** (`___subsequent_requests/`): Parses the RSC payloads and HTML pages saved by `lazyload --subsequent-requests`. Each file path under this directory maps to a client-side route. If this directory doesn't exist, the command prints a warning and skips this technique, still running the other three.
 
 2. **`href` AST search** in JS chunks: Traverses every `.js` file in the provided directory looking for `ObjectProperty` nodes whose key is `href`. Handles string literals and `.concat()`-style minified string construction.
 
