@@ -160,7 +160,7 @@ Fires when a URL-derived value co-occurs with `document.cookie =` in the same ch
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same chunk. An attacker who controls the WebSocket endpoint URL can push arbitrary frames to the victim page — UI tampering, data injection, or chained XSS depending on how the messages are rendered.
+Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same chunk. An attacker who controls the WebSocket endpoint URL can push arbitrary frames to the victim page — UI tampering, data injection, or chained XSS depending on how the messages are rendered. Skips the sink if the WebSocket URL is the direct return of a call whose name signals validation intent (contains "sanitize", "safe", "valid", or "allow" — for example `buildSafeWsUrl(...)`).
 
 ### `detect_dom_setattribute_url_param` — DOM-Data manipulation via `setAttribute`
 
