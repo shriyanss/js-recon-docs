@@ -152,9 +152,9 @@ js-recon run -u https://example.com --proxy-config .proxy_config.json
     - `JS_RECON_PROXY_URL` (for the `socks`/`http` methods)
     - `JS_RECON_OXYLABS_USERNAME`, `JS_RECON_OXYLABS_PASSWORD`, `JS_RECON_OXYLABS_COUNTRY`,
       `JS_RECON_OXYLABS_CITY`, `JS_RECON_OXYLABS_SESSION_ID`
-    - `JS_RECON_AWS_ACCESS_KEY_ID`, `JS_RECON_AWS_SECRET_ACCESS_KEY`, `JS_RECON_AWS_REGION` — these
-      are separate from the AWS SDK's own `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` env vars;
-      js-recon only ever reads its own `JS_RECON_`-prefixed variables for proxy configuration.
+    - The `aws` method has no `JS_RECON_`-prefixed env vars of its own — it resolves credentials from
+      `--aws-access-key`/`--aws-secret-key`/`-r`/`--region`, falling back to the plain AWS SDK env vars
+      (`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`), same as the `proxy` command itself.
 2. `.proxy_config.json` (or the path given via `--proxy-config`) — written by `js-recon proxy -i`.
 
 Pass `--ignore-proxy-env` on `lazyload` or `run` to skip step 1 entirely and resolve straight from the

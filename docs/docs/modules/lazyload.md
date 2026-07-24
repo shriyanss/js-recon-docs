@@ -39,17 +39,10 @@ js-recon lazyload -u <url/file> [options]
 | `--max-iterations <iterations>`     |       | Maximum number of recursive crawl iterations.                                                                                                                                                                                                                    | `10`                  | No       |
 | `--max-js-size <mb>`                |       | Maximum JS file size in MB to parse (Vue only).                                                                                                                                                                                                                  | `2`                   | No       |
 | `--lazyload-timeout <minutes>`      |       | Hard timeout for the lazyload module. The module stops and the pipeline continues after this many minutes. Use `0` to disable.                                                                                                                                   | `30`                  | No       |
-| `--max-pages <pages>`               |       | Maximum number of HTML pages the Next.js crawler (or the generic tech recursive page crawl) will visit across all recursive passes. `0` disables the limit. Prevents memory exhaustion on event-heavy sites with large link graphs.                              | `200`                 | No       |
-| `--max-redirects <n>`               |       | Maximum redirects to follow when resolving the default crawl scope for generic tech (see [Generic extraction](#generic-extraction-no-framework-detected)).                                                                                                       | `20`                  | No       |
-| `--strings`                         |       | Enable strings-based recursive JS discovery for generic tech — chains the `strings` module into the crawl to find JS referenced only as a string literal inside an already-downloaded file. See [Generic extraction](#generic-extraction-no-framework-detected). | `false`               | No       |
-| `--strings-max-iterations <n>`      |       | Maximum recursive strings-discovery passes for generic tech. `0` runs until a pass finds nothing new, with no cap.                                                                                                                                               | `5`                   | No       |
-| `--stagnation-timein <mins>`        |       | Minutes to wait before generic-tech content stagnation detection begins monitoring. `0` disables the feature. Must not exceed `--lazyload-timeout` (exit code 27 otherwise). See [Generic extraction](#generic-extraction-no-framework-detected).                | `30`                  | No       |
-| `--stagnation-percentage <percent>` |       | Percentage of all discovered generic-tech JS files (by content hash) that must share one hash to be flagged as stagnation.                                                                                                                                       | `80`                  | No       |
-| `--stagnation-monitor <mins>`       |       | Re-check interval for generic-tech stagnation detection once armed; also the debounce window used to confirm stagnation before stopping.                                                                                                                         | `1`                   | No       |
+| `--max-pages <pages>`               |       | Maximum number of HTML pages the Next.js crawler will visit across all recursive passes. `0` disables the limit. Prevents memory exhaustion on event-heavy sites with large link graphs.                                                                         | `200`                 | No       |
 | `--include-methods <methods>`       |       | Comma-separated list of method names to run (whitelist). Only these methods will execute; all others are skipped. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                               |                       | No       |
 | `--exclude-methods <methods>`       |       | Comma-separated list of method names to skip (blacklist). All methods except these will run. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                                                    |                       | No       |
 | `--list-methods [framework]`        |       | Print all available method names grouped by framework and exit. Optionally provide a framework name (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`) to filter the output.                                                                            |                       | No       |
-| `--verbose`                         |       | Show detailed file write error messages (e.g. when a downloaded JS chunk fails to write to disk). Suppressed by default to reduce terminal noise.                                                                                                                | `false`               | No       |
 
 ## How it works
 
@@ -63,7 +56,6 @@ Before downloading any files, the tool auto-detects which JavaScript framework t
 4. **Svelte** — SvelteKit-specific attribute markers or `__svelte_*` in bundled code
 5. **Angular** — `ng-*` attributes or Angular-specific markers in bundled code
 6. **React** — markers such as `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`, `__REACT_DEVTOOLS_GLOBAL_HOOK__`, `react-jsx-runtime.production`, or `react-dom.production` in inline scripts or fetched assets
-7. **Generic fallback** — if nothing matches, the tool runs the generic extraction pipeline described below instead of aborting
 
 Detection uses two sources: the raw HTTP response (fast) and a Puppeteer-rendered page (catches client-side-only markers, after a 2-second settle delay). In `--cache-only` mode, the browser step is skipped.
 
@@ -115,22 +107,6 @@ SvelteKit's chunk discovery depends on the build adapter.
 
 **Detection signal:** All three adapters are detected via the `_app/immutable/` path prefix on JS or CSS links in the HTML response.
 
-### Generic extraction (no framework detected)
-
-When none of the supported frameworks are detected, the tool no longer stops at the initial page load. It runs a generic extraction pass instead, recursively crawling the site's own pages to find JS that the landing page alone doesn't reference:
-
-- **Scope.** Unless `-s`/`--scope` or `--strict-scope` are explicitly set, the crawl's default scope is resolved by following redirects from `-u` (capped at `--max-redirects`, default `20`) and scoping the crawl to the final destination's host — rather than crawling unrestricted.
-- **Page crawl.** Starting from `-u`, the tool follows every in-scope `<a href>` link it finds, breadth-first, running JS discovery (below) on each visited page. This is capped by `--max-pages` (same flag the Next.js crawler uses), and JS is downloaded incrementally as each page is crawled rather than all at once at the end.
-- **Per-page JS discovery.** On every visited page:
-    - `<script src>` tags, inline `<script>` bodies, and `<link rel="modulepreload">` hrefs are collected the same way the framework crawlers collect them. `<script src="data:...">` (a base64 or percent-encoded inline script) is decoded and saved like any other inline script rather than treated as a fetchable URL. `<script>` tags whose `type` attribute indicates non-JS content (`application/ld+json`, `speculationrules`, and similar resource-hint/structured-data formats WordPress and other content management systems commonly emit) are skipped — they aren't valid JS and would break any JS parser run against the saved file.
-    - Every HTML attribute value on the page is additionally resolved with the `URL` constructor. If the resulting URL has a path segment ending in `.js` — even if that segment isn't the last part of the path (for example `/beacon.min.js/v124/token`, a common shape for analytics/tag-manager scripts served with a cache-busting suffix) — the tool requests it and checks the response `Content-Type` header rather than trusting the URL shape alone. Accepted types are `text/javascript` (the current type per [RFC 9239](https://datatracker.ietf.org/doc/html/rfc9239)), plus [RFC 4329](https://datatracker.ietf.org/doc/html/rfc4329)'s now-obsoleted `application/javascript` / `application/ecmascript` and a few other legacy variants still seen in the wild.
-- **Strings-based discovery (`--strings`).** Some JS files are referenced only as a string literal inside an already-downloaded file's own config — for example a plugin's `"pdfWorker": "https://site/.../pdf.worker.js"` setting embedded in an inline `<script>` body. `--strings` chains the [`strings`](./strings.md) module into the crawl to catch these: after a batch of files is downloaded, it scans them for string literals that look like JS paths, resolves each one against the URL the file it was found in was itself downloaded from (not the page that referenced that file), and downloads any new confirmed JS. This repeats — new downloads feed the next strings pass — until a pass finds nothing new or `--strings-max-iterations` is reached (default `5`; `0` = no cap).
-- Files whose URL doesn't end in a clean `.js`/`.mjs` filename are still saved with a `.js` extension (derived from the matching path segment plus a short hash) so downstream steps like `strings` pick them up correctly.
-
-> **Stagnation detection.** Sites with an effectively unbounded page count (blogs, news feeds) often serve the same JS content under different, cache-busted URLs on every page — URL-level dedup doesn't catch this, so the crawl keeps "discovering" files that add nothing new. The tool tracks a content hash (not just the URL) of every JS file it discovers. Once `--stagnation-timein` minutes have passed since the crawl started, it begins periodically checking (every `--stagnation-monitor` minutes) whether one content hash accounts for at least `--stagnation-percentage`% of everything discovered so far. Crossing the threshold doesn't stop the crawl immediately — it arms a "pending" state and waits one more monitor interval: if a genuinely new content hash shows up in that window, the crawl is still finding new content and monitoring resets; only if the same dominant hash persists with no new content does the crawl stop early. Set `--stagnation-timein 0` to disable the feature entirely.
-
-`run` only downloads JS files for this fallback — it does not attempt `map`/`analyze`/`report` against generic output, since those steps depend on framework-specific bundle structure.
-
 ### `--yes` flag and JS execution
 
 The webpack chunk-enumeration technique extracts a function from the webpack runtime and executes it locally in a Node.js sandbox with each discovered integer chunk ID as input. Before executing, the tool prompts you to inspect the extracted function and confirm. Pass `--yes` to skip the prompt — useful in automated pipelines, but verify you trust the target's JS first.
@@ -157,8 +133,6 @@ Each framework is added to the tool after thorough research on the framework. Ne
 - Svelte
 
 Please note that some frameworks are supported better than others. Currently, the frameworks with the most supported techniques are Next.js and Vue.
-
-Sites running none of the above still get JS extraction through the generic fallback described above, but `run` only downloads their JS files — it does not run `map`/`analyze`/`report` for them.
 
 ## Examples
 

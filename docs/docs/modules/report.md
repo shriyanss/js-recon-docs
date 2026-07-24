@@ -22,9 +22,6 @@ js-recon report [options]
 | `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                                                                                                                           |               | No       |
 | `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                                                                                                                      |               | No       |
 | `--output <file>`                             | `-o`  | Output file name (without the extension)                                                                                                      | `report`      | No       |
-| `--sj`                                        |       | Run `sj` (swagger-jacker) against the mapped OpenAPI spec (requires `sj` to be installed and a `--map-openapi`/`--mapped-openapi-json` file). | `false`       | No       |
-| `--sj-bin <path>`                             |       | Path/name of the `sj` binary.                                                                                                                 | `sj`          | No       |
-| `--sj-args <args>`                            |       | Extra arguments passed through to `sj automate` (e.g. auth headers via `-H`, or a target override via `-T`).                                  | (empty)       | No       |
 | `-h, --help`                                  |       | display help for command                                                                                                                      |               | No       |
 
 ## Example
@@ -46,28 +43,6 @@ js-recon report -a ./analyze.json
 ```bash
 js-recon report -m mapped.json -a analyze.json -e endpoints.json --map-openapi mapped-openapi.json
 ```
-
-### Probe the mapped OpenAPI spec with sj (swagger-jacker)
-
-`sj` must be installed separately before using `--sj` — js-recon does not bundle it:
-
-```bash
-go install github.com/BishopFox/sj@latest
-```
-
-Run `sj` against the mapped OpenAPI spec:
-
-```bash
-js-recon report --map-openapi mapped-openapi.json --sj
-```
-
-Pass extra arguments through to `sj automate` — for example, an `Authorization` header and a target override:
-
-```bash
-js-recon report --map-openapi mapped-openapi.json --sj --sj-args="-H 'Authorization: Bearer xyz' -T https://target.example.com"
-```
-
-`sj`'s own output file (`swagger-jacker-results.json`, written to the current working directory) is the artifact from this step — its findings are not merged into `analyze.json`, the SQLite database, or `report.html`.
 
 ## Database schema (`js-recon.db`)
 
