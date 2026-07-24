@@ -196,7 +196,7 @@ Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` o
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with an `element.href = X` assignment **other than** `window.location.href` (covered by the open-redirect rule), or with `.setAttribute("href", X)`. When the element is clickable, `X = "javascript:alert(1)"` executes in the page origin on click.
+Fires when a URL-derived value co-occurs with an `element.href = X` assignment **other than** `window.location.href` (covered by the open-redirect rule), or with `.setAttribute("href", X)`. When the element is clickable, `X = "javascript:alert(1)"` executes in the page origin on click. Skips the write if the assigned value is the direct return of a call to a common URL/HTML sanitizer (for example `sanitizeUrl(...)`, `DOMPurify.sanitize(...)`, `encodeURIComponent(...)`).
 
 ### `detect_redos_url_param` — DOM-based ReDoS
 
