@@ -152,15 +152,21 @@ to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environmen
 
 Alternatively, these can be passed directly to the tool through the `-a/--access-key <key>` and `-s/--secret-key <key>` flags to the `api-gateway` module. Read the full docs [here](./modules/api-gateway.md)
 
-### OpenAI API (to generate function descriptions; optional)
+### AI provider API key (to generate function descriptions; optional)
 
-It is helpful to have the function descriptions generated through AI. To use this feature, the tool needs access to OpenAI API (the alternative provider is Ollama).
+It is helpful to have the function descriptions generated through AI. To use this feature, the tool needs access to an AI provider API — `openai` (default), `anthropic`, or `ollama` (no key required), selected via `--ai-provider`.
 
-To get an API Key:
+To get an OpenAI API key:
 
 - Navigate to https://platform.openai.com and log in/sign up
 - Once logged in, go to https://platform.openai.com/settings/organization/billing/overview and add credit balance to the OpenAI API account. You can test this with $5, however, you should refer to the prompts on OpenAI's website for the minimum amount
 - Now, go to https://platform.openai.com/api-keys, and create a new API key
 - Store this in the `$OPENAI_API_KEY` environment variable
 
-Alternatively, this API Key can be directly passed to JS Recon through `--openai-api-key <key>` flag to the `map` module. The full documentation can be found [here](./modules/map.md)
+To get an Anthropic API key:
+
+- Navigate to https://console.anthropic.com and log in/sign up
+- Add credit balance, then create a new API key under API Keys
+- Store this in the `$ANTHROPIC_API_KEY` environment variable
+
+Alternatively, this API Key can be directly passed to JS Recon through the `--ai-api-key <key>` flag to the `map` module. The full documentation can be found [here](./modules/map.md)

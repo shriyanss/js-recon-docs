@@ -89,7 +89,7 @@ $ js-recon run --<TAB>
 --list-methods            --map-openapi-chunk-tag   --max-heap
 --max-iterations          --max-js-size             --max-pages
 --model                   --ngql                    --no-graphql
---no-sandbox              --openai-api-key          --output
+--no-sandbox              --ai-api-key              --output
 --research                --research-output         --rules
 --scope                   --secrets                 --sourcemap-dir
 --strict-scope            --threads                 --timeout
