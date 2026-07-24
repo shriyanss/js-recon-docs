@@ -6,6 +6,8 @@ sidebar_position: 1
 
 The interactive mode for Next.js maps provides a terminal-based interface to explore and analyze the functions within your Next.js application. This guide will walk you through the features and commands available in this mode.
 
+Interactive mode is also available for [Vue.js](./vue-js.md), [React](./react.md), [Svelte/Astro](./svelte-astro.md), and [Angular](./angular.md) maps — this page documents the UI, keybindings, and commands in full since the other frameworks share almost all of it; each framework's page only calls out what's different.
+
 ## Getting started
 
 To launch the interactive mode, run the following command:
@@ -84,6 +86,7 @@ Lists different types of information. Usage: `list <option>`
 - `list all`: Lists all functions found in the application.
 - `list desc`: List all functions with non-empty descriptions.
 - `list nav`: Lists your function navigation history.
+- `list server_actions`: Lists all discovered Next.js Server Actions, with route, body arguments, and source locations. Only available for Next.js — this reads server-action entries recorded by `resolveServerActions` (see [Map](../map.md)), which the other frameworks don't produce.
 - `list exportnames <option>`: Lists export names for a chunk.
     - `list exportnames <chunkId>`: Lists export names for a specific chunk.
     - `list exportnames all`: Lists export names for all chunks.

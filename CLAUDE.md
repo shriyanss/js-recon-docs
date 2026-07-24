@@ -17,7 +17,11 @@ docs/
 │   │   ├── strings.md            ← String/secret extractor (pos 4)
 │   │   ├── map.md                ← Function mapper         (pos 5)
 │   │   ├── interactive_mode/     ← map's interactive shell (pos 6)
-│   │   │   └── next-js.md
+│   │   │   ├── next-js.md            (pos 1)
+│   │   │   ├── vue-js.md             (pos 2)
+│   │   │   ├── react.md              (pos 3)
+│   │   │   ├── svelte-astro.md       (pos 4)
+│   │   │   └── angular.md            (pos 5)
 │   │   ├── endpoints.md          ← Route extractor         (pos 7)
 │   │   ├── analyze.md            ← Static-analysis runner  (pos 8)
 │   │   ├── report.md             ← HTML report generator   (pos 9)
@@ -90,7 +94,7 @@ top-to-bottom sees the most-used commands first:
 | 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                   |
 | 4        | `strings`       | Second step: extract URLs and secrets                    |
 | 5        | `map`           | Third step: build the function map                       |
-| 6        | _(interactive)_ | Interactive console for `map` (Next.js)                  |
+| 6        | _(interactive)_ | Interactive console for `map` — "Map Reference" (all 5 map-supported frameworks) |
 | 7        | `endpoints`     | Fourth step: extract the client-side route tree          |
 | 8        | `analyze`       | Fifth step: run static-analysis rules                    |
 | 9        | `report`        | Sixth step: render the final HTML report                 |
