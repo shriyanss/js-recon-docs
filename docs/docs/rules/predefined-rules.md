@@ -273,6 +273,12 @@ Fires on a `crypto.createHmac(algorithm, key)` call (member-expression or destru
 
 Fires on a `.replace(/pattern/, "")` call whose regex looks like an HTML/script sanitization filter (matches `<script`, an `on*=` event-handler attribute, `javascript:`, or a bare angle bracket) but is missing the global (`g`) flag. Without `/g`, `String.prototype.replace` strips only the first match — a payload with a second occurrence of the filtered pattern survives the "sanitizer" untouched (for example `<script></script><script>` with only the first tag stripped still leaves a working `<script>` tag). This is a client-side filter-bypass primitive, not proof that the value reaches an unescaped sink — pair it with the surrounding render path before treating it as a confirmed XSS.
 
+### `detect_prototype_pollution_merge_gadget` — `Object.assign(target, JSON.parse(...))` prototype-pollution gadget
+
+`severity: medium`
+
+Fires on an `Object.assign(target, JSON.parse(input))` call — merging a freshly parsed JSON value directly into another object with no `__proto__`/`constructor`/`prototype` key filtering. If `input` is attacker-controlled (a postMessage payload, a URL parameter, a response body), an attacker can supply `{"__proto__":{"x":1}}` to pollute `Object.prototype` itself, silently changing the behavior of every object on the page. This is a common gadget for auth-check bypass or config override once a nested property the app trusts gets overwritten. Presence-based: it fires on the merge shape itself, since a guard that would make this safe isn't always visible in the same expression.
+
 ---
 
 ## Tuning false positives vs. false negatives
