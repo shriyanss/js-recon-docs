@@ -87,26 +87,26 @@ docs/
 Modules are ordered to match the typical recon workflow so that a newcomer reading
 top-to-bottom sees the most-used commands first:
 
-| Position | Module          | Role in workflow                                         |
-| -------- | --------------- | -------------------------------------------------------- |
-| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut     |
-| 2        | `lazyload`      | First manual step: download JS files                     |
-| 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                   |
-| 4        | `strings`       | Second step: extract URLs and secrets                    |
-| 5        | `map`           | Third step: build the function map                       |
+| Position | Module          | Role in workflow                                                                 |
+| -------- | --------------- | -------------------------------------------------------------------------------- |
+| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut                             |
+| 2        | `lazyload`      | First manual step: download JS files                                             |
+| 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                                           |
+| 4        | `strings`       | Second step: extract URLs and secrets                                            |
+| 5        | `map`           | Third step: build the function map                                               |
 | 6        | _(interactive)_ | Interactive console for `map` — "Map Reference" (all 5 map-supported frameworks) |
-| 7        | `endpoints`     | Fourth step: extract the client-side route tree          |
-| 8        | `analyze`       | Fifth step: run static-analysis rules                    |
-| 9        | `report`        | Sixth step: render the final HTML report                 |
-| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules       |
-| 11       | _(refactor/)_   | Technology-specific refactor docs                        |
-| 12       | `sourcemaps`    | Extract embedded source maps                             |
-| 13       | `load`          | Offline workflow: import a Caido export as a cache       |
-| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                |
-| 15       | `fingerprint`   | Utility: detect the JS framework before running          |
-| 16       | `cs-mast`       | Advanced: structural signature generation and comparison |
-| 17       | `mcp`           | MCP server and Claude Code integration                   |
-| 18       | `completion`    | Utility: generate shell completion scripts               |
+| 7        | `endpoints`     | Fourth step: extract the client-side route tree                                  |
+| 8        | `analyze`       | Fifth step: run static-analysis rules                                            |
+| 9        | `report`        | Sixth step: render the final HTML report                                         |
+| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules                               |
+| 11       | _(refactor/)_   | Technology-specific refactor docs                                                |
+| 12       | `sourcemaps`    | Extract embedded source maps                                                     |
+| 13       | `load`          | Offline workflow: import a Caido export as a cache                               |
+| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                                        |
+| 15       | `fingerprint`   | Utility: detect the JS framework before running                                  |
+| 16       | `cs-mast`       | Advanced: structural signature generation and comparison                         |
+| 17       | `mcp`           | MCP server and Claude Code integration                                           |
+| 18       | `completion`    | Utility: generate shell completion scripts                                       |
 
 ## Sidebar position rules
 
