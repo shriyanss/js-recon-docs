@@ -157,6 +157,26 @@ _createElementVNode(
 );
 ```
 
+### `detect_react_createelement_dynamic_type` — React `createElement` XSS gadget via dynamic component type
+
+`severity: medium`
+`tech: [next, react]`
+
+Fires when a URL-derived value co-occurs with `React.createElement(type, props, ...children)` (or a bare `createElement(...)` call) whose *first* argument — the component/tag type — is not a string literal. A bundler commonly wraps a module-level function reference as `(0, mod.createElement)(...)` to strip an unwanted `this` binding; the rule matches both that form and a direct `mod.createElement(...)`/bare `createElement(...)` call. When the type argument is attacker-controlled, React renders whatever tag name the value resolves to — depending on which of type/props/children are also attacker-influenced, this ranges from a limited primitive up to full markup/attribute injection.
+
+### `detect_jquery_html_injection_url_param` — XSS via URL parameter into a jQuery HTML-building sink
+
+`severity: high`
+`tech: [next, vue, react, svelte, angular]`
+
+Fires when a URL-derived value co-occurs with the jQuery constructor (`$(...)` / `jQuery(...)`) called on a dynamically built string (template literal or concatenation), or with `.html(...)` called on a non-literal value. jQuery's constructor parses a string argument that looks like markup and builds live DOM nodes from it — a sink most reviewers don't treat as one because it doesn't read like `innerHTML`.
+
+### `detect_dompurify_forcekeepattr_hook` — DOMPurify sanitizer bypass via `forceKeepAttr` hook
+
+`severity: high`
+
+Presence-based rule: fires on any assignment to `.forceKeepAttr` (for example `data.forceKeepAttr = true`) inside a DOMPurify `uponSanitizeAttribute`/`uponSanitizeElement` hook callback. Setting this flag tells DOMPurify to skip its own attribute safety check for that attribute entirely — on DOMPurify 3.1.3–3.1.5 this is a guaranteed sanitizer bypass, and on any version it disables a safety check the app likely didn't intend to disable for arbitrary attributes.
+
 ### `detect_open_redirect_url_param` — DOM-based open redirect
 
 `severity: high`

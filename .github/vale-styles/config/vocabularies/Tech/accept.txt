@@ -77,3 +77,5 @@ dedup
 bypassable
 untrusted
 exfiltrate
+jQuery('s)?
+DOMPurify
