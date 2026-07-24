@@ -22,18 +22,18 @@ js-recon api-gateway [options]
 
 ## Options
 
-| Option                    | Alias | Description                                                          | Default                   | Required |
-| ------------------------- | ----- | ---------------------------------------------------------------------- | --------------------------- | -------- |
-| `--init`                  | `-i`  | Create a new API Gateway and save it to the config file.               | `false`                      | No       |
-| `--destroy <id>`          | `-d`  | Destroy the API Gateway with the given ID.                              |                              | No       |
-| `--destroy-all`           |       | Destroy all API Gateways created by this tool, in all regions.          | `false`                      | No       |
-| `--region <region>`       | `-r`  | AWS region to create the API in.                                       | random region                | No       |
-| `--access-key <key>`      | `-a`  | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided.       |                              | No       |
-| `--secret-key <key>`      | `-s`  | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided.   |                              | No       |
-| `--config <config>`       | `-c`  | Name of the config file.                                               | `.api_gateway_config.json`   | No       |
-| `--list`                  | `-l`  | List all APIs created by this tool.                                    | `false`                      | No       |
-| `--feasibility`           |       | Check the feasibility of using API Gateway for a target.                | `false`                      | No       |
-| `--feasibility-url <url>` |       | URL to check the feasibility of.                                       |                              | No       |
+| Option                    | Alias | Description                                                           | Default                    | Required |
+| ------------------------- | ----- | --------------------------------------------------------------------- | -------------------------- | -------- |
+| `--init`                  | `-i`  | Create a new API Gateway and save it to the config file.              | `false`                    | No       |
+| `--destroy <id>`          | `-d`  | Destroy the API Gateway with the given ID.                            |                            | No       |
+| `--destroy-all`           |       | Destroy all API Gateways created by this tool, in all regions.        | `false`                    | No       |
+| `--region <region>`       | `-r`  | AWS region to create the API in.                                      | random region              | No       |
+| `--access-key <key>`      | `-a`  | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided.     |                            | No       |
+| `--secret-key <key>`      | `-s`  | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. |                            | No       |
+| `--config <config>`       | `-c`  | Name of the config file.                                              | `.api_gateway_config.json` | No       |
+| `--list`                  | `-l`  | List all APIs created by this tool.                                   | `false`                    | No       |
+| `--feasibility`           |       | Check the feasibility of using API Gateway for a target.              | `false`                    | No       |
+| `--feasibility-url <url>` |       | URL to check the feasibility of.                                      |                            | No       |
 
 ### Examples
 
@@ -87,10 +87,10 @@ js-recon api-gateway --feasibility --feasibility-url https://example.com
 `lazyload` and `run` take these two flags to route their outbound requests through a configured API
 Gateway. Both are declared identically on both commands.
 
-| Option                       | Description                                                                 | Default                   |
-| ---------------------------- | ------------------------------------------------------------------------------ | --------------------------- |
-| `--api-gateway`               | Generate requests using API Gateway.                                          | `false`                      |
-| `--api-gateway-config <file>` | API Gateway config file to read (generated via `js-recon api-gateway -i`).      | `.api_gateway_config.json`    |
+| Option                        | Description                                                                | Default                    |
+| ----------------------------- | -------------------------------------------------------------------------- | -------------------------- |
+| `--api-gateway`               | Generate requests using API Gateway.                                       | `false`                    |
+| `--api-gateway-config <file>` | API Gateway config file to read (generated via `js-recon api-gateway -i`). | `.api_gateway_config.json` |
 
 ### Example
 
