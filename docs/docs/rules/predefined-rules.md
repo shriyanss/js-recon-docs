@@ -85,7 +85,7 @@ Detects the `URL → fetch URL` traversal pattern. Fires when the same chunk con
 1.  A read from a URL-derived source (same set as the rule above, plus `useParams()` for App Router dynamic segments, and `useRoute()` for Vue Router). To survive minification of production Vite/webpack bundles — where the local `route` binding becomes a 2-character name but the Vue Router property names do not — the rule also matches any member expression of the shape `<obj>.query.<X>` or `<obj>.params.<X>`.
 2.  A `fetch(...)` (or `*.fetch(...)`) call whose first argument is a **dynamically constructed URL** — either a `TemplateLiteral` containing at least one interpolation, or a `BinaryExpression` doing string concatenation (`'/api/foo/' + x`).
 
-The browser collapses `..` segments **before** the request hits the server, so an attacker who controls the interpolated value can pivot the fetch to a different API path. This is exactly the CSPT pattern (for example, `?file=../users/1` causing `fetch('/api/docs/' + file)` to hit `/api/users/1`).
+The browser collapses `..` segments **before** the request hits the server, so an attacker who controls the interpolated value can pivot the fetch to a different API path. This is exactly the CSPT pattern (for example, `?file=../users/1` causing `fetch('/api/docs/' + file)` to hit `/api/users/1`). Skips the sink when the interpolated value is wrapped in `encodeURIComponent`/`encodeURI` (for example `` fetch(`/api/docs/${encodeURIComponent(file)}`) ``), since proper URI-encoding neutralizes the path-traversal segments.
 
 Typical compiled match (`app/docs/page.tsx`):
 
