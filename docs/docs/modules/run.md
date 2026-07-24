@@ -90,10 +90,9 @@ js-recon run -u <url/file> [options]
 | `--scope <scope>`                     | `-s`     | Download JS files from specific domains (comma-separated)                                                                                                                                                                                                                                                     | `*`                  | No       |
 | `--threads <threads>`                 | `-t`     | Number of threads to use                                                                                                                                                                                                                                                                                      | `1`                  | No       |
 | `--rules <file/dir>`                  | `-r`     | Rules file or directory (passed to analyze module)                                                                                                                                                                                                                                                            |                      | No       |
-| `--disable-rules-version-check`       |          | Skip the GitHub rules version check and use cached rules as-is (passed to analyze module)                                                                                                                                                                                                                     | `false`              | No       |
 | `--command <command>`                 | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && esquery * fetch"`).                                                                                                                |                      | No       |
-| `--proxy-config <file>`               |          | Proxy config file, generated via `js-recon proxy -i`. See [Proxy](./proxy.md).                                                                                                                                                                                                                                | `.proxy_config.json` | No       |
-| `--ignore-proxy-env`                  |          | Skip `JS_RECON_*` proxy environment variables during resolution                                                                                                                                                                                                                                               | `false`              | No       |
+| `--api-gateway`                       |          | Generate requests using API Gateway. See [API Gateway](./api-gateway.md).                                                                                                                                                                                                                                     | `false`              | No       |
+| `--api-gateway-config <file>`         |          | API Gateway config file, generated via `js-recon api-gateway -i`. See [API Gateway](./api-gateway.md).                                                                                                                                                                                                        | `.api_gateway_config.json` | No |
 | `--cache-file <file>`                 |          | File to store response cache                                                                                                                                                                                                                                                                                  | `.resp_cache.json`   | No       |
 | `--disable-cache`                     |          | Disable response caching                                                                                                                                                                                                                                                                                      | `false`              | No       |
 | `--cache-only`                        |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                                                                      | `false`              | No       |
@@ -132,7 +131,6 @@ js-recon run -u <url/file> [options]
 | `--exclude-methods <methods>`         |          | Comma-separated list of lazyload method names to skip (blacklist). All methods except these will run in every lazyload pass. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                                                                 |                      | No       |
 | `--list-methods [framework]`          |          | Print all available lazyload method names grouped by framework and exit. Optionally filter by framework (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`). Does not require `-u`.                                                                                                                   |                      | No       |
 | `--cs-mast-tech-detect-threshold <n>` |          | Minimum number of CS-MAST-S signature matches required to detect the bundler and trigger the automatic refactor step. Pass `0` to disable refactor. See [Refactor integration](#refactor-integration).                                                                                                        | `50`                 | No       |
-| `--disable-refactor`                  |          | Skip the automatic bundler-detection and refactor step entirely, without needing to touch `--cs-mast-tech-detect-threshold`. See [Refactor integration](#refactor-integration).                                                                                                                               | `false`              | No       |
 | `--verbose`                           |          | Show detailed file write error messages during the lazyload step (e.g. when a downloaded JS chunk fails to write to disk). Suppressed by default to reduce terminal noise.                                                                                                                                    | `false`              | No       |
 | `-h, --help`                          |          | display help for command                                                                                                                                                                                                                                                                                      |                      | No       |
 
@@ -161,10 +159,9 @@ The menu reliably waits for your choice before the process continues or exits �
 
 After the report step, `run` automatically attempts to decompile the target's JavaScript bundle using the [`refactor`](./refactor.md) module — no extra flags needed, since the bundler is detected via CS-MAST-S signature matching. See [Refactor — Automatic detection during `run`](./refactor.md#automatic-detection-during-run) for how detection works and the framework-support matrix.
 
-Two flags control this step:
+This flag controls the step:
 
 - `--cs-mast-tech-detect-threshold <n>` (default `50`) sets the minimum signature-match count required to trigger refactor; pass `0` to disable it.
-- `--disable-refactor` skips bundler detection and the refactor step entirely — the clearer, dedicated way to opt out.
 
 Refactored files are written to `refactored/` in the current working directory (single-URL mode) or `<workingDir>/refactored/` alongside `mapped.json` for each target (batch mode). Any existing `refactored/` directory is deleted before writing.
 
@@ -173,36 +170,6 @@ Refactored files are written to `refactored/` in the current working directory (
 Passing `--sj` runs [`sj`](https://github.com/BishopFox/sj) (BishopFox's swagger-jacker) against the mapped OpenAPI spec at the report step, the same way `--trufflehog` runs TruffleHog at the strings steps. Unlike every other step in `run`, `sj` actively probes each endpoint in the spec with live requests, so use it deliberately.
 
 `sj` must be installed separately (`go install github.com/BishopFox/sj@latest`); `--sj-bin <path>` points at a non-default binary, and `--sj-args` passes extra arguments through to `sj automate` (for example auth headers via `-H`, or a target override via `-T`). `sj`'s own output file (`swagger-jacker-results.json`) is the artifact from this step — its findings are not merged into `analyze.json`, the SQLite database, or `report.html`.
-
-## Global database (batch mode)
-
-When `-u` points to a file of URLs, each domain still gets its own `<output>/<host>/js-recon.db` exactly as before. In addition, `run` now maintains one combined database at the root of the output directory:
-
-```
-output/
-  domain1.com/js-recon.db
-  domain2.com/js-recon.db
-  js-recon.db   <- combined database for the whole batch
-```
-
-This lets you query findings, endpoints, and mapped chunks across every target in the batch without opening each per-domain database individually.
-
-### Schema
-
-The global database reuses the same four tables as the per-domain database (`mapped`, `mapped_openapi`, `endpoints`, `analysis_findings`), with two differences:
-
-- Every table gains a **`domain`** column — the sanitized host used for that target's output directory (for example `example.com` or `example.com_8443` when a non-default port is in the URL). This doubles as a foreign key back to the corresponding `<output>/<domain>/` directory.
-- Primary keys that were only unique within a single domain are widened so rows from different domains never collide or overwrite each other:
-    - `mapped` gets a new autoincrement `globalId` primary key (the original per-bundle chunk `id` is kept as a plain column, since chunk IDs reset for every domain and aren't unique across a batch).
-    - `mapped_openapi`'s primary key becomes `(domain, path, method)`.
-    - `endpoints`'s primary key becomes `(domain, url)`.
-    - `analysis_findings` gains an autoincrement `globalId` primary key.
-
-### Behavior
-
-- The global database is created once at the start of a batch run and updated after each target finishes its own `report` step — it accumulates across the whole batch rather than being replaced.
-- If a target's pipeline stops before the `report` step (for example, an unsupported framework), that domain has no `js-recon.db` to merge and is skipped with a warning; the rest of the batch continues normally.
-- This behavior is automatic in batch mode and requires no extra flags. Single-URL mode (`-u <url>`) is unaffected — there's only one domain, so no global database is created.
 
 ## Example
 
@@ -230,27 +197,15 @@ Or point it at a file (one URL per line) to run the same pipeline across every h
 js-recon run -u targets.txt -y -t 10
 ```
 
-Batch mode also builds a combined `js-recon.db` at the root of the output directory so findings across the whole list can be queried together — see [Global database (batch mode)](#global-database-batch-mode).
+### Route traffic through AWS API Gateway
 
-### Skip the automatic refactor step
-
-`run` decompiles the bundle automatically once CS-MAST-S recognizes the bundler, which adds time you may not want on a quick triage pass:
+Send every request `run` makes through an AWS API Gateway for IP rotation:
 
 ```bash
-js-recon run -u https://example.com -y --disable-refactor
+js-recon run -u https://example.com -y --api-gateway --api-gateway-config .api_gateway_config.json
 ```
 
-Useful when you only need `lazyload`/`map`/`analyze`/`report` output and plan to run [`refactor`](./refactor.md) manually later, if at all.
-
-### Route traffic through Burp or Caido
-
-Send every request `run` makes through an intercepting proxy so it shows up alongside the rest of an engagement's traffic:
-
-```bash
-js-recon run -u https://example.com -y --proxy-config .proxy_config.json
-```
-
-Generate `.proxy_config.json` first with `js-recon proxy -i` — see [Proxy](./proxy.md) for the interactive wizard.
+Generate `.api_gateway_config.json` first with `js-recon api-gateway -i` — see [API Gateway](./api-gateway.md) for the full flag reference.
 
 ### Hunt for leaked secrets
 

@@ -50,20 +50,6 @@ docker pull ghcr.io/js-recon/js-recon:beta
 
 :::
 
-## Rules-bundled image (`-w-rules`)
-
-Every tag above (`latest`, `alpha`, `beta`, and specific versions) has a matching `-w-rules` tag that ships with [JS Recon Rules](./rules/README.md) already downloaded into `~/.js-recon/rules` inside the image. Use it when you don't want the tool to reach out to GitHub for rules on first run — for example, on an air-gapped host, or to shave a few seconds off startup during a mass scan.
-
-```bash
-docker pull ghcr.io/js-recon/js-recon:latest-w-rules
-```
-
-The `-w-rules` image also sets the `JS_RECON_DISABLE_RULES_VERSION_CHECK` environment variable to `true` by default, which corresponds to the [`--disable-rules-version-check`](./modules/analyze.md) flag. With it set, `analyze` and `run` skip the GitHub version-check request entirely and use whatever rules are already present in the container, instead of checking whether a newer release exists. If you want the container to still check for rule updates over the network, override the variable at run time:
-
-```bash
-docker run -it -e JS_RECON_DISABLE_RULES_VERSION_CHECK=false ghcr.io/js-recon/js-recon:latest-w-rules <js_recon_arguments>
-```
-
 ## Running JS Recon
 
 You can run JS Recon using the following command:
@@ -103,8 +89,8 @@ There could be multiple other files created based on the module used. You can re
     - `extracted_urls-openapi.json`
 - [Endpoints](./modules/endpoints.md):
     - `endpoints.json`
-- [Proxy](./modules/proxy.md):
-    - `.proxy_config.json` (this is a configuration file, but is worth keeping it if generated)
+- [API Gateway](./modules/api-gateway.md):
+    - `.api_gateway_config.json` (this is a configuration file, but is worth keeping it if generated)
 - [Map](./modules/map.md):
     - `mapped.json`
 - [Analyze](./modules/analyze.md):

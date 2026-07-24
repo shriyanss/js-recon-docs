@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - stage
+      - post-1.4.1
 
 jobs:
   version_check:
