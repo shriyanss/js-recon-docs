@@ -52,6 +52,8 @@ destructur(ing|ed)
 bundlers?
 patchFlag
 allowlist
+sanitization
+unescaped
 URIs
 middleware
 polyfills?

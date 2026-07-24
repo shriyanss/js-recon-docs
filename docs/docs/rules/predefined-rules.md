@@ -267,6 +267,12 @@ Detects string literals in compiled JavaScript matching well-known cloud-provide
 
 Fires on a `crypto.createHmac(algorithm, key)` call (member-expression or destructured form) whose `key` argument is a string literal at least 8 characters long, rather than a value read from a server response or request-scoped input. This rule is format-independent: it doesn't look for a recognizable secret shape, it looks for how the value is used — as a signing key fed directly into an HMAC construction. If the client signs or verifies a token with a key baked into the bundle, anyone who downloads the JS can extract the key and forge a signature the server will accept.
 
+### `detect_non_global_regex_sanitizer` — HTML/script sanitizer using a non-global regex `.replace()`
+
+`severity: medium`
+
+Fires on a `.replace(/pattern/, "")` call whose regex looks like an HTML/script sanitization filter (matches `<script`, an `on*=` event-handler attribute, `javascript:`, or a bare angle bracket) but is missing the global (`g`) flag. Without `/g`, `String.prototype.replace` strips only the first match — a payload with a second occurrence of the filtered pattern survives the "sanitizer" untouched (for example `<script></script><script>` with only the first tag stripped still leaves a working `<script>` tag). This is a client-side filter-bypass primitive, not proof that the value reaches an unescaped sink — pair it with the surrounding render path before treating it as a confirmed XSS.
+
 ---
 
 ## Tuning false positives vs. false negatives
