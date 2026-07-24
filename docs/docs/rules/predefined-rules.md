@@ -162,7 +162,7 @@ _createElementVNode(
 `severity: medium`
 `tech: [next, react]`
 
-Fires when a URL-derived value co-occurs with `React.createElement(type, props, ...children)` (or a bare `createElement(...)` call) whose *first* argument — the component/tag type — is not a string literal. A bundler commonly wraps a module-level function reference as `(0, mod.createElement)(...)` to strip an unwanted `this` binding; the rule matches both that form and a direct `mod.createElement(...)`/bare `createElement(...)` call. When the type argument is attacker-controlled, React renders whatever tag name the value resolves to — depending on which of type/props/children are also attacker-influenced, this ranges from a limited primitive up to full markup/attribute injection.
+Fires when a URL-derived value co-occurs with `React.createElement(type, props, ...children)` (or a bare `createElement(...)` call) whose _first_ argument — the component/tag type — is not a string literal. A bundler commonly wraps a module-level function reference as `(0, mod.createElement)(...)` to strip an unwanted `this` binding; the rule matches both that form and a direct `mod.createElement(...)`/bare `createElement(...)` call. When the type argument is attacker-controlled, React renders whatever tag name the value resolves to — depending on which of type/props/children are also attacker-influenced, this ranges from a limited primitive up to full markup/attribute injection.
 
 ### `detect_jquery_html_injection_url_param` — XSS via URL parameter into a jQuery HTML-building sink
 
