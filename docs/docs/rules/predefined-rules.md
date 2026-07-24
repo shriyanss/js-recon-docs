@@ -172,7 +172,7 @@ Fires when a URL-derived value co-occurs with `element.setAttribute(name, value)
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `sessionStorage.setItem(...)` in the same chunk. Because storage persists across visits, a single poisoning URL plants a payload that fires on every subsequent page load — especially dangerous when the stored value is later read back into a DOM sink.
+Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `sessionStorage.setItem(...)` in the same chunk. Because storage persists across visits, a single poisoning URL plants a payload that fires on every subsequent page load — especially dangerous when the stored value is later read back into a DOM sink. Skips the write if the stored value is the direct return of a call whose name signals validation intent (contains "sanitize", "safe", "valid", "allow", or "escape" — for example `validateTheme(...)`).
 
 ### `detect_js_injection_eval` — JavaScript injection via `eval` / `Function` / `setTimeout`-string
 
