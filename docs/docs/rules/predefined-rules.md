@@ -190,7 +190,7 @@ Three-way co-occurrence rule: URL-derived value + `JSON.parse(...)` + dynamic `d
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` object contains a computed-key property (`{ [k]: v }`). Lets an attacker spoof `Authorization`, `X-Forwarded-For`, `X-Admin-Override`, or any other header that backend middleware trusts for access control.
+Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` object contains a computed-key property (`{ [k]: v }`) where the key itself is not a fixed string — a plain string literal or interpolation-free template literal in bracket notation (e.g. `["Content-Type"]: v`) doesn't count, since the header name isn't attacker-controllable in that case. Lets an attacker spoof `Authorization`, `X-Forwarded-For`, `X-Admin-Override`, or any other header that backend middleware trusts for access control.
 
 ### `detect_link_manipulation_href` — Link manipulation (`javascript:` URI sink)
 
