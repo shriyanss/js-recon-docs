@@ -148,7 +148,7 @@ _createElementVNode(
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with a navigation sink in the same chunk. Sinks: `window.location.href = X`, `location.assign(X)`, `location.replace(X)`, `window.open(X)`. Classic OAuth/SSO `?next=`-style abuse; without an origin/path allowlist, the attacker picks where the victim lands after auth.
+Fires when a URL-derived value co-occurs with a navigation sink in the same chunk. Sinks: `window.location.href = X`, `location.assign(X)`, `location.replace(X)`, `window.open(X)`. Classic OAuth/SSO `?next=`-style abuse; without an origin/path allowlist, the attacker picks where the victim lands after auth. Skips the sink if the navigated-to value is the direct return of a call whose name signals redirect validation (contains "sanitize", "safe", "valid", or "allow" — for example `isSafeRedirectUrl(...)`) or is wrapped in `encodeURIComponent`/`encodeURI`.
 
 ### `detect_cookie_manipulation_url_param` — DOM-based cookie manipulation
 
