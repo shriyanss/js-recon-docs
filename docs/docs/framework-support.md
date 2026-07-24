@@ -6,6 +6,16 @@ sidebar_position: 4
 
 The features available in the tool are developed after researching on specific JavaScript Frameworks, which implies that it would only work on those which are research. This document highlights the same thoroughly
 
+## Generic
+
+When a target doesn't match any of the frameworks below, the tool still treats it as a supported target under the `generic` tech, rather than aborting:
+
+- **Lazyload** — falls back to a generic extraction pass: it downloads JS referenced by `<script>`/`<link rel="modulepreload">` tags on the initial page, then recursively crawls the site's own pages (breadth-first, following in-scope `<a href>` links) to find JS the landing page alone doesn't reference — including files referenced only as a string literal inside an already-downloaded file, if `--strings` is set. See [Generic extraction](./modules/lazyload.md#generic-extraction-no-framework-detected).
+- **Strings** — runs unmodified against generic targets, since it operates on raw JS content rather than framework-specific structure.
+- **Run** — for a generic target, only runs the `lazyload` step; it does not attempt `map`, `analyze`, or `report`, since those steps depend on framework-specific bundle structure.
+
+`generic` isn't supported by **Endpoints**, **Map**, **Analyze**, or **Report** — these require a recognized framework's bundle/chunk format to operate.
+
 ## Lazyload
 
 The feature to download all lazy-loaded (dynamically loaded) JavaScript files is available for the following frameworks:

@@ -224,6 +224,10 @@ When a new release is cut:
 - Only edit `docs/` (the current/next version); never edit versioned snapshots directly.
 - Update `lastVersion` in `docusaurus.config.ts` to match the latest stable release.
 
+## Framework/tech support changes
+
+Whenever framework or tech support is extended to a new module in `js-recon` (a new framework, or `generic`-tech coverage for a module that lacked it), update `docs/docs/framework-support.md` in the same session to reflect it.
+
 ## Vale lint (CI)
 
 This repo runs Vale on documentation. If Vale CI fails:
