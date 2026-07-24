@@ -166,7 +166,7 @@ Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same c
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `element.setAttribute(name, value)` where `name` is one of the script/CSS/HTML-execution attributes: `src`, `href`, `srcdoc`, `action`, `formaction`, `background`, `poster`, `style`, `data`, `xlink:href`. `src`/`href` accept `javascript:` URIs, `style` enables CSS injection, `srcdoc` permits direct HTML injection into iframes. The attribute-name allowlist suppresses the bulk of legitimate `setAttribute` traffic (`class`, `id`, `aria-*`, `data-*`).
+Fires when a URL-derived value co-occurs with `element.setAttribute(name, value)` where `name` is one of the script/CSS/HTML-execution attributes: `src`, `href`, `srcdoc`, `action`, `formaction`, `background`, `poster`, `style`, `data`, `xlink:href`. `src`/`href` accept `javascript:` URIs, `style` enables CSS injection, `srcdoc` permits direct HTML injection into iframes. The attribute-name allowlist suppresses the bulk of legitimate `setAttribute` traffic (`class`, `id`, `aria-*`, `data-*`). Skips the write if the attribute value is the direct return of a call to a common URL/HTML sanitizer (for example `sanitizeUrl(...)`, `DOMPurify.sanitize(...)`, `encodeURIComponent(...)`).
 
 ### `detect_storage_manipulation_url_param` — HTML5 storage poisoning
 
