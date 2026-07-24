@@ -106,7 +106,7 @@ Detects raw-HTML rendering sinks where the value is **not** a literal. Covers tw
 - React's `dangerouslySetInnerHTML={{ __html: X }}` — compiled to an `ObjectProperty` with key `__html`.
 - Vue's `v-html="X"` directive — compiled by Vite/Vue's template compiler to an `ObjectProperty` `{ innerHTML: X }` (paired with a `["innerHTML"]` patchFlag tuple).
 
-The rule fires when the property value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — that is, it's a member access, identifier, or call result.
+The rule fires when the property value is _not_ a `StringLiteral`, `TemplateLiteral`, `NullLiteral`, `NumericLiteral`, or `BooleanLiteral` — that is, it's a member access, identifier, or call result — and is not the direct return value of a call to a common sanitizer/encoder function (for example `DOMPurify.sanitize(...)`, `sanitizeHtml(...)`, `escapeHtml(...)`).
 
 To minimise false positives from vendor chunks that include CSS-only uses of these sinks (which never appear alongside `fetch`), the rule additionally requires a `fetch(...)` call **in the same chunk**. The combination is a strong indicator that the HTML being rendered comes from a server response — for example, a comment body, post content, or any other user-controllable record.
 
