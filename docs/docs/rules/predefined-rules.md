@@ -154,7 +154,7 @@ Fires when a URL-derived value co-occurs with a navigation sink in the same chun
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `document.cookie =` in the same chunk. Beyond setting an unexpected cookie value, a `;`-injected attribute (Path, Domain, Expires) can pin a cookie the application then trusts; if the value is later read back into `.innerHTML`, the rule pair also chains into stored DOM XSS.
+Fires when a URL-derived value co-occurs with `document.cookie =` in the same chunk. Beyond setting an unexpected cookie value, a `;`-injected attribute (Path, Domain, Expires) can pin a cookie the application then trusts; if the value is later read back into `.innerHTML`, the rule pair also chains into stored DOM XSS. Skips the write when the assigned value is fully wrapped in `encodeURIComponent`/`encodeURI` — directly, or as the sole interpolated expression in a template literal — since proper URI-encoding neutralizes the cookie-attribute injection.
 
 ### `detect_websocket_url_poisoning` — WebSocket URL poisoning
 
