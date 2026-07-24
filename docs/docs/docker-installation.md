@@ -12,6 +12,17 @@ The image is only available for `amd64` architecture. For users running `arm64` 
 ^ Important for 🍎 silicon users
 :::
 
+:::danger
+Apple's [`container`](https://github.com/apple/container) CLI tool does **not** work for running JS Recon. It cannot virtualize the `amd64` architecture, so pulling and running the image fails:
+
+```bash
+% container run --rm ghcr.io/js-recon/js-recon
+Error: platform linux/arm64
+```
+
+Continue using Docker Desktop, Colima, or another OCI-compliant runtime that supports `amd64` emulation instead.
+:::
+
 ## Installation
 
 You can get started with just pulling the image from the GitHub Container Registry:
