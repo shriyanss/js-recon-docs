@@ -255,6 +255,12 @@ Fires on an `if` statement (or its minified ternary/`&&` equivalent) whose condi
 
 Fires when a value derived from `Math.random()` co-occurs with a write to `document.cookie` or `localStorage`/`sessionStorage.setItem(...)` in the same chunk. `Math.random()` is not a cryptographically secure PRNG — its output is predictable from a handful of observed samples — so a session, CSRF, or other security-relevant token generated this way and persisted client-side can be predicted by an attacker who observes a few generated values. Use `crypto.randomUUID()` or `crypto.getRandomValues()` instead.
 
+### `detect_cloud_credentials_in_bundle` — hardcoded cloud-provider credentials in JS bundle
+
+`severity: high`
+
+Detects string literals in compiled JavaScript matching well-known cloud-provider credential formats: AWS access key IDs (`AKIA`/`ASIA` prefix) and Google Cloud API keys (`AIza` prefix). These values compile directly into the bundle and are readable by anyone who fetches the JS file. An AWS access key ID is a long-lived IAM credential rather than a scoped browser key, so a match here is high-value on its own. Skips AWS's own documentation placeholder (`AKIAIOSFODNN7EXAMPLE`) and any match whose body is a run of 10+ identical characters, since these are masked/placeholder display values rather than real credentials.
+
 ---
 
 ## Tuning false positives vs. false negatives
