@@ -206,40 +206,88 @@ The global database reuses the same four tables as the per-domain database (`map
 
 ## Example
 
-### Run all modules on target, scan for secrets, and generate AI descriptions
+### Test an internal target with a self-signed certificate
+
+Internal apps often sit behind a self-signed or internally issued cert, and `run` executes JS pulled from the target during the map step, so approve that up front instead of getting prompted mid-run:
 
 ```bash
-js-recon run -u https://example.com --secrets --ai description
+js-recon run -u https://internal-app.corp.local -y -k
 ```
 
-This command will perform a full analysis on `https://example.com`, save the JavaScript files to the `output` directory, scan for secrets, and use AI to generate descriptions for the mapped functions.
+`-y` auto-approves JS execution and `-k` skips TLS verification — the combination that unblocks most internal engagements without any interactive prompts.
 
-### List available lazyload methods
+### Scan a single URL vs. a list of URLs
 
-Print all method names without supplying a target:
+Point `-u` at one target for a quick look:
 
 ```bash
-js-recon run --list-methods
+js-recon run -u https://example.com -y
 ```
 
-Filter by framework:
+Or point it at a file (one URL per line) to run the same pipeline across every host in scope, one after another:
 
 ```bash
-js-recon run --list-methods next_js
+js-recon run -u targets.txt -y -t 10
 ```
 
-### Skip a specific lazyload method
+Batch mode also builds a combined `js-recon.db` at the root of the output directory so findings across the whole list can be queried together — see [Global database (batch mode)](#global-database-batch-mode).
 
-Run the full pipeline but skip the brute-force JS file discovery method in every lazyload pass:
+### Skip the automatic refactor step
+
+`run` decompiles the bundle automatically once CS-MAST-S recognizes the bundler, which adds time you may not want on a quick triage pass:
 
 ```bash
-js-recon run -u https://example.com -y --exclude-methods next_bruteForceJsFiles
+js-recon run -u https://example.com -y --disable-refactor
 ```
 
-### Run only specific lazyload methods
+Useful when you only need `lazyload`/`map`/`analyze`/`report` output and plan to run [`refactor`](./refactor.md) manually later, if at all.
 
-Run only the script-tag and build-manifest methods in every lazyload pass:
+### Route traffic through Burp or Caido
+
+Send every request `run` makes through an intercepting proxy so it shows up alongside the rest of an engagement's traffic:
 
 ```bash
-js-recon run -u https://example.com -y --include-methods next_GetJSScript,next_GetLazyResourcesBuildManifestJs
+js-recon run -u https://example.com -y --proxy-config .proxy_config.json
 ```
+
+Generate `.proxy_config.json` first with `js-recon proxy -i` — see [Proxy](./proxy.md) for the interactive wizard.
+
+### Hunt for leaked secrets
+
+Combine the built-in secrets scanner with TruffleHog for a deeper pass over every downloaded JS file, useful when the goal of the engagement is finding leaked API keys or credentials rather than mapping the app:
+
+```bash
+js-recon run -u https://example.com -y --secrets --trufflehog
+```
+
+`--trufflehog` requires TruffleHog to already be installed; both scanners run at the strings steps.
+
+### Use a custom or organization rule set
+
+Point `analyze` at a rules file or directory outside the built-in catalog, for example an org-maintained set of client-specific checks:
+
+```bash
+js-recon run -u https://example.com -y --rules ./org-rules/
+```
+
+See [Rules](../rules/README.md) for the schema and [Predefined rules](../rules/predefined-rules.md) for what ships by default.
+
+### Chain interactive-mode commands for scripted analysis
+
+Forward one or more `map` interactive-mode commands non-interactively, useful for scripting a repeatable query against the mapped output instead of dropping into the shell:
+
+```bash
+js-recon run -u https://example.com -y -c "list fetch && esquery * fetch"
+```
+
+`-c` is repeatable, and a single value can chain multiple commands with `&&` as shown above.
+
+### Tune resource limits for a large batch job
+
+On a big list of targets, raise thread count to work through them faster, skip a noisy lazyload method that tends to hang on brute-force discovery, and cap memory/timeout so one bad target doesn't stall or crash the whole run:
+
+```bash
+js-recon run -u targets.txt -y -t 20 --exclude-methods next_bruteForceJsFiles --max-heap 4096 --lazyload-timeout 10
+```
+
+This runs 20 threads in parallel, skips `next_bruteForceJsFiles` in every lazyload pass, caps the V8 heap at 4096 MB, and forces each lazyload step to give up after 10 minutes instead of the default 30. Use `--list-methods` to see all available lazyload method names before choosing what to exclude.
