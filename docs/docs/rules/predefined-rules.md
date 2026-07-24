@@ -249,6 +249,12 @@ Fires when a URL-derived value co-occurs with `element.style.cssText = X`, `elem
 
 Fires on an `if` statement (or its minified ternary/`&&` equivalent) whose condition reads a role or entitlement flag — `isAdmin`, `isPaid`, `isPremium`, `isSubscribed`, `subscriptionType`, `userRole`, `permissionLevel`, `accessLevel` — directly off an object, and uses it to decide whether to render UI or call an endpoint. This is a heuristic, informational finding: when the backend independently re-derives the same authorization decision, the client-side check is harmless. When it doesn't, an attacker can flip the flag in the response before the JS reads it, or call the underlying endpoint directly, and reach functionality the UI never exposes. Manual verification of server-side enforcement is required before treating a match as a confirmed finding.
 
+### `detect_insecure_random_token_storage` — Insecure PRNG (`Math.random`) feeding a session/token storage sink
+
+`severity: medium`
+
+Fires when a value derived from `Math.random()` co-occurs with a write to `document.cookie` or `localStorage`/`sessionStorage.setItem(...)` in the same chunk. `Math.random()` is not a cryptographically secure PRNG — its output is predictable from a handful of observed samples — so a session, CSRF, or other security-relevant token generated this way and persisted client-side can be predicted by an attacker who observes a few generated values. Use `crypto.randomUUID()` or `crypto.getRandomValues()` instead.
+
 ---
 
 ## Tuning false positives vs. false negatives
