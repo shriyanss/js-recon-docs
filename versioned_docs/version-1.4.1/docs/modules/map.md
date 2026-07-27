@@ -61,7 +61,8 @@ After chunking, the tool resolves every `fetch()` and Axios call to a concrete U
     - Variable assignments (`const url = "/api/..."`)
     - Member expressions (`config.baseURL + path`)
     - `BinaryExpression` concatenation (`"/api/" + id`)
-    - Cross-chunk variable imports (when a URL is defined in one chunk and used in another)
+    - Cross-chunk variable imports, on a best-effort basis — only when the URL variable is re-exported
+      from its defining chunk (see [Limitations](#limitations) below for the unresolved case)
 
 4. **Server Actions** (Next.js only): Detects `createServerReference(actionId, ...)` calls, which represent Next.js Server Actions callable from the client. The `actionId` is a hash that identifies the server-side function.
 

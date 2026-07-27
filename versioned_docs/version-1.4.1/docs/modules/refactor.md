@@ -61,7 +61,7 @@ output_refactored/
 └── ...
 ```
 
-Each numbered `.js` file corresponds to a webpack module from the input bundle. All output files use ES module syntax (`import`/`export`) and are formatted with Prettier.
+Each numbered `.js` file corresponds to a webpack module from the input bundle, and every file is formatted with Prettier. Output syntax depends on the technology: `react-webpack` and the Vite techs use pure ES module `import`/`export` throughout, while Next.js techs mix `require()` calls for inter-module references with an appended `export default` statement — see [How it works (Next.js)](#how-it-works-nextjs) below.
 
 ## How it works (Next.js)
 

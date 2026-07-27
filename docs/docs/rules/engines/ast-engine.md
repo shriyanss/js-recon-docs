@@ -11,6 +11,7 @@ id: <id>
 name: <human_readable_name>
 author: <author>
 description: <description>
+js_recon_version: ">=<min-version>"
 severity: <info | low | medium | high>
 type: ast
 tech:
@@ -93,6 +94,7 @@ id: detect_postMessage
 name: Detect postMessage event listeners
 author: shriyanss
 description: Detect postMessage event listeners
+js_recon_version: ">=1.4.1"
 severity: info
 type: ast
 tech:
@@ -256,7 +258,7 @@ To use this step, you can use the following:
 ```yaml
 - name: <name>
   message: <message>
-  postMessageFunctionResolve:
+  postMessageFuncResolve:
       name: <postMessage_step_name>
 ```
 
@@ -272,6 +274,7 @@ id: detect_postMessage_function
 name: postMessage event listeners function code
 author: shriyanss
 description: Detect postMessage event listeners function code
+js_recon_version: ">=1.4.1"
 severity: info
 type: ast
 tech:
@@ -319,6 +322,7 @@ id: detect_postMessage_innerHtml_sink
 name: postMessage event listeners with innerHTML
 author: shriyanss
 description: Detect postMessage event listeners with innerHTML sink
+js_recon_version: ">=1.4.1"
 severity: medium
 type: ast
 tech:

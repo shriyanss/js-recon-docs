@@ -33,9 +33,11 @@ A request step is used to match the specific parts of a request in the OpenAPI s
 This step is used to match the parts of the headers. Following is the structure of the headers step:
 
 ```yaml
-- name: headers
-  condition: <contains | absent>
-  name: <header_name>
+- name: <name>
+  request:
+      type: headers
+      condition: <contains | absent>
+      name: <header_name>
 ```
 
 For example, a full configuration file to check if the `Authorization` header is present in the step would look like this:
@@ -68,9 +70,11 @@ steps:
 This step is used to match the parts of the URL. Following is the structure of the URL step:
 
 ```yaml
-- name: url
-  condition: <contains | absent>
-  name: <url_part>
+- name: <name>
+  request:
+      type: url
+      condition: <contains | absent>
+      name: <url_part>
 ```
 
 For example, a rule file to check if the URL contains the string `/api/` as well as the string `admin` in it would look like this:
@@ -109,9 +113,11 @@ steps:
 This step is used to match the HTTP method of the request. Following is the structure of the method step:
 
 ```yaml
-- name: method
-  condition: <is | is_not>
-  name: <method_name>
+- name: <name>
+  request:
+      type: method
+      condition: <is | is_not>
+      name: <method_name>
 ```
 
 For example, a rule to detect `DELETE` requests would look like this:

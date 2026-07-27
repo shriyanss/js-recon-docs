@@ -20,4 +20,12 @@ To preserve those changes, the sender should compress the working directory (dir
 
 The recipient can uncompress the folder, and run the `js-recon` command in the same directory.
 
-This method can be also used in shared folders on a network when multiple pentesters are collaborating on a project. This can be done using various methods, such as SFTP and SMB.
+:::warning
+The working directory can contain downloaded application bundles, endpoint inventories, findings, proxy
+configuration with credentials, and other sensitive local artifacts. Review the contents and redact anything
+that doesn't need to leave your machine before compressing it. Naming a transfer method like SFTP or
+SMB doesn't by itself make the transfer safe — use an encrypted channel and restrict access to the
+intended recipient only.
+:::
+
+This method can be also used in shared folders on a network when multiple pentesters are collaborating on a project. This can be done using various methods, such as SFTP and SMB, as long as access is restricted to the engagement team.

@@ -32,6 +32,7 @@ id: rule-1
 name: Rule 1
 author: shriyanss
 js_recon_version: ">=1.3.0"
+description: An example rule
 severity: info
 type: ast
 tech:

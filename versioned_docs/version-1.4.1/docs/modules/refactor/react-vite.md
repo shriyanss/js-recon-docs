@@ -141,7 +141,7 @@ output_refactored/
 └── …
 ```
 
-Output files use the original Vite chunk basenames, so dynamic imports within the entry chunk (for example `lazy(() => import('./Home-J6pOhRyO.js'))`) resolve correctly.
+Output files use the original Vite chunk basenames with a `.jsx` extension. The refactor rewrites dynamic import specifiers in the entry chunk to match, so `lazy(() => import('./Home-J6pOhRyO.js'))` becomes `lazy(() => import('./Home-J6pOhRyO.jsx'))` and resolves correctly against the renamed file.
 
 ## Build check
 

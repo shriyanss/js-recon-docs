@@ -104,7 +104,7 @@ The following is the structure of the `extracted_urls.json`:
 To permutate the URLs and the paths found, you add the `-p` flag in the previous command:
 
 ```bash
-js-recon strings -d output/<target_domain> -e
+js-recon strings -d output/<target_domain> -e -p
 ```
 
 This will generate a new text file called `extracted_urls.txt`, which contains the full URLs. Following is a hypothetical example of the same:

@@ -18,7 +18,18 @@ To create a new configuration file, run the following command:
 js-recon proxy -i -r <region>
 ```
 
-Or, if the API keys are not set in the environment variables,
+Or, if the API keys are not set in the environment variables, prefer setting them for the current shell
+session so they never appear in a command line, process listing, or CI log:
+
+```bash
+export AWS_ACCESS_KEY_ID=<key>
+export AWS_SECRET_ACCESS_KEY=<key>
+js-recon proxy -i -r <region>
+```
+
+If you must pass them as flags instead, treat that shell as compromised for secret-handling purposes —
+`--aws-access-key`/`--aws-secret-key` values land in shell history and are visible to other local
+processes for the life of the command:
 
 ```bash
 js-recon proxy -i -r <region> --aws-access-key <key> --aws-secret-key <key>

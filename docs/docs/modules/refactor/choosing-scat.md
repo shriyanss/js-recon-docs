@@ -22,7 +22,7 @@ CS-MAST partitions every AST node into one of nine structural categories before 
 | `val`     | Value-producing expressions (calls, member access, assignments) |
 | `op_name` | Operator + name combinations                                    |
 
-A scat combo like `lit,decl,loop,cond` tells CS-MAST to include those four categories when computing each sub-tree's hash. More categories → more structural detail → more signatures → larger intersection with the library baseline → better library detection.
+A scat combo like `lit,decl,loop,cond` tells CS-MAST to include those four categories when computing each sub-tree's hash. More categories generally add structural detail, producing more signatures and a larger intersection with the library baseline — but the effect on detection is dataset- and target-dependent, not a guaranteed improvement. The category impact summary below shows `cond` and `val` reducing average detection despite adding categories.
 
 ## The default: `lit,decl,loop,cond`
 

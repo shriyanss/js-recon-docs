@@ -89,15 +89,15 @@ js-recon run -u <url/file> [options]
 | `--threads <threads>`                 | `-t`     | Number of threads to use                                                                                                                                                                                                                                              | `1`                  | No       |
 | `--rules <file/dir>`                  | `-r`     | Rules file or directory (passed to analyze module)                                                                                                                                                                                                                    |                      | No       |
 | `--disable-rules-version-check`       |          | Skip the GitHub rules version check and use cached rules as-is (passed to analyze module)                                                                                                                                                                             | `false`              | No       |
-| `--command <command>`                 | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && esquery * fetch"`).                                                                        |                      | No       |
+| `--command <command>`                 | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "esquery * fetch"`; `list fetch` is Next.js-only — see [Interactive mode command reference](./interactive_mode/vue-js.md#commands) for the cross-framework command set). |                      | No       |
 | `--proxy-config <file>`               |          | Proxy config file, generated via `js-recon proxy -i`. See [Proxy](./proxy.md).                                                                                                                                                                                        | `.proxy_config.json` | No       |
 | `--ignore-proxy-env`                  |          | Skip `JS_RECON_*` proxy environment variables during resolution                                                                                                                                                                                                       | `false`              | No       |
 | `--cache-file <file>`                 |          | File to store response cache                                                                                                                                                                                                                                          | `.resp_cache.json`   | No       |
 | `--disable-cache`                     |          | Disable response caching                                                                                                                                                                                                                                              | `false`              | No       |
 | `--cache-only`                        |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                              | `false`              | No       |
 | `--yes`                               | `-y`     | Auto-approve executing JS code from the target                                                                                                                                                                                                                        | `false`              | No       |
-| `--secrets`                           |          | Scan for secrets                                                                                                                                                                                                                                                      | `false`              | No       |
-| `--trufflehog`                        |          | Run TruffleHog secret scanner on the output directory (requires TruffleHog to be installed). Runs at the strings steps alongside `--secrets`.                                                                                                                         | `false`              | No       |
+| `--secrets`                           |          | Scan for secrets. Only Next.js's pipeline includes strings steps, so this flag has an effect there; React, Vue, Nuxt.js, Svelte/Astro, and Angular don't run a strings pass and this flag has no effect for them.                                                     | `false`              | No       |
+| `--trufflehog`                        |          | Run TruffleHog secret scanner on the output directory (requires TruffleHog to be installed). Runs at the strings steps alongside `--secrets` — Next.js only, for the same reason.                                                                                     | `false`              | No       |
 | `--ai <options>`                      |          | Use AI to analyze the code (comma-separated; available: description)                                                                                                                                                                                                  |                      | No       |
 | `--ai-threads <threads>`              |          | Number of threads to use for AI                                                                                                                                                                                                                                       | `5`                  | No       |
 | `--ai-provider <provider>`            |          | Service provider to use for AI (available: openai, ollama)                                                                                                                                                                                                            | `openai`             | No       |
@@ -242,7 +242,7 @@ Combine the built-in secrets scanner with TruffleHog for a deeper pass over ever
 js-recon run -u https://example.com -y --secrets --trufflehog
 ```
 
-`--trufflehog` requires TruffleHog to already be installed; both scanners run at the strings steps.
+`--trufflehog` requires TruffleHog to already be installed; both scanners run at the strings steps, so this recipe only scans for secrets when the target is detected as Next.js.
 
 ### Use a custom or organization rule set
 
@@ -259,10 +259,10 @@ See [Rules](../rules/README.md) for the schema and [Predefined rules](../rules/p
 Forward one or more `map` interactive-mode commands non-interactively, useful for scripting a repeatable query against the mapped output instead of dropping into the shell:
 
 ```bash
-js-recon run -u https://example.com -y -c "list fetch && esquery * fetch"
+js-recon run -u https://example.com -y -c "esquery * fetch"
 ```
 
-`-c` is repeatable, and a single value can chain multiple commands with `&&` as shown above.
+`-c` is repeatable, and a single value can chain multiple commands with `&&`. `list fetch` (and `list axios`/`list server_actions`) are Next.js-only commands — for Vue, Svelte/Astro, React, and Angular targets use `esquery` instead, as shown here. See the [Interactive mode command reference](./interactive_mode/vue-js.md#commands) for the full cross-framework command set.
 
 ### Tune resource limits for a large batch job
 

@@ -116,7 +116,9 @@ module "js_recon" {
 Create an EventBridge scheduled rule via the Alibaba Cloud console after `terraform apply`:
 
 1. Go to **EventBridge → Event Sources → Create Event Source**
-2. Select **Scheduled Event** and enter your cron expression (e.g. `0 8 * * *`)
+2. Select **Scheduled Event** and enter your cron expression. EventBridge uses a six-field format
+   (`Seconds Minutes Hours Day-of-month Month Day-of-week`), so 08:00 daily is `0 0 8 * * *`, not the
+   five-field Unix `0 8 * * *`.
 3. Create an EventBridge rule targeting the ECI container group restart API
 
 ---

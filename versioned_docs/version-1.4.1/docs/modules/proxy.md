@@ -23,7 +23,9 @@ rules-download step.
 **Configuration is one-directional.** The `proxy` command is the only place you set a method or
 credentials — it writes everything to `.proxy_config.json`. `lazyload` and `run` only ever _read_ that
 file (plus environment variables); they don't accept method or credential flags at all. This keeps
-credentials out of every `lazyload`/`run` invocation and out of your shell history.
+credentials out of every `lazyload`/`run` invocation and out of its shell history — it does not make the
+initial `proxy` configuration step itself safe from shell-history exposure; see the flag warnings under
+[Examples](#examples) below for that.
 
 ## Usage
 
@@ -84,6 +86,13 @@ js-recon proxy -i --proxy-method socks --proxy socks5://user:pass@127.0.0.1:1080
 js-recon proxy -i --proxy-method oxylabs \
   --oxylabs-username myuser --oxylabs-password mypass --oxylabs-country US
 ```
+
+:::warning
+Passing credentials as command-line flags (as in both examples above) puts them in shell history and
+makes them visible to other local processes for the life of the command, and in CI logs if run there.
+Run `js-recon proxy -i` with no credential flags to get interactive prompts instead, which avoids all
+three exposure paths.
+:::
 
 #### AWS: initialize API gateway
 
@@ -152,9 +161,10 @@ js-recon run -u https://example.com --proxy-config .proxy_config.json
     - `JS_RECON_PROXY_URL` (for the `socks`/`http` methods)
     - `JS_RECON_OXYLABS_USERNAME`, `JS_RECON_OXYLABS_PASSWORD`, `JS_RECON_OXYLABS_COUNTRY`,
       `JS_RECON_OXYLABS_CITY`, `JS_RECON_OXYLABS_SESSION_ID`
-    - The `aws` method has no `JS_RECON_`-prefixed env vars of its own — it resolves credentials from
-      `--aws-access-key`/`--aws-secret-key`/`-r`/`--region`, falling back to the plain AWS SDK env vars
-      (`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`), same as the `proxy` command itself.
+    - The `aws` method has no `JS_RECON_`-prefixed env vars of its own. Since `lazyload` and `run` don't
+      accept `--aws-access-key`/`--aws-secret-key`/`-r`/`--region` (those stay `proxy`-only), these
+      consumers resolve AWS credentials and region from the plain AWS SDK env vars
+      (`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`) or the default AWS SDK credential chain.
 2. `.proxy_config.json` (or the path given via `--proxy-config`) — written by `js-recon proxy -i`.
 
 Pass `--ignore-proxy-env` on `lazyload` or `run` to skip step 1 entirely and resolve straight from the
@@ -193,6 +203,12 @@ method's block, without touching any other method's block already saved in the f
 
 The `aws` key holds a map of gateways keyed by generated name — the same shape the `proxy` subcommand
 has always written for the `aws` method.
+
+:::danger
+`.proxy_config.json` stores credentials in plain text — AWS secret keys and the Oxylabs password among
+them. Never commit it or share it outside the engagement team, and restrict its file permissions to
+the owning user only.
+:::
 
 ## Migrating from `.api_gateway_config.json`
 

@@ -168,7 +168,7 @@ js-recon refactor -m mapped.json -t vue-vite -o output_refactored
 
 ## Output
 
-One `.js` file per lazy-loaded chunk (page/component), formatted with Prettier. The main index chunk is not included in the output — it is library/runtime code and is only used for alias analysis.
+One `.js` file per lazy-loaded chunk (page/component), formatted with Prettier. The main index chunk is not included in the output — it's only used for alias analysis. Since the index chunk bundles Vue core, vue-router, _and_ shared app utilities together (see [Bundle format](#bundle-format) above), excluding it can also drop any shared application logic that was co-located there, not just library/runtime code.
 
 ## Requirements
 
