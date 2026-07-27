@@ -90,8 +90,9 @@ js-recon proxy -i --proxy-method oxylabs \
 :::warning
 Passing credentials as command-line flags (as in both examples above) puts them in shell history and
 makes them visible to other local processes for the life of the command, and in CI logs if run there.
-Run `js-recon proxy -i` with no credential flags to get interactive prompts instead, which avoids all
-three exposure paths.
+Run `js-recon proxy -i` with no credential flags to get interactive prompts instead, which keeps them
+out of the command line and shell history — they can still be exposed via process/environment
+inspection or a misconfigured CI runner, so treat this as reduced exposure, not a guarantee of secrecy.
 :::
 
 #### AWS: initialize API gateway
@@ -164,7 +165,8 @@ js-recon run -u https://example.com --proxy-config .proxy_config.json
     - The `aws` method has no `JS_RECON_`-prefixed env vars of its own. Since `lazyload` and `run` don't
       accept `--aws-access-key`/`--aws-secret-key`/`-r`/`--region` (those stay `proxy`-only), these
       consumers resolve AWS credentials and region from the plain AWS SDK env vars
-      (`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`) or the default AWS SDK credential chain.
+      (`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`/`AWS_REGION`/`AWS_DEFAULT_REGION`) or the default AWS
+      SDK credential chain.
 2. `.proxy_config.json` (or the path given via `--proxy-config`) — written by `js-recon proxy -i`.
 
 Pass `--ignore-proxy-env` on `lazyload` or `run` to skip step 1 entirely and resolve straight from the

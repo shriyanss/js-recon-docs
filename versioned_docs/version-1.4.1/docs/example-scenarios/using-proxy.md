@@ -19,7 +19,9 @@ js-recon proxy -i -r <region>
 ```
 
 Or, if the API keys are not set in the environment variables, prefer setting them for the current shell
-session so they never appear in a command line, process listing, or CI log:
+session so they don't appear in a command line or the shell's history file. This isn't a guarantee of
+secrecy — the values are still readable via process/environment inspection on the local machine, and
+must be masked as secrets if the shell session runs in CI:
 
 ```bash
 export AWS_ACCESS_KEY_ID=<key>

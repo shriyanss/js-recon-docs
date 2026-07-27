@@ -118,7 +118,8 @@ Create an EventBridge scheduled rule via the Alibaba Cloud console after `terraf
 1. Go to **EventBridge → Event Sources → Create Event Source**
 2. Select **Scheduled Event** and enter your cron expression. EventBridge uses a six-field format
    (`Seconds Minutes Hours Day-of-month Month Day-of-week`), so 08:00 daily is `0 0 8 * * *`, not the
-   five-field Unix `0 8 * * *`.
+   five-field Unix `0 8 * * *`. EventBridge runs cron expressions in UTC by default; set the trigger's
+   timezone field explicitly if you want `0 0 8 * * *` to mean 08:00 in a different timezone.
 3. Create an EventBridge rule targeting the ECI container group restart API
 
 ---
