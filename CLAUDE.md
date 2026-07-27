@@ -17,7 +17,11 @@ docs/
 │   │   ├── strings.md            ← String/secret extractor (pos 4)
 │   │   ├── map.md                ← Function mapper         (pos 5)
 │   │   ├── interactive_mode/     ← map's interactive shell (pos 6)
-│   │   │   └── next-js.md
+│   │   │   ├── next-js.md            (pos 1)
+│   │   │   ├── vue-js.md             (pos 2)
+│   │   │   ├── react.md              (pos 3)
+│   │   │   ├── svelte-astro.md       (pos 4)
+│   │   │   └── angular.md            (pos 5)
 │   │   ├── endpoints.md          ← Route extractor         (pos 7)
 │   │   ├── analyze.md            ← Static-analysis runner  (pos 8)
 │   │   ├── report.md             ← HTML report generator   (pos 9)
@@ -83,26 +87,26 @@ docs/
 Modules are ordered to match the typical recon workflow so that a newcomer reading
 top-to-bottom sees the most-used commands first:
 
-| Position | Module          | Role in workflow                                         |
-| -------- | --------------- | -------------------------------------------------------- |
-| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut     |
-| 2        | `lazyload`      | First manual step: download JS files                     |
-| 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                   |
-| 4        | `strings`       | Second step: extract URLs and secrets                    |
-| 5        | `map`           | Third step: build the function map                       |
-| 6        | _(interactive)_ | Interactive console for `map` (Next.js)                  |
-| 7        | `endpoints`     | Fourth step: extract the client-side route tree          |
-| 8        | `analyze`       | Fifth step: run static-analysis rules                    |
-| 9        | `report`        | Sixth step: render the final HTML report                 |
-| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules       |
-| 11       | _(refactor/)_   | Technology-specific refactor docs                        |
-| 12       | `sourcemaps`    | Extract embedded source maps                             |
-| 13       | `load`          | Offline workflow: import a Caido export as a cache       |
-| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                |
-| 15       | `fingerprint`   | Utility: detect the JS framework before running          |
-| 16       | `cs-mast`       | Advanced: structural signature generation and comparison |
-| 17       | `mcp`           | MCP server and Claude Code integration                   |
-| 18       | `completion`    | Utility: generate shell completion scripts               |
+| Position | Module          | Role in workflow                                                                 |
+| -------- | --------------- | -------------------------------------------------------------------------------- |
+| 1        | `run`           | All-in-one orchestrator; shown first as the shortcut                             |
+| 2        | `lazyload`      | First manual step: download JS files                                             |
+| 3        | _(lazyload/)_   | Discovery method reference (sub-pages)                                           |
+| 4        | `strings`       | Second step: extract URLs and secrets                                            |
+| 5        | `map`           | Third step: build the function map                                               |
+| 6        | _(interactive)_ | Interactive console for `map` — "Map Reference" (all 5 map-supported frameworks) |
+| 7        | `endpoints`     | Fourth step: extract the client-side route tree                                  |
+| 8        | `analyze`       | Fifth step: run static-analysis rules                                            |
+| 9        | `report`        | Sixth step: render the final HTML report                                         |
+| 10       | `refactor`      | Deep-dive: decompile chunks to readable ES modules                               |
+| 11       | _(refactor/)_   | Technology-specific refactor docs                                                |
+| 12       | `sourcemaps`    | Extract embedded source maps                                                     |
+| 13       | `load`          | Offline workflow: import a Caido export as a cache                               |
+| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                                        |
+| 15       | `fingerprint`   | Utility: detect the JS framework before running                                  |
+| 16       | `cs-mast`       | Advanced: structural signature generation and comparison                         |
+| 17       | `mcp`           | MCP server and Claude Code integration                                           |
+| 18       | `completion`    | Utility: generate shell completion scripts                                       |
 
 ## Sidebar position rules
 
@@ -223,6 +227,10 @@ When a new release is cut:
 - The current `docs/` tree is snapshotted into `versioned_docs/version-X.Y.Z/`.
 - Only edit `docs/` (the current/next version); never edit versioned snapshots directly.
 - Update `lastVersion` in `docusaurus.config.ts` to match the latest stable release.
+
+## Framework/tech support changes
+
+Whenever framework or tech support is extended to a new module in `js-recon` (a new framework, or `generic`-tech coverage for a module that lacked it), update `docs/docs/framework-support.md` in the same session to reflect it.
 
 ## Vale lint (CI)
 
