@@ -14,14 +14,23 @@ Supported shells: **bash**, **zsh**, **fish**.
 js-recon completion <shell>
 ```
 
+Running this installs completion for you — there is no manual copy/paste step, and it does **not**
+paste a large script into your shell's rc file.
+
 ## Installing completion
 
 ### Bash
 
-Add the following line to your `~/.bashrc` (or `~/.bash_profile` on macOS):
+```bash
+js-recon completion bash
+```
+
+This writes the full completion script to `~/.js-recon/completion/js-recon.bash` and adds a small,
+fixed loader entry to `~/.bashrc` (only if it isn't already there):
 
 ```bash
-eval "$(js-recon completion bash)"
+# JS Recon shell completion
+eval "$(js-recon completion bash --rc-file)"
 ```
 
 Then reload your shell:
@@ -32,10 +41,16 @@ source ~/.bashrc
 
 ### Zsh
 
-Add the following line to your `~/.zshrc`:
+```bash
+js-recon completion zsh
+```
+
+This writes the full completion script to `~/.js-recon/completion/_js-recon` and adds the same kind
+of small loader entry to `~/.zshrc`:
 
 ```zsh
-eval "$(js-recon completion zsh)"
+# JS Recon shell completion
+eval "$(js-recon completion zsh --rc-file)"
 ```
 
 Then reload your shell:
@@ -44,21 +59,28 @@ Then reload your shell:
 source ~/.zshrc
 ```
 
-Alternatively, write the script to a file on your `$fpath` for faster shell startup:
-
-```zsh
-js-recon completion zsh > "${fpath[1]}/_js-recon"
-```
-
 ### Fish
 
-Write the completion script to fish's completions directory:
-
-```fish
-js-recon completion fish > ~/.config/fish/completions/js-recon.fish
+```bash
+js-recon completion fish
 ```
 
-Fish picks up new completions automatically — no reload needed.
+This writes the completion script directly to `~/.config/fish/completions/js-recon.fish`. Fish
+auto-loads anything in that directory, so no rc-file entry is needed — nothing else to run.
+
+### Re-running
+
+`js-recon completion <shell>` is safe to re-run any time (for example, after upgrading js-recon to pick up
+newly added subcommands/flags) — it overwrites the installed script and only adds the rc-file entry
+once, never duplicating it.
+
+### The `--rc-file` flag
+
+`--rc-file` prints a small loader snippet instead of installing anything — it's what the generated
+rc-file entry above actually calls at shell startup (`eval "$(js-recon completion <shell> --rc-file)"`)
+to load the real script from `~/.js-recon/completion/`. You shouldn't need to run it directly; it
+exists so the rc file itself never has to contain the full (and ever-growing) completion script.
+`--rc-file` isn't applicable to fish, since fish needs no rc-file entry at all.
 
 ## What gets completed
 

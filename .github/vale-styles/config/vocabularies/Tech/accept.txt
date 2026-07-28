@@ -64,7 +64,9 @@ declarator
 [Mm]erkelized
 [Mm]emoized
 sourcemaps?
-subcommand
+subcommands?
+[Zz]sh
+rc
 toolchain
 repo
 [Rr]olldown
