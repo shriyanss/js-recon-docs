@@ -8,14 +8,25 @@ The `completion` command generates a shell completion script for `js-recon`. Onc
 
 Supported shells: **bash**, **zsh**, **fish**.
 
-## Usage
+## Automatic install
+
+If your login shell (`$SHELL`) is bash, zsh, or fish, completion is installed automatically the
+first time you `npm install -g @js-recon/js-recon` (or install via Homebrew, or the Docker image is
+rebuilt) — no manual step needed. It's re-installed the same way on every upgrade too, so newly
+added subcommands and flags show up in completion automatically. If `$SHELL` is unset or set to an
+unsupported shell, the installer skips silently and prints a reminder to run the command below
+manually.
+
+## Manual usage
 
 ```bash
 js-recon completion <shell>
 ```
 
 Running this installs completion for you — there is no manual copy/paste step, and it does **not**
-paste a large script into your shell's rc file.
+paste a large script into your shell's rc file. Useful if the automatic install was skipped
+(unsupported shell, or `$SHELL` wasn't set at install time), or to force a refresh after a manual
+build.
 
 ## Installing completion
 
