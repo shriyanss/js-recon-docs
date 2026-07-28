@@ -37,11 +37,16 @@ docs/
 │   │   │   └── remote-signatures.md  (pos 8)
 │   │   ├── sourcemaps.md         ← Source map extractor    (pos 12)
 │   │   ├── load.md               ← Offline cache import    (pos 13)
-│   │   ├── api-gateway.md        ← IP rotation via AWS     (pos 14)
-│   │   ├── fingerprint.md        ← Framework detector      (pos 15)
-│   │   ├── cs-mast.md            ← Structural signatures   (pos 16)
-│   │   ├── mcp.md                ← MCP / Claude shell      (pos 17)
-│   │   └── completion.md         ← Shell completion script (pos 18)
+│   │   ├── proxy.md              ← Proxy overview          (pos 14)
+│   │   ├── proxy/                ← Per-provider sub-pages  (pos 15)
+│   │   │   ├── aws.md                (pos 1)
+│   │   │   ├── oxylabs.md            (pos 2)
+│   │   │   ├── socks.md              (pos 3)
+│   │   │   └── http.md               (pos 4)
+│   │   ├── fingerprint.md        ← Framework detector      (pos 16)
+│   │   ├── cs-mast.md            ← Structural signatures   (pos 17)
+│   │   ├── mcp.md                ← MCP / Claude shell      (pos 18)
+│   │   └── completion.md         ← Shell completion script (pos 19)
 │   ├── rules/                    ← Rules reference         (category position: 6)
 │   │   ├── README.md             ← Overview                (pos 1)
 │   │   ├── creating_new_rules.md ← Authoring guide         (pos 2)
@@ -52,7 +57,7 @@ docs/
 │   │       └── cs-mast-s-engine.md (pos 3)
 │   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 7)
 │   │   ├── next-js.md            (pos 1)
-│   │   ├── using-api-gateway.md  (pos 2)
+│   │   ├── using-proxy.md        (pos 2)
 │   │   ├── vue-js.md             (pos 3)
 │   │   └── svelte-astro.md       (pos 4)
 │   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 8)
@@ -102,11 +107,12 @@ top-to-bottom sees the most-used commands first:
 | 11       | _(refactor/)_   | Technology-specific refactor docs                                                |
 | 12       | `sourcemaps`    | Extract embedded source maps                                                     |
 | 13       | `load`          | Offline workflow: import a Caido export as a cache                               |
-| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                                        |
-| 15       | `fingerprint`   | Utility: detect the JS framework before running                                  |
-| 16       | `cs-mast`       | Advanced: structural signature generation and comparison                         |
-| 17       | `mcp`           | MCP server and Claude Code integration                                           |
-| 18       | `completion`    | Utility: generate shell completion scripts                                       |
+| 14       | `proxy`         | Optional: proxy configuration (AWS API Gateway IP rotation, SOCKS/HTTP, Oxylabs)  |
+| 15       | _(proxy/)_      | Per-provider reference (sub-pages: aws, oxylabs, socks, http)                    |
+| 16       | `fingerprint`   | Utility: detect the JS framework before running                                  |
+| 17       | `cs-mast`       | Advanced: structural signature generation and comparison                         |
+| 18       | `mcp`           | MCP server and Claude Code integration                                           |
+| 19       | `completion`    | Utility: generate shell completion scripts                                       |
 
 ## Sidebar position rules
 

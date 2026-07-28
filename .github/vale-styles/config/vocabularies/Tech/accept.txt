@@ -83,3 +83,5 @@ untrusted
 exfiltrate
 jQuery('s)?
 DOMPurify
+Oxylabs('s)?
+[Dd]atacenter

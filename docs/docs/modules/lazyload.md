@@ -23,8 +23,8 @@ js-recon lazyload -u <url/file> [options]
 | `--threads <threads>`               | `-t`  | Number of threads to use for downloading.                                                                                                                                                                                                                        | `1`                        | No       |
 | `--subsequent-requests`             |       | Download JS files from subsequent requests (Next.js only).                                                                                                                                                                                                       | `false`                    | No       |
 | `--urls-file <file>`                |       | Input JSON file containing URLs (for `--subsequent-requests`)                                                                                                                                                                                                    | `extracted_urls.json`      | No       |
-| `--api-gateway`                     |       | Generate requests using API Gateway. See [API Gateway](./api-gateway.md).                                                                                                                                                                                        | `false`                    | No       |
-| `--api-gateway-config <file>`       |       | API Gateway config file, generated via `js-recon api-gateway -i`. See [API Gateway](./api-gateway.md).                                                                                                                                                           | `.api_gateway_config.json` | No       |
+| `--proxy-config <file>`             |       | Proxy config file, generated via `js-recon proxy <method> -i`. See [Proxy](./proxy.md).                                                                                                                                                                          | `.proxy_config.json`       | No       |
+| `--ignore-proxy-env`                |       | Skip `JS_RECON_*` proxy environment variables during resolution. See [Proxy](./proxy.md).                                                                                                                                                                        | `false`                    | No       |
 | `--cache-file <file>`               |       | File to contain response cache.                                                                                                                                                                                                                                  | `.resp_cache.json`         | No       |
 | `--disable-cache`                   |       | Disable response caching.                                                                                                                                                                                                                                        | `false`                    | No       |
 | `--cache-only`                      |       | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                         | `false`                    | No       |
@@ -210,14 +210,15 @@ js-recon lazyload -u https://example.com -s "example.com,cdn.example.com"
 
 Using the `--strict-scope` will only download JS files from the URL provided. This will skip any files from the external CDN.
 
-### Using API Gateway
+### Using a proxy
 
-Route requests through AWS API Gateway for IP rotation. First create a gateway with
-`js-recon api-gateway -i`, then point `lazyload` at the resulting config file:
+Route requests through a proxy — AWS API Gateway (IP rotation), a generic SOCKS5/HTTP proxy, or
+Oxylabs. First configure the method with the matching `proxy` command, for example
+`js-recon proxy aws -i`, then point `lazyload` at the resulting config file:
 
 ```bash
-js-recon api-gateway -i
-js-recon lazyload -u https://example.com --api-gateway --api-gateway-config .api_gateway_config.json
+js-recon proxy aws -i
+js-recon lazyload -u https://example.com --proxy-config .proxy_config.json
 ```
 
-Read the docs of [API Gateway](./api-gateway.md) for more information.
+Read the docs of [Proxy](./proxy.md) for more information.

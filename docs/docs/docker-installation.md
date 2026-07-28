@@ -89,8 +89,8 @@ There could be multiple other files created based on the module used. You can re
     - `extracted_urls-openapi.json`
 - [Endpoints](./modules/endpoints.md):
     - `endpoints.json`
-- [API Gateway](./modules/api-gateway.md):
-    - `.api_gateway_config.json` (this is a configuration file, but is worth keeping it if generated)
+- [Proxy](./modules/proxy.md):
+    - `.proxy_config.json` (this is a configuration file, but is worth keeping it if generated)
 - [Map](./modules/map.md):
     - `mapped.json`
 - [Analyze](./modules/analyze.md):

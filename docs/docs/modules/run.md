@@ -91,8 +91,8 @@ js-recon run -u <url/file> [options]
 | `--threads <threads>`                 | `-t`     | Number of threads to use                                                                                                                                                                                                                                                                                      | `1`                        | No       |
 | `--rules <file/dir>`                  | `-r`     | Rules file or directory (passed to analyze module)                                                                                                                                                                                                                                                            |                            | No       |
 | `--command <command>`                 | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && esquery * fetch"`).                                                                                                                |                            | No       |
-| `--api-gateway`                       |          | Generate requests using API Gateway. See [API Gateway](./api-gateway.md).                                                                                                                                                                                                                                     | `false`                    | No       |
-| `--api-gateway-config <file>`         |          | API Gateway config file, generated via `js-recon api-gateway -i`. See [API Gateway](./api-gateway.md).                                                                                                                                                                                                        | `.api_gateway_config.json` | No       |
+| `--proxy-config <file>`               |          | Proxy config file, generated via `js-recon proxy <method> -i`. See [Proxy](./proxy.md).                                                                                                                                                                                                                       | `.proxy_config.json`       | No       |
+| `--ignore-proxy-env`                  |          | Skip `JS_RECON_*` proxy environment variables during resolution. See [Proxy](./proxy.md).                                                                                                                                                                                                                     | `false`                    | No       |
 | `--cache-file <file>`                 |          | File to store response cache                                                                                                                                                                                                                                                                                  | `.resp_cache.json`         | No       |
 | `--disable-cache`                     |          | Disable response caching                                                                                                                                                                                                                                                                                      | `false`                    | No       |
 | `--cache-only`                        |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                                                                      | `false`                    | No       |
@@ -197,15 +197,15 @@ Or point it at a file (one URL per line) to run the same pipeline across every h
 js-recon run -u targets.txt -y -t 10
 ```
 
-### Route traffic through AWS API Gateway
+### Route traffic through a proxy (AWS API Gateway, SOCKS, HTTP, or Oxylabs)
 
-Send every request `run` makes through an AWS API Gateway for IP rotation:
+Send every request `run` makes through a configured proxy — here, AWS API Gateway for IP rotation:
 
 ```bash
-js-recon run -u https://example.com -y --api-gateway --api-gateway-config .api_gateway_config.json
+js-recon run -u https://example.com -y --proxy-config .proxy_config.json
 ```
 
-Generate `.api_gateway_config.json` first with `js-recon api-gateway -i` — see [API Gateway](./api-gateway.md) for the full flag reference.
+Generate `.proxy_config.json` first with `js-recon proxy aws -i` (or `proxy socks`/`proxy http`/`proxy oxylabs` for the other methods) — see [Proxy](./proxy.md) for the full flag reference.
 
 ### Hunt for leaked secrets
 

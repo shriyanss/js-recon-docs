@@ -1,5 +1,5 @@
 ---
-sidebar_position: 18
+sidebar_position: 19
 ---
 
 # Completion command
@@ -109,13 +109,13 @@ Every subcommand and every flag registered in `src/index.ts` is covered.
 
 ```bash
 $ js-recon <TAB>
-analyze      api-gateway  completion   cs-mast      endpoints    fingerprint
+analyze      proxy        completion   cs-mast      endpoints    fingerprint
 lazyload     load         map          mcp          refactor     report
 run          sourcemaps   strings
 
 $ js-recon run --<TAB>
 --ai                      --ai-endpoint             --ai-provider
---ai-threads              --api-gateway             --api-gateway-config
+--ai-threads              --proxy-config            --ignore-proxy-env
 --cache-file              --cache-only              --command
 --cs-mast-tech-detect-threshold  --disable-cache     --exclude-methods
 --include-methods         --insecure                --lazyload-timeout

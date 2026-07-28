@@ -136,7 +136,7 @@ JS Recon requires API access to several services for enhanced analysis.
 
 ### AWS API Gateway (used to rotate IP address; optional)
 
-JS Recon requires an AWS API Key (and Secret Key) to use the [`api-gateway`](./modules/api-gateway.md) module for rotating IP addresses while scanning the target
+JS Recon requires an AWS API Key (and Secret Key) to use the [`proxy aws`](./modules/proxy/aws.md) subcommand for rotating IP addresses while scanning the target
 
 Recommended permission:
 
@@ -150,7 +150,7 @@ The AWS Console can be accessed at https://console.aws.amazon.com/iam/
 These keys are
 to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
 
-Alternatively, these can be passed directly to the tool through the `-a/--access-key <key>` and `-s/--secret-key <key>` flags to the `api-gateway` module. Read the full docs [here](./modules/api-gateway.md)
+Alternatively, these can be passed directly to the tool through the `-a/--access-key <key>` and `-s/--secret-key <key>` flags to the `proxy aws` subcommand. Read the full docs [here](./modules/proxy/aws.md)
 
 ### AI provider API key (to generate function descriptions; optional)
 
