@@ -131,6 +131,8 @@ js-recon run -u <url/file> [options]
 | `--exclude-methods <methods>`         |          | Comma-separated list of lazyload method names to skip (blacklist). All methods except these will run in every lazyload pass. Use `--list-methods` to see valid names. See [Lazyload Methods](./lazyload/lazyload-methods.md).                                                                                 |                            | No       |
 | `--list-methods [framework]`          |          | Print all available lazyload method names grouped by framework and exit. Optionally filter by framework (`next_js`, `vue`, `nuxt_js`, `svelte`, `angular`, `react`). Does not require `-u`.                                                                                                                   |                            | No       |
 | `--cs-mast-tech-detect-threshold <n>` |          | Minimum number of CS-MAST-S signature matches required to detect the bundler and trigger the automatic refactor step. Pass `0` to disable refactor. See [Refactor integration](#refactor-integration).                                                                                                        | `50`                       | No       |
+| `--web-stats-dashboard`               |          | Start a live web dashboard (and REST API) to follow this run's progress instead of relying on console output. See [Web stats dashboard](#web-stats-dashboard).                                                                                                                                                 | `false`                    | No       |
+| `--web-stats-port <port>`             |          | Preferred port for `--web-stats-dashboard`. Increments automatically if the port is already in use.                                                                                                                                                                                                             | `6767`                     | No       |
 | `--verbose`                           |          | Show detailed file write error messages during the lazyload step (e.g. when a downloaded JS chunk fails to write to disk). Suppressed by default to reduce terminal noise.                                                                                                                                    | `false`                    | No       |
 | `-h, --help`                          |          | display help for command                                                                                                                                                                                                                                                                                      |                            | No       |
 
@@ -164,6 +166,36 @@ This flag controls the step:
 - `--cs-mast-tech-detect-threshold <n>` (default `50`) sets the minimum signature-match count required to trigger refactor; pass `0` to disable it.
 
 Refactored files are written to `refactored/` in the current working directory (single-URL mode) or `<workingDir>/refactored/` alongside `mapped.json` for each target (batch mode). Any existing `refactored/` directory is deleted before writing.
+
+## Web stats dashboard
+
+`run` normally reports progress only through console output, which gets noisy fast on a long batch job. Passing `--web-stats-dashboard` starts a small embedded web server alongside the pipeline so you can follow progress from a browser (or script against it) instead of watching the terminal scroll. This is purely additive — console output is unchanged whether the flag is set or not.
+
+```bash
+js-recon run -u targets.txt -y --web-stats-dashboard
+```
+
+By default the dashboard listens on port `6767`; if that port is taken, it automatically tries the next one (`6767`, `6768`, `6769`, ...) up to 50 attempts, or a specific starting port can be requested with `--web-stats-port`. The chosen URL is printed once at startup:
+
+```
+[+] Web stats dashboard running at http://localhost:6767
+```
+
+The dashboard shows a live table (updated every 5 seconds over Server-Sent Events) of every target with its status (`queued`/`running`/`completed`/`skipped`/`error`), current pipeline step, and elapsed time. Each row has a **Browse** button that opens a file tree for that target's output directory — click any file to view its contents inline — and, for a queued or running target, a **Skip** button that cancels it and moves on to the next one (the same effect as choosing "skip target" from the Ctrl-C menu, but from the browser instead of the terminal).
+
+The same data is available as a REST API for scripting:
+
+| Endpoint                            | Method | Description                                                                     |
+| ------------------------------------ | ------ | -------------------------------------------------------------------------------- |
+| `/api/targets`                       | GET    | JSON array of every target's current state.                                     |
+| `/api/events`                        | GET    | Server-Sent Events stream of the same array, pushed every 5 seconds.            |
+| `/api/targets/:host/files`           | GET    | Recursive file tree for that target's output directory.                         |
+| `/api/targets/:host/files/<path>`    | GET    | Contents of a specific file (as plain text). Rejects any path outside the target's output directory. |
+| `/api/targets/:host/skip`            | POST   | Skips the target (cancels it in-flight if running, or before it starts if queued). |
+
+`:host` is the same host-derived directory name (`example.com`, `example.com_8443` for a non-default port, etc.) used for each target's output subdirectory in batch mode.
+
+The dashboard's lifetime is tied to the `run` process — it shuts down automatically when the run finishes or exits, whether the target list completed successfully or not.
 
 ## sj (swagger-jacker) integration
 
@@ -246,3 +278,13 @@ js-recon run -u targets.txt -y -t 20 --exclude-methods next_bruteForceJsFiles --
 ```
 
 This runs 20 threads in parallel, skips `next_bruteForceJsFiles` in every lazyload pass, caps the V8 heap at 4096 MB, and forces each lazyload step to give up after 10 minutes instead of the default 30. Use `--list-methods` to see all available lazyload method names before choosing what to exclude.
+
+### Follow a batch job from a browser instead of the terminal
+
+Useful when a batch run is long enough that scrolling console output stops being practical:
+
+```bash
+js-recon run -u targets.txt -y --web-stats-dashboard
+```
+
+Open the printed URL (default `http://localhost:6767`) to see live status per target, or poll `/api/targets` from a script. See [Web stats dashboard](#web-stats-dashboard) for the full API reference.
