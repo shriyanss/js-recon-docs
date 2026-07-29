@@ -92,6 +92,7 @@ js-recon run -u <url/file> [options]
 | `--command <command>`                 | `-c`     | Run an interactive-mode command non-interactively, forwarded to the map step. Repeatable, and a single value can chain commands with `&&` (for example, `-c "esquery * fetch"`; `list fetch` is Next.js-only — see [Interactive mode command reference](./interactive_mode/vue-js.md#commands) for the cross-framework command set). |                      | No       |
 | `--proxy-config <file>`               |          | Proxy config file, generated via `js-recon proxy -i`. See [Proxy](./proxy.md).                                                                                                                                                                                                                                                       | `.proxy_config.json` | No       |
 | `--ignore-proxy-env`                  |          | Skip `JS_RECON_*` proxy environment variables during resolution                                                                                                                                                                                                                                                                      | `false`              | No       |
+| `--proxy-waf-fallback`                |          | Before each target, check whether the configured proxy is actually needed and can bypass a WAF/firewall (reuses the `proxy --feasibility` logic). Skips the target if the proxy can't bypass it. Requires a proxy already configured via `--proxy-config`; has no effect otherwise. See [Proxy](./proxy.md).                        | `false`              | No       |
 | `--cache-file <file>`                 |          | File to store response cache                                                                                                                                                                                                                                                                                                         | `.resp_cache.json`   | No       |
 | `--disable-cache`                     |          | Disable response caching                                                                                                                                                                                                                                                                                                             | `false`              | No       |
 | `--cache-only`                        |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                                                                                             | `false`              | No       |
@@ -233,6 +234,25 @@ js-recon run -u https://example.com -y --proxy-config .proxy_config.json
 ```
 
 Generate `.proxy_config.json` first with `js-recon proxy -i` — see [Proxy](./proxy.md) for the interactive wizard.
+
+### Only use a proxy when it's actually needed
+
+When feeding `run` a large list of targets from a config file, some may sit behind a WAF that the
+configured proxy bypasses, some may have no WAF at all, and some may be behind a WAF the proxy can't
+bypass. `--proxy-waf-fallback` runs the same check as `proxy --feasibility` against each target before
+processing it, and adjusts behavior automatically:
+
+```bash
+js-recon run -u targets.txt -y --proxy-config .proxy_config.json --proxy-waf-fallback
+```
+
+- No firewall detected without the proxy: the target is processed directly, without the proxy.
+- Firewall detected, and the proxy bypasses it: the target is processed through the proxy (same as
+  omitting this flag).
+- Firewall detected, and the proxy can't bypass it: the target is skipped in batch mode, or the
+  process exits (see [Exit Codes](../exit_codes.md)) in single-URL mode.
+
+Has no effect unless a proxy is already configured via `--proxy-config`.
 
 ### Hunt for leaked secrets
 
