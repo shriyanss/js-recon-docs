@@ -54,8 +54,8 @@ through the wizard, since `socks`/`http`/`oxylabs` have no create/destroy lifecy
 | `--aws-secret-key <key>`        |       | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. `[aws method]`                     |                      | No       |
 | `--config <config>`             | `-c`  | Name of the config file (if different from the default)                                                  | `.proxy_config.json` | No       |
 | `--list`                        | `-l`  | List all APIs created by this tool. `[aws method]`                                                       | `false`              | No       |
-| `--feasibility`                 |       | Check the feasibility of using API Gateway for a target. `[aws method]`                                  | `false`              | No       |
-| `--feasibility-url <url>`       |       | URL to check the feasibility of. `[aws method]`                                                          |                      | No       |
+| `--feasibility`                 |       | Check whether a firewall/WAF blocks a target directly and, if so, whether the proxy method bypasses it. | `false`              | No       |
+| `--feasibility-url <url>`       |       | URL to check the feasibility of.                                                                          |                      | No       |
 | `--proxy-method <method>`       |       | Method to configure with `-i`: `aws`, `socks`, `http`, or `oxylabs`. Omit for an interactive prompt.     |                      | No       |
 | `--proxy <url>`                 |       | SOCKS5/HTTP proxy URL for `-i`: `socks5://[user:pass@]host:port` or `http://[user:pass@]host:port`.      |                      | No       |
 | `--oxylabs-username <username>` |       | Oxylabs datacenter proxy username for `-i`.                                                              |                      | No       |
@@ -130,10 +130,28 @@ js-recon proxy --destroy-all
 
 #### Check feasibility
 
-Check if a target URL returns a response that contains known traces of a firewall. If the result says firewall detected, then it means that the target has blocked the IP addresses originating from the AWS infrastructure.
+`--feasibility` checks whether using a proxy actually helps against a target's firewall/WAF, for
+any of the four proxy methods:
+
+1. It requests `--feasibility-url` directly, without any proxy. If no firewall is detected, a proxy
+   isn't needed for this target — the tool prints a message and exits with code `27`.
+2. If a firewall **is** detected on the direct request, it retries through the resolved proxy method
+   (`--proxy-method`, together with that method's fields, or whatever is already configured via
+   `-i/--init` in the config file) up to 10 times.
+   - If the firewall is still detected through the proxy, it exits with code `28` — the proxy
+     doesn't help here.
+   - If the firewall is no longer detected, it prints a message recommending the proxy and exits
+     with code `0`.
+
+See [Exit Codes](../exit_codes.md) for the full list.
 
 ```bash
+# Uses the method already configured via -i/--init in .proxy_config.json
 js-recon proxy --feasibility --feasibility-url https://example.com
+
+# Or specify the method (and its fields) directly, without configuring one first
+js-recon proxy --feasibility --feasibility-url https://example.com \
+  --proxy-method socks --proxy socks5://user:pass@127.0.0.1:1080
 ```
 
 ## Flags available on `lazyload` and `run`
