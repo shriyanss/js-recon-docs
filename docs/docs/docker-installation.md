@@ -98,12 +98,8 @@ Docker creates the local `output/` directory on the host the moment the mount is
 docker run -it -e JS_RECON_OUTPUT_OVERWRITE=false ghcr.io/js-recon/js-recon <js_recon_arguments>
 ```
 
-:::warning
-The official images run as a non-root user (`pptruser`). When Docker creates a bind-mounted directory on the host because it does not already exist, the new directory is owned by the host user that ran `docker run` (often `root`), which `pptruser` cannot write into. If a scan fails immediately with no output at all, make sure the host-side `output/` directory is writable by the container's user, for example:
-
-```bash
-mkdir -p output && chown -R 10042:10042 output
-```
+:::tip
+The official images run as a non-root user (`pptruser`) for everything except a brief startup step: the container starts as root just long enough to `chown` the bind-mounted output directory to `pptruser`, then drops privileges before running the tool. This means the mount works regardless of who owns `output/` on the host — no manual `chown` needed, including in orchestrated environments like Kubernetes where you can't intervene between the container starting and the tool running. If your environment forces the container to run as a fixed non-root user from the start (for example a Kubernetes `securityContext.runAsUser`), this startup step is skipped and the mounted directory must already be writable by that user.
 :::
 
 ## Copying Results
