@@ -98,6 +98,14 @@ Docker creates the local `output/` directory on the host the moment the mount is
 docker run -it -e JS_RECON_OUTPUT_OVERWRITE=false ghcr.io/js-recon/js-recon <js_recon_arguments>
 ```
 
+:::warning
+The official images run as a non-root user (`pptruser`). When Docker creates a bind-mounted directory on the host because it does not already exist, the new directory is owned by the host user that ran `docker run` (often `root`), which `pptruser` cannot write into. If a scan fails immediately with no output at all, make sure the host-side `output/` directory is writable by the container's user, for example:
+
+```bash
+mkdir -p output && chown -R 10042:10042 output
+```
+:::
+
 ## Copying Results
 
 You can copy the results using the following command:
