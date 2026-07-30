@@ -84,6 +84,20 @@ The results will be stored in the `/home/pptruser` directory inside the containe
 Do not use `--rm` flag with the `docker run` command. It will delete the container after the run, which will delete the results as well.
 :::
 
+## Mounting a local output directory
+
+Instead of copying results out with `docker cp` after the container exits, you can bind-mount a local directory straight to the container's output directory:
+
+```bash
+docker run -it -v $(pwd)/output:/home/pptruser/output ghcr.io/js-recon/js-recon run -u https://app.example.com
+```
+
+Docker creates the local `output/` directory on the host the moment the mount is set up, before `run` ever starts — so from the tool's point of view, the output directory already exists on every run, mounted or not. The official images set the `JS_RECON_OUTPUT_OVERWRITE` environment variable to `true` by default (equivalent to the [`--output-overwrite`](./modules/run.md) flag) and pre-create an empty `output/` directory, so this works out of the box instead of failing with the "output directory already exists" error. If you want the container to keep the original strict behavior, override the variable at run time:
+
+```bash
+docker run -it -e JS_RECON_OUTPUT_OVERWRITE=false ghcr.io/js-recon/js-recon <js_recon_arguments>
+```
+
 ## Copying Results
 
 You can copy the results using the following command:
