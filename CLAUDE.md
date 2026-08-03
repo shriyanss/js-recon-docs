@@ -9,7 +9,8 @@ docs/
 │   ├── installation.md           ← npm/Homebrew install    (sidebar_position: 2)
 │   ├── docker-installation.md    ← Docker install          (sidebar_position: 3)
 │   ├── framework-support.md      ← Per-module compat table (sidebar_position: 4)
-│   ├── modules/                  ← Module command reference (category position: 5)
+│   ├── configuration.md          ← config.yaml/precedence  (sidebar_position: 5)
+│   ├── modules/                  ← Module command reference (category position: 6)
 │   │   ├── run.md                ← Orchestrator            (pos 1)
 │   │   ├── lazyload.md           ← JS downloader           (pos 2)
 │   │   ├── lazyload/             ← Lazyload sub-pages      (pos 3)
@@ -37,12 +38,12 @@ docs/
 │   │   │   └── remote-signatures.md  (pos 8)
 │   │   ├── sourcemaps.md         ← Source map extractor    (pos 12)
 │   │   ├── load.md               ← Offline cache import    (pos 13)
-│   │   ├── api-gateway.md        ← IP rotation via AWS     (pos 14)
+│   │   ├── proxy.md              ← AWS/SOCKS/HTTP/Oxylabs  (pos 14)
 │   │   ├── fingerprint.md        ← Framework detector      (pos 15)
 │   │   ├── cs-mast.md            ← Structural signatures   (pos 16)
 │   │   ├── mcp.md                ← MCP / Claude shell      (pos 17)
 │   │   └── completion.md         ← Shell completion script (pos 18)
-│   ├── rules/                    ← Rules reference         (category position: 6)
+│   ├── rules/                    ← Rules reference         (category position: 7)
 │   │   ├── README.md             ← Overview                (pos 1)
 │   │   ├── creating_new_rules.md ← Authoring guide         (pos 2)
 │   │   ├── predefined-rules.md   ← Built-in rule catalog   (pos 3)
@@ -50,15 +51,15 @@ docs/
 │   │       ├── request-engine.md (pos 1)
 │   │       ├── ast-engine.md     (pos 2)
 │   │       └── cs-mast-s-engine.md (pos 3)
-│   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 7)
+│   ├── example-scenarios/        ← End-to-end walkthroughs (category position: 8)
 │   │   ├── next-js.md            (pos 1)
 │   │   ├── using-api-gateway.md  (pos 2)
 │   │   ├── vue-js.md             (pos 3)
 │   │   └── svelte-astro.md       (pos 4)
-│   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 8)
-│   ├── nuclei_templates.mdx      ← Nuclei templates        (sidebar_position: 9)
-│   ├── troubleshooting.md        ← Common errors           (sidebar_position: 10)
-│   └── ci_cd/                    ← CI/CD reference         (category position: 11)
+│   ├── exit_codes.md             ← Exit code reference     (sidebar_position: 9)
+│   ├── nuclei_templates.mdx      ← Nuclei templates        (sidebar_position: 10)
+│   ├── troubleshooting.md        ← Common errors           (sidebar_position: 11)
+│   └── ci_cd/                    ← CI/CD reference         (category position: 12)
 │       ├── github_action.md      (pos 1)
 │       ├── gitlab_ci.md          (pos 2)
 │       └── terraform/            ← Cloud provisioning      (category pos 3)
@@ -102,7 +103,7 @@ top-to-bottom sees the most-used commands first:
 | 11       | _(refactor/)_   | Technology-specific refactor docs                                                |
 | 12       | `sourcemaps`    | Extract embedded source maps                                                     |
 | 13       | `load`          | Offline workflow: import a Caido export as a cache                               |
-| 14       | `api-gateway`   | Optional: IP rotation via AWS API Gateway                                        |
+| 14       | `proxy`         | Optional: outbound proxying via AWS API Gateway, SOCKS/HTTP, or Oxylabs          |
 | 15       | `fingerprint`   | Utility: detect the JS framework before running                                  |
 | 16       | `cs-mast`       | Advanced: structural signature generation and comparison                         |
 | 17       | `mcp`           | MCP server and Claude Code integration                                           |
