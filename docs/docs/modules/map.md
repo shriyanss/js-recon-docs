@@ -25,9 +25,9 @@ js-recon map -d <directory> -t <technology> [options]
 | `--command <command>`       | `-c`     | Run an interactive-mode command non-interactively. Repeatable, and a single value can chain commands with `&&` (for example, `-c "list fetch && go to 1234"`).                                                                                                        |                       | No       |
 | `--ai <options>`            |          | Use AI to analyze the code (comma-separated; available:`description`).                                                                                                                                                                                                |                       | No       |
 | `--ai-threads <threads>`    |          | Number of threads to use for AI.                                                                                                                                                                                                                                      | `5`                   | No       |
-| `--ai-provider <provider>`  |          | Service provider to use for AI (available: openai, ollama).                                                                                                                                                                                                           | `openai`              | No       |
+| `--ai-provider <provider>`  |          | Service provider to use for AI (available: openai, ollama, anthropic).                                                                                                                                                                                                | `openai`              | No       |
 | `--ai-endpoint <endpoint>`  |          | Endpoint to use for AI service (for Ollama, etc). Uses provider default if not set.                                                                                                                                                                                   |                       | No       |
-| `--openai-api-key <key>`    |          | OpenAI API key for AI analysis.                                                                                                                                                                                                                                       |                       | No       |
+| `--ai-api-key <key>`        |          | API key for the configured AI provider. Falls back to `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` depending on `--ai-provider`.                                                                                                                                           |                       | No       |
 | `--model <model>`           |          | AI model to use for analysis.                                                                                                                                                                                                                                         | `gpt-4o-mini`         | No       |
 | `--openapi`                 |          | Generate OpenAPI spec from the code                                                                                                                                                                                                                                   | `false`               | No       |
 | `--openapi-output <file>`   |          | Output file for OpenAPI spec                                                                                                                                                                                                                                          | `mapped-openapi.json` | No       |
@@ -136,10 +136,15 @@ See the [Interactive Mode documentation](./interactive_mode/next-js.md) for the 
 
 ### AI-powered analysis
 
-Use an AI model to generate descriptions for the mapped functions by providing the `--ai` flag and an OpenAI API key.
+Use an AI model to generate descriptions for the mapped functions by providing the `--ai` flag, a `--ai-provider`, and an API key for that provider.
 
 ```bash
-js-recon map -d /path/to/js-files -t next --ai description --openai-api-key <your-key>
+# OpenAI (default provider)
+js-recon map -d /path/to/js-files -t next --ai description --ai-api-key <your-key>
+
+# Anthropic
+js-recon map -d /path/to/js-files -t next --ai description \
+  --ai-provider anthropic --ai-api-key <your-key> --model claude-haiku-4-5-20251001
 ```
 
 ### OpenAPI specification generation
