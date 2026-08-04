@@ -4,34 +4,31 @@ sidebar_position: 2
 
 # Oxylabs
 
-`proxy oxylabs` configures an [Oxylabs](https://oxylabs.io/) datacenter proxy for js-recon's
+The `oxylabs` method configures an [Oxylabs](https://oxylabs.io/) datacenter proxy for js-recon's
 outbound requests.
 
 ## Usage
 
 ```bash
-js-recon proxy oxylabs -i [options]
+js-recon proxy -i --proxy-method oxylabs [options]
 ```
 
 ## Options
 
-| Option                | Description                                                                                                        | Default              |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `--init`, `-i`         | Write the resolved Oxylabs config to the config file.                                                                  | `false`               |
-| `--config <config>`, `-c` | Name of the shared proxy config file.                                                                              | `.proxy_config.json` |
-| `--username <username>` | Oxylabs datacenter proxy username. Prompted interactively if omitted.                                                | -                     |
-| `--password <password>` | Oxylabs datacenter proxy password. Prompted interactively if omitted.                                                | -                     |
-| `--country <country>`  | Oxylabs datacenter proxy country code (for example `US`). Prompted interactively (optional) if omitted.                | -                     |
-| `--city <city>`        | Currently unsupported — no documented username-level city targeting for datacenter proxies. Passing it errors out. | -                     |
-| `--session-id <id>`    | Currently unsupported via username — sticky sessions are selected by port, not username. Passing it errors out.    | -                     |
-
-Any field not given on the command line is prompted for interactively (username/password are
-required; country/city/session-id are optional).
+| Option                          | Description                                                                                                         | Default               |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `--init`, `-i`                  | Write the resolved Oxylabs config to the config file.                                                                | `false`                |
+| `--config <config>`, `-c`       | Name of the shared proxy config file.                                                                                | `.proxy_config.json`   |
+| `--oxylabs-username <username>` | Oxylabs datacenter proxy username.                                                                                    | -                      |
+| `--oxylabs-password <password>` | Oxylabs datacenter proxy password.                                                                                    | -                      |
+| `--oxylabs-country <country>`   | Oxylabs datacenter proxy country code (for example `US`).                                                            | -                      |
+| `--oxylabs-city <city>`         | Currently unsupported — no documented username-level city targeting for datacenter proxies. Passing it errors out. | -                      |
+| `--oxylabs-session-id <id>`     | Currently unsupported via username — sticky sessions are selected by port, not username. Passing it errors out.    | -                      |
 
 ### Example
 
 ```bash
-js-recon proxy oxylabs -i --username myuser --password mypass --country US
+js-recon proxy -i --proxy-method oxylabs --oxylabs-username myuser --oxylabs-password mypass --oxylabs-country US
 ```
 
 This writes `{"method": "oxylabs", "oxylabs": {"username": "myuser", "password": "mypass",
@@ -41,7 +38,7 @@ and marks `oxylabs` as the active method.
 ## Using it with `lazyload`/`run`
 
 ```bash
-js-recon proxy oxylabs -i --username myuser --password mypass --country US
+js-recon proxy -i --proxy-method oxylabs --oxylabs-username myuser --oxylabs-password mypass --oxylabs-country US
 js-recon run -u https://example.com --proxy-config .proxy_config.json
 ```
 

@@ -4,12 +4,12 @@ sidebar_position: 4
 
 # HTTP
 
-`proxy http` configures a generic HTTP proxy for js-recon's outbound requests.
+The `http` method configures a generic HTTP proxy for js-recon's outbound requests.
 
 ## Usage
 
 ```bash
-js-recon proxy http -i [options]
+js-recon proxy -i --proxy-method http [options]
 ```
 
 ## Options
@@ -18,12 +18,12 @@ js-recon proxy http -i [options]
 | --------------------------- | ----------------------------------------------------------------------------- | --------------------- |
 | `--init`, `-i`              | Write the resolved HTTP proxy config to the config file.                      | `false`               |
 | `--config <config>`, `-c`   | Name of the shared proxy config file.                                         | `.proxy_config.json` |
-| `--url <url>`                | HTTP proxy URL (`http://[user:pass@]host:port`). Prompted interactively (with validation) if omitted. | -       |
+| `--proxy <url>`             | HTTP proxy URL (`http://[user:pass@]host:port`).                              | -                     |
 
 ### Example
 
 ```bash
-js-recon proxy http -i --url http://user:pass@proxyhost:8080
+js-recon proxy -i --proxy-method http --proxy http://user:pass@proxyhost:8080
 ```
 
 This writes `{"method": "http", "http": {"url": "http://user:pass@proxyhost:8080"}}` (merged with
@@ -33,7 +33,7 @@ method.
 ## Using it with `lazyload`/`run`
 
 ```bash
-js-recon proxy http -i --url http://user:pass@proxyhost:8080
+js-recon proxy -i --proxy-method http --proxy http://user:pass@proxyhost:8080
 js-recon run -u https://example.com --proxy-config .proxy_config.json
 ```
 
