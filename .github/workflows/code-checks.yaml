@@ -6,12 +6,15 @@ on:
       - stage
       - post-1.4.1
 
+permissions:
+  contents: read
+
 jobs:
   version_check:
     name: Check if version exists on main repo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Check version
         run: |
           echo "[i] Getting versions from the main repo"
@@ -61,8 +64,8 @@ jobs:
     needs: version_check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: errata-ai/vale-action@v2.1.1
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: errata-ai/vale-action@d89dee975228ae261d22c15adcd03578634d429c # v2.1.1
         env:
           VALE_CONFIG_PATH: ./.vale.ini
         with:
@@ -73,13 +76,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           # Make sure the action checks out the repository to the pull request branch
           ref: ${{ github.ref_name }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: "npm"
@@ -97,13 +100,13 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           # Make sure the action checks out the repository to the pull request branch
           ref: ${{ github.ref_name }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: "npm"
@@ -118,7 +121,7 @@ jobs:
         run: rm -rf node_modules
 
       - name: Configure SSH commit signing
-        uses: shriyanss/verified-commit-action@v1
+        uses: shriyanss/verified-commit-action@1d7638e44a6bab6d3ac35653af7ef9f343074662 # v1.0.2
         with:
           ssh-private-key: ${{ secrets.JS_RECON_SIGNING_KEY }}
           commit-name: "js-recon-bot"
