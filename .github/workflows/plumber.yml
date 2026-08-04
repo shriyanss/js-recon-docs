@@ -2,7 +2,7 @@ name: Plumber
 
 on:
   push:
-    branches: [stage]
+    branches: [stage, main]
   pull_request:
     branches: [stage]
 
