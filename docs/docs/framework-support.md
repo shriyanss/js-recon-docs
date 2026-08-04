@@ -21,7 +21,7 @@ The feature to download all lazy-loaded (dynamically loaded) JavaScript files is
 
 This feature will make HTTP requests to the target through Amazon Web Services IP pool. This means that it could potentially bypass misconfigured/poorly configured firewall rules.
 
-However, if the site blocks IP addresses originating from Amazon Web Services, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/proxy.md#check-feasibility) flag.
+However, if the site blocks IP addresses originating from Amazon Web Services, it might not work, or could even break. To check if the firewall blocks the requests or not, use the [`--feasibility`](./modules/proxy/aws.md#check-feasibility) flag.
 
 ## Endpoints
 

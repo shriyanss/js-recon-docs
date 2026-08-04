@@ -120,10 +120,10 @@ Breakdown of the command:
 The pentester can also adjust some AI settings:
 
 - `--ai-provider`: AI provider to use
-    - `openai` and `ollama` are supported as of writing this
+    - `openai`, `ollama`, and `anthropic` are supported as of writing this
 - `--model`: AI model to use
-- `--openai-api-key`: API key to use for OpenAI
-    - The value for the environment variable `$OPENAI_API_KEY` will be used if not provided
+- `--ai-api-key`: API key to use for the configured AI provider
+    - The value for the `$OPENAI_API_KEY` or `$ANTHROPIC_API_KEY` environment variable (matching `--ai-provider`) will be used if not provided
 - `--ai-threads <threads>`: Number of threads to simultaneously run to generate descriptions
     - Refer to [Organization Limits](https://platform.openai.com/settings/organization/limits) in [OpenAI API Platform](https://platform.openai.com) for limits for your OpenAI Account
     - For Ollama, adjust the value as per the capacity of the machine running Ollama

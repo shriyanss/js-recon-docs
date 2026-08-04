@@ -137,18 +137,36 @@ enhanced analysis. Neither is required — the tool works fine without them.
 
 ### AWS API Gateway (used to rotate IP address; optional)
 
-The [`proxy`](./modules/proxy.md) module's `aws` method can rotate the source IP
-across requests via throwaway AWS API Gateway REST APIs, which is useful against
-rate-limited targets. This is entirely optional — JS Recon runs normally without
-an AWS key. See the [full `proxy` module reference](./modules/proxy.md) for setup
-and the [AWS example](./modules/proxy.md#aws-initialize-api-gateway).
+JS Recon requires an AWS API Key (and Secret Key) to use the [`proxy aws`](./modules/proxy/aws.md) subcommand for rotating IP addresses while scanning the target
 
-### OpenAI API (to generate function descriptions; optional)
+Recommended permission:
 
-The `map` module's `--ai` flag can use an AI provider to generate descriptions for
-mapped functions. This is optional and off by default. Supported providers are
-`openai` (default, requires an API key) and `ollama` (no key required, runs
-locally), selected via `--ai-provider`. The OpenAI key is read from the
-`$OPENAI_API_KEY` environment variable, or passed directly with
-`--openai-api-key <key>`. See the [full AI-powered analysis docs](./modules/map.md#ai-powered-analysis)
-for provider options and examples.
+- AdministratorAccess for API Gateway
+
+or
+at minimum, fine-grained permission accordingly.
+
+The AWS Console can be accessed at https://console.aws.amazon.com/iam/
+
+These keys are
+to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
+
+Alternatively, these can be passed directly to the tool through the `-a/--access-key <key>` and `-s/--secret-key <key>` flags to the `proxy aws` subcommand. Read the full docs [here](./modules/proxy/aws.md)
+### AI provider API key (to generate function descriptions; optional)
+
+It is helpful to have the function descriptions generated through AI. To use this feature, the tool needs access to an AI provider API — `openai` (default), `anthropic`, or `ollama` (no key required), selected via `--ai-provider`.
+
+To get an OpenAI API key:
+
+- Navigate to https://platform.openai.com and log in/sign up
+- Once logged in, go to https://platform.openai.com/settings/organization/billing/overview and add credit balance to the OpenAI API account. You can test this with $5, however, you should refer to the prompts on OpenAI's website for the minimum amount
+- Now, go to https://platform.openai.com/api-keys, and create a new API key
+- Store this in the `$OPENAI_API_KEY` environment variable
+
+To get an Anthropic API key:
+
+- Navigate to https://console.anthropic.com and log in/sign up
+- Add credit balance, then create a new API key under API Keys
+- Store this in the `$ANTHROPIC_API_KEY` environment variable
+
+Alternatively, this API Key can be directly passed to JS Recon through the `--ai-api-key <key>` flag to the `map` module. The full documentation can be found [here](./modules/map.md)
