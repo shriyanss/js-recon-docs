@@ -38,6 +38,41 @@ The code for the modules is stored in directories inside the [`src/`](https://gi
 
 The directories for the modules contain a file `index.ts`, which is the entry point for the module.
 
+### Testing is required for new functionality
+
+Every new feature or fix should ship with tests:
+
+- **Unit tests** ([Vitest](https://vitest.dev/)) for pure functions — anything that takes plain
+  inputs and returns a value without I/O (parsing, string extraction, URL resolution, etc.). Live in
+  `src/__tests__/<component>/<name>.test.ts`, run with `npm test`. Puppeteer, network calls, and file
+  writes are intentionally left untested at the unit level — validate those end-to-end via the `run`
+  subcommand instead.
+- **Fuzz tests** ([fast-check](https://fast-check.dev/)) for anything on the untrusted-input
+  boundary — js-recon parses JS bundles pulled from third-party targets, so functions that parse or
+  transform that raw text should get a property-based fuzz test in addition to example-based unit
+  tests. Named `<name>.fuzz.test.ts`, run separately with `npm run test:fuzz` (excluded from the
+  default `npm test` run since they're slower).
+- **Smoke tests** for new rules — the `rules-smoke-test` CI workflow runs js-recon end-to-end against
+  a seeded lab app (`js-recon-labs`) and asserts every expected rule fires. Adding a rule to
+  `js-recon-rules` means seeding the corresponding vulnerability in the lab app and adding the rule
+  ID to `EXPECTED_RULES` in `js-recon`'s `scripts/smoke-test.js`.
+
+See [`contributing/testing.md`](https://github.com/js-recon/js-recon/blob/dev/contributing/testing.md)
+in the js-recon repo for the full write-up, including how to construct Babel AST nodes in tests and
+how to avoid tripping GitHub's secret scanner on test fixtures that look like real credentials.
+
+### Keep the docs in sync
+
+If your change affects user-facing behavior, CLI flags, exit codes, or install/usage instructions,
+include a corresponding update to this docs site (`js-recon-docs`) — either in the same pull request
+cycle or a linked follow-up PR. Docs-only fixes don't require a corresponding `js-recon` change.
+
+### Static analysis
+
+CI runs [ESLint](https://eslint.org/) (with `eslint-plugin-security`) and
+[CodeQL](https://codeql.github.com/) on every push and pull request to `js-recon`. Run `npm run lint`
+locally before pushing.
+
 ### Making a Pull Request
 
 1. Fork the repo
