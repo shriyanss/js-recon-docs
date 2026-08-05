@@ -152,6 +152,7 @@ These keys are
 to be stored in the `$AWS_ACCESS_KEY_ID` and `$AWS_SECRET_ACCESS_KEY` environment variables
 
 Alternatively, these can be passed directly to the tool through the `-a/--access-key <key>` and `-s/--secret-key <key>` flags to the `proxy aws` subcommand. Read the full docs [here](./modules/proxy/aws.md)
+
 ### AI provider API key (to generate function descriptions; optional)
 
 It is helpful to have the function descriptions generated through AI. To use this feature, the tool needs access to an AI provider API — `openai` (default), `anthropic`, or `ollama` (no key required), selected via `--ai-provider`.

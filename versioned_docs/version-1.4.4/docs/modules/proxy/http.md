@@ -14,11 +14,11 @@ js-recon proxy -i --proxy-method http [options]
 
 ## Options
 
-| Option                     | Description                                                                | Default              |
-| --------------------------- | ----------------------------------------------------------------------------- | --------------------- |
-| `--init`, `-i`              | Write the resolved HTTP proxy config to the config file.                      | `false`               |
-| `--config <config>`, `-c`   | Name of the shared proxy config file.                                         | `.proxy_config.json` |
-| `--proxy <url>`             | HTTP proxy URL (`http://[user:pass@]host:port`).                              | -                     |
+| Option                    | Description                                              | Default              |
+| ------------------------- | -------------------------------------------------------- | -------------------- |
+| `--init`, `-i`            | Write the resolved HTTP proxy config to the config file. | `false`              |
+| `--config <config>`, `-c` | Name of the shared proxy config file.                    | `.proxy_config.json` |
+| `--proxy <url>`           | HTTP proxy URL (`http://[user:pass@]host:port`).         | -                    |
 
 ### Example
 

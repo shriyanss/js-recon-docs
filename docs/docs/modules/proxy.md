@@ -9,12 +9,12 @@ through something other than your own IP — useful against targets that rate-li
 when you want to route through a specific provider. It supports four pluggable methods, selected
 via `--proxy-method`:
 
-| Method    | Description                                        | Reference                  |
-| --------- | --------------------------------------------------- | --------------------------- |
-| `aws`     | Throwaway AWS API Gateway REST APIs (IP rotation)  | [AWS](./proxy/aws)          |
-| `oxylabs` | Oxylabs datacenter proxy                           | [Oxylabs](./proxy/oxylabs)  |
-| `socks`   | Generic SOCKS5 proxy                               | [SOCKS](./proxy/socks)      |
-| `http`    | Generic HTTP proxy                                 | [HTTP](./proxy/http)        |
+| Method    | Description                                       | Reference                  |
+| --------- | ------------------------------------------------- | -------------------------- |
+| `aws`     | Throwaway AWS API Gateway REST APIs (IP rotation) | [AWS](./proxy/aws)         |
+| `oxylabs` | Oxylabs datacenter proxy                          | [Oxylabs](./proxy/oxylabs) |
+| `socks`   | Generic SOCKS5 proxy                              | [SOCKS](./proxy/socks)     |
+| `http`    | Generic HTTP proxy                                | [HTTP](./proxy/http)       |
 
 The resolved proxy is used by every module that makes outbound HTTP requests: `lazyload` (including
 its Puppeteer-driven page visits), the shared request client used across the tool, and the `analyze`

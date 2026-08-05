@@ -107,7 +107,7 @@ top-to-bottom sees the most-used commands first:
 | 11       | _(refactor/)_   | Technology-specific refactor docs                                                |
 | 12       | `sourcemaps`    | Extract embedded source maps                                                     |
 | 13       | `load`          | Offline workflow: import a Caido export as a cache                               |
-| 14       | `proxy`         | Optional: proxy configuration (AWS API Gateway IP rotation, SOCKS/HTTP, Oxylabs)  |
+| 14       | `proxy`         | Optional: proxy configuration (AWS API Gateway IP rotation, SOCKS/HTTP, Oxylabs) |
 | 15       | _(proxy/)_      | Per-provider reference (sub-pages: aws, oxylabs, socks, http)                    |
 | 16       | `fingerprint`   | Utility: detect the JS framework before running                                  |
 | 17       | `cs-mast`       | Advanced: structural signature generation and comparison                         |

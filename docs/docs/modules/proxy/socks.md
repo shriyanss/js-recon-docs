@@ -14,11 +14,11 @@ js-recon proxy -i --proxy-method socks [options]
 
 ## Options
 
-| Option                     | Description                                                                | Default              |
-| --------------------------- | ----------------------------------------------------------------------------- | --------------------- |
-| `--init`, `-i`              | Write the resolved SOCKS5 proxy config to the config file.                    | `false`               |
-| `--config <config>`, `-c`   | Name of the shared proxy config file.                                         | `.proxy_config.json` |
-| `--proxy <url>`             | SOCKS5 proxy URL (`socks5://[user:pass@]host:port`).                          | -                     |
+| Option                    | Description                                                | Default              |
+| ------------------------- | ---------------------------------------------------------- | -------------------- |
+| `--init`, `-i`            | Write the resolved SOCKS5 proxy config to the config file. | `false`              |
+| `--config <config>`, `-c` | Name of the shared proxy config file.                      | `.proxy_config.json` |
+| `--proxy <url>`           | SOCKS5 proxy URL (`socks5://[user:pass@]host:port`).       | -                    |
 
 ### Example
 

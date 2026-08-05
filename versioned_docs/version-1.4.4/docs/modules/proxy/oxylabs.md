@@ -15,15 +15,15 @@ js-recon proxy -i --proxy-method oxylabs [options]
 
 ## Options
 
-| Option                          | Description                                                                                                         | Default               |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `--init`, `-i`                  | Write the resolved Oxylabs config to the config file.                                                                | `false`                |
-| `--config <config>`, `-c`       | Name of the shared proxy config file.                                                                                | `.proxy_config.json`   |
-| `--oxylabs-username <username>` | Oxylabs datacenter proxy username.                                                                                    | -                      |
-| `--oxylabs-password <password>` | Oxylabs datacenter proxy password.                                                                                    | -                      |
-| `--oxylabs-country <country>`   | Oxylabs datacenter proxy country code (for example `US`).                                                            | -                      |
-| `--oxylabs-city <city>`         | Currently unsupported — no documented username-level city targeting for datacenter proxies. Passing it errors out. | -                      |
-| `--oxylabs-session-id <id>`     | Currently unsupported via username — sticky sessions are selected by port, not username. Passing it errors out.    | -                      |
+| Option                          | Description                                                                                                        | Default              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------- |
+| `--init`, `-i`                  | Write the resolved Oxylabs config to the config file.                                                              | `false`              |
+| `--config <config>`, `-c`       | Name of the shared proxy config file.                                                                              | `.proxy_config.json` |
+| `--oxylabs-username <username>` | Oxylabs datacenter proxy username.                                                                                 | -                    |
+| `--oxylabs-password <password>` | Oxylabs datacenter proxy password.                                                                                 | -                    |
+| `--oxylabs-country <country>`   | Oxylabs datacenter proxy country code (for example `US`).                                                          | -                    |
+| `--oxylabs-city <city>`         | Currently unsupported — no documented username-level city targeting for datacenter proxies. Passing it errors out. | -                    |
+| `--oxylabs-session-id <id>`     | Currently unsupported via username — sticky sessions are selected by port, not username. Passing it errors out.    | -                    |
 
 ### Example
 

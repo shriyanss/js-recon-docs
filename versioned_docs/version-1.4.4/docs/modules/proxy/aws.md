@@ -15,18 +15,18 @@ js-recon proxy --proxy-method aws [options]
 
 ## Options
 
-| Option                          | Alias | Description                                                          | Default               | Required |
-| -------------------------------- | ----- | ---------------------------------------------------------------------- | --------------------- | -------- |
-| `--init`                        | `-i`  | Create a new API Gateway and save it to the config file.             | `false`                | No       |
-| `--destroy <id>`                | `-d`  | Destroy the API Gateway with the given ID.                           |                        | No       |
-| `--destroy-all`                 |       | Destroy all API Gateways created by this tool, in all regions.       | `false`                | No       |
-| `--region <region>`             | `-r`  | AWS region to create the API in.                                     | random region          | No       |
-| `--aws-access-key <key>`        |       | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided.     |                        | No       |
-| `--aws-secret-key <key>`        |       | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. |                        | No       |
-| `--config <config>`             | `-c`  | Name of the shared proxy config file.                                | `.proxy_config.json`   | No       |
-| `--list`                        | `-l`  | List all APIs created by this tool.                                  | `false`                | No       |
-| `--feasibility`                 |       | Check the feasibility of using this method for a target.             | `false`                | No       |
-| `--feasibility-url <url>`       |       | URL to check the feasibility of.                                     |                        | No       |
+| Option                    | Alias | Description                                                           | Default              | Required |
+| ------------------------- | ----- | --------------------------------------------------------------------- | -------------------- | -------- |
+| `--init`                  | `-i`  | Create a new API Gateway and save it to the config file.              | `false`              | No       |
+| `--destroy <id>`          | `-d`  | Destroy the API Gateway with the given ID.                            |                      | No       |
+| `--destroy-all`           |       | Destroy all API Gateways created by this tool, in all regions.        | `false`              | No       |
+| `--region <region>`       | `-r`  | AWS region to create the API in.                                      | random region        | No       |
+| `--aws-access-key <key>`  |       | AWS access key. Uses `AWS_ACCESS_KEY_ID` env var if not provided.     |                      | No       |
+| `--aws-secret-key <key>`  |       | AWS secret key. Uses `AWS_SECRET_ACCESS_KEY` env var if not provided. |                      | No       |
+| `--config <config>`       | `-c`  | Name of the shared proxy config file.                                 | `.proxy_config.json` | No       |
+| `--list`                  | `-l`  | List all APIs created by this tool.                                   | `false`              | No       |
+| `--feasibility`           |       | Check the feasibility of using this method for a target.              | `false`              | No       |
+| `--feasibility-url <url>` |       | URL to check the feasibility of.                                      |                      | No       |
 
 `-d/--destroy`, `--destroy-all`, and `-l/--list` are `aws`-only lifecycle actions — `socks`/`http`/`oxylabs`
 have no create/destroy lifecycle to manage.
