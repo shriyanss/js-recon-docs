@@ -123,6 +123,36 @@ Each module is written to `<output-dir>/<moduleId>.js` (or `.jsx` when JSX is re
 
 Modules that contain only CJS interop boilerplate (`module.exports = runtime.r(N)`) are skipped — they are transparent re-exports of another module, and the caller should import that module directly.
 
+## Remote signature stripping
+
+By default, when running `refactor -t next-turbopack` without `--collisions`, the tool automatically downloads CS-MAST signature data and uses it to strip Next.js framework modules from the output — no local baseline clone required. The bucket prefix used is `next/turbopack/large-0.1.8`, cached locally under `~/.js-recon/refactor/signature_cache/next/turbopack/large-0.1.8/`.
+
+For the shared mechanics (configuration, cache layout, `--sq`, `--scat`, `--remote-collisions`, cache-control flags), see [Remote signature stripping](./remote-signatures.md).
+
+### Library module classification
+
+For each module captured from `mapped.json` — both the 3-param/1-param Turbopack formats and any webpack-style modules coexisting in the same bundle:
+
+1. The module's function body is serialised to source with `@babel/generator`.
+2. The body is hashed with `cs_mast_init({ scat: ["lit","decl","loop","cond"], … })`, producing a signature for every actively hashed sub-tree.
+3. The fraction of sub-tree signatures that match the remote baseline is computed.
+4. If that fraction is at or above the 51% classification threshold, the module is flagged as framework/library code.
+5. Library-flagged modules are logged (`[-] Module N matches library baseline — skipping`) and not written to disk. Application-specific modules are written normally.
+
+**Sample size note:** the Turbopack dataset was generated from a 43-app baseline (versus 9 for `next-webpack`), so the default `--sq 100` — requiring a signature to appear in every sampled app — is a stricter bar and can occasionally yield no usable signatures at that threshold. If a run reports an empty intersection, retry with a lower `--sq` (for example `--sq 80`).
+
+### Local baseline (`--collisions`)
+
+As an alternative to the remote HuggingFace dataset, you can pass a local `--collisions` path. This accepts:
+
+- A direct `collisions.json` file path
+- A standard baseline directory (resolved via `<dir>/baselines/next-turbopack/lit-decl-loop-cond/collisions.json`)
+- A per-feature results directory with the layout `<dir>/<feature>/lit-decl-loop-cond/collisions.json`
+
+```bash
+js-recon refactor -t next-turbopack --collisions ./js-recon-cs-mast-s -o output_refactored
+```
+
 ## Example output
 
 Input chunk (abbreviated):
