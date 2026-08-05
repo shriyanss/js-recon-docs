@@ -298,7 +298,7 @@ Combine the built-in secrets scanner with TruffleHog for a deeper pass over ever
 js-recon run -u https://example.com -y --secrets --trufflehog
 ```
 
-`--trufflehog` requires TruffleHog to already be installed; both scanners run at the strings steps, so this recipe only scans for secrets when the target is detected as Next.js.
+`--trufflehog` requires TruffleHog to already be installed; both scanners run at the strings steps, so this recipe only scans for secrets when the target is detected as Next.js. Automatic installation on first use is being explored for a future release.
 
 ### Use a custom or organization rule set
 
