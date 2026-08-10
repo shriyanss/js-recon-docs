@@ -48,10 +48,12 @@ hostname
 semver
 subtree
 initializer
-destructuring
+destructur(ing|ed)
 bundlers?
 patchFlag
 allowlist
+sanitization
+unescaped
 URIs
 middleware
 polyfills?
@@ -62,7 +64,9 @@ declarator
 [Mm]erkelized
 [Mm]emoized
 sourcemaps?
-subcommand
+subcommands?
+[Zz]sh
+rc
 toolchain
 repo
 [Rr]olldown
@@ -74,3 +78,10 @@ basenames?
 fetchable
 [Dd]ebounce(d|s)?
 dedup
+bypassable
+untrusted
+exfiltrate
+jQuery('s)?
+DOMPurify
+Oxylabs('s)?
+[Dd]atacenter

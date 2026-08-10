@@ -78,6 +78,8 @@ brew install trufflehog
 curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh
 ```
 
+_Automatic installation of TruffleHog on first use of `--trufflehog` is being explored for a future release, to remove this manual step._
+
 You can combine both secret scanners in a single run:
 
 ```bash

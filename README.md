@@ -1,5 +1,7 @@
 # Website
 
+[![Plumber Score](https://score.getplumber.io/github.com/js-recon/js-recon-docs.svg)](https://score.getplumber.io/github.com/js-recon/js-recon-docs)
+
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ## Installation
