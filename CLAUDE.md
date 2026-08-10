@@ -248,16 +248,6 @@ This repo runs Vale on documentation. If Vale CI fails:
 - Do not add words to `.vale/` accept lists unless they are real technical terms (module names, flag names, proper nouns).
 - Avoid passive voice, weasel words, and long sentences — Vale flags these.
 
-## Sub-agents (internal write-up policy)
-
-Substantive code changes in this repo (e.g. `src/css/custom.css`, `docusaurus.config.ts`, build/CI
-scripts — not plain content edits to `docs/`) get a post-implementation write-up on
-`js-recon-internal-docs`, written by the **`docs-writer`** sub-agent, unconditionally — even when the
-change has no user-visible effect. The write-up lands in `js-recon-internal-docs/docs/js-recon-core/`
-and must include a line-by-line English translation of the diff. Full policy:
-`js-recon-internal-docs/docs/dev-workflow/code-change-summaries.md`. This is separate from, and does not
-replace, the documentation conventions in the rest of this file (which govern content in `docs/` itself).
-
 ## Navbar CSS (`src/css/custom.css`)
 
 Never apply `backdrop-filter`, `filter`, `transform`, `perspective`, or `will-change` naming one of those directly to `.navbar`. Docusaurus renders the mobile sidebar (`.navbar-sidebar`, a `position: fixed` element meant to cover the full viewport) as a DOM child of `.navbar` itself. Any of those properties on `.navbar` makes it a containing block for `position: fixed` descendants, so the sidebar's `top`/`bottom` resolve against the navbar's own ~60px box instead of the viewport — the mobile hamburger menu then silently fails to appear when tapped.
