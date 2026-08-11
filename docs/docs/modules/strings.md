@@ -14,17 +14,17 @@ js-recon strings -d <directory> [options]
 
 ## Options
 
-| Option                        | Alias | Description                                                   | Default          | Required |
-| ----------------------------- | ----- | ------------------------------------------------------------- | ---------------- | -------- |
-| `--directory <directory>`     | `-d`  | Directory containing JS files.                                |                  | Yes      |
-| `--output <file>`             | `-o`  | JSON file to save the extracted strings.                      | `strings.json`   | No       |
-| `--extract-urls`              | `-e`  | Extract URLs from the strings.                                | `false`          | No       |
-| `--extracted-url-path <file>` |       | Output file for extracted URLs and paths (without extension). | `extracted_urls` | No       |
-| `--permutate`                 | `-p`  | Permutate the URLs and paths found.                           | `false`          | No       |
-| `--openapi`                   |       | Generate an OpenAPI specification from the paths found.       | `false`          | No       |
-| `--scan-secrets`              | `-s`  | Scan for secrets within the strings.                          | `false`          | No       |
-| `--trufflehog`                |       | Run TruffleHog secret scanner on the output directory.        | `false`          | No       |
-| `--trufflehog-bin <path>`     |       | Path to an existing TruffleHog binary. Skips auto-download.   | `trufflehog`     | No       |
+| Option                        | Alias | Description                                                                                                                              | Default          | Required |
+| ----------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
+| `--directory <directory>`     | `-d`  | Directory containing JS files.                                                                                                           |                  | Yes      |
+| `--output <file>`             | `-o`  | JSON file to save the extracted strings.                                                                                                 | `strings.json`   | No       |
+| `--extract-urls`              | `-e`  | Extract URLs from the strings.                                                                                                           | `false`          | No       |
+| `--extracted-url-path <file>` |       | Output file for extracted URLs and paths (without extension).                                                                            | `extracted_urls` | No       |
+| `--permutate`                 | `-p`  | Permutate the URLs and paths found.                                                                                                      | `false`          | No       |
+| `--openapi`                   |       | Generate an OpenAPI specification from the paths found.                                                                                  | `false`          | No       |
+| `--scan-secrets`              | `-s`  | Scan for secrets within the strings.                                                                                                     | `false`          | No       |
+| `--trufflehog`                |       | Run TruffleHog secret scanner on the output directory.                                                                                   | `false`          | No       |
+| `--trufflehog-bin <path>`     |       | Path to an existing TruffleHog binary. Skips auto-download.                                                                              | `trufflehog`     | No       |
 | `--trufflehog-accept-terms`   |       | Accept TruffleHog's AGPL-3.0 license terms non-interactively so it can be auto-downloaded. Required in non-TTY/CI contexts on first use. | `false`          | No       |
 
 A file that fails to parse (truncated download, an HTML error page saved with a `.js` extension, etc.)
