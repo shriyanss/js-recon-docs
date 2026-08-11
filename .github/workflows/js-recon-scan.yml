@@ -22,7 +22,7 @@ jobs:
 
       - name: JS Recon
         id: jsrecon
-        uses: js-recon/js-recon-action@d51c71a8cd667d016a099c9ef2e35c8b36d95c59 # v1.0.3
+        uses: js-recon/js-recon-action@2811c10ddac88e3929113dc9ccaf41d080e879ef # v1.0.4
         with:
           url: http://localhost:3000
           start-cmd: npm run serve
