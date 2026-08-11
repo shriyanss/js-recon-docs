@@ -22,7 +22,7 @@ jobs:
 
       - name: JS Recon
         id: jsrecon
-        uses: js-recon/js-recon-action@v1
+        uses: js-recon/js-recon-action@d51c71a8cd667d016a099c9ef2e35c8b36d95c59 # v1.0.3
         with:
           url: http://localhost:3000
           start-cmd: npm run serve
@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload JS Recon output
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: js-recon-output
           path: ${{ steps.jsrecon.outputs.output-path }}
