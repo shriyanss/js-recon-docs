@@ -9,20 +9,20 @@ The `fingerprint` command detects the front-end JavaScript framework used by one
 ## Usage
 
 ```bash
-js-recon fingerprint -u <url/file> [options]
+js-recon fingerprint -u <url/list/file> [options]
 ```
 
 ## Options
 
-| Option               | Alias | Description                                                                    | Default | Required |
-| -------------------- | ----- | ------------------------------------------------------------------------------ | ------- | -------- |
-| `--url <url/file>`   | `-u`  | Target URL or a file containing a list of URLs (one per line).                 |         | Yes      |
-| `--output <file>`    | `-o`  | Output file to write results.                                                  |         | No       |
-| `--format <formats>` | `-f`  | Output formats: `text`, `csv`, `json`, `jsonl` (comma-separated for multiple). | `text`  | No       |
-| `--threads <n>`      | `-t`  | Number of concurrent detection workers.                                        | `5`     | No       |
-| `--timeout <ms>`     |       | Request timeout in milliseconds.                                               | `30000` | No       |
-| `--insecure`         | `-k`  | Disable SSL certificate verification.                                          | `false` | No       |
-| `--no-sandbox`       |       | Disable browser sandbox.                                                       | `false` | No       |
+| Option                  | Alias | Description                                                                                                                | Default | Required |
+| ----------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
+| `--url <url/list/file>` | `-u`  | Target URL, comma-separated URLs, or target file; may be repeated. See [Run's `-u` examples](./run.md#required-arguments). |         | Yes      |
+| `--output <file>`       | `-o`  | Output file to write results.                                                                                              |         | No       |
+| `--format <formats>`    | `-f`  | Output formats: `text`, `csv`, `json`, `jsonl` (comma-separated for multiple).                                             | `text`  | No       |
+| `--threads <n>`         | `-t`  | Number of concurrent detection workers.                                                                                    | `5`     | No       |
+| `--timeout <ms>`        |       | Request timeout in milliseconds.                                                                                           | `30000` | No       |
+| `--insecure`            | `-k`  | Disable SSL certificate verification.                                                                                      | `false` | No       |
+| `--no-sandbox`          |       | Disable browser sandbox.                                                                                                   | `false` | No       |
 
 ## How it works
 

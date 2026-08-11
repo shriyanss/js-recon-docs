@@ -76,13 +76,29 @@ js-recon run -u <url/file> [options]
 
 ### Required arguments
 
-- `-u, --url <url/file>`: The target URL or a file containing a list of URLs (one per line).
+- `-u, --url <url/list/file>`: A single target URL, repeated `-u` flags, a comma-separated list of
+  URLs, or a file containing one URL per line:
+
+    ```bash
+    js-recon run -u https://one.example.com -u https://two.example.com
+    js-recon run -u 'https://one.example.com,https://two.example.com'
+    js-recon run -u ./targets.txt
+    ```
+
+    Targets may also be configured as a YAML list — see [Configuration](../configuration.md#target-lists-in-yaml).
+
+### Output directory reuse
+
+An existing empty output directory is reused. If it already contains files, js-recon preserves it and
+selects the next available sibling (`output-2`, `output-3`, and so on) instead of erroring out or
+overwriting. Use `--output-overwrite` only when the contents of a previously created js-recon output
+should be replaced; unowned directories are never recursively cleared.
 
 ### Options
 
 | Option                                | Alias    | Description                                                                                                                                                                                                                                                                                                    | Default              | Required |
 | ------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------- |
-| `--url <url>`                         | `-u`     | Target URL                                                                                                                                                                                                                                                                                                     |                      | Yes      |
+| `--url <url/list/file>`               | `-u`     | Target URL, comma-separated URLs, or target file; may be repeated                                                                                                                                                                                                                                              |                      | Yes      |
 | `--output <directory>`                | `-o`     | Output directory                                                                                                                                                                                                                                                                                               | `output`             | No       |
 | `--output-overwrite`                  |          | Overwrite the output directory if it already exists instead of stopping with an error. Also settable via the `JS_RECON_OUTPUT_OVERWRITE=true` environment variable. See [Docker Installation](../docker-installation.md).                                                                                      | `false`              | No       |
 | `--strict-scope`                      |          | Download JS files from only the input URL domain                                                                                                                                                                                                                                                               | `false`              | No       |
@@ -94,6 +110,10 @@ js-recon run -u <url/file> [options]
 | `--proxy-config <file>`               |          | Proxy config file, generated via `js-recon proxy <method> -i`. See [Proxy](./proxy.md).                                                                                                                                                                                                                        | `.proxy_config.json` | No       |
 | `--ignore-proxy-env`                  |          | Skip `JS_RECON_*` proxy environment variables during resolution. See [Proxy](./proxy.md).                                                                                                                                                                                                                      | `false`              | No       |
 | `--proxy-waf-fallback`                |          | Before each target, check whether the configured proxy is actually needed and can bypass a WAF/firewall (reuses the `proxy --feasibility` logic). Skips the target if the proxy can't bypass it. Requires a proxy already configured via `--proxy-config`; has no effect otherwise. See [Proxy](./proxy.md).   | `false`              | No       |
+| `--oxylabs-waf-fallback`              |          | Retry strongly identified CDN/WAF blocks through configured Oxylabs; direct requests remain the default. Opt-in and separate from `--proxy-waf-fallback` — see [Configuration](../configuration.md#oxylabs-cdnwaf-fallback).                                                                                   | `false`              | No       |
+| `--oxylabs-fallback-max-requests <n>` |          | Maximum paid Oxylabs fallback requests per origin.                                                                                                                                                                                                                                                             | `10`                 | No       |
+| `--oxylabs-fallback-max-total <n>`    |          | Maximum paid Oxylabs fallback requests per run.                                                                                                                                                                                                                                                                | `100`                | No       |
+| `--oxylabs-fallback-max-origins <n>`  |          | Maximum distinct fallback origins per run.                                                                                                                                                                                                                                                                     | `25`                 | No       |
 | `--cache-file <file>`                 |          | File to store response cache                                                                                                                                                                                                                                                                                   | `.resp_cache.json`   | No       |
 | `--disable-cache`                     |          | Disable response caching                                                                                                                                                                                                                                                                                       | `false`              | No       |
 | `--cache-only`                        |          | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                                                                       | `false`              | No       |
