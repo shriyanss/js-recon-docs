@@ -24,6 +24,8 @@ js-recon strings -d <directory> [options]
 | `--openapi`                   |       | Generate an OpenAPI specification from the paths found.       | `false`          | No       |
 | `--scan-secrets`              | `-s`  | Scan for secrets within the strings.                          | `false`          | No       |
 | `--trufflehog`                |       | Run TruffleHog secret scanner on the output directory.        | `false`          | No       |
+| `--trufflehog-bin <path>`     |       | Path to an existing TruffleHog binary. Skips auto-download.   | `trufflehog`     | No       |
+| `--trufflehog-accept-terms`   |       | Accept TruffleHog's AGPL-3.0 license terms non-interactively so it can be auto-downloaded. Required in non-TTY/CI contexts on first use. | `false`          | No       |
 
 A file that fails to parse (truncated download, an HTML error page saved with a `.js` extension, etc.)
 is skipped with a warning; extraction still completes for every other file in the directory.
@@ -68,7 +70,13 @@ Run TruffleHog as a more comprehensive secret scanner on the output directory:
 js-recon strings -d output/ --trufflehog
 ```
 
-TruffleHog must be installed separately before using this flag:
+If no TruffleHog binary is found (or provided via `--trufflehog-bin`), the tool offers to auto-download it for you. TruffleHog is licensed under AGPL-3.0, so this requires one-time consent — either an interactive prompt, or `--trufflehog-accept-terms` for CI/non-TTY contexts:
+
+```bash
+js-recon strings -d output/ --trufflehog --trufflehog-accept-terms
+```
+
+To use an existing installation instead, point `--trufflehog-bin` at it:
 
 ```bash
 # macOS
@@ -78,7 +86,9 @@ brew install trufflehog
 curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh
 ```
 
-_Automatic installation of TruffleHog on first use of `--trufflehog` is being explored for a future release, to remove this manual step._
+```bash
+js-recon strings -d output/ --trufflehog --trufflehog-bin /usr/local/bin/trufflehog
+```
 
 You can combine both secret scanners in a single run:
 

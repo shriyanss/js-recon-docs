@@ -38,7 +38,7 @@ js-recon lazyload -u <url/file> [options]
 | `--no-sandbox`                         |       | Disable browser sandbox.                                                                                                                                                                                                                                         | `false`               | No       |
 | `--build-id`                           |       | Get the buildId from the Next.js app.                                                                                                                                                                                                                            | `false`               | No       |
 | `--sourcemap-dir <directory>`          |       | Directory to write reconstructed source maps.                                                                                                                                                                                                                    | `extracted`           | No       |
-| `--research`                           |       | Enable research mode.                                                                                                                                                                                                                                            | `false`               | No       |
+| `--research`                           |       | Enable research mode: records a technique-name → discovered-URL-list mapping. Supported for every detected framework (Next.js, Vue, Nuxt, Svelte, Angular, React), not just Next.js.                                                                            | `false`               | No       |
 | `--research-output <file>`             |       | Output file for research mode.                                                                                                                                                                                                                                   | `research.json`       | No       |
 | `--max-iterations <iterations>`        |       | Maximum number of recursive crawl iterations.                                                                                                                                                                                                                    | `10`                  | No       |
 | `--max-js-size <mb>`                   |       | Maximum JS file size in MB to parse (Vue only).                                                                                                                                                                                                                  | `2`                   | No       |
@@ -134,6 +134,46 @@ The webpack chunk-enumeration technique extracts a function from the webpack run
 
 Scoping matters most when JS assets are served from a CDN subdomain. The `run` command auto-detects CDN hosts and adjusts the map directory accordingly, but `lazyload` alone requires explicit scope configuration.
 
+### Generic extraction (no framework detected)
+
+When none of the supported frameworks (Next.js, Vue, Nuxt, Svelte, Angular, React) are detected, the
+crawler falls back to a `generic` tech instead of stopping after a single Puppeteer pass. `generic`
+recursively crawls the site's own `<a href>`/`<iframe src>` links, plus absolute URLs embedded in any
+other attribute value (for example an `onclick`-driven `window.open(...)` popup), breadth-first and
+capped by `--max-pages`, downloading JS incrementally as each page is visited.
+
+- **Default scope:** unless `-s`/`--strict-scope` is set, the crawl's default scope is the host reached
+  _after following redirects_ from `-u`, not the unrestricted `*` default used elsewhere. `--max-redirects`
+  (default `20`) bounds how many redirects are followed while resolving that scope.
+- **Script/module discovery:** on every page, `generic` extracts `<script src>`, inline scripts, and
+  `<link rel="modulepreload">` the same way the framework-specific crawlers do — decoding `data:` URI
+  script sources and skipping `<script type="...">` values that indicate non-JS content (for example
+  `application/ld+json`, `speculationrules`).
+- **Attribute-embedded JS:** every HTML attribute value is also walked and resolved with the `URL`
+  constructor. Any URL whose path segment ends in `.js` (including cachebuster-suffixed paths like
+  `.../beacon.min.js/v124/token` that don't literally end in `.js`) is confirmed as real JavaScript via
+  its response `Content-Type` (accepting `text/javascript` per RFC 9239, plus the legacy
+  `application/javascript`/`application/ecmascript` variants) rather than trusting the extension alone.
+- **Runtime-injected requests:** `generic` is seeded with every request intercepted during the
+  framework-detection step's own live Puppeteer render, catching JS requested only because a
+  runtime-injected script asked for it (for example a bot-mitigation script self-injecting its own next
+  stage via `element.innerHTML`).
+- **String-referenced JS (`--strings`):** chains the `strings` module into the crawl to catch JS
+  referenced only as a string literal inside an already-downloaded file (for example a plugin config's
+  `"pdfWorker": "https://.../pdf.worker.js"`). Each extracted string is resolved against the URL of the
+  file it was found in and the crawl recurses (`--strings-max-iterations`, default `5`, `0` = unlimited)
+  until a pass finds nothing new.
+- **Content stagnation:** effectively unbounded sites (blogs, news feeds) can keep serving
+  byte-identical JS under a different, cache-busted URL on every page, which the existing URL-level
+  dedup doesn't catch. `--stagnation-timein` (default `30` minutes, `0` disables) arms monitoring once
+  one content hash accounts for `--stagnation-percentage`% (default `80`) of everything discovered so
+  far; if a genuinely new content hash appears within the next `--stagnation-monitor` interval (default
+  `1` minute), monitoring resets — only a persisting dominant hash with no new content stops the crawl
+  early. `--stagnation-timein` must not exceed `--lazyload-timeout` (exit code 30 otherwise), since
+  stagnation monitoring could otherwise never trigger before the whole crawl times out.
+- `run` still only downloads JS for `generic` tech — the rest of the pipeline (map, analyze, etc.) is
+  skipped for it, same as for any other unsupported tech.
+
 ## Framework Support
 
 Each framework is added to the tool after thorough research on the framework. New techniques are added when they are discovered. The following is an exhaustive list of frameworks that the `lazyload` module is compatible with:
@@ -144,6 +184,7 @@ Each framework is added to the tool after thorough research on the framework. Ne
 - Angular
 - React
 - Svelte
+- `generic` — fallback for sites running no supported framework. See [Generic extraction](#generic-extraction-no-framework-detected).
 
 Please note that some frameworks are supported better than others. Currently, the frameworks with the most supported techniques are Next.js and Vue.
 

@@ -21,7 +21,11 @@ js-recon report [options]
 | `--analyze-json <file>`                       | `-a`  | Analyze JSON file                        |               | No       |
 | `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                      |               | No       |
 | `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                 |               | No       |
+| `--exploit-json <file>`                       |       | Exploit findings JSON file, in `EngineOutput` format (see [Exploit command — `--engine-output`](./exploit.md)) | | No       |
 | `--output <file>`                             | `-o`  | Output file name (without the extension) | `report`      | No       |
+| `--sj`                                        |       | Run `sj` (swagger-jacker) against the mapped OpenAPI spec (requires `sj` to be installed) | `false` | No |
+| `--sj-bin <path>`                             |       | Path/name of the `sj` binary             | `sj`          | No       |
+| `--sj-args <args>`                            |       | Extra arguments passed through to `sj automate` |        | No       |
 | `-h, --help`                                  |       | display help for command                 |               | No       |
 
 ## Example
@@ -43,6 +47,29 @@ js-recon report -a ./analyze.json
 ```bash
 js-recon report -m mapped.json -a analyze.json -e endpoints.json --map-openapi mapped-openapi.json
 ```
+
+### Include exploit findings
+
+Feed the `EngineOutput`-format file written by `js-recon exploit --engine-output` into the report so
+exploit findings render alongside `analyze`'s findings:
+
+```bash
+js-recon exploit -u https://example.com --cve CVE-2025-29927 --engine-output exploit-engine.json
+js-recon report -m mapped.json -a analyze.json --exploit-json exploit-engine.json
+```
+
+See [Exploit command](./exploit.md) for the full CVE list and output format.
+
+### Run swagger-jacker (`sj`) against the mapped OpenAPI spec
+
+```bash
+js-recon report --map-openapi mapped-openapi.json --sj
+```
+
+Requires [`sj`](https://github.com/BishopFox/sj) (BishopFox's swagger-jacker) to be installed and on
+`PATH`, or pointed at explicitly via `--sj-bin`. Unlike the rest of `report`, `--sj` actively probes
+each endpoint in the spec with live requests, so use it deliberately. `--sj-args` forwards extra
+arguments to `sj automate` (for example auth headers via `-H`, or a target override via `-T`).
 
 ## Database schema (`js-recon.db`)
 
