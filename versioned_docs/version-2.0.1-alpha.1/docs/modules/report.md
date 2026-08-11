@@ -14,19 +14,19 @@ js-recon report [options]
 
 ## Options
 
-| Option                                        | Alias | Description                              | Default       | Required |
-| --------------------------------------------- | ----- | ---------------------------------------- | ------------- | -------- |
-| `--sqlite-db <file>`                          | `-s`  | SQLite database file                     | `js-recon.db` | No       |
-| `--mapped-json <file>`                        | `-m`  | Mapped JSON file                         |               | No       |
-| `--analyze-json <file>`                       | `-a`  | Analyze JSON file                        |               | No       |
-| `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                      |               | No       |
-| `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                 |               | No       |
-| `--exploit-json <file>`                       |       | Exploit findings JSON file, in `EngineOutput` format (see [Exploit command — `--engine-output`](./exploit.md)) | | No       |
-| `--output <file>`                             | `-o`  | Output file name (without the extension) | `report`      | No       |
-| `--sj`                                        |       | Run `sj` (swagger-jacker) against the mapped OpenAPI spec (requires `sj` to be installed) | `false` | No |
-| `--sj-bin <path>`                             |       | Path/name of the `sj` binary             | `sj`          | No       |
-| `--sj-args <args>`                            |       | Extra arguments passed through to `sj automate` |        | No       |
-| `-h, --help`                                  |       | display help for command                 |               | No       |
+| Option                                        | Alias | Description                                                                                                    | Default       | Required |
+| --------------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| `--sqlite-db <file>`                          | `-s`  | SQLite database file                                                                                           | `js-recon.db` | No       |
+| `--mapped-json <file>`                        | `-m`  | Mapped JSON file                                                                                               |               | No       |
+| `--analyze-json <file>`                       | `-a`  | Analyze JSON file                                                                                              |               | No       |
+| `--endpoints-json <file>`                     | `-e`  | Endpoints JSON file                                                                                            |               | No       |
+| `--map-openapi, --mapped-openapi-json <file>` |       | Mapped OpenAPI JSON file                                                                                       |               | No       |
+| `--exploit-json <file>`                       |       | Exploit findings JSON file, in `EngineOutput` format (see [Exploit command — `--engine-output`](./exploit.md)) |               | No       |
+| `--output <file>`                             | `-o`  | Output file name (without the extension)                                                                       | `report`      | No       |
+| `--sj`                                        |       | Run `sj` (swagger-jacker) against the mapped OpenAPI spec (requires `sj` to be installed)                      | `false`       | No       |
+| `--sj-bin <path>`                             |       | Path/name of the `sj` binary                                                                                   | `sj`          | No       |
+| `--sj-args <args>`                            |       | Extra arguments passed through to `sj automate`                                                                |               | No       |
+| `-h, --help`                                  |       | display help for command                                                                                       |               | No       |
 
 ## Example
 
