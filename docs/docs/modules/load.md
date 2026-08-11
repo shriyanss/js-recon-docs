@@ -25,10 +25,10 @@ js-recon load -c <caido-export.json> -u <target-url> [--cache-file <file>]
 
 ### Options
 
-| Option                | Alias | Description                                                         | Default            | Required |
-| --------------------- | ----- | ------------------------------------------------------------------- | ------------------ | -------- |
-| `--caido <file>`      | `-c`  | Caido JSON export file                                              |                    | Yes      |
-| `--url <url>`         | `-u`  | Target URL — only entries matching this host/port/scheme are loaded |                    | Yes      |
+| Option                | Alias | Description                                                         | Default          | Required |
+| --------------------- | ----- | ------------------------------------------------------------------- | ---------------- | -------- |
+| `--caido <file>`      | `-c`  | Caido JSON export file                                              |                  | Yes      |
+| `--url <url>`         | `-u`  | Target URL — only entries matching this host/port/scheme are loaded |                  | Yes      |
 | `--cache-file <file>` |       | Response cache file to write                                        | `.resp_cache.db` | No       |
 
 ## How it works
