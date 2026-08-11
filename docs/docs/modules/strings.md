@@ -25,6 +25,9 @@ js-recon strings -d <directory> [options]
 | `--scan-secrets`              | `-s`  | Scan for secrets within the strings.                          | `false`          | No       |
 | `--trufflehog`                |       | Run TruffleHog secret scanner on the output directory.        | `false`          | No       |
 
+A file that fails to parse (truncated download, an HTML error page saved with a `.js` extension, etc.)
+is skipped with a warning; extraction still completes for every other file in the directory.
+
 ## Examples
 
 ### Basic usage
