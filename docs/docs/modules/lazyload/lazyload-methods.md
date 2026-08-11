@@ -30,6 +30,8 @@ js-recon lazyload --list-methods next_js
 | `next_parseLayoutJs`                   | Parses App Router `layout.js` files to enumerate nested route dependencies (Next.js 13+ only).                                                                                   |
 | `next_bruteForceJsFiles`               | Brute-forces `.map` and related chunk files based on the set of already-discovered JS URLs. Runs last as a fallback.                                                             |
 | `next_getClientSidePaths`              | Harvests `<a href>` links from pages to expand the crawl frontier.                                                                                                               |
+| `next_routerStateForge`                | For routes that redirect an unauthenticated request, retries as an RSC fetch with a forged `Next-Router-State-Tree` header claiming a known ancestor path segment is already client-rendered. Some Next.js apps put their only auth check inside a layout component instead of middleware; a forged claim can cause that layout's component function to be skipped, disclosing protected content. Dynamic route segments (e.g. `app/organizations/[org]/layout.js`) require guessing the real param name from a fixed wordlist (`--rsc-param-bruteforce-limit` controls a bounded fallback that harvests additional candidate names from already-fetched RSC response bodies once the wordlist is exhausted). |
+| `next_serverActionIdScan`              | Scans downloaded chunks for `createServerReference("<id>", ...)` call sites and records any Server Action IDs shipped to unauthenticated users — disclosure only, no action is invoked. |
 
 ### Vue.js (`vue`)
 
