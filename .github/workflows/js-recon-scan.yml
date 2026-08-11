@@ -22,7 +22,7 @@ jobs:
 
       - name: JS Recon
         id: jsrecon
-        uses: js-recon/js-recon-action@d51c71a8cd667d016a099c9ef2e35c8b36d95c59 # v1.0.3
+        uses: js-recon/js-recon-action@349280372829efdf59fbb5386ee6f6809d0a306a # TEMP: fix/puppeteer-chrome-version-mismatch, revert to v1.0.3 tag once js-recon-action#4 merges/releases
         with:
           url: http://localhost:3000
           start-cmd: npm run serve
