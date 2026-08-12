@@ -55,8 +55,8 @@ terraform destroy
 | Name                     | Required | Default            | Description                                                                           |
 | ------------------------ | -------- | ------------------ | ------------------------------------------------------------------------------------- |
 | `url`                    | Yes      | —                  | Target URL to scan                                                                    |
-| `spaces_access_id`       | Yes*     | `""`               | Spaces access key ID (*required when `create_spaces_bucket = true`)                   |
-| `spaces_secret_key`      | Yes*     | `""`               | Spaces secret access key                                                              |
+| `spaces_access_id`       | Yes\*    | `""`               | Spaces access key ID (\*required when `create_spaces_bucket = true`)                  |
+| `spaces_secret_key`      | Yes\*    | `""`               | Spaces secret access key                                                              |
 | `droplet_name`           | No       | `js-recon`         | Name prefix for all DigitalOcean resources                                            |
 | `region`                 | No       | `nyc3`             | DigitalOcean region (e.g. `nyc3`, `ams3`, `sgp1`)                                     |
 | `droplet_size`           | No       | `s-2vcpu-4gb`      | Droplet size slug — minimum 4 GB RAM recommended                                      |
