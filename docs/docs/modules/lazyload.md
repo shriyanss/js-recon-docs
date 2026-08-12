@@ -176,6 +176,24 @@ capped by `--max-pages`, downloading JS incrementally as each page is visited.
 - `run` still only downloads JS for `generic` tech — the rest of the pipeline (map, analyze, etc.) is
   skipped for it, same as for any other unsupported tech.
 
+### Inline sourcemap decoding
+
+After the `.map`-brute-force pass, the crawler scans every downloaded chunk's
+`//# sourceMappingURL=...` comment for an inline `data:` URI sourcemap (base64 or
+percent-encoded) — for example Vite's `build.sourcemap: 'inline'` or webpack's
+`devtool: 'inline-source-map'`/`eval-source-map`. Previously an inline reference was treated
+as a fetchable URL and the sourcemap was silently lost; it's now decoded directly from the
+comment, with no extra network request. This is handled for every supported framework:
+
+- React, Vue, and Svelte already scanned for `sourceMappingURL` and gained a `data:` branch.
+- Next.js and Angular gained scanning for it via a shared `discoverSourcemapUrls` helper —
+  new methods `next_sourcemapUrls` / `angular_sourcemapUrls` (visible in `--list-methods`,
+  toggleable via `--include-methods`/`--exclude-methods`).
+- Nuxt gained it by extending its existing per-file string-analysis pass.
+
+Angular and Nuxt also gained the `extractSourceMaps` post-processing step (writing discovered
+source files under `sourcemaps/`) that they were previously missing entirely.
+
 ## Framework Support
 
 Each framework is added to the tool after thorough research on the framework. New techniques are added when they are discovered. The following is an exhaustive list of frameworks that the `lazyload` module is compatible with:
