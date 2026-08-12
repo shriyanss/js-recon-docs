@@ -55,8 +55,8 @@ terraform destroy
 | Name                       | Required | Default            | Description                                                                           |
 | -------------------------- | -------- | ------------------ | ------------------------------------------------------------------------------------- |
 | `url`                      | Yes      | —                  | Target URL to scan                                                                    |
-| `spaces_access_id`         | Yes*     | `""`               | Spaces access key ID (*required when `create_spaces_bucket = true`)                   |
-| `spaces_secret_key`        | Yes*     | `""`               | Spaces secret access key                                                              |
+| `spaces_access_id`         | Yes\*    | `""`               | Spaces access key ID (\*required when `create_spaces_bucket = true`)                  |
+| `spaces_secret_key`        | Yes\*    | `""`               | Spaces secret access key                                                              |
 | `js_recon_version`         | No       | `latest`           | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                               |
 | `break_on_map_files`       | No       | `true`             | Fail if `.map` source map files are detected                                          |
 | `break_on_vulnerabilities` | No       | `true`             | Fail if findings at or above the threshold are detected                               |

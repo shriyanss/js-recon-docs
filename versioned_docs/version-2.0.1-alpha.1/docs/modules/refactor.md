@@ -84,7 +84,7 @@ For detailed, technology-specific documentation see:
 - [React (webpack)](./refactor/react-webpack.md) — webpack 5 React bundles: module splitting, entrypoint extraction, require-helper removal
 - [React (Vite)](./refactor/react-vite.md) — Vite (rolldown) React bundles: CJS interop removal, vendor import rewriting, JSX recovery, build check
 - [Vue.js (webpack)](./refactor/vue-webpack.md) — Vue webpack 4/5 bundles: webpackJsonp container parsing, per-module extraction, Vue 2 render function recovery
-- [Vue.js (Vite)](./refactor/vue-vite.md) — Vue 3 + Vite bundles: export alias fingerprinting, canonical Vue import rewriting, _export_sfc inlining
+- [Vue.js (Vite)](./refactor/vue-vite.md) — Vue 3 + Vite bundles: export alias fingerprinting, canonical Vue import rewriting, \_export_sfc inlining
 - [Choosing scat categories](./refactor/choosing-scat.md) — how to pick the right `--scat` combination for best library detection
 - [Remote signature stripping](./refactor/remote-signatures.md) — shared cache, config, and flag reference used by all technologies
 

@@ -103,11 +103,13 @@ The `message` field is a one-line human-readable label:
 The `findingLocation` field varies by engine:
 
 - **AST rules:** A comment with the chunk ID followed by the matched source code snippet:
+
     ```
     // <chunk id>
 
     <matched source code>
     ```
+
 - **CS-MAST-S rules:** The chunk ID and matched CS-MAST-S signature(s):
     ```
     // chunk: <chunk id>
