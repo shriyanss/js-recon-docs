@@ -33,6 +33,7 @@ js-recon lazyload -u <url/file> [options]
 | `--disable-cache`                     |       | Disable response caching.                                                                                                                                                                                                                                        | `false`               | No       |
 | `--cache-only`                        |       | Only use the response cache; never make network requests. See [Load command](./load.md).                                                                                                                                                                         | `false`               | No       |
 | `--yes`                               | `-y`  | Auto-approve executing JS code from the target.                                                                                                                                                                                                                  | `false`               | No       |
+| `--header <name: value>`              | `-H`  | Custom header to send with every request, as `Name: Value` (for example `Authorization: Bearer <token>`). Repeatable. Applies to the Puppeteer-driven page load and every direct/SOCKS/HTTP/Oxylabs/AWS request. See [Authenticated crawling](#authenticated-crawling). | (none)                | No       |
 | `--timeout`                           |       | Request timeout in ms                                                                                                                                                                                                                                            | `30000`               | No       |
 | `--insecure`                          | `-k`  | Disable SSL certificate verification.                                                                                                                                                                                                                            | `false`               | No       |
 | `--no-sandbox`                        |       | Disable browser sandbox.                                                                                                                                                                                                                                         | `false`               | No       |
@@ -250,3 +251,15 @@ js-recon lazyload -u https://example.com --proxy-config .proxy_config.json
 ```
 
 Read the docs of [Proxy](./proxy.md) for more information.
+
+### Authenticated crawling
+
+Some targets require authentication before serving any content worth crawling. Pass `-H`/`--header`
+once per header to send it with every request, including the initial Puppeteer-driven page load:
+
+```bash
+js-recon lazyload -u https://example.com -y -H "Authorization: Bearer <token>"
+```
+
+Can be combined with `--proxy-config` — the header is sent regardless of which request method
+(direct, SOCKS, HTTP, Oxylabs, or AWS) ends up carrying the request.

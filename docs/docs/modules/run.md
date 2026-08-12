@@ -132,6 +132,7 @@ should be replaced; unowned directories are never recursively cleared.
 | `--map-openapi-chunk-tag`             |          | Add chunk ID tag to OpenAPI spec for each request found (map module)                                                                                                                                                                                                                                                                               | `false`              | No       |
 | `--no-graphql`                        | `--ngql` | Disable GraphQL operation extraction in the map step                                                                                                                                                                                                                                                                                               | enabled              | No       |
 | `--timeout`                           |          | Request timeout in ms                                                                                                                                                                                                                                                                                                                              | `30000`              | No       |
+| `--header <name: value>`              | `-H`     | Custom header to send with every request, as `Name: Value` (for example `Authorization: Bearer <token>`). Repeatable. Applies to the Puppeteer-driven initial crawl and every direct/SOCKS/HTTP/Oxylabs/AWS request. See [Authenticated scanning](#authenticated-scanning).                                                                     | (none)               | No       |
 | `--insecure`                          | `-k`     | Disable SSL certificate verification                                                                                                                                                                                                                                                                                                               | `false`              | No       |
 | `--no-sandbox`                        |          | Disable browser sandbox                                                                                                                                                                                                                                                                                                                            | `false`              | No       |
 | `--sourcemap-dir <directory>`         |          | Directory to write reconstructed source maps                                                                                                                                                                                                                                                                                                       | `extracted`          | No       |
@@ -282,6 +283,16 @@ Or point it at a file (one URL per line) to run the same pipeline across every h
 ```bash
 js-recon run -u targets.txt -y -t 10
 ```
+
+### Authenticated scanning
+
+Some targets require authentication (a session cookie, an `Authorization` header, an API key header) before they'll serve any content worth scanning. Pass `-H`/`--header` once per header:
+
+```bash
+js-recon run -u https://example.com -y -H "Authorization: Bearer <token>" -H "X-Api-Key: <key>"
+```
+
+Every header is sent with every outbound request for the run — the Puppeteer-driven initial page load, subsequent chunk/page fetches, and the request-engine checks in `analyze` — regardless of which of the direct/SOCKS/HTTP/Oxylabs/AWS methods is configured.
 
 ### Route traffic through a proxy (AWS API Gateway, SOCKS, HTTP, or Oxylabs)
 
