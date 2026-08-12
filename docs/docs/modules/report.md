@@ -71,6 +71,14 @@ Requires [`sj`](https://github.com/BishopFox/sj) (BishopFox's swagger-jacker) to
 each endpoint in the spec with live requests, so use it deliberately. `--sj-args` forwards extra
 arguments to `sj automate` (for example auth headers via `-H`, or a target override via `-T`).
 
+## HTML report
+
+`report.html` is a single self-contained file — all CSS and JavaScript are inlined, so it opens
+correctly from a `file://` URL with no local server and no CDN dependency. It ships a light/dark
+theme toggle (top-right of the navbar) that follows the OS color scheme by default and remembers
+an explicit choice across reloads. Findings display a colored severity badge (info/low/medium/high)
+in both the Home markdown view and the sortable Data Tables view.
+
 ## Database schema (`js-recon.db`)
 
 Alongside `report.html`, the `report` command populates a SQLite database (`js-recon.db` by default, or the path given to `--sqlite-db`) using [better-sqlite3](https://github.com/WiseLibs/better-sqlite3). There is no ORM and no migration system — the schema is created with `CREATE TABLE IF NOT EXISTS` on every run, and each table is fully rebuilt (with one exception, noted below) from whichever input JSON files were passed to `report`. Tables for inputs that weren't supplied are simply left empty.
