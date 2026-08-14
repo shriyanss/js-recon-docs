@@ -85,3 +85,8 @@ jQuery('s)?
 DOMPurify
 Oxylabs('s)?
 [Dd]atacenter
+npm
+[Dd]ependabot
+[Nn]avbar
+downloaders?
+unvalidated
