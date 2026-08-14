@@ -72,6 +72,7 @@ jobs:
           files: ./docs
           fail_on_error: true
           reporter: local
+          filter_mode: nofilter
 
   build:
     needs: vale
