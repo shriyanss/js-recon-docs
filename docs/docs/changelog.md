@@ -6,7 +6,11 @@ sidebar_position: 13
 
 This page tracks user-facing changes to js-recon, mirroring the `dev`-branch `CHANGELOG.md` in the tool's own repository.
 
-## 2.0.1-alpha.3 - 2026-08-13
+## 2.0.1-alpha.3 - 2026-08-14
+
+### Added
+
+- New `vue-dev`, `react-dev`, `svelte-dev`, and `angular-dev` techs: each detects a dev server (Vite/webpack-dev-server for Vue and React, always-Vite for SvelteKit, and either the esbuild/Vite or legacy webpack builder for Angular) as a distinct tech from its production build counterpart, mirroring the existing `next-dev` tech. `lazyload` and `run` reuse each framework's existing crawler pipeline, with small additive fixes (import-following, filename sanitization, and chunk-map parsing) closing the gaps between dev-server output and production-build output. `map`/`analyze` remap each `*-dev` tech to its production equivalent so existing rules keep working unchanged.
 
 ### Fixed
 
