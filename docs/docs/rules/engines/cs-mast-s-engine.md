@@ -34,13 +34,13 @@ A CS-MAST-S signature is a PHC-style string with the form:
 $v=1$hash=<algo>,lang=<lang>,prsr=<parser>,scat=<categories>$<64-hex-chars>
 ```
 
-| Field        | Description                                                                       |
-| ------------ | --------------------------------------------------------------------------------- |
-| `hash`       | Hash algorithm (always `sha256`)                                                  |
-| `lang`       | Language (`js`)                                                                   |
-| `prsr`       | Parser identifier (sanitized form of `@babel/parser` → `-babel/parser`)           |
+| Field        | Description                                                                               |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| `hash`       | Hash algorithm (always `sha256`)                                                          |
+| `lang`       | Language (`js`)                                                                           |
+| `prsr`       | Parser identifier (sanitized form of `@babel/parser` → `-babel/parser`)                   |
 | `scat`       | Stratification categories joined with `_` (for example, `name_id` means `["name", "id"]`) |
-| last segment | 64-character lowercase hex hash of the matched AST node                           |
+| last segment | 64-character lowercase hex hash of the matched AST node                                   |
 
 **Example:**
 

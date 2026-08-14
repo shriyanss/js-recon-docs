@@ -48,10 +48,10 @@ terraform apply
 | Name                     | Required | Default            | Description                                                                 |
 | ------------------------ | -------- | ------------------ | --------------------------------------------------------------------------- |
 | `compartment_id`         | Yes      | —                  | OCID of the OCI compartment                                                 |
-| `region`                 | Yes      | —                  | OCI region (for example, `us-ashburn-1`, `eu-frankfurt-1`)                          |
+| `region`                 | Yes      | —                  | OCI region (for example, `us-ashburn-1`, `eu-frankfurt-1`)                  |
 | `url`                    | Yes      | —                  | Target URL to scan                                                          |
 | `display_name`           | No       | `js-recon`         | Display name prefix for all OCI resources                                   |
-| `availability_domain`    | No       | `AD-1`             | Availability domain suffix (for example, `AD-1`)                                    |
+| `availability_domain`    | No       | `AD-1`             | Availability domain suffix (for example, `AD-1`)                            |
 | `container_cpu`          | No       | `2`                | OCPUs for the Container Instance                                            |
 | `container_memory_gb`    | No       | `4`                | Memory in GB for the Container Instance                                     |
 | `create_bucket`          | No       | `true`             | Whether the module creates an Object Storage bucket for artifacts           |

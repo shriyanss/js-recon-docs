@@ -53,7 +53,7 @@ ibmcloud ce job run --name js-recon --project js-recon
 | `url`                 | Yes      | —                  | Target URL to scan                                    |
 | `project_name`        | No       | `js-recon`         | Name of the IBM Code Engine project                   |
 | `job_name`            | No       | `js-recon`         | Name of the Code Engine Job                           |
-| `region`              | No       | `us-south`         | IBM Cloud region (for example, `us-south`, `eu-de`)           |
+| `region`              | No       | `us-south`         | IBM Cloud region (for example, `us-south`, `eu-de`)   |
 | `resource_group`      | No       | `default`          | IBM Cloud resource group name                         |
 | `job_cpu`             | No       | `2`                | CPU units for each job run                            |
 | `job_memory`          | No       | `4G`               | Memory for each job run                               |
