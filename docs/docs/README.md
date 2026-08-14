@@ -31,3 +31,4 @@ Select a command from the list preceding to view its detailed documentation, inc
 ## Example scenario
 
 The document [here](./example-scenarios/next-js.md) demonstrates an example scenario of using JS Recon with a Next.js app.
+This sentance has a mispelled wrod on purpose, e.g. to trigger Vale.
