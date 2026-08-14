@@ -71,6 +71,7 @@ jobs:
         with:
           files: ./docs
           fail_on_error: true
+          reporter: local
 
   build:
     needs: vale
