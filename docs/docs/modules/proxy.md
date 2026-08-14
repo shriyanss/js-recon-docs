@@ -31,7 +31,7 @@ Running `js-recon proxy -i` (or `--init`) with no other flags launches an intera
 method (`aws`, `socks`, `http`, or `oxylabs`), then fill in that method's fields. The result is written
 to `.proxy_config.json` (or the path given via `-c/--config`). Passing flags alongside `-i` pre-fills
 those specific fields and skips their prompts — pass `--proxy-method` together with all of a method's
-fields to run entirely non-interactively (e.g. in CI). Only one method is "active" at a time —
+fields to run entirely non-interactively (for example, in CI). Only one method is "active" at a time —
 whichever method you last ran `-i` on sets the active `method`, but re-running `-i` on a different
 method doesn't discard the other methods' saved configurations.
 

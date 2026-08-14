@@ -124,7 +124,7 @@ shriyanss/cs-mast-s-dataset/
 └── main/
 ```
 
-`sample_size` contains the number of apps in that prefix (e.g. `18`), used by the tool to compute signature quality. `technology` contains the tech identifier (e.g. `react-webpack`), validated on startup.
+`sample_size` contains the number of apps in that prefix (for example, `18`), used by the tool to compute signature quality. `technology` contains the tech identifier (for example, `react-webpack`), validated on startup.
 
 ### All 511 combinations are available
 

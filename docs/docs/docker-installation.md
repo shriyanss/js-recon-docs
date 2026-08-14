@@ -117,7 +117,7 @@ There could be multiple other files created based on the module used. You can re
     - `report.html`
 - [Refactor](./modules/refactor.md):
     - `output_refactored/` (directory)
-- [Sourcemaps](./modules/sourcemaps.md):
+- [sourcemaps](./modules/sourcemaps.md):
     - `extracted/` (directory)
 - [Run](./modules/run.md):
     - This will generate files from all of the above modules

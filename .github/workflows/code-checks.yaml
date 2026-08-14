@@ -70,6 +70,7 @@ jobs:
           VALE_CONFIG_PATH: ./.vale.ini
         with:
           files: ./docs
+          fail_on_error: true
 
   build:
     needs: vale

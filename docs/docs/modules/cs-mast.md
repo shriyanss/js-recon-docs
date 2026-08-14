@@ -6,7 +6,7 @@ sidebar_position: 17
 
 The `cs-mast` command computes [CS-MAST-S](https://github.com/shriyanss/cs-mast) (Context-Stratified Merkelized Abstract Syntax Tree) signatures for every `.js` file found in an output directory and optionally finds **structural collisions** — files that share the same CS-MAST-S root signature, meaning they are structurally and semantically equivalent under the chosen configuration.
 
-This is useful for identifying duplicate or shared code across a target's JavaScript bundle (e.g. vendor libraries served from multiple CDN hosts, identical chunks deployed to different paths, or fingerprint-matching against known libraries).
+This is useful for identifying duplicate or shared code across a target's JavaScript bundle (for example, vendor libraries served from multiple CDN hosts, identical chunks deployed to different paths, or fingerprint-matching against known libraries).
 
 ## Usage
 
@@ -26,7 +26,7 @@ Run this command after `js-recon run` has already populated an output directory 
 | `--collision-output <file>`   | `--co` | Write collision results to a file (independent of `--ct`).                                            |                      | No                                  |
 | `--collision-format <format>` | `--cf` | Output format for the collision file: `json` or `csv`.                                                | `csv`                | No                                  |
 | `--scat <categories>`         |        | Comma-separated CS-MAST scat categories to hash with.                                                 | `lit,decl,loop,cond` | No                                  |
-| `--sinc <nodes>`              |        | Comma-separated exact AST node types to include (e.g. `IfStatement`), instead of `--scat` categories. | `""`                 | No                                  |
+| `--sinc <nodes>`              |        | Comma-separated exact AST node types to include (for example, `IfStatement`), instead of `--scat` categories. | `""`                 | No                                  |
 | `--all-scat-permutations`     |        | Run all 511 non-empty `scat` category permutations instead of a single configuration.                 | `false`              | No                                  |
 | `--perm-output <dir>`         |        | Directory to write per-permutation results to.                                                        |                      | Yes, with `--all-scat-permutations` |
 | `--perm-concurrency <n>`      |        | Number of permutation workers to run in parallel.                                                     | half of CPU count    | No                                  |
@@ -38,7 +38,7 @@ Run this command after `js-recon run` has already populated an output directory 
     - **Hash algorithm:** SHA-256
     - **Categories (`scat`):** `lit`, `decl`, `loop`, `cond` by default — override with `--scat` (a different category list) or `--sinc` (exact node types instead of categories)
     - **Parser:** `@babel/parser` with `sourceType: unambiguous`
-3. A full CS-MAST-S PHC signature is built from each file's root hash and the config, e.g.:
+3. A full CS-MAST-S PHC signature is built from each file's root hash and the config, for example:
    `$v=1$hash=sha256,lang=js,prsr=-babel/parser,scat=lit_decl_loop_cond$<64-hex>`
 4. Files that fail to parse are skipped with a warning.
 5. When `--collision-table` or `--collision-output` is set, files sharing the same signature are grouped and reported.
@@ -47,7 +47,7 @@ Run this command after `js-recon run` has already populated an output directory 
 ## Output path resolution for `--co`
 
 - If the path passed to `--co` is an **existing directory**, or has **no extension**, the file is written as `collisions.<format>` in the **current working directory**.
-- If the path already has an extension (e.g. `results.csv`), it is used as-is.
+- If the path already has an extension (for example, `results.csv`), it is used as-is.
 
 Examples:
 

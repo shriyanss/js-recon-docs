@@ -58,7 +58,7 @@ func_98765 = (runtime) => {
 };
 ```
 
-#### Webpack-style format
+#### webpack-style format
 
 Some modules in a Turbopack bundle use the webpack-style signature `(module, exports, require) => { … }`, with `require.d(exports, { … })` for export registration. The refactor handles these automatically alongside Turbopack modules.
 

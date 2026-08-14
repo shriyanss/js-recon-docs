@@ -127,7 +127,7 @@ The `findingLocation` field varies by engine:
     <matched source code>
     ```
 
-- **CS-MAST-S rules:** The chunk ID and matched CS-MAST-S signature(s):
+- **CS-MAST-S rules:** The chunk ID and matched CS-MAST-S signatures:
     ```
     // chunk: <chunk id>
     // CS-MAST-S signature: <phc string>

@@ -182,10 +182,10 @@ const routes = [
 ];
 ```
 
-Apps with eagerly-loaded routes produce a single monolithic bundle; all code is in the index chunk, which is excluded from refactor output.
+Apps with eagerly loaded routes produce a single monolithic bundle; all code is in the index chunk, which is excluded from refactor output.
 
 ## Notes
 
-- The export alias mapping (e.g. `_ → _export_sfc`) is computed from the actual bundle being refactored. Different Vue versions or different sets of Vue APIs will produce different alias mappings — the fingerprinting engine adapts automatically.
+- The export alias mapping (for example, `_ → _export_sfc`) is computed from the actual bundle being refactored. Different Vue versions or different sets of Vue APIs will produce different alias mappings — the fingerprinting engine adapts automatically.
 - The main index chunk is identified by the presence of `__vccOpts` and its size (>5 kB). If no index chunk is detected, all chunks are processed as standalone modules.
 - The `-t vue-webpack` tech handles older Vue 2 / webpack 4 bundles. Use `-t vue-vite` only for Vue 3 + Vite builds.

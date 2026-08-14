@@ -214,7 +214,7 @@ When enabled, the tool:
 2. For each selected scat config, generates CS-MAST structural signatures from every code unit in the mapped bundle (plus vendor chunks for webpack code-split apps).
 3. For each React version available in the dataset (react-0.12 through react-19), fetches a list of **reliable signatures** — sub-tree hashes that appear in every build of that version but not in any other. These are downloaded from the `shriyanss/cs-mast-s-dataset` HuggingFace bucket and cached locally with a 7-day TTL.
 4. Sums match counts across all scat configs per version. The version with the highest total is reported as the detected React version.
-5. Updates `package.json` in the refactored output to pin the detected version (e.g. `react@^18.3.1`) instead of the default `^18.3.1`.
+5. Updates `package.json` in the refactored output to pin the detected version (for example, `react@^18.3.1`) instead of the default `^18.3.1`.
 
 Detection results are printed to the console:
 
@@ -225,10 +225,10 @@ Detection results are printed to the console:
 
 ### `--detect-version-config`
 
-Controls which scat configuration(s) are used for detection. Accepts:
+Controls which scat configurations are used for detection. Accepts:
 
 - **`dynamic`** (default) — the tool automatically selects up to `--detect-version-dynamic-threshold` scat configs that have non-empty reliable signatures across **all** known React versions. The selected configs are cached in `~/.js-recon/refactor/config.json` and reused on subsequent runs.
-- **Comma-separated scat categories** (e.g. `lit,decl,loop,cond`) — uses exactly that one scat config. The tool validates that reliable signatures exist for all known versions; if any version has an empty file, the tool exits with code 26.
+- **Comma-separated scat categories** (for example, `lit,decl,loop,cond`) — uses exactly that one scat config. The tool validates that reliable signatures exist for all known versions; if any version has an empty file, the tool exits with code 26.
 
 ```bash
 # Dynamic mode (default): auto-select reliable configs

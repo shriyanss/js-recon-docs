@@ -70,12 +70,12 @@ brew install js-recon/tap/js-recon
 :::note
 After installing via Homebrew, the `lazyload` subcommand (and `run` pipelines that use it) requires a Chromium-based browser at runtime. Run `brew info js-recon` for setup instructions.
 
-Subcommands that work without a browser: `strings`, `map`, `analyze`, `report`, `endpoints`, `mcp`, `cs-mast`, `refactor`, `sourcemaps`.
+subcommands that work without a browser: `strings`, `map`, `analyze`, `report`, `endpoints`, `mcp`, `cs-mast`, `refactor`, `sourcemaps`.
 :::
 
 ### npm (all platforms)
 
-Install the command-line tool globally using NPM:
+Install the command-line tool globally using npm:
 
 ```bash
 npm i -g @js-recon/js-recon@latest

@@ -103,7 +103,7 @@ The sampled signatures are cached under `~/.js-recon/refactor/signature_cache/` 
 
 ### Framework support
 
-| Framework | Bundler detection            | Refactor available |
+| Framework | bundler detection            | Refactor available |
 | --------- | ---------------------------- | ------------------ |
 | React     | Yes (webpack + Vite)         | Yes                |
 | Vue.js    | Pending (no bucket data yet) | No (skip)          |

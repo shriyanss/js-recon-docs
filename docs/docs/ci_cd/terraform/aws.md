@@ -60,7 +60,7 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 | `create_s3_bucket`    | No       | `true`             | Whether the module creates an S3 bucket for artifacts                   |
 | `s3_bucket_name`      | No       | _(auto-generated)_ | Explicit S3 bucket name                                                 |
 | `s3_artifact_prefix`  | No       | `js-recon-output`  | S3 key prefix for uploaded artifacts                                    |
-| `schedule_expression` | No       | `""`               | CloudWatch Events expression (e.g. `rate(1 day)`). Empty = no schedule. |
+| `schedule_expression` | No       | `""`               | CloudWatch Events expression (for example, `rate(1 day)`). Empty = no schedule. |
 | `build_timeout`       | No       | `30`               | Maximum build duration in **minutes**                                   |
 | `tags`                | No       | `{}`               | Tags applied to all AWS resources                                       |
 

@@ -65,7 +65,7 @@ The job waits up to 120 seconds for the URL to respond before scanning.
 | `create_storage_account` | No       | `true`             | Whether the module creates a Storage Account for artifacts                   |
 | `storage_account_name`   | No       | _(auto-generated)_ | Explicit Storage Account name (3-24 lowercase alphanumeric)                  |
 | `storage_container_name` | No       | `js-recon-output`  | Blob container name for artifacts                                            |
-| `schedule`               | No       | `""`               | Cron expression for automated scans (e.g. `0 8 * * *`). Empty = manual only. |
+| `schedule`               | No       | `""`               | Cron expression for automated scans (for example, `0 8 * * *`). Empty = manual only. |
 | `build_timeout`          | No       | `30`               | Maximum job duration in **minutes**                                          |
 | `tags`                   | No       | `{}`               | Tags applied to all Azure resources                                          |
 

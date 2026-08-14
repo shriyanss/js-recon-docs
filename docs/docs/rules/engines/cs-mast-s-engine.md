@@ -39,7 +39,7 @@ $v=1$hash=<algo>,lang=<lang>,prsr=<parser>,scat=<categories>$<64-hex-chars>
 | `hash`       | Hash algorithm (always `sha256`)                                                  |
 | `lang`       | Language (`js`)                                                                   |
 | `prsr`       | Parser identifier (sanitized form of `@babel/parser` → `-babel/parser`)           |
-| `scat`       | Stratification categories joined with `_` (e.g. `name_id` means `["name", "id"]`) |
+| `scat`       | Stratification categories joined with `_` (for example, `name_id` means `["name", "id"]`) |
 | last segment | 64-character lowercase hex hash of the matched AST node                           |
 
 **Example:**
@@ -58,7 +58,7 @@ Based on experiments across React, Vue, and Angular compiled bundles:
 | Generic component sinks (minified variable names)                                         | `scat=id`          | Low–medium | Yes                     |
 | Same-build regression (bundle hasn't changed)                                             | `scat=name,id`     | 0          | Same bundler only       |
 
-`scat=name,id` is the best starting point. It produces zero false positives for all tested sinks when checking within the same build. For sinks where variable names differ between bundlers (e.g. `l.current` vs `h.current`), use `scat=id`.
+`scat=name,id` is the best starting point. It produces zero false positives for all tested sinks when checking within the same build. For sinks where variable names differ between bundlers (for example, `l.current` vs `h.current`), use `scat=id`.
 
 ## How to generate a signature
 
@@ -116,4 +116,4 @@ To locate the exact matching node in the chunk, use `map -c "esquery * <pattern>
 
 ## Portability note
 
-CS-MAST-S signatures are **structural hashes** — they depend on how the bundler names variables. The same source code compiled by Vite and Webpack can produce different signatures for sinks that use generic minified variable names (`e`, `n`, `r`). Framework constants that survive minification identically (like `__html`, `eval`, `bypassSecurityTrustHtml`) produce portable signatures across bundlers.
+CS-MAST-S signatures are **structural hashes** — they depend on how the bundler names variables. The same source code compiled by Vite and webpack can produce different signatures for sinks that use generic minified variable names (`e`, `n`, `r`). Framework constants that survive minification identically (like `__html`, `eval`, `bypassSecurityTrustHtml`) produce portable signatures across bundlers.

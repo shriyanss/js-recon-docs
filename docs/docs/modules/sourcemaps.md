@@ -2,7 +2,7 @@
 sidebar_position: 12
 ---
 
-# Sourcemaps command
+# sourcemaps command
 
 The `sourcemaps` command extracts the original source files embedded in `.map` sourcemap files. This is useful when you already have sourcemap files and want to recover the original source code without running the full pipeline.
 

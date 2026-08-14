@@ -181,7 +181,7 @@ Presence-based rule: fires on any assignment to `.forceKeepAttr` (for example `d
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with a navigation sink in the same chunk. Sinks: `window.location.href = X`, `location.assign(X)`, `location.replace(X)`, `window.open(X)`. Classic OAuth/SSO `?next=`-style abuse; without an origin/path allowlist, the attacker picks where the victim lands after auth. Skips the sink if the navigated-to value is the direct return of a call whose name signals redirect validation (contains "sanitize", "safe", "valid", or "allow" — for example `isSafeRedirectUrl(...)`) or is wrapped in `encodeURIComponent`/`encodeURI`.
+Fires when a URL-derived value co-occurs with a navigation sink in the same chunk. Sinks: `window.location.href = X`, `location.assign(X)`, `location.replace(X)`, `window.open(X)`. Classic OAuth/SSO `?next=`-style abuse; without an origin/path allowlist, the attacker picks where the victim lands after auth. Skips the sink if the navigated-to value is the direct return of a call whose name signals redirect validation (contains "sanitize," "safe," "valid," or "allow" — for example `isSafeRedirectUrl(...)`) or is wrapped in `encodeURIComponent`/`encodeURI`.
 
 ### `detect_cookie_manipulation_url_param` — DOM-based cookie manipulation
 
@@ -193,7 +193,7 @@ Fires when a URL-derived value co-occurs with `document.cookie =` in the same ch
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same chunk. An attacker who controls the WebSocket endpoint URL can push arbitrary frames to the victim page — UI tampering, data injection, or chained XSS depending on how the messages are rendered. Skips the sink if the WebSocket URL is the direct return of a call whose name signals validation intent (contains "sanitize", "safe", "valid", or "allow" — for example `buildSafeWsUrl(...)`).
+Fires when a URL-derived value co-occurs with `new WebSocket(...)` in the same chunk. An attacker who controls the WebSocket endpoint URL can push arbitrary frames to the victim page — UI tampering, data injection, or chained XSS depending on how the messages are rendered. Skips the sink if the WebSocket URL is the direct return of a call whose name signals validation intent (contains "sanitize," "safe," "valid," or "allow" — for example `buildSafeWsUrl(...)`).
 
 ### `detect_dom_setattribute_url_param` — DOM-Data manipulation via `setAttribute`
 
@@ -205,13 +205,13 @@ Fires when a URL-derived value co-occurs with `element.setAttribute(name, value)
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `sessionStorage.setItem(...)` in the same chunk. Because storage persists across visits, a single poisoning URL plants a payload that fires on every subsequent page load — especially dangerous when the stored value is later read back into a DOM sink. Skips the write if the stored value is the direct return of a call whose name signals validation intent (contains "sanitize", "safe", "valid", "allow", or "escape" — for example `validateTheme(...)`).
+Fires when a URL-derived value co-occurs with `localStorage.setItem(...)` or `sessionStorage.setItem(...)` in the same chunk. Because storage persists across visits, a single poisoning URL plants a payload that fires on every subsequent page load — especially dangerous when the stored value is later read back into a DOM sink. Skips the write if the stored value is the direct return of a call whose name signals validation intent (contains "sanitize," "safe," "valid," "allow," or "escape" — for example `validateTheme(...)`).
 
 ### `detect_js_injection_eval` — JavaScript injection via `eval` / `Function` / `setTimeout`-string
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)`, `new Function(X)`, `setTimeout(<string>, ...)`, `setInterval(<string>, ...)` in the same chunk. These sinks execute their argument as JavaScript in the page origin — full DOM-XSS / arbitrary-code-execution primitives. The `setTimeout`/`setInterval` variants exclude the safe function-callback forms via `:not([arguments.0.type="ArrowFunctionExpression"])` etc., and also exclude a `.bind(...)` call as the first argument (e.g. `this.render.bind(this, delay)`), since that produces a bound function reference rather than a string to execute.
+Fires when a URL-derived value co-occurs with one of: `eval(X)`, `window.eval(X)`, `new Function(X)`, `setTimeout(<string>, ...)`, `setInterval(<string>, ...)` in the same chunk. These sinks execute their argument as JavaScript in the page origin — full DOM-XSS / arbitrary-code-execution primitives. The `setTimeout`/`setInterval` variants exclude the safe function-callback forms via `:not([arguments.0.type="ArrowFunctionExpression"])` etc., and also exclude a `.bind(...)` call as the first argument (for example, `this.render.bind(this, delay)`), since that produces a bound function reference rather than a string to execute.
 
 ### `detect_json_injection_to_dangerouslysetinnerhtml` — Client-Side JSON Injection into React render
 
@@ -223,7 +223,7 @@ Three-way co-occurrence rule: URL-derived value + `JSON.parse(...)` + dynamic `d
 
 `severity: high`
 
-Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` object contains a computed-key property (`{ [k]: v }`) where the key itself is not a fixed string — a plain string literal or interpolation-free template literal in bracket notation (e.g. `["Content-Type"]: v`) doesn't count, since the header name isn't attacker-controllable in that case. Lets an attacker spoof `Authorization`, `X-Forwarded-For`, `X-Admin-Override`, or any other header that backend middleware trusts for access control.
+Fires when a URL-derived value co-occurs with a `fetch()` call whose `headers` object contains a computed-key property (`{ [k]: v }`) where the key itself is not a fixed string — a plain string literal or interpolation-free template literal in bracket notation (for example, `["Content-Type"]: v`) doesn't count, since the header name isn't attacker-controllable in that case. Lets an attacker spoof `Authorization`, `X-Forwarded-For`, `X-Admin-Override`, or any other header that backend middleware trusts for access control.
 
 ### `detect_link_manipulation_href` — Link manipulation (`javascript:` URI sink)
 

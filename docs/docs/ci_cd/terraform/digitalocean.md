@@ -58,13 +58,13 @@ terraform destroy
 | `spaces_access_id`       | Yes\*    | `""`               | Spaces access key ID (\*required when `create_spaces_bucket = true`)                  |
 | `spaces_secret_key`      | Yes\*    | `""`               | Spaces secret access key                                                              |
 | `droplet_name`           | No       | `js-recon`         | Name prefix for all DigitalOcean resources                                            |
-| `region`                 | No       | `nyc3`             | DigitalOcean region (e.g. `nyc3`, `ams3`, `sgp1`)                                     |
+| `region`                 | No       | `nyc3`             | DigitalOcean region (for example, `nyc3`, `ams3`, `sgp1`)                                     |
 | `droplet_size`           | No       | `s-2vcpu-4gb`      | Droplet size slug — minimum 4 GB RAM recommended                                      |
 | `ssh_keys`               | No       | `[]`               | SSH key IDs or fingerprints for manual Droplet access                                 |
 | `create_spaces_bucket`   | No       | `true`             | Whether the module creates a Spaces bucket for artifacts                              |
 | `spaces_bucket_name`     | No       | _(auto-generated)_ | Spaces bucket name (must be globally unique)                                          |
 | `spaces_artifact_prefix` | No       | `js-recon-output`  | Object key prefix for uploaded artifacts                                              |
-| `schedule`               | No       | `""`               | Cron expression for recurring scans (e.g. `0 8 * * *`). Empty = run once at creation. |
+| `schedule`               | No       | `""`               | Cron expression for recurring scans (for example, `0 8 * * *`). Empty = run once at creation. |
 | `build_timeout`          | No       | `30`               | Maximum scan duration in **minutes**                                                  |
 | `tags`                   | No       | `[]`               | Tags applied to the Droplet                                                           |
 

@@ -68,7 +68,7 @@ The build waits up to 120 seconds for the URL to respond before scanning.
 | `create_gcs_bucket`   | No       | `true`             | Whether the module creates a GCS bucket for artifacts                    |
 | `gcs_bucket_name`     | No       | _(auto-generated)_ | Explicit GCS bucket name                                                 |
 | `gcs_artifact_prefix` | No       | `js-recon-output`  | GCS object prefix for uploaded artifacts                                 |
-| `schedule`            | No       | `""`               | Cloud Scheduler cron expression (e.g. `0 8 * * *`). Empty = no schedule. |
+| `schedule`            | No       | `""`               | Cloud Scheduler cron expression (for example, `0 8 * * *`). Empty = no schedule. |
 | `build_timeout`       | No       | `30`               | Maximum build duration in **minutes**                                    |
 | `labels`              | No       | `{}`               | Labels applied to all GCP resources                                      |
 

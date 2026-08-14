@@ -47,7 +47,7 @@ terraform apply
 | Name                  | Required | Default            | Description                                                 |
 | --------------------- | -------- | ------------------ | ----------------------------------------------------------- |
 | `url`                 | Yes      | —                  | Target URL to scan                                          |
-| `region`              | Yes      | —                  | Alibaba Cloud region (e.g. `ap-southeast-1`, `cn-hangzhou`) |
+| `region`              | Yes      | —                  | Alibaba Cloud region (for example, `ap-southeast-1`, `cn-hangzhou`) |
 | `name_prefix`         | No       | `js-recon`         | Name prefix for all Alibaba Cloud resources                 |
 | `container_cpu`       | No       | `2`                | CPU units for the ECI container group                       |
 | `container_memory_gb` | No       | `4`                | Memory in GB for the ECI container group                    |
