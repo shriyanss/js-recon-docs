@@ -133,3 +133,5 @@ hardcoded
 [Bb]enchmarked
 getters
 unconfigured
+[Mm]isclassifies
+[Ss]ubstring
