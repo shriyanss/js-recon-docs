@@ -127,3 +127,9 @@ metacharacters
 definitionally
 toggleable
 recurses
+[Uu]nhashed
+hardcode
+hardcoded
+[Bb]enchmarked
+getters
+unconfigured
