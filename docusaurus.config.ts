@@ -83,6 +83,10 @@ const config: Config = {
                     label: "Labs",
                 },
                 {
+                    href: "/remediation",
+                    label: "Remediation",
+                },
+                {
                     href: "/contributing",
                     label: "Contributing",
                 },
