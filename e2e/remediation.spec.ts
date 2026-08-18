@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
             status: 200,
             contentType: "application/json",
             body: JSON.stringify(MOCK_REMEDIATION),
-        }),
+        })
     );
 });
 
@@ -24,10 +24,10 @@ test("shows remediation text for a known rule ID", async ({ page }) => {
         .getByRole("textbox", { name: "Rule ID" })
         .fill("detect_hardcoded_secrets");
     await expect(
-        page.getByRole("heading", { name: "detect_hardcoded_secrets" }),
+        page.getByRole("heading", { name: "detect_hardcoded_secrets" })
     ).toBeVisible();
     await expect(
-        page.getByText("Revoke and rotate the exposed secret immediately"),
+        page.getByText("Revoke and rotate the exposed secret immediately")
     ).toBeVisible();
 });
 
@@ -37,9 +37,9 @@ test("shows the generic fallback for an unknown rule ID", async ({ page }) => {
         .getByRole("textbox", { name: "Rule ID" })
         .fill("this_id_does_not_exist");
     await expect(
-        page.getByRole("heading", { name: "Not found" }),
+        page.getByRole("heading", { name: "Not found" })
     ).toBeVisible();
     await expect(
-        page.getByText("No specific remediation found for this rule ID"),
+        page.getByText("No specific remediation found for this rule ID")
     ).toBeVisible();
 });
