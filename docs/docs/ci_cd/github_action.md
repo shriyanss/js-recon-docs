@@ -53,24 +53,27 @@ steps:
 
 ## Inputs
 
-| Input                      | Required | Default           | Description                                                |
-| -------------------------- | -------- | ----------------- | ---------------------------------------------------------- |
-| `url`                      | Yes      | —                 | URL to scan (external or `http://localhost:PORT`)          |
-| `start-cmd`                | No       | —                 | Shell command to start the app for localhost scanning      |
-| `working-directory`        | No       | `.`               | Working directory for `start-cmd`                          |
-| `version`                  | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)    |
-| `break-on-map-files`       | No       | `true`            | Fail if `.map` source map files are detected in the output |
-| `break-on-vulnerabilities` | No       | `true`            | Fail if findings at or above the threshold are detected    |
-| `vulnerability-severity`   | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`    |
-| `output-dir`               | No       | `js-recon-output` | Directory to save output files                             |
+| Input                         | Required | Default           | Description                                                                          |
+| ----------------------------- | -------- | ----------------- | ------------------------------------------------------------------------------------ |
+| `url`                         | Yes      | —                 | URL to scan (external or `http://localhost:PORT`)                                    |
+| `start-cmd`                   | No       | —                 | Shell command to start the app for localhost scanning                                |
+| `working-directory`           | No       | `.`               | Working directory for `start-cmd`                                                    |
+| `version`                     | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                              |
+| `break-on-map-files`          | No       | `true`            | Fail if `.map` source map files are detected in the output                           |
+| `break-on-vulnerabilities`    | No       | `true`            | Fail if findings at or above the threshold are detected                              |
+| `vulnerability-severity`      | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`                              |
+| `confidential-paths`          | No       | `""`              | Comma or newline-separated keywords to flag as confidential in OpenAPI path segments |
+| `break-on-confidential-paths` | No       | `true`            | Fail if confidential path keywords are detected in `mapped-openapi.json`             |
+| `output-dir`                  | No       | `js-recon-output` | Directory to save output files                                                       |
 
 ## Outputs
 
-| Output                | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| `map-files-found`     | `true` if `.map` files were detected, `false` otherwise |
-| `vulnerability-count` | Number of findings at or above the configured severity  |
-| `output-path`         | Absolute path to the output directory                   |
+| Output                     | Description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
+| `map-files-found`          | `true` if `.map` files were detected, `false` otherwise         |
+| `vulnerability-count`      | Number of findings at or above the configured severity          |
+| `confidential-paths-found` | Number of OpenAPI paths matching a `confidential-paths` keyword |
+| `output-path`              | Absolute path to the output directory                           |
 
 ## Output files
 
@@ -113,6 +116,20 @@ Control which severity level triggers a failure:
 ```
 
 Available: `low`, `medium`, `high` (default: `high`).
+
+### Confidential paths
+
+Fail the action if any endpoint path in `mapped-openapi.json` contains a keyword you consider confidential (checked case-insensitively against each `/`-separated path segment):
+
+```yaml
+- uses: js-recon/js-recon-action@v1
+  with:
+      url: https://target.com
+      confidential-paths: admin,administrator
+      break-on-confidential-paths: true # default
+```
+
+`confidential-paths` accepts a comma- or newline-separated list. To disable the check, leave `confidential-paths` empty (the default) or set `break-on-confidential-paths: false`.
 
 ## Uploading output as an artifact
 

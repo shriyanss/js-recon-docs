@@ -38,27 +38,30 @@ The app files must be present in the job's working directory (use `artifacts` or
 
 ## Inputs
 
-| Input                      | Required | Default           | Description                                                |
-| -------------------------- | -------- | ----------------- | ---------------------------------------------------------- |
-| `url`                      | Yes      | —                 | URL to scan (external or `http://localhost:PORT`)          |
-| `start_cmd`                | No       | `""`              | Shell command to start the app for localhost scanning      |
-| `working_directory`        | No       | `.`               | Working directory for `start_cmd`                          |
-| `version`                  | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)    |
-| `break_on_map_files`       | No       | `true`            | Fail if `.map` source map files are detected in the output |
-| `break_on_vulnerabilities` | No       | `true`            | Fail if findings at or above the threshold are detected    |
-| `vulnerability_severity`   | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`    |
-| `output_dir`               | No       | `js-recon-output` | Directory to save output files                             |
-| `stage`                    | No       | `test`            | Pipeline stage to run in (must be declared in `stages`)    |
+| Input                         | Required | Default           | Description                                                               |
+| ----------------------------- | -------- | ----------------- | ------------------------------------------------------------------------- |
+| `url`                         | Yes      | —                 | URL to scan (external or `http://localhost:PORT`)                         |
+| `start_cmd`                   | No       | `""`              | Shell command to start the app for localhost scanning                     |
+| `working_directory`           | No       | `.`               | Working directory for `start_cmd`                                         |
+| `version`                     | No       | `latest`          | JS Recon version (`latest`, `alpha`, `1.3.1-beta.1`, …)                   |
+| `break_on_map_files`          | No       | `true`            | Fail if `.map` source map files are detected in the output                |
+| `break_on_vulnerabilities`    | No       | `true`            | Fail if findings at or above the threshold are detected                   |
+| `vulnerability_severity`      | No       | `high`            | Minimum severity to fail on: `low`, `medium`, or `high`                   |
+| `confidential_paths`          | No       | `""`              | Comma-separated keywords to flag as confidential in OpenAPI path segments |
+| `break_on_confidential_paths` | No       | `true`            | Fail if confidential path keywords are detected in `mapped-openapi.json`  |
+| `output_dir`                  | No       | `js-recon-output` | Directory to save output files                                            |
+| `stage`                       | No       | `test`            | Pipeline stage to run in (must be declared in `stages`)                   |
 
 ## Outputs (dotenv artifact)
 
 The component writes the following variables to a dotenv artifact. Downstream jobs that declare `needs: [js-recon]` with `artifacts: true` can read them:
 
-| Variable              | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| `JSR_OUTPUT_PATH`     | Absolute path to the output directory                   |
-| `JSR_MAP_FILES_FOUND` | `true` if `.map` files were detected, `false` otherwise |
-| `JSR_VULN_COUNT`      | Number of findings at or above the configured severity  |
+| Variable                       | Description                                                     |
+| ------------------------------ | --------------------------------------------------------------- |
+| `JSR_OUTPUT_PATH`              | Absolute path to the output directory                           |
+| `JSR_MAP_FILES_FOUND`          | `true` if `.map` files were detected, `false` otherwise         |
+| `JSR_VULN_COUNT`               | Number of findings at or above the configured severity          |
+| `JSR_CONFIDENTIAL_PATHS_FOUND` | Number of OpenAPI paths matching a `confidential_paths` keyword |
 
 ## Output files
 
@@ -105,6 +108,21 @@ include:
 ```
 
 Available: `low`, `medium`, `high` (default: `high`).
+
+### Confidential paths
+
+Fail the job if any endpoint path in `mapped-openapi.json` contains a keyword you consider confidential (checked case-insensitively against each `/`-separated path segment):
+
+```yaml
+include:
+    - component: gitlab.com/shriyanss/js-recon-gitlab-ci/js-recon@1.0.0
+      inputs:
+          url: "https://target.com"
+          confidential_paths: "admin,administrator"
+          break_on_confidential_paths: "true" # default
+```
+
+`confidential_paths` accepts a comma-separated list. To disable the check, leave `confidential_paths` empty (the default) or set `break_on_confidential_paths: "false"`.
 
 ## Reading output in a downstream job
 
