@@ -133,6 +133,7 @@ should be replaced; unowned directories are never recursively cleared.
 | `--no-graphql`                        | `--ngql` | Disable GraphQL operation extraction in the map step                                                                                                                                                                                                                                                                                               | enabled              | No       |
 | `--timeout`                           |          | Request timeout in ms                                                                                                                                                                                                                                                                                                                              | `30000`              | No       |
 | `--header <name: value>`              | `-H`     | Custom header to send with every request, as `Name: Value` (for example `Authorization: Bearer <token>`). Repeatable. Applies to the Puppeteer-driven initial crawl and every direct/SOCKS/HTTP/Oxylabs/AWS request. See [Authenticated scanning](#authenticated-scanning).                                                                        | (none)               | No       |
+| `--header-file <path>`                |          | Path to an owner-only (`chmod 600`), non-symlink file of 1-16 newline-separated `Name: value` private headers. Unlike `-H`/`--header`, each header is only ever sent to the exact origins explicitly supplied via `-u` — never to a cross-origin subresource, a redirect that leaves an allowed origin, or any AI/MCP/proxy call. See [Authenticated scanning](#authenticated-scanning).                     | (none)               | No       |
 | `--insecure`                          | `-k`     | Disable SSL certificate verification                                                                                                                                                                                                                                                                                                               | `false`              | No       |
 | `--no-sandbox`                        |          | Disable browser sandbox                                                                                                                                                                                                                                                                                                                            | `false`              | No       |
 | `--sourcemap-dir <directory>`         |          | Directory to write reconstructed source maps                                                                                                                                                                                                                                                                                                       | `extracted`          | No       |
@@ -294,6 +295,22 @@ js-recon run -u https://example.com -y -H "Authorization: Bearer <token>" -H "X-
 ```
 
 Every header is sent with every outbound request for the run — the Puppeteer-driven initial page load, subsequent chunk/page fetches, and the request-engine checks in `analyze` — regardless of which of the direct/SOCKS/HTTP/Oxylabs/AWS methods is configured.
+
+#### Keeping a credential-bearing header private
+
+`-H`/`--header` values are sent with every request the run makes, including cross-origin subresources, CDN-hosted chunks, and redirects — fine for a header that's safe to expose broadly, but not for a real credential. For a header you don't want leaving the target's own origin, use `--header-file` instead:
+
+```text title="headers.txt"
+Authorization: Bearer <placeholder-token>
+X-Api-Key: <placeholder-key>
+```
+
+```bash
+chmod 600 headers.txt
+js-recon run -u https://example.com -y --header-file headers.txt
+```
+
+The file must be owner-only (`chmod 600`), not a symlink, and contain 1-16 `Name: value` lines — the tool validates and loads it before making any network request, and refuses to start if the permissions, ownership, or format are wrong. A header from `--header-file` is only ever attached to a request whose destination is one of the origins given via `-u` — it's never sent to a third-party subresource, a redirect that leaves that origin, or any of the tool's own outbound calls (AI provider, MCP, proxy management). It also can't be combined with `--oxylabs-waf-fallback`/`--proxy-waf-fallback`, since either could route the request through a third-party proxy. A header name in `--header-file` must not collide with one already passed via `-H`/`--header`.
 
 ### Route traffic through a proxy (AWS API Gateway, SOCKS, HTTP, or Oxylabs)
 
